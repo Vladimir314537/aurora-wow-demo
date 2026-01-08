@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Aurora WOW Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* ГЕРОЙ */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 1s ease;
+        }
+        
+        .title {
+            font-size: 3.5em;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* КНОПКА */
+        .play-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+        
+        .play-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+        }
+        
+        /* КАРТИНКА */
+        .image-container {
+            width: 800px;
+            height: 450px;
+            margin: 40px auto;
+            background: #1e293b;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid #6366f1;
+            position: relative;
+        }
+        
+        .aurora-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #94a3b8;
+            text-align: center;
+        }
+        
+        /* ФУНКЦИИ */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 60px 0;
+            padding: 0 20px;
+        }
+        
+        .feature {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        /* ФУТЕР */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+        
+        /* АНИМАЦИИ */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 900px) {
+            .image-container { width: 90%; height: 350px; }
+            .title { font-size: 2.5em; }
+        }
+        
+        @media (max-width: 600px) {
+            .image-container { height: 250px; }
+            .title { font-size: 2em; }
+            .play-btn { padding: 15px 30px; font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ГЕРОЙ СЕКЦИЯ -->
+        <section class="hero">
+            <h1 class="title">🌌 AURORA WOW DEMO</h1>
+            <p class="subtitle">
+                Первая система мышления с умным поиском, которая понимает разные формы слов 
+                и никогда не шпионит за вами. Ваши мысли — только ваши.
+            </p>
+            
+            <button class="play-btn" id="playBtn">
+                <i class="fas fa-play-circle"></i>
+                Воспроизвести приветствие Aurora
+            </button>
+            
+            <!-- КАРТИНКА -->
+            <div class="image-container">
+                <img src="angel.png" alt="Кибер-ангел Aurora" class="aurora-image" id="auroraImage">
+                <div class="placeholder" id="imagePlaceholder">
+                    <i class="fas fa-image" style="font-size: 3em; margin-bottom: 15px; opacity: 0.5;"></i>
+                    <h3>Ваш кибер-ангел Aurora</h3>
+                    <p>Загрузите картинку angel.png в репозиторий</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ФУНКЦИИ -->
+        <div class="features">
+            <div class="feature">
+                <h3><i class="fas fa-search" style="color: #6366f1;"></i> Умный поиск</h3>
+                <p>Понимает "пойти" → "пойду", "пошел". Ищет по смыслу, а не только по словам.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-lock" style="color: #10b981;"></i> 100% приватность</h3>
+                <p>Все данные хранятся в вашем браузере. Никаких серверов, никакой аналитики.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-bolt" style="color: #f59e0b;"></i> Мгновенная работа</h3>
+                <p>Не требует установки. Работает в любом браузере на любом устройстве.</p>
+            </div>
+        </div>
+        
+        <!-- ФУТЕР -->
+        <footer class="footer">
+            <h2 style="font-size: 2em; margin-bottom: 15px; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                AURORA
+            </h2>
+            <p>WOW Edition • Полная функциональность • Готово к презентации</p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.7;">
+                © 2024 Aurora Thinking System. Все права защищены.
+            </p>
+        </footer>
+    </div>
+    
+    <!-- АУДИО -->
+    <audio id="welcomeAudio" src="welcome.mp3"></audio>
+    
+    <script>
+        console.log('🚀 Aurora WOW Demo загружен!');
+        
+        // ЭЛЕМЕНТЫ
+        const playBtn = document.getElementById('playBtn');
+        const audio = document.getElementById('welcomeAudio');
+        const auroraImage = document.getElementById('auroraImage');
+        const imagePlaceholder = document.getElementById('imagePlaceholder');
+        
+        // ПРОВЕРКА КАРТИНКИ
+        auroraImage.onload = function() {
+            console.log('✅ Картинка загружена!');
+            imagePlaceholder.style.display = 'none';
+        };
+        
+        auroraImage.onerror = function() {
+            console.log('⚠️ Картинка не загружена');
+            imagePlaceholder.style.display = 'block';
+        };
+        
+        // ПРОВЕРКА АУДИО
+        audio.onloadeddata = function() {
+            console.log('✅ Аудио загружено!');
+        };
+        
+        audio.onerror = function() {
+            console.log('⚠️ Аудио не загружено');
+            playBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Аудио не найдено';
+            playBtn.style.background = '#ef4444';
+        };
+        
+        // ВОСПРОИЗВЕДЕНИЕ
+        playBtn.addEventListener('click', function() {
+            if (audio.src) {
+                audio.currentTime = 0;
+                audio.play()
+                    .then(() => {
+                        console.log('🎵 Аудио воспроизводится');
+                        this.classList.add('pulse');
+                        this.innerHTML = '<i class="fas fa-volume-up"></i> Играет...';
+                        
+                        audio.onended = () => {
+                            this.classList.remove('pulse');
+                            this.innerHTML = '<i class="fas fa-play-circle"></i> Воспроизвести снова';
+                        };
+                    })
+                    .catch(error => {
+                        console.log('🔇 Нужно разрешение на звук');
+                        alert('Нажмите "Разрешить" для воспроизведения звука');
+                    });
+            } else {
+                alert('Файл welcome.mp3 не найден. Загрузите его в репозиторий.');
+            }
+        });
+        
+        // АВТОПРОВЕРКА ПРИ ЗАГРУЗКЕ
+        window.onload = function() {
+            console.log('📁 Проверка файлов...');
+            
+            // Проверяем картинку
+            fetch('angel.png')
+                .then(response => {
+                    if (response.ok) {
+                        console.log('🖼️ Картинка найдена');
+                        imagePlaceholder.style.display = 'none';
+                    } else {
+                        console.log('❌ Картинка не найдена');
+                    }
+                })
+                .catch(() => console.log('❌ Ошибка загрузки картинки'));
+            
+            // Проверяем аудио
+            fetch('welcome.mp3')
+                .then(response => {
+                    if (response.ok) {
+                        console.log('🎵 Аудио найдено');
+                    } else {
+                        console.log('❌ Аудио не найдено');
+                    }
+                })
+                .catch(() => console.log('❌ Ошибка загрузки аудио'));
+        };
+    </script>
+</body>
+</html>
