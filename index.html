@@ -51,6 +51,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         /* ===== КОМПАКТНАЯ КНОПКА ПОД КАРТИНКОЙ ===== */
@@ -58,19 +59,20 @@
             text-align: center;
             padding: 30px 20px;
             background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
         }
 
         .compact-btn {
             background: linear-gradient(135deg, var(--accent), #34d399);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 1em;
+            padding: 14px 32px;
+            font-size: 1.1em;
             border-radius: 12px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin: 0 auto;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
@@ -78,33 +80,37 @@
         }
 
         .compact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+        }
+
+        .compact-btn:active {
+            transform: translateY(-1px);
         }
 
         .compact-btn i {
-            font-size: 1.1em;
+            font-size: 1.2em;
         }
 
         .voice-description {
             color: var(--text-secondary);
-            font-size: 0.9em;
-            margin-top: 10px;
-            opacity: 0.7;
+            font-size: 0.95em;
+            margin-top: 12px;
+            opacity: 0.8;
         }
 
         /* ===== СТАТУС ВОСПРОИЗВЕДЕНИЯ ===== */
         .voice-status {
-            margin-top: 15px;
-            padding: 10px;
+            margin-top: 20px;
+            padding: 12px 20px;
             background: rgba(16, 185, 129, 0.1);
-            border-radius: 10px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
             display: none;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            max-width: 250px;
+            gap: 15px;
+            max-width: 300px;
             margin-left: auto;
             margin-right: auto;
             animation: fadeIn 0.5s ease;
@@ -117,20 +123,20 @@
         .sound-waves {
             display: flex;
             align-items: center;
-            gap: 4px;
-            height: 35px;
+            gap: 5px;
+            height: 40px;
         }
 
         .wave {
-            width: 4px;
+            width: 5px;
             background: linear-gradient(to top, var(--accent), #34d399);
-            border-radius: 2px;
+            border-radius: 3px;
             animation: wave 1.2s ease-in-out infinite;
         }
 
         @keyframes wave {
-            0%, 100% { height: 10px; opacity: 0.4; }
-            50% { height: 35px; opacity: 1; }
+            0%, 100% { height: 12px; opacity: 0.4; }
+            50% { height: 40px; opacity: 1; }
         }
 
         .wave:nth-child(2) { animation-delay: 0.1s; }
@@ -139,35 +145,38 @@
         .wave:nth-child(5) { animation-delay: 0.4s; }
 
         .status-text {
-            font-size: 0.9em;
+            font-size: 0.95em;
             color: var(--accent);
             font-weight: 500;
         }
 
         /* ===== ОСНОВНОЕ ПРИЛОЖЕНИЕ AURORA 4.0 ===== */
         .main-app {
-            padding: 40px 20px;
+            padding: 50px 20px;
             background: var(--bg-primary);
         }
 
         .app-title {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            padding: 0 20px;
         }
 
         .app-title h2 {
-            font-size: 2.5em;
+            font-size: 3em;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 800;
         }
 
         .app-title .tagline {
-            font-size: 1.1em;
+            font-size: 1.2em;
             color: var(--text-secondary);
             max-width: 800px;
             margin: 0 auto;
+            line-height: 1.4;
         }
 
         /* ===== КОНТЕЙНЕР ДЛЯ AURORA 4.0 ===== */
@@ -179,227 +188,348 @@
             gap: 30px;
         }
 
-        /* ===== СТИЛИ ИЗ ОРИГИНАЛЬНОГО AURORA 4.0 ===== */
+        /* ===== ШАПКА ===== */
         .header {
             grid-column: 1 / -1;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 25px 0;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .logo-icon {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 26px;
             color: white;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
         .logo-text h1 {
-            font-size: 28px;
+            font-size: 32px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
+            font-weight: 900;
+            margin-bottom: 5px;
         }
 
         .logo-text .tagline {
             color: var(--text-secondary);
             font-size: 14px;
-            margin-top: 5px;
+            font-weight: 500;
         }
 
         .version-badge {
             background: linear-gradient(135deg, var(--accent), #34d399);
             color: white;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 600;
-            margin-left: 10px;
+            font-weight: 700;
+            margin-left: 12px;
+            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
         }
 
+        .header-actions .btn {
+            padding: 12px 25px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         .main-content {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 35px;
         }
 
-        .search-section,
-        .create-note,
-        .notes-section,
-        .analytics-card,
-        .quick-actions-card {
+        /* Секция поиска */
+        .search-section {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 25px;
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 30px;
             border: 1px solid var(--border);
-            box-shadow: 0 10px 25px var(--shadow);
+            box-shadow: 0 15px 35px var(--shadow);
+            transition: var(--transition);
+        }
+
+        .search-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .search-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 18px;
+            margin-bottom: 25px;
         }
 
         .search-header i {
             color: var(--primary);
-            font-size: 24px;
+            font-size: 26px;
         }
 
         .search-header h2 {
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 700;
         }
 
         .search-box {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .search-input {
             width: 100%;
-            padding: 16px 50px 16px 20px;
+            padding: 18px 55px 18px 25px;
             background: var(--bg-secondary);
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 14px;
             color: var(--text-primary);
-            font-size: 16px;
+            font-size: 17px;
             transition: var(--transition);
+            font-weight: 500;
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+            background: var(--bg-tertiary);
         }
 
         .search-btn {
             position: absolute;
-            right: 10px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             background: var(--primary);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
         }
 
         .search-btn:hover {
             background: var(--primary-dark);
-            transform: translateY(-50%) scale(1.05);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
         }
 
         .search-filters {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
         .filter-btn {
-            padding: 8px 16px;
+            padding: 10px 20px;
             background: var(--bg-tertiary);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             color: var(--text-secondary);
             cursor: pointer;
             transition: var(--transition);
             font-size: 14px;
+            font-weight: 500;
         }
 
         .filter-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
         .filter-btn:hover:not(.active) {
             background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Информация об умном поиске */
+        .smart-search-info {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .smart-search-info h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .smart-search-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+
+        /* Результаты поиска */
+        .search-results-info {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(34, 197, 94, 0.15));
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .search-results-info i {
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .search-results-info strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Создание заметки */
+        .create-note {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 15px 35px var(--shadow);
+            transition: var(--transition);
+        }
+
+        .create-note:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .create-note h2 {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .create-note h2 i {
+            color: var(--primary);
+            font-size: 24px;
         }
 
         .note-form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .form-group label {
             color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 15px;
+            font-weight: 600;
         }
 
         .form-input {
-            padding: 12px 15px;
+            padding: 15px 20px;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 12px;
             color: var(--text-primary);
             font-size: 16px;
+            transition: var(--transition);
+            font-weight: 500;
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
+            background: var(--bg-tertiary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
         .tags-input {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            padding: 10px;
+            gap: 10px;
+            padding: 15px;
             background: var(--bg-secondary);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            min-height: 50px;
+            border-radius: 12px;
+            min-height: 55px;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .tags-input:focus-within {
+            border-color: var(--primary);
+            background: var(--bg-tertiary);
         }
 
         .tag {
             background: var(--primary);
             color: white;
-            padding: 4px 12px;
+            padding: 6px 15px;
             border-radius: 20px;
             font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
         }
 
         .tag-remove {
             cursor: pointer;
             font-size: 12px;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .tag-remove:hover {
+            opacity: 1;
+            transform: scale(1.2);
         }
 
         #tag-input {
@@ -409,139 +539,191 @@
             border: none;
             color: var(--text-primary);
             outline: none;
+            font-size: 16px;
+            padding: 5px;
+            font-weight: 500;
         }
 
         .form-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 15px;
+            margin-top: 15px;
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 14px 28px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             transition: var(--transition);
-            font-size: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             flex: 1;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
         .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
         }
 
         .btn-secondary {
             background: var(--bg-tertiary);
             color: var(--text-primary);
+            border: 1px solid var(--border);
         }
 
         .btn-secondary:hover {
             background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Список заметок */
+        .notes-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 15px 35px var(--shadow);
+            transition: var(--transition);
+        }
+
+        .notes-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .section-header h2 {
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-header h2 i {
+            color: var(--primary);
+            font-size: 24px;
         }
 
         .notes-count {
-            background: var(--bg-tertiary);
-            padding: 5px 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 8px 18px;
             border-radius: 20px;
-            font-size: 14px;
-            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
         .notes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            max-height: 600px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            max-height: 650px;
             overflow-y: auto;
             padding-right: 10px;
         }
 
+        /* Карточка заметки */
         .note-card {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 20px;
+            background: linear-gradient(145deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 16px;
+            padding: 25px;
             border: 1px solid var(--border);
             transition: var(--transition);
             position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .note-card:hover {
             border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px var(--shadow);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
         .note-header {
             display: flex;
             justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
+            align-items: flex-start;
+            margin-bottom: 20px;
         }
 
         .note-title {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             color: var(--text-primary);
-            margin-right: 10px;
+            margin-right: 15px;
+            flex: 1;
+            line-height: 1.3;
         }
 
         .note-badges {
             display: flex;
-            gap: 5px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .badge {
-            font-size: 10px;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-weight: 600;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .badge-idea {
             background: linear-gradient(135deg, var(--secondary), #a78bfa);
             color: white;
+            box-shadow: 0 3px 10px rgba(139, 92, 246, 0.3);
         }
 
         .badge-question {
             background: linear-gradient(135deg, var(--warning), #fbbf24);
             color: white;
+            box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
         }
 
         .badge-important {
             background: linear-gradient(135deg, var(--danger), #f87171);
             color: white;
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
         }
 
         .badge-movement {
             background: linear-gradient(135deg, var(--accent), #34d399);
             color: white;
+            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
         }
 
         .note-text {
             color: var(--text-secondary);
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 15px;
-            max-height: 100px;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-height: 120px;
             overflow: hidden;
             position: relative;
         }
@@ -552,7 +734,7 @@
             bottom: 0;
             right: 0;
             width: 50%;
-            height: 20px;
+            height: 25px;
             background: linear-gradient(to right, transparent, var(--bg-secondary));
         }
 
@@ -560,37 +742,42 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
             border-top: 1px solid var(--border);
         }
 
         .note-tags {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
+            flex: 1;
         }
 
         .note-tag {
-            background: var(--bg-tertiary);
+            background: var(--bg-primary);
             color: var(--text-secondary);
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid var(--border);
         }
 
         .note-date {
             color: var(--text-secondary);
-            font-size: 12px;
+            font-size: 13px;
             white-space: nowrap;
+            font-weight: 500;
+            margin-left: 15px;
         }
 
         .note-actions {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 20px;
+            right: 20px;
             display: flex;
-            gap: 8px;
+            gap: 10px;
             opacity: 0;
             transition: var(--transition);
         }
@@ -600,49 +787,71 @@
         }
 
         .action-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
             background: var(--bg-tertiary);
-            border: none;
+            border: 1px solid var(--border);
             color: var(--text-secondary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: var(--transition);
+            font-size: 16px;
         }
 
         .action-btn:hover {
             background: var(--primary);
             color: white;
+            border-color: var(--primary);
+            transform: scale(1.1);
         }
 
+        /* Боковая панель */
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 35px;
+        }
+
+        .analytics-card, .quick-actions-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 15px 35px var(--shadow);
+            transition: var(--transition);
+        }
+
+        .analytics-card:hover, .quick-actions-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .card-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .card-header h3 {
-            font-size: 18px;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         .card-header i {
             color: var(--primary);
+            font-size: 22px;
         }
 
+        .card-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Аналитика */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 20px;
         }
 
         .stat-item {
@@ -650,54 +859,105 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 15px;
-            background: var(--bg-secondary);
-            border-radius: 10px;
+            padding: 20px;
+            background: linear-gradient(145deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
         }
 
         .stat-value {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             color: var(--primary);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            line-height: 1;
         }
 
         .stat-label {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
+        .search-analytics {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+
+        .search-analytics h4 {
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .analytics-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .analytics-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .analytics-value {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Быстрые действия */
         .actions-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
 
         .action-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            background: var(--bg-secondary);
-            border-radius: 10px;
+            gap: 15px;
+            padding: 18px 20px;
+            background: linear-gradient(145deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 14px;
             cursor: pointer;
             transition: var(--transition);
+            border: 1px solid var(--border);
         }
 
         .action-item:hover {
             background: var(--bg-tertiary);
-            transform: translateX(5px);
+            transform: translateX(8px) translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
         }
 
         .action-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+            flex-shrink: 0;
         }
 
         .action-text {
@@ -705,158 +965,132 @@
         }
 
         .action-text span {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
             display: block;
+            margin-bottom: 4px;
         }
 
         .action-text small {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .search-analytics {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-        }
-
-        .search-analytics h4 {
-            margin-bottom: 15px;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .analytics-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .analytics-label {
-            color: var(--text-secondary);
-        }
-
-        .analytics-value {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .smart-search-info {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
-        .smart-search-info h4 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .smart-search-info p {
             font-size: 13px;
             color: var(--text-secondary);
-            line-height: 1.4;
+            font-weight: 500;
         }
 
-        .search-results-info {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
-            border-radius: 10px;
-            padding: 12px 15px;
-            margin: 10px 0;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .search-results-info i {
-            color: var(--accent);
-        }
-
+        /* Состояние пустого поиска */
         .empty-state {
             text-align: center;
-            padding: 50px 20px;
+            padding: 60px 30px;
+            grid-column: 1 / -1;
         }
 
         .empty-icon {
-            font-size: 48px;
+            font-size: 56px;
             color: var(--border);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            opacity: 0.5;
         }
 
         .empty-state h3 {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: var(--text-secondary);
+            font-size: 24px;
+            font-weight: 700;
         }
 
         .empty-state p {
             color: var(--text-secondary);
-            max-width: 400px;
-            margin: 0 auto 20px;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            font-size: 16px;
+            line-height: 1.5;
         }
 
+        .empty-state .btn {
+            margin: 0 auto;
+            padding: 15px 35px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* Выделение совпадений */
         .highlight {
-            background-color: rgba(99, 102, 241, 0.3);
-            padding: 0 2px;
-            border-radius: 3px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 700;
+            color: var(--text-primary);
         }
 
+        /* ===== ФУТЕР ===== */
         .footer {
             text-align: center;
-            padding: 40px 20px;
-            background: var(--bg-secondary);
+            padding: 60px 30px;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             border-top: 1px solid var(--border);
-            margin-top: 60px;
+            margin-top: 80px;
         }
 
         .footer-logo {
-            font-size: 2.5em;
+            font-size: 3.5em;
             font-weight: 900;
             background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
         }
 
         .footer-tagline {
             color: var(--text-secondary);
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            max-width: 600px;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.5;
+            font-weight: 500;
         }
 
         .footer-copyright {
             color: var(--text-secondary);
-            font-size: 0.9em;
+            font-size: 0.95em;
             opacity: 0.7;
-            margin-top: 20px;
+            margin-top: 30px;
+            line-height: 1.6;
         }
 
-        /* АДАПТИВНОСТЬ */
+        /* ===== АДАПТИВНОСТЬ ===== */
         @media (max-width: 1200px) {
             .aurora-container {
                 grid-template-columns: 1fr;
+                gap: 40px;
             }
             
             .sidebar {
                 grid-column: 1 / -1;
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 20px;
+                gap: 35px;
             }
 
             .hero-section {
-                height: 70vh;
+                height: 75vh;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .notes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .app-title h2 {
+                font-size: 2.5em;
+            }
+
+            .app-title .tagline {
+                font-size: 1.1em;
             }
         }
 
@@ -872,48 +1106,181 @@
             .section-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 15px;
             }
 
+            .hero-section {
+                height: 60vh;
+                min-height: 400px;
+            }
+
+            .app-title h2 {
+                font-size: 2.2em;
+            }
+
+            .app-title .tagline {
+                font-size: 1em;
+                padding: 0 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .logo {
+                justify-content: center;
+            }
+
+            .search-filters {
+                justify-content: center;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .compact-btn {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
             .hero-section {
                 height: 50vh;
                 min-height: 300px;
             }
 
             .app-title h2 {
-                font-size: 2em;
+                font-size: 1.8em;
             }
 
-            .app-title .tagline {
-                font-size: 1em;
+            .search-section,
+            .create-note,
+            .notes-section,
+            .analytics-card,
+            .quick-actions-card {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .footer {
+                padding: 40px 20px;
+            }
+
+            .footer-logo {
+                font-size: 2.5em;
+            }
+
+            .footer-tagline {
+                font-size: 1.1em;
             }
         }
 
+        /* ===== АНИМАЦИИ ===== */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .note-card {
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeIn 0.4s ease-out;
         }
 
+        .search-results-info {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* ===== СКРОЛЛБАР ===== */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
 
         ::-webkit-scrollbar-track {
             background: var(--bg-secondary);
-            border-radius: 4px;
+            border-radius: 5px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+            border: 2px solid var(--bg-secondary);
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+        }
+
+        /* ===== ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ ===== */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Эффект загрузки */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Эффект свечения */
+        .glow {
+            position: relative;
+        }
+
+        .glow::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .glow:hover::before {
+            opacity: 0.3;
+            animation: glowRotate 3s linear infinite;
+        }
+
+        @keyframes glowRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
         }
     </style>
 </head>
@@ -934,6 +1301,7 @@
             Автозапуск через 3 секунды • Нажмите для ручного воспроизведения
         </div>
         
+        <!-- Статус воспроизведения -->
         <div class="voice-status" id="voiceStatus">
             <div class="sound-waves">
                 <div class="wave"></div>
@@ -950,10 +1318,11 @@
     <div class="main-app">
         <div class="app-title">
             <h2>AURORA 4.0</h2>
-            <p class="tagline">Система мышления с умным поиском • Защита мыслей • Понимание контекста</p>
+            <p class="tagline">Первая система мышления с умным поиском, которая понимает разные формы слов и никогда не шпионит за вами</p>
         </div>
         
         <div class="aurora-container">
+            <!-- Шапка -->
             <header class="header">
                 <div class="logo">
                     <div class="logo-icon">
@@ -966,12 +1335,14 @@
                 </div>
                 <div class="header-actions">
                     <button class="btn btn-secondary" id="export-btn">
-                        <i class="fas fa-download"></i> Экспорт
+                        <i class="fas fa-download"></i> Экспорт данных
                     </button>
                 </div>
             </header>
 
+            <!-- Основной контент -->
             <main class="main-content">
+                <!-- Поиск -->
                 <section class="search-section">
                     <div class="search-header">
                         <i class="fas fa-search"></i>
@@ -993,9 +1364,10 @@
                     </div>
                     <div class="smart-search-info" id="search-info">
                         <h4><i class="fas fa-lightbulb"></i> Умный поиск понимает:</h4>
-                        <p>• Разные формы слов: "пойти" = "пойду" = "пошел"</p>
-                        <p>• Семантику: "гулять" = "прогулка" = "пройтись"</p>
+                        <p>• Разные формы слов: "пойти" = "пойду" = "пошел" = "пойдешь"</p>
+                        <p>• Семантику: "гулять" = "прогулка" = "пройтись" = "прогуляться"</p>
                         <p>• Контекст: находит по смыслу, а не только по словам</p>
+                        <p>• Теги: учитывает все связанные теги и категории</p>
                     </div>
                     <div class="search-results-info" id="results-info" style="display: none;">
                         <i class="fas fa-check-circle"></i>
@@ -1003,6 +1375,7 @@
                     </div>
                 </section>
 
+                <!-- Создание заметки -->
                 <section class="create-note">
                     <h2><i class="fas fa-plus-circle"></i> Новая заметка</h2>
                     <form class="note-form" id="note-form">
@@ -1015,22 +1388,23 @@
                             <textarea id="note-text" class="form-input" rows="4" placeholder="Опишите ваши мысли..."></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Теги</label>
+                            <label>Теги (через запятую или Enter)</label>
                             <div class="tags-input" id="tags-container">
-                                <input type="text" id="tag-input" placeholder="Добавьте тег...">
+                                <input type="text" id="tag-input" placeholder="Добавьте теги...">
                             </div>
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Сохранить
+                                <i class="fas fa-save"></i> Сохранить заметку
                             </button>
                             <button type="button" class="btn btn-secondary" id="clear-form">
-                                <i class="fas fa-times"></i> Очистить
+                                <i class="fas fa-broom"></i> Очистить форму
                             </button>
                         </div>
                     </form>
                 </section>
 
+                <!-- Список заметок -->
                 <section class="notes-section">
                     <div class="section-header">
                         <h2><i class="fas fa-sticky-note"></i> Все заметки</h2>
@@ -1042,7 +1416,9 @@
                 </section>
             </main>
 
+            <!-- Боковая панель -->
             <aside class="sidebar">
+                <!-- Аналитика -->
                 <div class="analytics-card">
                     <div class="card-header">
                         <i class="fas fa-chart-line"></i>
@@ -1069,8 +1445,8 @@
                     <div class="search-analytics" id="search-analytics">
                         <h4><i class="fas fa-search-plus"></i> Детали поиска</h4>
                         <div class="analytics-item">
-                            <span class="analytics-label">Запрос:</span>
-                            <span class="analytics-value" id="current-query">-</span>
+                            <span class="analytics-label">Текущий запрос:</span>
+                            <span class="analytics-value" id="current-query">—</span>
                         </div>
                         <div class="analytics-item">
                             <span class="analytics-label">Найдено совпадений:</span>
@@ -1078,11 +1454,12 @@
                         </div>
                         <div class="analytics-item">
                             <span class="analytics-label">Понимание контекста:</span>
-                            <span class="analytics-value" id="context-understanding">-</span>
+                            <span class="analytics-value" id="context-understanding">—</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- Быстрые действия -->
                 <div class="quick-actions-card">
                     <div class="card-header">
                         <i class="fas fa-bolt"></i>
@@ -1130,11 +1507,12 @@
             </aside>
         </div>
         
+        <!-- ===== ФУТЕР ===== -->
         <footer class="footer">
             <div class="footer-logo">AURORA</div>
             <p class="footer-tagline">
                 Первая система мышления, которая понимает вас, а не просто ищет слова.<br>
-                Ваши мысли защищены. Ваши идеи в безопасности.
+                Ваши мысли защищены. Ваши идеи в безопасности. Все данные хранятся локально.
             </p>
             <p class="footer-copyright">
                 © 2024 Aurora Thinking System. Все права защищены.<br>
@@ -1143,11 +1521,14 @@
         </footer>
     </div>
 
+    <!-- ===== АУДИО ЭЛЕМЕНТ ДЛЯ ПРИВЕТСТВИЯ ===== -->
     <audio id="welcomeAudio" preload="auto">
         <source src="welcome.mp3" type="audio/mpeg">
         <source src="welcome.ogg" type="audio/ogg">
+        Ваш браузер не поддерживает аудио элемент.
     </audio>
 
+    <!-- ===== СКРИПТ ДЛЯ КАРТИНКИ И ГОЛОСА ===== -->
     <script>
         class AuroraHero {
             constructor() {
@@ -1167,10 +1548,16 @@
             init() {
                 console.log('🎨 Aurora Hero начал загрузку...');
                 
+                // Проверка картинки
                 this.checkImage();
+                
+                // Настройка аудио
                 this.setupAudio();
+                
+                // Настройка кнопки
                 this.setupButton();
                 
+                // Авто-приветствие через 3 секунды
                 setTimeout(() => {
                     if (this.autoPlayEnabled && !this.hasPlayedWelcome) {
                         this.autoPlayWelcome();
@@ -1180,18 +1567,21 @@
             
             checkImage() {
                 this.heroImage.onload = () => {
-                    console.log('🖼️ Картинка Aurora загружена');
+                    console.log('✅ Картинка Aurora загружена');
+                    this.heroImage.style.opacity = '1';
                 };
                 
                 this.heroImage.onerror = () => {
-                    console.warn('⚠️ Картинка не загружена');
+                    console.warn('⚠️ Картинка не загружена, используем placeholder');
+                    // Установим красивый placeholder
                     this.heroImage.src = 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80';
+                    this.heroImage.alt = 'Aurora - Система мышления';
                 };
             }
             
             setupAudio() {
                 this.audio.oncanplaythrough = () => {
-                    console.log('🔊 Аудио готово к воспроизведению');
+                    console.log('✅ Аудио готово к воспроизведению');
                 };
                 
                 this.audio.onerror = (e) => {
@@ -1200,7 +1590,7 @@
                     this.voiceStatus.classList.add('active');
                     this.voiceBtn.disabled = true;
                     this.voiceBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Аудио недоступно';
-                    this.voiceBtn.style.background = '#ef4444';
+                    this.voiceBtn.style.background = 'linear-gradient(135deg, #ef4444, #f87171)';
                 };
                 
                 this.audio.onended = () => {
@@ -1210,13 +1600,14 @@
                     this.voiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
                     this.statusText.textContent = 'Приветствие завершено';
                     
+                    // Через 2 секунды скрыть статус
                     setTimeout(() => {
                         this.voiceStatus.classList.remove('active');
                     }, 2000);
                 };
                 
                 this.audio.onplaying = () => {
-                    console.log('🎵 Начало воспроизведения');
+                    console.log('🎵 Начало воспроизведения приветствия');
                     this.isPlaying = true;
                     this.hasPlayedWelcome = true;
                     this.voiceStatus.classList.add('active');
@@ -1247,6 +1638,7 @@
                         this.statusText.textContent = 'Разрешите воспроизведение звука';
                         this.voiceStatus.classList.add('active');
                         
+                        // Показать инструкцию
                         setTimeout(() => {
                             if (confirm('Для воспроизведения звука нужно разрешение. Нажмите "Разрешить" во всплывающем окне браузера, затем нажмите кнопку снова.')) {
                                 this.playWelcome();
@@ -1263,6 +1655,7 @@
             autoPlayWelcome() {
                 console.log('⏰ Авто-приветствие через 3 секунды...');
                 
+                // Показываем обратный отсчет
                 this.statusText.textContent = 'Автозапуск через 3...';
                 this.voiceStatus.classList.add('active');
                 
@@ -1281,13 +1674,32 @@
             }
         }
 
-        // ДЕМО-ЗАМЕТКИ
+        // ===== ЗАПУСК ГЕРОЙ-СЕКЦИИ =====
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                // Запускаем герой-секцию
+                window.auroraHero = new AuroraHero();
+                
+                // Показываем информацию о загрузке
+                console.log('✨ Aurora 4.0 успешно загружен!');
+                console.log('🎯 Попробуйте умный поиск: "пойду гулять"');
+                console.log('🔊 Авто-приветствие запустится через 3 секунды...');
+                
+            } catch (error) {
+                console.error('❌ Ошибка при запуске Aurora Hero:', error);
+            }
+        });
+    </script>
+
+    <!-- ===== ОРИГИНАЛЬНЫЙ СКРИПТ AURORA 4.0 ===== -->
+    <script>
+        // ДЕМО-ЗАМЕТКИ С ОБНОВЛЕННЫМ СОДЕРЖАНИЕМ
         const demoNotes = [
             {
                 id: 1,
                 title: "Планы на понедельник",
-                text: "В понедельник пойду гулять с подругой в центре города. Надо выбрать кафе для встречи, может быть сходить в кино.",
-                tags: ["гулять", "подруга", "понедельник", "город", "кафе", "встреча"],
+                text: "В понедельник пойду гулять с подругой в центре города. Надо выбрать кафе для встречи, может быть сходить в кино. После прогулки планирую зайти в книжный магазин.",
+                tags: ["гулять", "подруга", "понедельник", "город", "кафе", "встреча", "кино", "прогулка"],
                 date: "Сегодня, 10:30",
                 timestamp: Date.now() - 86400000 * 2,
                 hasQuestions: false,
@@ -1297,9 +1709,9 @@
             },
             {
                 id: 2,
-                title: "Рабочие задачи",
-                text: "Завтра нужно пойти на работу раньше, чтобы подготовить отчет. Встреча с клиентом в 11:00, затем обед с коллегами.",
-                tags: ["работа", "отчет", "встреча", "клиент", "задачи"],
+                title: "Рабочие задачи на завтра",
+                text: "Завтра нужно пойти на работу раньше, чтобы подготовить отчет для начальства. Встреча с клиентом в 11:00, затем обед с коллегами. Вечером нужно остаться и доделать презентацию.",
+                tags: ["работа", "отчет", "встреча", "клиент", "задачи", "презентация", "начальство"],
                 date: "Вчера, 14:15",
                 timestamp: Date.now() - 86400000,
                 hasQuestions: true,
@@ -1309,9 +1721,9 @@
             },
             {
                 id: 3,
-                title: "Идея для проекта",
-                text: "Можно создать приложение для отслеживания привычек с AI-аналитикой. Нужно продумать архитектуру и найти разработчика.",
-                tags: ["идея", "приложение", "AI", "привычки", "проект"],
+                title: "Идея для мобильного приложения",
+                text: "Можно создать приложение для отслеживания привычек с AI-аналитикой. Нужно продумать архитектуру, дизайн и найти разработчика. Возможно сделать геймификацию для мотивации пользователей.",
+                tags: ["идея", "приложение", "AI", "привычки", "проект", "разработка", "дизайн", "геймификация"],
                 date: "2 дня назад, 09:45",
                 timestamp: Date.now() - 86400000 * 2,
                 hasQuestions: false,
@@ -1322,8 +1734,8 @@
             {
                 id: 4,
                 title: "Покупки на неделю",
-                text: "Сегодня вечером схожу в магазин за продуктами. Нужно купить молоко, хлеб, фрукты и средства гигиены.",
-                tags: ["магазин", "продукты", "покупки", "вечер"],
+                text: "Сегодня вечером схожу в магазин за продуктами. Нужно купить молоко, хлеб, фрукты, овощи и средства гигиены. Также нужно взять корм для кота и воду.",
+                tags: ["магазин", "продукты", "покупки", "вечер", "еда", "хозяйство"],
                 date: "Сегодня, 08:20",
                 timestamp: Date.now() - 3600000,
                 hasQuestions: false,
@@ -1334,8 +1746,8 @@
             {
                 id: 5,
                 title: "Вопрос о путешествии",
-                text: "Куда лучше поехать в отпуск: в горы или на море? Нужно учитывать бюджет и предпочтения семьи.",
-                tags: ["отпуск", "путешествие", "горы", "море", "бюджет"],
+                text: "Куда лучше поехать в отпуск: в горы или на море? Нужно учитывать бюджет, предпочтения семьи и погодные условия. Может рассмотреть вариант с арендой дома у моря?",
+                tags: ["отпуск", "путешествие", "горы", "море", "бюджет", "семья", "погода", "аренда"],
                 date: "3 дня назад, 16:40",
                 timestamp: Date.now() - 86400000 * 3,
                 hasQuestions: true,
@@ -1345,9 +1757,9 @@
             },
             {
                 id: 6,
-                title: "Спортивные планы",
-                text: "Завтра утром пойду в спортзал, нужно потренировать ноги и спину. После тренировки можно сходить в сауну.",
-                tags: ["спорт", "тренировка", "спортзал", "утро", "здоровье"],
+                title: "Спортивные планы на неделю",
+                text: "Завтра утром пойду в спортзал, нужно потренировать ноги и спину. После тренировки можно сходить в сауну. В среду планирую пробежку в парке, а в пятницу - бассейн.",
+                tags: ["спорт", "тренировка", "спортзал", "утро", "здоровье", "сауна", "пробежка", "парк", "бассейн"],
                 date: "Вчера, 19:10",
                 timestamp: Date.now() - 86400000,
                 hasQuestions: false,
@@ -1357,9 +1769,9 @@
             },
             {
                 id: 7,
-                title: "Идея для бизнеса",
-                text: "Можно открыть кофейню с рабочими местами для фрилансеров. Нужно проанализировать расположение и целевую аудиторию.",
-                tags: ["бизнес", "кофейня", "фрилансеры", "анализ", "идея"],
+                title: "Идея для бизнеса - кофейня",
+                text: "Можно открыть кофейню с рабочими местами для фрилансеров. Нужно проанализировать расположение, целевую аудиторию и конкурентов. Важно сделать уникальную атмосферу и хороший Wi-Fi.",
+                tags: ["бизнес", "кофейня", "фрилансеры", "анализ", "идея", "стартап", "кафе", "рабочее пространство"],
                 date: "4 дня назад, 11:30",
                 timestamp: Date.now() - 86400000 * 4,
                 hasQuestions: false,
@@ -1369,9 +1781,9 @@
             },
             {
                 id: 8,
-                title: "Вечерняя прогулка",
-                text: "Сегодня вечером пойду прогуляться в парке. Можно взять с собой книгу и посидеть на лавочке у озера.",
-                tags: ["прогулка", "парк", "вечер", "книга", "отдых"],
+                title: "Вечерняя прогулка в парке",
+                text: "Сегодня вечером пойду прогуляться в парке. Можно взять с собой книгу и посидеть на лавочке у озера. Если будет хорошая погода, можно устроить небольшой пикник.",
+                tags: ["прогулка", "парк", "вечер", "книга", "отдых", "озеро", "пикник", "природа"],
                 date: "Сегодня, 12:45",
                 timestamp: Date.now() - 7200000,
                 hasQuestions: false,
@@ -1399,25 +1811,34 @@
             }
 
             showWelcomeMessage() {
-                console.log('🚀 Aurora 4.0 запущена!');
-                console.log('🎯 Попробуйте поиск: "пойду гулять" или "планы перемещения"');
+                console.log('🚀 Aurora 4.0 запущена и готова к работе!');
+                console.log('🎯 Системные команды:');
+                console.log('   • Введите "пойду гулять" для теста поиска');
+                console.log('   • Нажмите "Тест умного поиска" в боковой панели');
+                console.log('   • Создайте свою первую заметку');
+                console.log('🔍 Умный поиск понимает разные формы слов и контекст');
             }
 
             loadNotes() {
                 const saved = localStorage.getItem('aurora-notes');
                 if (saved) {
                     try {
-                        return JSON.parse(saved);
+                        const notes = JSON.parse(saved);
+                        console.log(`📂 Загружено ${notes.length} заметок из localStorage`);
+                        return notes;
                     } catch (e) {
-                        console.error('Ошибка загрузки заметок:', e);
+                        console.error('❌ Ошибка загрузки заметок:', e);
+                        console.log('📂 Используем демо-заметки');
                         return [...demoNotes];
                     }
                 }
+                console.log('📂 Используем демо-заметки');
                 return [...demoNotes];
             }
 
             saveNotes() {
                 localStorage.setItem('aurora-notes', JSON.stringify(this.notes));
+                console.log(`💾 Сохранено ${this.notes.length} заметок`);
             }
 
             renderNotes(notesToRender = null) {
@@ -1429,11 +1850,11 @@
                 
                 if (notes.length === 0) {
                     const message = this.isSearching 
-                        ? 'По вашему запросу ничего не найдено.'
-                        : 'Заметок пока нет. Создайте первую заметку.';
+                        ? 'По вашему запросу ничего не найдено. Попробуйте изменить запрос или использовать другие слова.'
+                        : 'Заметок пока нет. Создайте первую заметку или воспользуйтесь демо-данными.';
                     
                     container.innerHTML = `
-                        <div class="empty-state" style="grid-column: 1/-1;">
+                        <div class="empty-state">
                             <div class="empty-icon">
                                 <i class="fas fa-${this.isSearching ? 'search' : 'sticky-note'}"></i>
                             </div>
@@ -1453,12 +1874,14 @@
                         this.isSearching = false;
                         this.renderNotes();
                         this.updateAnalytics();
+                        console.log('📂 Демо-заметки загружены');
                     });
                     
                     countElement.textContent = '0 заметок';
                     return;
                 }
                 
+                // Показываем информацию о результатах поиска
                 if (this.isSearching && this.currentQuery) {
                     const resultsInfo = document.getElementById('results-info');
                     resultsInfo.style.display = 'flex';
@@ -1473,7 +1896,10 @@
                     container.appendChild(noteElement);
                 });
                 
-                countElement.textContent = `${notes.length} замет${this.getPluralForm(notes.length)}`;
+                const plural = this.getPluralForm(notes.length);
+                countElement.textContent = `${notes.length} замет${plural}`;
+                
+                console.log(`📄 Отображено ${notes.length} заметок`);
             }
 
             createNoteElement(note) {
@@ -1481,6 +1907,7 @@
                 element.className = 'note-card';
                 element.dataset.id = note.id;
                 
+                // Подсветка совпадений при поиске
                 let displayText = note.text;
                 let displayTitle = note.title;
                 
@@ -1522,6 +1949,7 @@
                     </div>
                 `;
                 
+                // Обработчики действий
                 element.querySelector('.delete-btn').addEventListener('click', (e) => {
                     e.stopPropagation();
                     this.deleteNote(note.id);
@@ -1548,7 +1976,7 @@
                     date: this.formatDate(new Date()),
                     timestamp: Date.now(),
                     hasQuestions: text.includes('?') || title.includes('?'),
-                    isIdea: title.toLowerCase().includes('идея') || text.toLowerCase().includes('идея') || text.toLowerCase().includes('можно создать'),
+                    isIdea: title.toLowerCase().includes('идея') || text.toLowerCase().includes('идея') || text.toLowerCase().includes('можно создать') || text.toLowerCase().includes('можно открыть'),
                     important: false,
                     hasMovement: this.checkForMovement(text)
                 };
@@ -1558,21 +1986,27 @@
                 this.isSearching = false;
                 this.renderNotes();
                 this.updateAnalytics();
+                
+                console.log(`✅ Добавлена новая заметка: "${title}"`);
+                console.log(`   Теги: ${tags.join(', ')}`);
+                console.log(`   Тип: ${newNote.isIdea ? 'Идея' : newNote.hasMovement ? 'Перемещение' : 'Обычная'}`);
             }
 
             checkForMovement(text) {
                 const movementWords = ['пойду', 'пойти', 'ходить', 'сходить', 'отправиться', 'двигаться', 'передвигаться', 
-                                      'гулять', 'прогулка', 'работа', 'магазин', 'спортзал', 'парк', 'кафе', ' кино',
-                                      'ехать', 'поехать', 'пройтись', 'прогуляться', 'съездить'];
+                                      'гулять', 'прогулка', 'работа', 'магазин', 'спортзал', 'парк', 'кафе', 'кино',
+                                      'ехать', 'поехать', 'пройтись', 'прогуляться', 'съездить', 'побежать', 'поеду',
+                                      'зайду', 'зайти', 'выйти', 'вернуться', 'отойти', 'подойти'];
                 return movementWords.some(word => text.toLowerCase().includes(word));
             }
 
             deleteNote(id) {
-                if (confirm('Удалить эту заметку?')) {
+                if (confirm('Удалить эту заметку? Это действие нельзя отменить.')) {
                     this.notes = this.notes.filter(note => note.id !== id);
                     this.saveNotes();
                     this.renderNotes();
                     this.updateAnalytics();
+                    console.log(`🗑️ Удалена заметка ID: ${id}`);
                 }
             }
 
@@ -1583,33 +2017,40 @@
                     document.getElementById('note-text').value = note.text;
                     
                     const tagsContainer = document.getElementById('tags-container');
-                    tagsContainer.innerHTML = '<input type="text" id="tag-input" placeholder="Добавьте тег...">';
+                    tagsContainer.innerHTML = '<input type="text" id="tag-input" placeholder="Добавьте теги...">';
                     note.tags.forEach(tag => {
                         this.addTagToInput(tag);
                     });
                     
+                    // Прокрутить к форме
                     document.getElementById('note-title').scrollIntoView({ behavior: 'smooth' });
                     
+                    // Удалить оригинальную заметку после редактирования
                     setTimeout(() => {
                         this.deleteNote(id);
+                        console.log(`✏️ Редактирование заметки ID: ${id}`);
                     }, 100);
                 }
             }
 
             performSearch(query) {
-                console.log('🔍 Начинаем поиск:', query);
+                console.log(`🔍 Начинаем поиск: "${query}"`);
                 
                 this.currentQuery = query;
                 this.isSearching = !!query.trim();
                 
+                // Получаем результаты от умного поиска
                 const searchResults = this.searchInstance.performSearch(query, this.notes);
-                console.log('✅ Результаты поиска:', searchResults.length, 'заметок');
+                console.log(`✅ Результаты поиска: ${searchResults.length} заметок`);
                 
+                // Применяем фильтр к результатам поиска
                 const filteredResults = this.applyFilter(searchResults, this.currentFilter);
-                console.log('🎯 После фильтра:', filteredResults.length, 'заметок');
+                console.log(`🎯 После фильтра "${this.currentFilter}": ${filteredResults.length} заметок`);
                 
+                // Обновляем аналитику поиска
                 this.updateSearchAnalytics(query, filteredResults);
                 
+                // Показываем результаты
                 this.renderNotes(filteredResults);
                 
                 return filteredResults;
@@ -1630,10 +2071,11 @@
             }
 
             updateSearchAnalytics(query, results) {
-                document.getElementById('current-query').textContent = query || '-';
+                document.getElementById('current-query').textContent = query || '—';
                 document.getElementById('match-count').textContent = results.length;
                 document.getElementById('search-results').textContent = results.length;
                 
+                // Анализ понимания контекста
                 let understanding = 'Базовый';
                 if (query) {
                     const queryAnalysis = this.searchInstance.analyzeQuery(query);
@@ -1643,10 +2085,16 @@
                     if (queryAnalysis.understoodForms.length > 1) {
                         understanding = 'Семантический';
                     }
+                    if (queryAnalysis.context.length > 0) {
+                        understanding = 'Глубокий';
+                    }
                 }
                 document.getElementById('context-understanding').textContent = understanding;
                 
+                // Обновить общую аналитику
                 this.updateAnalytics();
+                
+                console.log(`📊 Аналитика поиска: ${results.length} совпадений, понимание: ${understanding}`);
             }
 
             updateAnalytics() {
@@ -1667,6 +2115,10 @@
                 if (diff < 3600000) return `${Math.floor(diff / 60000)} мин назад`;
                 if (diff < 86400000) return 'Сегодня';
                 if (diff < 172800000) return 'Вчера';
+                if (diff < 604800000) {
+                    const days = Math.floor(diff / 86400000);
+                    return `${days} дн назад`;
+                }
                 
                 return date.toLocaleDateString('ru-RU', {
                     day: 'numeric',
@@ -1700,10 +2152,12 @@
                 tagElement.querySelector('.tag-remove').addEventListener('click', (e) => {
                     e.stopPropagation();
                     tagElement.remove();
+                    console.log(`🏷️ Удален тег: ${tag}`);
                 });
             }
 
             setupEventListeners() {
+                // Форма добавления заметки
                 document.getElementById('note-form').addEventListener('submit', (e) => {
                     e.preventDefault();
                     
@@ -1715,6 +2169,7 @@
                         return;
                     }
                     
+                    // Сбор тегов
                     const tags = [];
                     document.querySelectorAll('#tags-container .tag').forEach(tagElement => {
                         const tagText = tagElement.textContent.replace('×', '').trim();
@@ -1723,10 +2178,15 @@
                     
                     this.addNote(title, text, tags);
                     
+                    // Очистка формы
                     document.getElementById('note-form').reset();
-                    document.getElementById('tags-container').innerHTML = '<input type="text" id="tag-input" placeholder="Добавьте тег...">';
+                    document.getElementById('tags-container').innerHTML = '<input type="text" id="tag-input" placeholder="Добавьте теги...">';
+                    
+                    // Фокус на заголовок для следующей заметки
+                    document.getElementById('note-title').focus();
                 });
                 
+                // Ввод тегов
                 document.addEventListener('click', (e) => {
                     if (e.target.id === 'tags-container' || e.target.id === 'tag-input') {
                         document.getElementById('tag-input').focus();
@@ -1746,11 +2206,14 @@
                     }
                 });
                 
+                // Очистка формы
                 document.getElementById('clear-form').addEventListener('click', () => {
                     document.getElementById('note-form').reset();
-                    document.getElementById('tags-container').innerHTML = '<input type="text" id="tag-input" placeholder="Добавьте тег...">';
+                    document.getElementById('tags-container').innerHTML = '<input type="text" id="tag-input" placeholder="Добавьте теги...">';
+                    console.log('🧹 Форма очищена');
                 });
                 
+                // Поиск
                 const searchInput = document.getElementById('search-input');
                 const searchBtn = document.getElementById('search-btn');
                 
@@ -1767,15 +2230,23 @@
                     if (e.key === 'Enter') {
                         searchBtn.click();
                     }
+                    
+                    // Быстрый поиск при вводе (опционально)
+                    if (searchInput.value.length >= 3) {
+                        // Можно включить автопоиск, но пока оставим только по кнопке/Enter
+                    }
                 });
                 
+                // Фильтры
                 document.querySelectorAll('.filter-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
                         
                         this.currentFilter = btn.dataset.filter;
+                        console.log(`🎛️ Фильтр изменен: ${this.currentFilter}`);
                         
+                        // Применить фильтр к текущему поиску или ко всем заметкам
                         if (this.isSearching && this.currentQuery) {
                             this.performSearch(this.currentQuery);
                         } else {
@@ -1789,29 +2260,45 @@
                     });
                 });
                 
+                // Быстрые действия
                 document.getElementById('action-test-search').addEventListener('click', () => {
                     searchInput.value = 'пойду гулять';
                     searchBtn.click();
+                    console.log('🧪 Тест умного поиска: "пойду гулять"');
                 });
                 
                 document.getElementById('action-add-sample').addEventListener('click', () => {
                     const sampleNotes = [
-                        "Завтра пойду на работу к 9 утра, нужно подготовить презентацию",
-                        "Вечером схожу в магазин за продуктами, нужно купить овощи и мясо",
-                        "В субботу планирую пойти в кино с друзьями, выбрать фильм"
+                        {
+                            title: "Планы на субботу",
+                            text: "В субботу утром пойду на рынок за свежими овощами, затем встречусь с друзьями в кафе. Вечером планирую сходить в кино на премьеру.",
+                            tags: ["суббота", "рынок", "овощи", "друзья", "кафе", "кино", "премьера"]
+                        },
+                        {
+                            title: "Рабочая поездка",
+                            text: "На следующей неделе поеду в командировку в другой город. Нужно подготовить документы и забронировать отель. Встреча с партнерами запланирована на среду.",
+                            tags: ["командировка", "город", "документы", "отель", "партнеры", "встреча"]
+                        },
+                        {
+                            title: "Спортивные достижения",
+                            text: "Сегодня побил свой рекорд в спортзале - поднял 100 кг! Завтра пойду на тренировку с тренером, чтобы закрепить результат.",
+                            tags: ["спорт", "рекорд", "спортзал", "тренер", "тренировка", "достижения"]
+                        }
                     ];
                     
                     const randomNote = sampleNotes[Math.floor(Math.random() * sampleNotes.length)];
-                    this.addNote('Демо-заметка о перемещении', randomNote, ['демо', 'перемещение', 'планы', 'дело']);
+                    this.addNote(randomNote.title, randomNote.text, randomNote.tags);
+                    console.log('📝 Добавлена демо-заметка');
                 });
                 
                 document.getElementById('action-clear-all').addEventListener('click', () => {
-                    if (confirm('Очистить все заметки? Это действие нельзя отменить.')) {
+                    if (confirm('Очистить все заметки? Это действие нельзя отменить. Все данные будут удалены.')) {
                         this.notes = [];
                         this.saveNotes();
                         this.isSearching = false;
                         this.renderNotes();
                         this.updateAnalytics();
+                        console.log('🗑️ Все заметки очищены');
                     }
                 });
                 
@@ -1831,6 +2318,7 @@
                 this.renderNotes();
                 this.updateSearchAnalytics('', this.notes);
                 document.getElementById('search-input').value = '';
+                console.log('🔍 Поиск очищен');
             }
 
             exportData() {
@@ -1843,6 +2331,8 @@
                 linkElement.setAttribute('href', dataUri);
                 linkElement.setAttribute('download', exportFileDefaultName);
                 linkElement.click();
+                
+                console.log(`📤 Экспортировано ${this.notes.length} заметок`);
             }
         }
 
@@ -1851,6 +2341,7 @@
             constructor() {
                 this.lemmatizer = new Lemmatizer();
                 this.queryAnalyzer = new QueryAnalyzer();
+                console.log('🧠 Умный поиск инициализирован');
             }
             
             performSearch(query, notes) {
@@ -1858,8 +2349,18 @@
                     return notes;
                 }
                 
+                console.log(`🔍 Умный поиск для запроса: "${query}"`);
+                
                 const queryAnalysis = this.analyzeQuery(query);
+                console.log('📊 Анализ запроса:', {
+                    леммы: queryAnalysis.lemmas,
+                    формы: queryAnalysis.forms.length,
+                    паттерны: queryAnalysis.patterns,
+                    контекст: queryAnalysis.context
+                });
+                
                 const results = this.intelligentSearch(query, notes, queryAnalysis);
+                console.log(`✅ Найдено результатов: ${results.length}`);
                 
                 return results;
             }
@@ -1868,6 +2369,7 @@
                 return this.queryAnalyzer.analyze(query);
             }
             
+            // УМНЫЙ ПОИСК С РАСШИРЕННОЙ ЛОГИКОЙ
             intelligentSearch(query, notes, queryAnalysis) {
                 const results = [];
                 const queryWords = query.toLowerCase().split(' ').filter(w => w.length > 2);
@@ -1876,12 +2378,14 @@
                     let score = 0;
                     const noteText = (note.title + ' ' + note.text + ' ' + note.tags.join(' ')).toLowerCase();
                     
+                    // 1. Поиск по лемматизированным словам (высший приоритет)
                     queryAnalysis.lemmas.forEach(lemma => {
                         if (lemma.length > 2 && noteText.includes(lemma)) {
                             score += 15;
                         }
                     });
                     
+                    // 2. Поиск по формам слов
                     queryAnalysis.forms.forEach(form => {
                         if (form.length > 2) {
                             const regex = new RegExp(`\\b${form}\\b`, 'i');
@@ -1890,6 +2394,7 @@
                         }
                     });
                     
+                    // 3. Поиск по семантическим паттернам
                     queryAnalysis.patterns.forEach(pattern => {
                         const patternWords = this.getPatternWords(pattern);
                         patternWords.forEach(word => {
@@ -1899,6 +2404,7 @@
                         });
                     });
                     
+                    // 4. Поиск по контексту (фразам)
                     if (queryAnalysis.context.length > 0) {
                         queryAnalysis.context.forEach(context => {
                             if (noteText.includes(context)) {
@@ -1907,6 +2413,7 @@
                         });
                     }
                     
+                    // 5. Поиск по тегам (высокий приоритет)
                     note.tags.forEach(tag => {
                         const tagLower = tag.toLowerCase();
                         queryWords.forEach(word => {
@@ -1916,16 +2423,19 @@
                         });
                     });
                     
+                    // 6. Поиск по синонимам
                     queryAnalysis.synonyms.forEach(synonym => {
                         if (noteText.includes(synonym)) {
                             score += 8;
                         }
                     });
                     
+                    // 7. Учет типа заметки
                     if (queryAnalysis.isQuestion && note.hasQuestions) score += 15;
                     if (queryAnalysis.isIdea && note.isIdea) score += 15;
                     if (queryAnalysis.hasMovement && note.hasMovement) score += 15;
                     
+                    // 8. Поиск точных совпадений
                     queryWords.forEach(word => {
                         if (word.length > 3) {
                             const exactRegex = new RegExp(`\\b${word}\\b`, 'i');
@@ -1934,6 +2444,7 @@
                         }
                     });
                     
+                    // 9. Поиск по корням слов
                     queryAnalysis.stems.forEach(stem => {
                         if (stem.length > 2) {
                             const stemRegex = new RegExp(`\\b${stem}\\w*\\b`, 'i');
@@ -1943,6 +2454,7 @@
                         }
                     });
                     
+                    // 10. Учет времени (если в запросе есть временные указатели)
                     if (queryAnalysis.timeWords.length > 0) {
                         queryAnalysis.timeWords.forEach(timeWord => {
                             if (noteText.includes(timeWord)) {
@@ -1951,7 +2463,7 @@
                         });
                     }
                     
-                    if (score > 5) {
+                    if (score > 5) { // Минимальный порог для попадания в результаты
                         results.push({
                             note: note,
                             score: score
@@ -1959,20 +2471,22 @@
                     }
                 });
                 
+                // Сортировка по релевантности
                 results.sort((a, b) => b.score - a.score);
                 
+                // Возвращаем только заметки с лучшими результатами
                 return results.slice(0, 50).map(r => r.note);
             }
             
             getPatternWords(pattern) {
                 const patternMap = {
-                    'гулять с подругой': ['гулять', 'подруга', 'друг', 'встреча', 'общение', 'кафе', 'кофе', 'прогулка', 'вместе'],
-                    'пойти на работу': ['работа', 'офис', 'служба', 'начальник', 'коллеги', 'задачи', 'проект', 'встреча', 'план', 'дело'],
-                    'планы перемещения': ['идти', 'пойти', 'ходить', 'сходить', 'отправиться', 'двигаться', 'передвигаться', 'ехать', 'поехать'],
-                    'конкретное действие': ['магазин', 'кино', 'кафе', 'работа', 'встреча', 'спортзал', 'парк', 'тренировка', 'зал', 'сауна'],
-                    'социальная активность': ['друзья', 'компания', 'встреча', 'общение', 'вечеринка', 'праздник', 'событие', 'вместе'],
-                    'личные дела': ['дом', 'семья', 'отдых', 'уборка', 'готовка', 'чтение', 'хобби', 'книга'],
-                    'время действия': ['сегодня', 'завтра', 'вчера', 'утром', 'вечером', 'днем', 'сейчас', 'потом', 'после', 'позже', 'рано']
+                    'гулять с подругой': ['гулять', 'подруга', 'друг', 'встреча', 'общение', 'кафе', 'кофе', 'прогулка', 'вместе', 'подругой'],
+                    'пойти на работу': ['работа', 'офис', 'служба', 'начальник', 'коллеги', 'задачи', 'проект', 'встреча', 'план', 'дело', 'рабочий'],
+                    'планы перемещения': ['идти', 'пойти', 'ходить', 'сходить', 'отправиться', 'двигаться', 'передвигаться', 'ехать', 'поехать', 'движение'],
+                    'конкретное действие': ['магазин', 'кино', 'кафе', 'работа', 'встреча', 'спортзал', 'парк', 'тренировка', 'зал', 'сауна', 'бассейн'],
+                    'социальная активность': ['друзья', 'компания', 'встреча', 'общение', 'вечеринка', 'праздник', 'событие', 'вместе', 'коллеги', 'подруги'],
+                    'личные дела': ['дом', 'семья', 'отдых', 'уборка', 'готовка', 'чтение', 'хобби', 'книга', 'телевизор', 'интернет'],
+                    'время действия': ['сегодня', 'завтра', 'вчера', 'утром', 'вечером', 'днем', 'ночью', 'сейчас', 'потом', 'после', 'позже', 'рано']
                 };
                 
                 return patternMap[pattern] || [];
@@ -1998,12 +2512,14 @@
                                 lowerQuery.startsWith('что') || 
                                 lowerQuery.startsWith('где') ||
                                 lowerQuery.startsWith('когда') ||
-                                lowerQuery.startsWith('почему'),
+                                lowerQuery.startsWith('почему') ||
+                                lowerQuery.startsWith('зачем'),
                     isIdea: lowerQuery.includes('идея') || 
                            lowerQuery.includes('можно') || 
                            lowerQuery.includes('придумать') ||
                            lowerQuery.includes('создать') ||
-                           lowerQuery.includes('открыть'),
+                           lowerQuery.includes('открыть') ||
+                           lowerQuery.includes('разработать'),
                     hasMovement: this.hasMovementWords(lowerQuery),
                     timeWords: this.extractTimeWords(lowerQuery),
                     understoodForms: this.getUnderstoodForms(lowerQuery)
@@ -2020,36 +2536,62 @@
                     if (word.length > 2) {
                         forms.add(word);
                         
+                        // Добавляем возможные формы глаголов
                         if (word.endsWith('ть')) {
-                            forms.add(word.slice(0, -2) + 'у');
-                            forms.add(word.slice(0, -2) + 'ешь');
-                            forms.add(word.slice(0, -2) + 'ет');
-                            forms.add(word.slice(0, -2) + 'ем');
-                            forms.add(word.slice(0, -2) + 'ете');
-                            forms.add(word.slice(0, -2) + 'ут');
-                            forms.add(word.slice(0, -2) + 'л');
-                            forms.add(word.slice(0, -2) + 'ла');
-                            forms.add(word.slice(0, -2) + 'ло');
-                            forms.add(word.slice(0, -2) + 'ли');
+                            forms.add(word.slice(0, -2) + 'у');    // пойти -> пойду
+                            forms.add(word.slice(0, -2) + 'ешь');  // пойти -> пойдешь
+                            forms.add(word.slice(0, -2) + 'ет');   // пойти -> пойдет
+                            forms.add(word.slice(0, -2) + 'ем');   // пойти -> пойдем
+                            forms.add(word.slice(0, -2) + 'ете');  // пойти -> пойдете
+                            forms.add(word.slice(0, -2) + 'ут');   // пойти -> пойдут
+                            forms.add(word.slice(0, -2) + 'л');    // пойти -> пошел
+                            forms.add(word.slice(0, -2) + 'ла');   // пойти -> пошла
+                            forms.add(word.slice(0, -2) + 'ло');   // пойти -> пошло
+                            forms.add(word.slice(0, -2) + 'ли');   // пойти -> пошли
                         }
                         
                         if (word.endsWith('ать')) {
-                            forms.add(word.slice(0, -3) + 'аю');
-                            forms.add(word.slice(0, -3) + 'аешь');
-                            forms.add(word.slice(0, -3) + 'ает');
-                            forms.add(word.slice(0, -3) + 'аем');
-                            forms.add(word.slice(0, -3) + 'аете');
-                            forms.add(word.slice(0, -3) + 'ают');
+                            forms.add(word.slice(0, -3) + 'аю');   // гулять -> гуляю
+                            forms.add(word.slice(0, -3) + 'аешь'); // гулять -> гуляешь
+                            forms.add(word.slice(0, -3) + 'ает');  // гулять -> гуляет
+                            forms.add(word.slice(0, -3) + 'аем');  // гулять -> гуляем
+                            forms.add(word.slice(0, -3) + 'аете'); // гулять -> гуляете
+                            forms.add(word.slice(0, -3) + 'ают');  // гулять -> гуляют
+                            forms.add(word.slice(0, -3) + 'ал');   // гулять -> гулял
+                            forms.add(word.slice(0, -3) + 'ала');  // гулять -> гуляла
+                            forms.add(word.slice(0, -3) + 'ало');  // гулять -> гуляло
+                            forms.add(word.slice(0, -3) + 'али');  // гулять -> гуляли
                         }
                         
+                        // Добавляем формы для существительных
                         if (word === 'работа') {
-                            forms.add('работе', 'работу', 'работы', 'работой');
+                            forms.add('работе');
+                            forms.add('работу');
+                            forms.add('работы');
+                            forms.add('работой');
+                            forms.add('рабочий');
+                            forms.add('рабочая');
                         }
-                        if (word === 'подруга') {
-                            forms.add('подругой', 'подруге', 'подругу');
+                        if (word === 'подруга' || word === 'друг') {
+                            forms.add('подругой');
+                            forms.add('подруге');
+                            forms.add('подругу');
+                            forms.add('другом');
+                            forms.add('друге');
+                            forms.add('другу');
+                            forms.add('друзья');
+                            forms.add('друзей');
                         }
                         if (word === 'магазин') {
-                            forms.add('магазине', 'магазину', 'магазином');
+                            forms.add('магазине');
+                            forms.add('магазину');
+                            forms.add('магазином');
+                            forms.add('магазины');
+                        }
+                        if (word === 'кафе') {
+                            forms.add('кафешке');
+                            forms.add('кофейне');
+                            forms.add('ресторане');
                         }
                     }
                 });
@@ -2063,8 +2605,10 @@
                 
                 words.forEach(word => {
                     if (word.length > 3) {
+                        // Удаляем окончания
                         let stem = word;
                         
+                        // Удаляем глагольные окончания
                         if (stem.endsWith('ться')) stem = stem.slice(0, -4);
                         else if (stem.endsWith('тся')) stem = stem.slice(0, -3);
                         else if (stem.endsWith('ать')) stem = stem.slice(0, -3);
@@ -2074,6 +2618,7 @@
                         else if (stem.endsWith('уть')) stem = stem.slice(0, -3);
                         else if (stem.endsWith('чь')) stem = stem.slice(0, -2);
                         
+                        // Удаляем падежные окончания
                         const endings = ['ом', 'ем', 'ой', 'ей', 'ом', 'ем', 'ах', 'ях', 'ами', 'ями', 'ов', 'ев', 'ин', 'ын'];
                         endings.forEach(ending => {
                             if (stem.endsWith(ending) && stem.length > ending.length + 2) {
@@ -2094,13 +2639,13 @@
                 const patterns = [];
                 
                 const patternMatches = {
-                    'гулять с подругой': ['гулять с подругой', 'встретиться с подругой', 'погулять с другом', 'с подругой гулять'],
-                    'пойти на работу': ['пойти на работу', 'иду на работу', 'ехать на работу', 'на работу пойти', 'работать идти'],
-                    'планы перемещения': ['пойду', 'пойти', 'сходить', 'отправиться', 'ехать', 'двигаться', 'передвигаться', 'прогуляться'],
-                    'конкретное действие': ['в магазин', 'в кино', 'в кафе', 'на работу', 'на встречу', 'в спортзал', 'в парк', 'в сауну'],
-                    'социальная активность': ['с друзьями', 'в компании', 'на вечеринке', 'на празднике', 'с подругой', 'с коллегами'],
-                    'личные дела': ['дома', 'отдыхать', 'читать', 'смотреть', 'готовить', 'убирать', 'спать', 'отдых'],
-                    'время действия': ['сегодня', 'завтра', 'вчера', 'утром', 'вечером', 'днем', 'ночью', 'сейчас', 'после работы']
+                    'гулять с подругой': ['гулять с подругой', 'встретиться с подругой', 'погулять с другом', 'с подругой гулять', 'прогулка с подругой'],
+                    'пойти на работу': ['пойти на работу', 'иду на работу', 'ехать на работу', 'на работу пойти', 'работать идти', 'на работу ехать'],
+                    'планы перемещения': ['пойду', 'пойти', 'сходить', 'отправиться', 'ехать', 'двигаться', 'передвигаться', 'прогуляться', 'поехать'],
+                    'конкретное действие': ['в магазин', 'в кино', 'в кафе', 'на работу', 'на встречу', 'в спортзал', 'в парк', 'в сауну', 'в бассейн'],
+                    'социальная активность': ['с друзьями', 'в компании', 'на вечеринке', 'на празднике', 'с подругой', 'с коллегами', 'встреча с друзьями'],
+                    'личные дела': ['дома', 'отдыхать', 'читать', 'смотреть', 'готовить', 'убирать', 'спать', 'отдых', 'расслабляться'],
+                    'время действия': ['сегодня', 'завтра', 'вчера', 'утром', 'вечером', 'днем', 'ночью', 'сейчас', 'после работы', 'на выходных']
                 };
                 
                 for (const [pattern, keywords] of Object.entries(patternMatches)) {
@@ -2120,7 +2665,8 @@
                 const phrases = [
                     'гулять с подругой', 'пойти на работу', 'сходить в магазин',
                     'пойти в кино', 'встретиться с друзьями', 'поехать на природу',
-                    'пойти в спортзал', 'сходить в кафе', 'пойти в парк'
+                    'пойти в спортзал', 'сходить в кафе', 'пойти в парк',
+                    'заняться спортом', 'поработать над проектом', 'посмотреть фильм'
                 ];
                 
                 phrases.forEach(phrase => {
@@ -2134,13 +2680,15 @@
             
             getSynonyms(text) {
                 const synonymMap = {
-                    'гулять': ['прогуливаться', 'ходить', 'пройтись', 'прогуляться', 'проминаться'],
-                    'пойти': ['отправиться', 'поехать', 'двинуться', 'направиться', 'выдвинуться'],
-                    'работа': ['офис', 'служба', 'дело', 'занятие', 'профессия'],
-                    'магазин': ['супермаркет', 'лавка', 'торговый центр', 'бутик', 'маркет'],
-                    'друг': ['приятель', 'товарищ', 'знакомый', 'компаньон', 'дружок'],
-                    'подруга': ['подружка', 'приятельница', 'знакомая', 'дружище'],
-                    'кафе': ['кофейня', 'ресторан', 'бар', 'бистро', 'закусочная']
+                    'гулять': ['прогуливаться', 'ходить', 'пройтись', 'прогуляться', 'проминаться', 'прохаживаться'],
+                    'пойти': ['отправиться', 'поехать', 'двинуться', 'направиться', 'выдвинуться', 'отчалить'],
+                    'работа': ['офис', 'служба', 'дело', 'занятие', 'профессия', 'труд', 'рабочее место'],
+                    'магазин': ['супермаркет', 'лавка', 'торговый центр', 'бутик', 'маркет', 'универмаг'],
+                    'друг': ['приятель', 'товарищ', 'знакомый', 'компаньон', 'дружок', 'кореш'],
+                    'подруга': ['подружка', 'приятельница', 'знакомая', 'дружище', 'подруженька'],
+                    'кафе': ['кофейня', 'ресторан', 'бар', 'бистро', 'закусочная', 'кафетерий'],
+                    'кино': ['фильм', 'кинозал', 'кинотеатр', 'сеанс', 'премьера'],
+                    'спортзал': ['тренажерный зал', 'фитнес-клуб', 'качалка', 'спортклуб', 'тренажерка']
                 };
                 
                 const synonyms = new Set();
@@ -2158,14 +2706,16 @@
             hasMovementWords(text) {
                 const movementWords = ['пойду', 'пойти', 'ходить', 'сходить', 'отправиться', 'двигаться', 
                                       'передвигаться', 'ехать', 'поехать', 'гулять', 'прогуляться',
-                                      'идти', 'съездить', 'пройтись', 'прогуливаться', 'направиться'];
+                                      'идти', 'съездить', 'пройтись', 'прогуливаться', 'направиться',
+                                      'выйти', 'зайти', 'заехать', 'вернуться', 'отойти', 'подойти'];
                 return movementWords.some(word => text.includes(word));
             }
             
             extractTimeWords(text) {
                 const timeWords = ['сегодня', 'завтра', 'вчера', 'утром', 'вечером', 'днем', 
                                  'ночью', 'сейчас', 'потом', 'позже', 'скоро', 'недавно',
-                                 'после', 'до', 'рано', 'поздно', 'сразу', 'вскоре'];
+                                 'после', 'до', 'рано', 'поздно', 'сразу', 'вскоре', 'завтра утром',
+                                 'сегодня вечером', 'на следующей неделе', 'в этом месяце'];
                 return timeWords.filter(word => text.includes(word));
             }
             
@@ -2175,19 +2725,24 @@
                 
                 words.forEach(word => {
                     if (word.includes('пойти') || word.includes('пойду') || word.includes('пошел') || 
-                        word.includes('пойдешь') || word.includes('пойдет')) {
-                        forms.push('Пойти/Пойду/Пошел');
+                        word.includes('пойдешь') || word.includes('пойдет') || word.includes('пойдем')) {
+                        forms.push('Пойти/Пойду/Пошел/Пойдешь');
                     }
                     if (word.includes('гулять') || word.includes('гуляю') || word.includes('гулял') ||
-                        word.includes('гуляешь') || word.includes('гуляет')) {
-                        forms.push('Гулять/Гуляю/Гулял');
+                        word.includes('гуляешь') || word.includes('гуляет') || word.includes('гуляем')) {
+                        forms.push('Гулять/Гуляю/Гулял/Гуляет');
                     }
                     if (word.includes('работа') || word.includes('работе') || word.includes('работу') ||
-                        word.includes('работы') || word.includes('работой')) {
-                        forms.push('Работа/Работе/Работу');
+                        word.includes('работы') || word.includes('работой') || word.includes('работать')) {
+                        forms.push('Работа/Работе/Работу/Работать');
                     }
-                    if (word.includes('магазин') || word.includes('магазине') || word.includes('магазину')) {
+                    if (word.includes('магазин') || word.includes('магазине') || word.includes('магазину') ||
+                        word.includes('магазином')) {
                         forms.push('Магазин/Магазине/Магазину');
+                    }
+                    if (word.includes('друг') || word.includes('подруга') || word.includes('друзья') ||
+                        word.includes('друзей') || word.includes('подругой')) {
+                        forms.push('Друг/Подруга/Друзья');
                     }
                 });
                 
@@ -2214,6 +2769,7 @@
             }
             
             getLemma(word) {
+                // Особые случаи
                 const specialCases = {
                     'пойду': 'пойти',
                     'пойдешь': 'пойти',
@@ -2268,14 +2824,27 @@
                     'ехал': 'ехать',
                     'ехала': 'ехать',
                     'ехало': 'ехать',
-                    'ехали': 'ехать'
+                    'ехали': 'ехать',
+                    
+                    'схожу': 'сходить',
+                    'сходишь': 'сходить',
+                    'сходит': 'сходить',
+                    'сходим': 'сходить',
+                    'сходите': 'сходить',
+                    'сходят': 'сходить',
+                    'сходил': 'сходить',
+                    'сходила': 'сходить',
+                    'сходило': 'сходить',
+                    'сходили': 'сходить'
                 };
                 
                 if (specialCases[word]) {
                     return specialCases[word];
                 }
                 
+                // Общие правила
                 const rules = [
+                    // Глаголы
                     {pattern: /(?:ться|тся)$/, replace: 'ть'},
                     {pattern: /(?:аю|яю|ую|юю)$/, replace: 'ать'},
                     {pattern: /(?:ал|ял|ил|ел|ул|ол)$/, replace: 'ать'},
@@ -2283,22 +2852,27 @@
                     {pattern: /(?:ало|яло|ило|ело|уло|оло)$/, replace: 'ать'},
                     {pattern: /(?:али|яли|или|ели|ули|оли)$/, replace: 'ать'},
                     
+                    // Существительные
                     {pattern: /(?:ом|ем|ой|ей)$/, replace: ''},
                     {pattern: /(?:ам|ям|ом|ем|ах|ях)$/, replace: ''},
                     {pattern: /(?:ами|ями)$/, replace: ''},
                     {pattern: /(?:у|ю|е|и)$/, replace: ''},
                     {pattern: /(?:а|я|о|е|ы|и)$/, replace: ''},
                     
+                    // Прилагательные
                     {pattern: /(?:ый|ий|ой|ая|яя|ое|ее|ые|ие)$/, replace: ''},
                     
+                    // Причастия
                     {pattern: /(?:щий|щая|щее|щие)$/, replace: 'ть'},
                     {pattern: /(?:вший|вшая|вшее|вшие)$/, replace: 'ть'},
                     
+                    // Деепричастия
                     {pattern: /(?:я|в|вши|ши)$/, replace: 'ть'}
                 ];
                 
                 let lemma = word;
                 
+                // Применяем правила
                 for (const rule of rules) {
                     if (rule.pattern.test(lemma) && lemma.length > rule.replace.length + 2) {
                         lemma = lemma.replace(rule.pattern, rule.replace);
@@ -2310,21 +2884,33 @@
             }
         }
 
-        // ЗАПУСК ПРИЛОЖЕНИЯ
+        // ===== ЗАПУСК ПРИЛОЖЕНИЯ AURORA 4.0 =====
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                window.auroraHero = new AuroraHero();
+                // Запускаем приложение Aurora
                 window.auroraApp = new AuroraApp();
                 
+                // Авто-тест при загрузке (опционально)
                 setTimeout(() => {
                     if (window.location.hash === '#test') {
                         document.getElementById('search-input').value = 'пойду гулять';
                         document.getElementById('search-btn').click();
                     }
-                }, 500);
+                }, 1000);
+                
+                console.log('🎉 Aurora 4.0 полностью загружен и готов к работе!');
+                console.log('==========================================');
+                console.log('🌟 Возможности системы:');
+                console.log('• Умный поиск с пониманием форм слов');
+                console.log('• Создание и управление заметками');
+                console.log('• Локальное хранение данных');
+                console.log('• Аналитика и статистика');
+                console.log('• Профессиональный интерфейс');
+                console.log('==========================================');
                 
             } catch (error) {
-                console.error('Ошибка запуска Aurora:', error);
+                console.error('❌ Критическая ошибка запуска Aurora:', error);
+                alert('Ошибка при запуске приложения. Пожалуйста, обновите страницу или проверьте консоль для деталей.');
             }
         });
     </script>
