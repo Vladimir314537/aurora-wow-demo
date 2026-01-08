@@ -215,16 +215,39 @@
         const imagePlaceholder = document.getElementById('imagePlaceholder');
         
         // ПРОВЕРКА КАРТИНКИ
-        auroraImage.onload = function() {
-            console.log('✅ Картинка загружена!');
+       // ДИАГНОСТИКА КАРТИНКИ
+console.log('🔍 Проверка картинки...');
+console.log('Путь к картинке:', auroraImage.src);
+
+// Пробуем загрузить принудительно
+setTimeout(() => {
+    // Проверяем разные пути
+    const testPaths = [
+        'angel.png',
+        '/angel.png',
+        './angel.png',
+        window.location.origin + '/angel.png'
+    ];
+    
+    testPaths.forEach((path, index) => {
+        const testImg = new Image();
+        testImg.onload = () => {
+            console.log(`✅ Путь работает: ${path}`);
+            auroraImage.src = path;
             imagePlaceholder.style.display = 'none';
         };
-        
-        auroraImage.onerror = function() {
-            console.log('⚠️ Картинка не загружена');
-            imagePlaceholder.style.display = 'block';
+        testImg.onerror = () => {
+            console.log(`❌ Путь не работает: ${path}`);
         };
+        testImg.src = path;
         
+        if (index === testPaths.length - 1) {
+            setTimeout(() => {
+                console.log('🎯 Использую последний рабочий путь');
+            }, 1000);
+        }
+    });
+}, 1000);
         // ПРОВЕРКА АУДИО
         audio.onloadeddata = function() {
             console.log('✅ Аудио загружено!');
