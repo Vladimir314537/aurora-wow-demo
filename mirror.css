@@ -103,3 +103,329 @@ body {
 .pulse {
     animation: pulse 2s infinite;
 }
+/* Дополняем mirror.css */
+
+/* Секция ввода */
+.input-section {
+    margin-bottom: 30px;
+}
+
+.instruction {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.notes-input {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.input-group input {
+    padding: 15px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+/* Быстрые заметки */
+.quick-notes {
+    margin-bottom: 30px;
+}
+
+.quick-notes p {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.quick-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.quick-btn {
+    padding: 12px 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.quick-btn:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Кнопки */
+.next-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    font-size: 1.1em;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px auto 0;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.next-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+}
+
+/* Анализ */
+.analyzing {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.brain-icon {
+    font-size: 60px;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.analyzing p {
+    color: var(--text-secondary);
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.progress-bars {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.progress-item {
+    margin-bottom: 20px;
+}
+
+.progress-item span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.progress-bar {
+    height: 10px;
+    background: var(--bg-secondary);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 5px;
+    width: 0%;
+    transition: width 1.5s ease;
+}
+
+/* Результаты */
+.results-section {
+    animation: fadeIn 0.8s ease;
+}
+
+.pattern-card {
+    background: var(--bg-secondary);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+}
+
+.pattern-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+.pattern-badge {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 25px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.pattern-desc {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.insight-card {
+    background: var(--bg-secondary);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease;
+}
+
+.insight-card:hover {
+    transform: translateY(-5px);
+}
+
+.insight-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid;
+}
+
+.insight-header.strength {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.insight-header.improvement {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.insight-header.recommendation {
+    color: #f59e0b;
+    border-bottom-color: #f59e0b;
+}
+
+.insight-card p {
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.action-plan {
+    background: rgba(139, 92, 246, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.action-plan h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+.action-plan ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.action-plan li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.action-plan li:before {
+    content: "✓";
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 12px 25px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background: var(--bg-primary);
+    transform: translateY(-2px);
+}
+
+.action-btn.primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .mirror-container {
+        padding: 20px;
+    }
+    
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .insights-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
