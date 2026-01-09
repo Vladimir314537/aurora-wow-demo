@@ -59,18 +59,19 @@
         }
 
         .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
             max-width: 100%;
             max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
         }
 
         /* ===== ГОЛУБАЯ КНОПКА ЗВУКА ===== */
         .voice-section {
             text-align: center;
-            padding: 20px;
+            padding: 30px 20px;
             background: var(--bg-primary);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .voice-btn {
@@ -144,12 +145,12 @@
             margin-top: 15px;
             color: var(--primary);
             font-size: 0.9em;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
         }
 
         .playing-indicator.active {
             display: flex;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
         }
 
         .sound-waves {
@@ -269,6 +270,11 @@
             padding: 25px;
             border: 1px solid var(--border);
             box-shadow: 0 8px 25px var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .search-section:hover, .create-note:hover, .notes-section:hover {
+            transform: translateY(-5px);
         }
 
         /* Поиск */
@@ -425,6 +431,11 @@
             border-radius: 16px;
             padding: 25px;
             border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .analytics-card:hover, .quick-actions-card:hover {
+            transform: translateY(-5px);
         }
 
         .card-header {
@@ -589,6 +600,16 @@
                 padding: 14px 30px;
                 font-size: 1.1em;
             }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -607,16 +628,6 @@
             .analytics-card,
             .quick-actions-card {
                 padding: 20px;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .logo {
-                justify-content: center;
             }
             
             .voice-btn {
@@ -688,6 +699,9 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
+                    <div class="search-example">
+                        <small>Попробуйте: "пойду гулять" или "работа"</small>
+                    </div>
                 </section>
 
                 <section class="create-note">
@@ -696,13 +710,13 @@
                     </div>
                     <form class="note-form" id="note-form">
                         <div class="form-group">
-                            <input type="text" id="note-title" class="search-input" placeholder="Заголовок">
+                            <input type="text" id="note-title" class="search-input" placeholder="Заголовок (например: Идея для проекта)">
                         </div>
                         <div class="form-group">
                             <textarea id="note-text" class="search-input" rows="3" placeholder="Текст заметки..."></textarea>
                         </div>
                         <button type="submit" class="voice-btn" style="width: 100%; margin-top: 15px;">
-                            <i class="fas fa-save"></i> Сохранить
+                            <i class="fas fa-save"></i> Сохранить заметку
                         </button>
                     </form>
                 </section>
@@ -710,10 +724,10 @@
                 <section class="notes-section">
                     <div class="section-header">
                         <h2><i class="fas fa-sticky-note"></i> Заметки</h2>
-                        <div class="notes-count" id="notes-count">0 заметок</div>
+                        <div class="notes-count" id="notes-count">2 заметки</div>
                     </div>
                     <div class="notes-grid" id="notes-container">
-                        <!-- Заметки будут здесь -->
+                        <!-- Заметки будут загружены сюда JavaScript -->
                     </div>
                 </section>
             </main>
@@ -726,12 +740,20 @@
                     </div>
                     <div class="stats-grid">
                         <div class="stat-item">
-                            <div class="stat-value" id="total-notes">0</div>
+                            <div class="stat-value" id="total-notes">2</div>
                             <div class="stat-label">Заметок</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value" id="search-count">0</div>
                             <div class="stat-label">Поисков</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="movement-notes">1</div>
+                            <div class="stat-label">Перемещений</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="today-notes">0</div>
+                            <div class="stat-label">Сегодня</div>
                         </div>
                     </div>
                 </div>
@@ -747,7 +769,7 @@
                                 <i class="fas fa-search"></i>
                             </div>
                             <div class="action-text">
-                                <span>Тест поиска</span>
+                                <span>Тест умного поиска</span>
                                 <small>"пойду гулять"</small>
                             </div>
                         </div>
@@ -756,8 +778,26 @@
                                 <i class="fas fa-plus"></i>
                             </div>
                             <div class="action-text">
-                                <span>Добавить заметку</span>
-                                <small>Пример с перемещением</small>
+                                <span>Добавить пример</span>
+                                <small>Заметку с перемещением</small>
+                            </div>
+                        </div>
+                        <div class="action-item" id="action-clear-notes">
+                            <div class="action-icon">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                            <div class="action-text">
+                                <span>Очистить все</span>
+                                <small>Удалить все заметки</small>
+                            </div>
+                        </div>
+                        <div class="action-item" id="action-export-data">
+                            <div class="action-icon">
+                                <i class="fas fa-file-export"></i>
+                            </div>
+                            <div class="action-text">
+                                <span>Экспорт данных</span>
+                                <small>Скачать всё в JSON</small>
                             </div>
                         </div>
                     </div>
@@ -768,7 +808,7 @@
         <footer class="footer">
             <div class="footer-logo">AURORA</div>
             <p class="footer-copyright">
-                © 2024 Система мышления Aurora
+                © 2024 Система мышления Aurora 4.0 | Все данные хранятся локально в вашем браузере
             </p>
         </footer>
     </div>
@@ -776,10 +816,11 @@
     <!-- Аудио элемент -->
     <audio id="welcomeAudio" preload="auto">
         <source src="welcome.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио элемент.
     </audio>
 
     <script>
-        // Управление звуком
+        // ========== СИСТЕМА ЗВУКА ==========
         const audio = document.getElementById('welcomeAudio');
         const voiceBtn = document.getElementById('voiceBtn');
         const playingIndicator = document.getElementById('playingIndicator');
@@ -813,7 +854,7 @@
                     voiceBtn.innerHTML = '<i class="fas fa-pause"></i> Остановить';
                 }).catch(error => {
                     console.error('Ошибка воспроизведения:', error);
-                    voiceBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка';
+                    voiceBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Нажмите для разрешения';
                     setTimeout(() => {
                         voiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
                     }, 2000);
@@ -832,21 +873,23 @@
             console.log('🎵 Воспроизведение началось');
         });
 
-        // Приложение Aurora
+        // ========== СИСТЕМА ЗАМЕТОК AURORA ==========
         const demoNotes = [
             {
                 id: 1,
                 title: "Планы на понедельник",
-                text: "В понедельник пойду гулять с подругой в центре города.",
-                tags: ["гулять", "подруга", "город"],
-                date: "Сегодня"
+                text: "В понедельник пойду гулять с подругой в центре города. Надо выбрать кафе для встречи.",
+                tags: ["гулять", "подруга", "город", "встреча"],
+                date: "Сегодня, 10:30",
+                hasMovement: true
             },
             {
                 id: 2,
                 title: "Рабочие задачи",
-                text: "Завтра нужно пойти на работу раньше, подготовить отчет.",
-                tags: ["работа", "отчет"],
-                date: "Вчера"
+                text: "Завтра нужно пойти на работу раньше, чтобы подготовить отчет для начальства.",
+                tags: ["работа", "отчет", "задачи"],
+                date: "Вчера, 14:15",
+                hasMovement: true
             }
         ];
 
@@ -861,6 +904,7 @@
                 this.renderNotes();
                 this.setupEventListeners();
                 this.updateAnalytics();
+                console.log('🚀 Aurora 4.0 запущен');
             }
 
             loadNotes() {
@@ -872,25 +916,41 @@
                 localStorage.setItem('aurora-notes', JSON.stringify(this.notes));
             }
 
-            renderNotes() {
+            renderNotes(filteredNotes = null) {
                 const container = document.getElementById('notes-container');
+                const notesToRender = filteredNotes || this.notes;
+                
                 container.innerHTML = '';
 
-                this.notes.forEach(note => {
-                    const element = document.createElement('div');
-                    element.className = 'note-card';
-                    element.innerHTML = `
-                        <div class="note-title">${note.title}</div>
-                        <div class="note-text">${note.text}</div>
-                        <div class="note-tags">
-                            ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
+                if (notesToRender.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary)">
+                            <i class="fas fa-sticky-note" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <h3 style="margin-bottom: 10px;">Заметок пока нет</h3>
+                            <p>Создайте первую заметку или добавьте пример</p>
                         </div>
                     `;
-                    container.appendChild(element);
-                });
+                } else {
+                    notesToRender.forEach(note => {
+                        const element = document.createElement('div');
+                        element.className = 'note-card';
+                        element.innerHTML = `
+                            <div class="note-title">${note.title}</div>
+                            <div class="note-text">${note.text}</div>
+                            <div class="note-tags">
+                                ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
+                                ${note.hasMovement ? '<span class="note-tag" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981;">перемещение</span>' : ''}
+                            </div>
+                            <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+                                <i class="far fa-clock"></i> ${note.date}
+                            </div>
+                        `;
+                        container.appendChild(element);
+                    });
+                }
 
                 document.getElementById('notes-count').textContent = 
-                    `${this.notes.length} замет${this.getPluralForm(this.notes.length)}`;
+                    `${notesToRender.length} замет${this.getPluralForm(notesToRender.length)}`;
             }
 
             getPluralForm(number) {
@@ -902,6 +962,13 @@
             updateAnalytics() {
                 document.getElementById('total-notes').textContent = this.notes.length;
                 document.getElementById('search-count').textContent = this.searchCount;
+                
+                const movementNotes = this.notes.filter(n => n.hasMovement).length;
+                document.getElementById('movement-notes').textContent = movementNotes;
+                
+                const today = new Date().toLocaleDateString('ru-RU');
+                const todayNotes = this.notes.filter(n => n.date.includes('Сегодня')).length;
+                document.getElementById('today-notes').textContent = todayNotes;
             }
 
             setupEventListeners() {
@@ -912,14 +979,21 @@
                     const title = document.getElementById('note-title').value.trim();
                     const text = document.getElementById('note-text').value.trim();
                     
-                    if (!title || !text) return;
+                    if (!title || !text) {
+                        alert('Пожалуйста, заполните заголовок и текст заметки');
+                        return;
+                    }
                     
                     const newNote = {
                         id: Date.now(),
                         title,
                         text,
                         tags: [],
-                        date: 'Только что'
+                        date: 'Только что',
+                        hasMovement: text.toLowerCase().includes('пойду') || 
+                                   text.toLowerCase().includes('пойти') || 
+                                   text.toLowerCase().includes('гулять') ||
+                                   text.toLowerCase().includes('сходить')
                     };
                     
                     this.notes.unshift(newNote);
@@ -928,11 +1002,17 @@
                     this.updateAnalytics();
                     
                     document.getElementById('note-form').reset();
+                    
+                    // Плавная прокрутка к новой заметке
+                    document.querySelector('.notes-section').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
                 });
 
                 // Поиск
                 document.getElementById('search-btn').addEventListener('click', () => {
-                    const query = document.getElementById('search-input').value.toLowerCase();
+                    const query = document.getElementById('search-input').value.toLowerCase().trim();
                     if (!query) {
                         this.renderNotes();
                         return;
@@ -943,7 +1023,8 @@
                     
                     const results = this.notes.filter(note => 
                         note.title.toLowerCase().includes(query) || 
-                        note.text.toLowerCase().includes(query)
+                        note.text.toLowerCase().includes(query) ||
+                        note.tags.some(tag => tag.toLowerCase().includes(query))
                     );
                     
                     this.renderSearchResults(results, query);
@@ -962,36 +1043,59 @@
                 });
 
                 document.getElementById('action-add-sample').addEventListener('click', () => {
-                    const sampleText = [
-                        "Завтра пойду на работу к 9 утра",
-                        "Вечером схожу в магазин",
-                        "В субботу пойду в кино"
-                    ][Math.floor(Math.random() * 3)];
+                    const samples = [
+                        {
+                            title: "Вечерняя прогулка",
+                            text: "Вечером пойду гулять в парк, нужно подышать свежим воздухом.",
+                            tags: ["прогулка", "парк", "вечер"]
+                        },
+                        {
+                            title: "Поход в магазин",
+                            text: "После работы нужно сходить в магазин за продуктами.",
+                            tags: ["магазин", "продукты", "покупки"]
+                        },
+                        {
+                            title: "Идея для проекта",
+                            text: "Нужно создать систему для отслеживания личных целей.",
+                            tags: ["идея", "проект", "цели"]
+                        }
+                    ];
+                    
+                    const sample = samples[Math.floor(Math.random() * samples.length)];
                     
                     const newNote = {
                         id: Date.now(),
-                        title: 'Новая заметка',
-                        text: sampleText,
-                        tags: ['пример'],
-                        date: 'Только что'
+                        ...sample,
+                        date: 'Только что',
+                        hasMovement: sample.text.toLowerCase().includes('пойду') || 
+                                   sample.text.toLowerCase().includes('сходить')
                     };
                     
                     this.notes.unshift(newNote);
                     this.saveNotes();
                     this.renderNotes();
                     this.updateAnalytics();
+                    
+                    alert(`Добавлена заметка: "${sample.title}"`);
+                });
+
+                document.getElementById('action-clear-notes').addEventListener('click', () => {
+                    if (confirm('Удалить все заметки? Это действие нельзя отменить.')) {
+                        this.notes = [];
+                        this.saveNotes();
+                        this.renderNotes();
+                        this.updateAnalytics();
+                        alert('Все заметки удалены');
+                    }
+                });
+
+                document.getElementById('action-export-data').addEventListener('click', () => {
+                    this.exportData();
                 });
 
                 // Экспорт
                 document.getElementById('export-btn').addEventListener('click', () => {
-                    const data = JSON.stringify(this.notes, null, 2);
-                    const blob = new Blob([data], { type: 'application/json' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `aurora-notes-${new Date().toISOString().split('T')[0]}.json`;
-                    a.click();
-                    URL.revokeObjectURL(url);
+                    this.exportData();
                 });
             }
 
@@ -1001,9 +1105,13 @@
 
                 if (results.length === 0) {
                     container.innerHTML = `
-                        <div style="grid-column: 1/-1; text-align: center; padding: 30px; color: var(--text-secondary)">
-                            <i class="fas fa-search" style="font-size: 40px; margin-bottom: 15px;"></i>
-                            <p>По запросу "${query}" ничего не найдено</p>
+                        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary)">
+                            <i class="fas fa-search" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <h3 style="margin-bottom: 10px;">Ничего не найдено</h3>
+                            <p>По запросу "<strong>${query}</strong>" заметок не найдено</p>
+                            <button class="voice-btn" style="margin-top: 15px; padding: 10px 20px;" onclick="document.getElementById('search-input').value = ''; auroraApp.renderNotes();">
+                                Показать все заметки
+                            </button>
                         </div>
                     `;
                 } else {
@@ -1016,7 +1124,7 @@
                         
                         // Подсветка найденного
                         if (query) {
-                            const regex = new RegExp(`(${query})`, 'gi');
+                            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
                             displayText = displayText.replace(regex, '<mark>$1</mark>');
                             displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
                         }
@@ -1026,6 +1134,10 @@
                             <div class="note-text">${displayText}</div>
                             <div class="note-tags">
                                 ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
+                                ${note.hasMovement ? '<span class="note-tag" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981;">перемещение</span>' : ''}
+                            </div>
+                            <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+                                <i class="far fa-clock"></i> ${note.date}
                             </div>
                         `;
                         container.appendChild(element);
@@ -1033,11 +1145,26 @@
                 }
 
                 document.getElementById('notes-count').textContent = 
-                    `${results.length} замет${this.getPluralForm(results.length)}`;
+                    `${results.length} замет${this.getPluralForm(results.length)} (поиск)`;
+            }
+
+            exportData() {
+                const data = JSON.stringify(this.notes, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `aurora-notes-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert(`Экспортировано ${this.notes.length} заметок`);
             }
         }
 
-        // Стиль для подсветки
+        // Стиль для подсветки найденного текста
         const highlightStyle = document.createElement('style');
         highlightStyle.textContent = `
             mark {
@@ -1056,6 +1183,8 @@
                 border-radius: 10px;
                 cursor: pointer;
                 transition: all 0.3s ease;
+                font-size: 14px;
+                font-weight: 600;
             }
             
             .btn:hover {
@@ -1066,14 +1195,32 @@
             .form-group {
                 margin-bottom: 15px;
             }
+            
+            .search-example {
+                text-align: center;
+                color: var(--text-secondary);
+                font-size: 0.9em;
+                margin-top: 10px;
+                opacity: 0.8;
+            }
         `;
         document.head.appendChild(highlightStyle);
 
         // Запуск приложения
+        let auroraApp;
         document.addEventListener('DOMContentLoaded', () => {
-            new AuroraApp();
-            console.log('🚀 Aurora 4.0 запущен');
+            auroraApp = new AuroraApp();
+            window.auroraApp = auroraApp; // Делаем доступным глобально
         });
+
+        // Проверка картинки
+        document.getElementById('heroImage').onload = function() {
+            console.log('✅ Картинка Aurora загружена');
+        };
+        
+        document.getElementById('heroImage').onerror = function() {
+            console.warn('⚠️ Картинка не загружена, проверьте файл angel.png');
+        };
     </script>
 </body>
 </html>
