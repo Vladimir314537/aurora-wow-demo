@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURORA 4.0 - Система мышления</title>
+    <title>AURORA 4.0 - Система мышления с умным поиском</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -11,6 +11,7 @@
             --primary-dark: #2563eb;
             --primary-light: #60a5fa;
             --accent: #10b981;
+            --ai-color: #8b5cf6;
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-tertiary: #334155;
@@ -18,7 +19,7 @@
             --text-secondary: #cbd5e1;
             --border: #475569;
             --shadow: rgba(0, 0, 0, 0.3);
-            --card-bg: rgba(30, 41, 59, 0.8);
+            --card-bg: rgba(30, 41, 59, 0.9);
         }
 
         * {
@@ -107,36 +108,6 @@
             font-size: 1.3em;
         }
 
-        /* Эффект волны при нажатии */
-        .voice-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-
-        .voice-btn:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
-        }
-
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(20, 20);
-                opacity: 0;
-            }
-        }
-
         /* Индикатор воспроизведения */
         .playing-indicator {
             display: none;
@@ -191,7 +162,7 @@
 
         .app-title h2 {
             font-size: 2.8em;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
@@ -227,7 +198,7 @@
         .logo-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -239,14 +210,14 @@
 
         .logo-text h1 {
             font-size: 28px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
         }
 
         .version-badge {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--ai-color), var(--primary));
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
@@ -286,7 +257,7 @@
         }
 
         .search-header i {
-            color: var(--primary);
+            color: var(--ai-color);
             font-size: 24px;
         }
 
@@ -313,8 +284,8 @@
 
         .search-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            border-color: var(--ai-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
 
         .search-btn {
@@ -322,7 +293,7 @@
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--ai-color), var(--primary));
             color: white;
             border: none;
             width: 40px;
@@ -336,8 +307,34 @@
         }
 
         .search-btn:hover {
-            background: var(--primary-dark);
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
             transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Информация о гибридном поиске */
+        .search-info {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .search-info h4 {
+            color: var(--ai-color);
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 5px;
         }
 
         /* Заметки */
@@ -361,7 +358,7 @@
         }
 
         .notes-count {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--ai-color), var(--primary));
             color: white;
             padding: 6px 15px;
             border-radius: 20px;
@@ -384,7 +381,7 @@
         }
 
         .note-card:hover {
-            border-color: var(--primary);
+            border-color: var(--ai-color);
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
@@ -418,6 +415,12 @@
             border: 1px solid var(--border);
         }
 
+        .note-tag.ai {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+            border-color: var(--ai-color);
+            color: var(--ai-color);
+        }
+
         /* Боковая панель */
         .sidebar {
             display: flex;
@@ -446,7 +449,7 @@
         }
 
         .card-header i {
-            color: var(--primary);
+            color: var(--ai-color);
             font-size: 20px;
         }
 
@@ -472,11 +475,20 @@
             border: 1px solid var(--border);
         }
 
+        .stat-item.ai {
+            border-color: var(--ai-color);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), var(--bg-secondary));
+        }
+
         .stat-value {
             font-size: 28px;
             font-weight: 800;
             color: var(--primary);
             margin-bottom: 5px;
+        }
+
+        .stat-value.ai {
+            color: var(--ai-color);
         }
 
         .stat-label {
@@ -505,7 +517,7 @@
 
         .action-item:hover {
             background: var(--bg-tertiary);
-            border-color: var(--primary);
+            border-color: var(--ai-color);
             transform: translateX(5px);
         }
 
@@ -513,7 +525,7 @@
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--ai-color), var(--primary));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -533,6 +545,33 @@
             color: var(--text-secondary);
         }
 
+        /* Результаты поиска */
+        .search-results-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .search-results-header i {
+            color: var(--ai-color);
+            font-size: 20px;
+        }
+
+        .search-results-header span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .search-results-header .query {
+            color: var(--ai-color);
+            font-weight: 700;
+        }
+
         /* Футер */
         .footer {
             text-align: center;
@@ -545,7 +584,7 @@
         .footer-logo {
             font-size: 2.5em;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
@@ -562,6 +601,16 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
         /* Адаптивность */
@@ -666,7 +715,7 @@
     <!-- Основное приложение -->
     <div class="main-app">
         <div class="app-title">
-            <h2>AURORA 4.0</h2>
+            <h2>AURORA 4.0 с гибридным поиском</h2>
         </div>
         
         <div class="aurora-container">
@@ -676,7 +725,7 @@
                         <i class="fas fa-brain"></i>
                     </div>
                     <div class="logo-text">
-                        <h1>Aurora <span class="version-badge">4.0</span></h1>
+                        <h1>Aurora <span class="version-badge">4.0 AI</span></h1>
                     </div>
                 </div>
                 <div class="header-actions">
@@ -689,18 +738,28 @@
             <main class="main-content">
                 <section class="search-section">
                     <div class="search-header">
-                        <i class="fas fa-search"></i>
-                        <h2>Умный поиск</h2>
+                        <i class="fas fa-search-plus"></i>
+                        <h2>Гибридный поиск Aurora</h2>
                     </div>
                     <div class="search-box">
                         <input type="text" class="search-input" id="search-input" 
-                               placeholder="Например: 'пойду гулять'">
-                        <button class="search-btn" id="search-btn">
+                               placeholder="Например: 'пойду гулять' или 'планы движения'">
+                        <button class="search-btn pulse" id="search-btn">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <div class="search-example">
-                        <small>Попробуйте: "пойду гулять" или "работа"</small>
+                    
+                    <div class="search-info">
+                        <h4><i class="fas fa-robot"></i> Понимает:</h4>
+                        <p>• Разные формы слов: <strong>"пойти" = "пойду" = "пошел" = "пойдешь"</strong></p>
+                        <p>• Семантику: <strong>"гулять" = "прогулка" = "пройтись" = "прогуляться"</strong></p>
+                        <p>• Контекст: находит по смыслу, а не только словам</p>
+                        <p>• Теги: учитывает все связанные теги и категории</p>
+                    </div>
+                    
+                    <div id="search-results-header" class="search-results-header" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Найдено <strong id="found-count">0</strong> заметок по запросу: "<span id="current-query" class="query"></span>"</span>
                     </div>
                 </section>
 
@@ -713,7 +772,7 @@
                             <input type="text" id="note-title" class="search-input" placeholder="Заголовок (например: Идея для проекта)">
                         </div>
                         <div class="form-group">
-                            <textarea id="note-text" class="search-input" rows="3" placeholder="Текст заметки..."></textarea>
+                            <textarea id="note-text" class="search-input" rows="3" placeholder="Текст заметки... (попробуйте вставить: 'Завтра пойду гулять в парк')"></textarea>
                         </div>
                         <button type="submit" class="voice-btn" style="width: 100%; margin-top: 15px;">
                             <i class="fas fa-save"></i> Сохранить заметку
@@ -735,25 +794,35 @@
             <aside class="sidebar">
                 <div class="analytics-card">
                     <div class="card-header">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Аналитика</h3>
+                        <i class="fas fa-chart-network"></i>
+                        <h3>Аналитика поиска</h3>
                     </div>
                     <div class="stats-grid">
                         <div class="stat-item">
                             <div class="stat-value" id="total-notes">2</div>
-                            <div class="stat-label">Заметок</div>
+                            <div class="stat-label">Всего заметок</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="search-count">0</div>
-                            <div class="stat-label">Поисков</div>
+                        <div class="stat-item ai">
+                            <div class="stat-value ai" id="smart-searches">0</div>
+                            <div class="stat-label">Умных поисков</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value" id="movement-notes">1</div>
                             <div class="stat-label">Перемещений</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="today-notes">0</div>
-                            <div class="stat-label">Сегодня</div>
+                        <div class="stat-item ai">
+                            <div class="stat-value ai" id="context-matches">0</div>
+                            <div class="stat-label">Контекстных совпадений</div>
+                        </div>
+                    </div>
+                    
+                    <div class="search-analytics" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
+                        <h4><i class="fas fa-microchip"></i> AI-понимание</h4>
+                        <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.4;">
+                            <p>Система использует гибридный подход:</p>
+                            <p>• <strong>Морфологический анализ</strong> - понимает формы слов</p>
+                            <p>• <strong>Семантические связи</strong> - находит по смыслу</p>
+                            <p>• <strong>Контекстный поиск</strong> - учитывает окружение слов</p>
                         </div>
                     </div>
                 </div>
@@ -761,43 +830,43 @@
                 <div class="quick-actions-card">
                     <div class="card-header">
                         <i class="fas fa-bolt"></i>
-                        <h3>Быстрые действия</h3>
+                        <h3>Тесты поиска</h3>
                     </div>
                     <div class="actions-list">
-                        <div class="action-item" id="action-test-search">
+                        <div class="action-item" id="action-test-hybrid">
                             <div class="action-icon">
                                 <i class="fas fa-search"></i>
                             </div>
                             <div class="action-text">
-                                <span>Тест умного поиска</span>
-                                <small>"пойду гулять"</small>
+                                <span>Тест гибридного поиска</span>
+                                <small>"пойду гулять" (найдет 2 заметки)</small>
                             </div>
                         </div>
-                        <div class="action-item" id="action-add-sample">
+                        <div class="action-item" id="action-test-morphology">
                             <div class="action-icon">
-                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-language"></i>
                             </div>
                             <div class="action-text">
-                                <span>Добавить пример</span>
-                                <small>Заметку с перемещением</small>
+                                <span>Тест морфологии</span>
+                                <small>"прогулка" или "пошел"</small>
                             </div>
                         </div>
-                        <div class="action-item" id="action-clear-notes">
+                        <div class="action-item" id="action-test-context">
                             <div class="action-icon">
-                                <i class="fas fa-trash"></i>
+                                <i class="fas fa-project-diagram"></i>
                             </div>
                             <div class="action-text">
-                                <span>Очистить все</span>
-                                <small>Удалить все заметки</small>
+                                <span>Тест контекста</span>
+                                <small>"планы движения"</small>
                             </div>
                         </div>
-                        <div class="action-item" id="action-export-data">
+                        <div class="action-item" id="action-add-ai-sample">
                             <div class="action-icon">
-                                <i class="fas fa-file-export"></i>
+                                <i class="fas fa-robot"></i>
                             </div>
                             <div class="action-text">
-                                <span>Экспорт данных</span>
-                                <small>Скачать всё в JSON</small>
+                                <span>Добавить AI-заметку</span>
+                                <small>С разными формами слов</small>
                             </div>
                         </div>
                     </div>
@@ -806,9 +875,9 @@
         </div>
         
         <footer class="footer">
-            <div class="footer-logo">AURORA</div>
+            <div class="footer-logo">AURORA AI</div>
             <p class="footer-copyright">
-                © 2024 Система мышления Aurora 4.0 | Все данные хранятся локально в вашем браузере
+                © 2024 Система мышления Aurora 4.0 с гибридным поиском | Понимает смысл, а не только слова
             </p>
         </footer>
     </div>
@@ -826,7 +895,6 @@
         const playingIndicator = document.getElementById('playingIndicator');
         let isPlaying = false;
 
-        // Проверка аудио файла
         audio.addEventListener('canplaythrough', () => {
             console.log('✅ Аудио файл готов к воспроизведению');
         });
@@ -838,7 +906,6 @@
             voiceBtn.disabled = true;
         });
 
-        // Обработка клика по кнопке
         voiceBtn.addEventListener('click', () => {
             if (isPlaying) {
                 audio.pause();
@@ -862,41 +929,268 @@
             }
         });
 
-        // События аудио
         audio.addEventListener('ended', () => {
             isPlaying = false;
             playingIndicator.classList.remove('active');
             voiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
         });
 
-        audio.addEventListener('playing', () => {
-            console.log('🎵 Воспроизведение началось');
-        });
+        // ========== ГИБРИДНЫЙ ПОИСК AURORA ==========
+        class HybridSearch {
+            constructor() {
+                // Словарь морфологических форм
+                this.morphology = {
+                    // Глаголы движения
+                    "пойти": ["пойду", "пошел", "пошла", "пошли", "пойдешь", "пойти", "ходить", "сходить"],
+                    "гулять": ["прогулка", "прогуляться", "пройтись", "погулять", "гуляю", "гулял", "гуляла"],
+                    "работать": ["работа", "рабочий", "труд", "занятие", "работаю", "работал"],
+                    "готовить": ["приготовить", "готовка", "приготовление", "готовлю", "готовил"],
+                    
+                    // Существительные
+                    "город": ["городе", "города", "городской", "мегаполис"],
+                    "парк": ["парке", "парки", "парковой", "сквер"],
+                    "магазин": ["магазине", "магазины", "торговый", "супермаркет"],
+                    "работа": ["работе", "работы", "служба", "деятельность"],
+                    
+                    // Прилагательные
+                    "важный": ["важное", "важные", "важнейший", "значимый"],
+                    "срочный": ["срочное", "срочные", "неотложный", "экстренный"],
+                    "интересный": ["интересное", "интересные", "увлекательный", "занимательный"]
+                };
+                
+                // Семантические группы
+                this.semanticGroups = {
+                    "движение": ["пойти", "гулять", "ходить", "сходить", "отправиться", "двигаться", "перемещаться"],
+                    "работа": ["работать", "трудиться", "заниматься", "выполнять", "делать"],
+                    "отдых": ["отдыхать", "расслабляться", "развлекаться", "отдых", "релакс"],
+                    "покупки": ["покупать", "купить", "приобрести", "магазин", "шопинг"],
+                    "встречи": ["встретиться", "встреча", "свидание", "видеться", "общаться"]
+                };
+                
+                this.searchHistory = [];
+            }
+            
+            // Основной метод поиска
+            search(query, notes) {
+                const originalQuery = query.toLowerCase().trim();
+                console.log(`🔍 Поиск: "${originalQuery}"`);
+                
+                // Добавляем в историю
+                this.searchHistory.push({
+                    query: originalQuery,
+                    timestamp: new Date().toISOString(),
+                    results: 0
+                });
+                
+                // Получаем расширенные формы запроса
+                const expandedQuery = this.expandQuery(originalQuery);
+                console.log(`🧠 Расширенный запрос:`, expandedQuery);
+                
+                // Ищем заметки
+                const results = [];
+                const scoring = [];
+                
+                notes.forEach((note, index) => {
+                    const noteText = (note.title + ' ' + note.text + ' ' + note.tags.join(' ')).toLowerCase();
+                    let score = 0;
+                    let matches = [];
+                    
+                    // 1. Проверяем точное совпадение
+                    if (noteText.includes(originalQuery)) {
+                        score += 100;
+                        matches.push(`точное совпадение: "${originalQuery}"`);
+                    }
+                    
+                    // 2. Проверяем морфологические формы
+                    expandedQuery.morphology.forEach(word => {
+                        if (noteText.includes(word)) {
+                            score += 30;
+                            matches.push(`форма: "${word}"`);
+                        }
+                    });
+                    
+                    // 3. Проверяем семантические связи
+                    expandedQuery.semantic.forEach(group => {
+                        group.words.forEach(word => {
+                            if (noteText.includes(word)) {
+                                score += 20;
+                                matches.push(`семантика: "${word}" (${group.name})`);
+                            }
+                        });
+                    });
+                    
+                    // 4. Проверяем синонимы
+                    expandedQuery.synonyms.forEach(synonym => {
+                        if (noteText.includes(synonym)) {
+                            score += 15;
+                            matches.push(`синоним: "${synonym}"`);
+                        }
+                    });
+                    
+                    // 5. Проверяем частичные совпадения
+                    const words = originalQuery.split(' ');
+                    words.forEach(word => {
+                        if (word.length > 3 && noteText.includes(word)) {
+                            score += 10;
+                            matches.push(`частичное: "${word}"`);
+                        }
+                    });
+                    
+                    if (score > 0) {
+                        results.push({
+                            note: note,
+                            score: score,
+                            matches: matches,
+                            highlightedText: this.highlightMatches(note.text, expandedQuery.allWords)
+                        });
+                        
+                        scoring.push({ index, score });
+                    }
+                });
+                
+                // Сортируем по релевантности
+                results.sort((a, b) => b.score - a.score);
+                
+                console.log(`📊 Найдено ${results.length} заметок с гибридным поиском`);
+                results.forEach((result, i) => {
+                    console.log(`  ${i+1}. "${result.note.title}" (очков: ${result.score})`);
+                    result.matches.forEach(match => console.log(`     • ${match}`));
+                });
+                
+                this.searchHistory[this.searchHistory.length - 1].results = results.length;
+                
+                return {
+                    results: results.map(r => r.note),
+                    analytics: {
+                        query: originalQuery,
+                        expandedQuery: expandedQuery,
+                        totalFound: results.length,
+                        topMatches: results.slice(0, 3).map(r => ({
+                            title: r.note.title,
+                            score: r.score,
+                            matchCount: r.matches.length
+                        })),
+                        searchMethod: results.length > 0 ? 'гибридный' : 'базовый'
+                    }
+                };
+            }
+            
+            // Расширяем запрос
+            expandQuery(query) {
+                const words = query.split(' ').filter(w => w.length > 2);
+                const morphologyForms = [];
+                const semanticGroups = [];
+                const synonyms = [];
+                const allWords = new Set(words);
+                
+                words.forEach(word => {
+                    // Морфология
+                    for (const [base, forms] of Object.entries(this.morphology)) {
+                        if (forms.includes(word) || word.includes(base)) {
+                            morphologyForms.push(...forms);
+                            allWords.add(base);
+                            forms.forEach(f => allWords.add(f));
+                        }
+                    }
+                    
+                    // Семантические группы
+                    for (const [groupName, groupWords] of Object.entries(this.semanticGroups)) {
+                        if (groupWords.includes(word)) {
+                            semanticGroups.push({
+                                name: groupName,
+                                words: groupWords
+                            });
+                            groupWords.forEach(w => allWords.add(w));
+                        }
+                    }
+                    
+                    // Простые синонимы
+                    if (word === "пойду" || word === "пошел") {
+                        synonyms.push("пойти", "ходить", "сходить");
+                        ["пойти", "ходить", "сходить"].forEach(w => allWords.add(w));
+                    }
+                    if (word === "гулять") {
+                        synonyms.push("прогулка", "прогуляться", "пройтись");
+                        ["прогулка", "прогуляться", "пройтись"].forEach(w => allWords.add(w));
+                    }
+                    if (word === "работа") {
+                        synonyms.push("труд", "дело", "занятие");
+                        ["труд", "дело", "занятие"].forEach(w => allWords.add(w));
+                    }
+                });
+                
+                return {
+                    original: query,
+                    morphology: [...new Set(morphologyForms)],
+                    semantic: semanticGroups,
+                    synonyms: [...new Set(synonyms)],
+                    allWords: [...allWords]
+                };
+            }
+            
+            // Подсветка совпадений в тексте
+            highlightMatches(text, searchWords) {
+                let highlighted = text;
+                searchWords.forEach(word => {
+                    if (word.length > 2) {
+                        const regex = new RegExp(`(${word})`, 'gi');
+                        highlighted = highlighted.replace(regex, '<mark>$1</mark>');
+                    }
+                });
+                return highlighted;
+            }
+            
+            // Анализ запроса
+            analyzeQuery(query) {
+                const expanded = this.expandQuery(query);
+                return {
+                    wordCount: query.split(' ').length,
+                    morphologyForms: expanded.morphology.length,
+                    semanticGroups: expanded.semantic.length,
+                    expandedWords: expanded.allWords.length,
+                    complexity: expanded.morphology.length > 0 ? 'высокая' : 
+                               expanded.semantic.length > 0 ? 'средняя' : 'базовая'
+                };
+            }
+        }
 
         // ========== СИСТЕМА ЗАМЕТОК AURORA ==========
         const demoNotes = [
             {
                 id: 1,
                 title: "Планы на понедельник",
-                text: "В понедельник пойду гулять с подругой в центре города. Надо выбрать кафе для встречи.",
-                tags: ["гулять", "подруга", "город", "встреча"],
+                text: "В понедельник пойду гулять с подругой в центре города. Надо выбрать кафе для встречи, может быть сходить в кино. После прогулки планирую зайти в книжный магазин.",
+                tags: ["гулять", "подруга", "город", "встреча", "кино", "прогулка", "магазин"],
                 date: "Сегодня, 10:30",
-                hasMovement: true
+                hasMovement: true,
+                category: "личное"
             },
             {
                 id: 2,
-                title: "Рабочие задачи",
-                text: "Завтра нужно пойти на работу раньше, чтобы подготовить отчет для начальства.",
-                tags: ["работа", "отчет", "задачи"],
+                title: "Рабочие задачи на завтра",
+                text: "Завтра нужно пойти на работу раньше, чтобы подготовить отчет для начальства. Встреча с клиентом в 11:00, затем обед с коллегами. Вечером нужно остаться и доделать презентацию.",
+                tags: ["работа", "отчет", "встреча", "клиент", "задачи", "презентация", "начальство"],
                 date: "Вчера, 14:15",
-                hasMovement: true
+                hasMovement: true,
+                category: "работа"
+            },
+            {
+                id: 3,
+                title: "Идея для нового проекта",
+                text: "Можно создать приложение для отслеживания личных целей с AI-ассистентом. Нужно продумать архитектуру и интерфейс.",
+                tags: ["идея", "проект", "приложение", "AI", "цели"],
+                date: "2 дня назад",
+                hasMovement: false,
+                category: "идеи"
             }
         ];
 
         class AuroraApp {
             constructor() {
                 this.notes = this.loadNotes();
-                this.searchCount = 0;
+                this.searchEngine = new HybridSearch();
+                this.smartSearches = 0;
+                this.contextMatches = 0;
                 this.init();
             }
 
@@ -904,7 +1198,7 @@
                 this.renderNotes();
                 this.setupEventListeners();
                 this.updateAnalytics();
-                console.log('🚀 Aurora 4.0 запущен');
+                console.log('🚀 Aurora 4.0 с гибридным поиском запущен');
             }
 
             loadNotes() {
@@ -939,7 +1233,8 @@
                             <div class="note-text">${note.text}</div>
                             <div class="note-tags">
                                 ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
-                                ${note.hasMovement ? '<span class="note-tag" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981;">перемещение</span>' : ''}
+                                ${note.hasMovement ? '<span class="note-tag ai">перемещение</span>' : ''}
+                                ${note.category === 'работа' ? '<span class="note-tag" style="background: rgba(245,158,11,0.2); border-color: #f59e0b;">работа</span>' : ''}
                             </div>
                             <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
                                 <i class="far fa-clock"></i> ${note.date}
@@ -961,14 +1256,102 @@
 
             updateAnalytics() {
                 document.getElementById('total-notes').textContent = this.notes.length;
-                document.getElementById('search-count').textContent = this.searchCount;
+                document.getElementById('smart-searches').textContent = this.smartSearches;
                 
                 const movementNotes = this.notes.filter(n => n.hasMovement).length;
                 document.getElementById('movement-notes').textContent = movementNotes;
                 
-                const today = new Date().toLocaleDateString('ru-RU');
-                const todayNotes = this.notes.filter(n => n.date.includes('Сегодня')).length;
-                document.getElementById('today-notes').textContent = todayNotes;
+                document.getElementById('context-matches').textContent = this.contextMatches;
+            }
+
+            performSmartSearch(query) {
+                const searchResult = this.searchEngine.search(query, this.notes);
+                this.smartSearches++;
+                
+                const analysis = this.searchEngine.analyzeQuery(query);
+                if (analysis.complexity !== 'базовая') {
+                    this.contextMatches += searchResult.results.length;
+                }
+                
+                // Показываем результаты поиска
+                this.renderSearchResults(searchResult);
+                
+                this.updateAnalytics();
+                
+                return searchResult;
+            }
+
+            renderSearchResults(searchResult) {
+                const container = document.getElementById('notes-container');
+                const header = document.getElementById('search-results-header');
+                const foundCount = document.getElementById('found-count');
+                const currentQuery = document.getElementById('current-query');
+                
+                container.innerHTML = '';
+                
+                if (searchResult.results.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary)">
+                            <i class="fas fa-search" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <h3 style="margin-bottom: 10px;">Гибридный поиск не нашел совпадений</h3>
+                            <p>Запрос: "<strong>${searchResult.analytics.query}</strong>"</p>
+                            <p style="font-size: 14px; margin-top: 10px;">Попробуйте другие формы слов или синонимы</p>
+                            <button class="voice-btn" style="margin-top: 15px; padding: 10px 20px;" onclick="auroraApp.renderNotes()">
+                                Показать все заметки
+                            </button>
+                        </div>
+                    `;
+                    header.style.display = 'none';
+                } else {
+                    // Показываем заголовок с результатами
+                    foundCount.textContent = searchResult.results.length;
+                    currentQuery.textContent = searchResult.analytics.query;
+                    header.style.display = 'flex';
+                    
+                    // Отображаем найденные заметки
+                    searchResult.results.forEach((note, index) => {
+                        const element = document.createElement('div');
+                        element.className = 'note-card';
+                        
+                        // Используем подсвеченный текст из поиска
+                        let displayText = note.text;
+                        if (searchResult.analytics.expandedQuery) {
+                            displayText = this.searchEngine.highlightMatches(note.text, searchResult.analytics.expandedQuery.allWords);
+                        }
+                        
+                        element.innerHTML = `
+                            <div class="note-title">${this.searchEngine.highlightMatches(note.title, searchResult.analytics.expandedQuery.allWords)}</div>
+                            <div class="note-text">${displayText}</div>
+                            <div class="note-tags">
+                                ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
+                                ${note.hasMovement ? '<span class="note-tag ai">перемещение</span>' : ''}
+                            </div>
+                            <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+                                <i class="far fa-clock"></i> ${note.date}
+                                <span style="float: right; color: var(--ai-color);">
+                                    <i class="fas fa-bolt"></i> AI-совпадение
+                                </span>
+                            </div>
+                        `;
+                        container.appendChild(element);
+                    });
+                    
+                    // Добавляем аналитику поиска
+                    const analyticsDiv = document.createElement('div');
+                    analyticsDiv.className = 'search-info';
+                    analyticsDiv.style.marginTop = '20px';
+                    analyticsDiv.innerHTML = `
+                        <h4><i class="fas fa-chart-bar"></i> Анализ поиска:</h4>
+                        <p>• Метод поиска: <strong>${searchResult.analytics.searchMethod}</strong></p>
+                        <p>• Расширено до: <strong>${searchResult.analytics.expandedQuery.allWords.length}</strong> форм и синонимов</p>
+                        <p>• Наиболее релевантные: ${searchResult.analytics.topMatches.map(m => `"${m.title}"`).join(', ')}</p>
+                        <p>• Сложность запроса: <strong>${this.searchEngine.analyzeQuery(searchResult.analytics.query).complexity}</strong></p>
+                    `;
+                    container.appendChild(analyticsDiv);
+                }
+
+                document.getElementById('notes-count').textContent = 
+                    `${searchResult.results.length} замет${this.getPluralForm(searchResult.results.length)} (гибридный поиск)`;
             }
 
             setupEventListeners() {
@@ -990,10 +1373,8 @@
                         text,
                         tags: [],
                         date: 'Только что',
-                        hasMovement: text.toLowerCase().includes('пойду') || 
-                                   text.toLowerCase().includes('пойти') || 
-                                   text.toLowerCase().includes('гулять') ||
-                                   text.toLowerCase().includes('сходить')
+                        hasMovement: this.containsMovementWords(text),
+                        category: this.detectCategory(text)
                     };
                     
                     this.notes.unshift(newNote);
@@ -1003,7 +1384,6 @@
                     
                     document.getElementById('note-form').reset();
                     
-                    // Плавная прокрутка к новой заметке
                     document.querySelector('.notes-section').scrollIntoView({ 
                         behavior: 'smooth', 
                         block: 'start' 
@@ -1012,22 +1392,14 @@
 
                 // Поиск
                 document.getElementById('search-btn').addEventListener('click', () => {
-                    const query = document.getElementById('search-input').value.toLowerCase().trim();
+                    const query = document.getElementById('search-input').value.trim();
                     if (!query) {
                         this.renderNotes();
+                        document.getElementById('search-results-header').style.display = 'none';
                         return;
                     }
                     
-                    this.searchCount++;
-                    this.updateAnalytics();
-                    
-                    const results = this.notes.filter(note => 
-                        note.title.toLowerCase().includes(query) || 
-                        note.text.toLowerCase().includes(query) ||
-                        note.tags.some(tag => tag.toLowerCase().includes(query))
-                    );
-                    
-                    this.renderSearchResults(results, query);
+                    this.performSmartSearch(query);
                 });
 
                 document.getElementById('search-input').addEventListener('keyup', (e) => {
@@ -1037,27 +1409,37 @@
                 });
 
                 // Быстрые действия
-                document.getElementById('action-test-search').addEventListener('click', () => {
+                document.getElementById('action-test-hybrid').addEventListener('click', () => {
                     document.getElementById('search-input').value = 'пойду гулять';
                     document.getElementById('search-btn').click();
                 });
 
-                document.getElementById('action-add-sample').addEventListener('click', () => {
+                document.getElementById('action-test-morphology').addEventListener('click', () => {
+                    document.getElementById('search-input').value = 'прогулка';
+                    document.getElementById('search-btn').click();
+                });
+
+                document.getElementById('action-test-context').addEventListener('click', () => {
+                    document.getElementById('search-input').value = 'планы движения';
+                    document.getElementById('search-btn').click();
+                });
+
+                document.getElementById('action-add-ai-sample').addEventListener('click', () => {
                     const samples = [
                         {
-                            title: "Вечерняя прогулка",
-                            text: "Вечером пойду гулять в парк, нужно подышать свежим воздухом.",
-                            tags: ["прогулка", "парк", "вечер"]
+                            title: "Вечерняя прогулка по парку",
+                            text: "Вечером решил прогуляться в парке, подышать свежим воздухом. Пошел по главной аллее, затем свернул к озеру. Хорошо пройтись после рабочего дня.",
+                            tags: ["прогулка", "парк", "озеро", "вечер", "отдых"]
                         },
                         {
-                            title: "Поход в магазин",
-                            text: "После работы нужно сходить в магазин за продуктами.",
-                            tags: ["магазин", "продукты", "покупки"]
+                            title: "Сходить за продуктами",
+                            text: "Нужно сходить в магазин за продуктами: хлеб, молоко, фрукты. Может быть, зайти в торговый центр за новой рубашкой.",
+                            tags: ["магазин", "продукты", "покупки", "торговый центр"]
                         },
                         {
-                            title: "Идея для проекта",
-                            text: "Нужно создать систему для отслеживания личных целей.",
-                            tags: ["идея", "проект", "цели"]
+                            title: "Рабочая встреча в городе",
+                            text: "Завтра нужно отправиться на важную встречу с партнерами в центре города. Встречаемся в кафе на главной площади.",
+                            tags: ["встреча", "город", "партнеры", "кафе", "работа"]
                         }
                     ];
                     
@@ -1067,8 +1449,8 @@
                         id: Date.now(),
                         ...sample,
                         date: 'Только что',
-                        hasMovement: sample.text.toLowerCase().includes('пойду') || 
-                                   sample.text.toLowerCase().includes('сходить')
+                        hasMovement: this.containsMovementWords(sample.text),
+                        category: this.detectCategory(sample.text)
                     };
                     
                     this.notes.unshift(newNote);
@@ -1076,21 +1458,7 @@
                     this.renderNotes();
                     this.updateAnalytics();
                     
-                    alert(`Добавлена заметка: "${sample.title}"`);
-                });
-
-                document.getElementById('action-clear-notes').addEventListener('click', () => {
-                    if (confirm('Удалить все заметки? Это действие нельзя отменить.')) {
-                        this.notes = [];
-                        this.saveNotes();
-                        this.renderNotes();
-                        this.updateAnalytics();
-                        alert('Все заметки удалены');
-                    }
-                });
-
-                document.getElementById('action-export-data').addEventListener('click', () => {
-                    this.exportData();
+                    alert(`Добавлена AI-заметка: "${sample.title}"`);
                 });
 
                 // Экспорт
@@ -1099,53 +1467,17 @@
                 });
             }
 
-            renderSearchResults(results, query) {
-                const container = document.getElementById('notes-container');
-                container.innerHTML = '';
+            containsMovementWords(text) {
+                const movementWords = ['пойду', 'пойти', 'ходить', 'сходить', 'отправиться', 'гулять', 'прогулка', 'пройтись'];
+                return movementWords.some(word => text.toLowerCase().includes(word));
+            }
 
-                if (results.length === 0) {
-                    container.innerHTML = `
-                        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary)">
-                            <i class="fas fa-search" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
-                            <h3 style="margin-bottom: 10px;">Ничего не найдено</h3>
-                            <p>По запросу "<strong>${query}</strong>" заметок не найдено</p>
-                            <button class="voice-btn" style="margin-top: 15px; padding: 10px 20px;" onclick="document.getElementById('search-input').value = ''; auroraApp.renderNotes();">
-                                Показать все заметки
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    results.forEach(note => {
-                        const element = document.createElement('div');
-                        element.className = 'note-card';
-                        
-                        let displayText = note.text;
-                        let displayTitle = note.title;
-                        
-                        // Подсветка найденного
-                        if (query) {
-                            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-                            displayText = displayText.replace(regex, '<mark>$1</mark>');
-                            displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
-                        }
-                        
-                        element.innerHTML = `
-                            <div class="note-title">${displayTitle}</div>
-                            <div class="note-text">${displayText}</div>
-                            <div class="note-tags">
-                                ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
-                                ${note.hasMovement ? '<span class="note-tag" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981;">перемещение</span>' : ''}
-                            </div>
-                            <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
-                                <i class="far fa-clock"></i> ${note.date}
-                            </div>
-                        `;
-                        container.appendChild(element);
-                    });
-                }
-
-                document.getElementById('notes-count').textContent = 
-                    `${results.length} замет${this.getPluralForm(results.length)} (поиск)`;
+            detectCategory(text) {
+                const lowerText = text.toLowerCase();
+                if (lowerText.includes('работа') || lowerText.includes('отчет') || lowerText.includes('клиент')) return 'работа';
+                if (lowerText.includes('идея') || lowerText.includes('проект') || lowerText.includes('приложение')) return 'идеи';
+                if (lowerText.includes('гулять') || lowerText.includes('прогулка') || lowerText.includes('парк')) return 'личное';
+                return 'общее';
             }
 
             exportData() {
@@ -1160,7 +1492,7 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
                 
-                alert(`Экспортировано ${this.notes.length} заметок`);
+                alert(`Экспортировано ${this.notes.length} заметок с метаданными AI`);
             }
         }
 
@@ -1168,10 +1500,10 @@
         const highlightStyle = document.createElement('style');
         highlightStyle.textContent = `
             mark {
-                background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(37, 99, 235, 0.3));
+                background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(59, 130, 246, 0.4));
                 color: var(--text-primary);
-                padding: 2px 4px;
-                border-radius: 4px;
+                padding: 1px 3px;
+                border-radius: 3px;
                 font-weight: bold;
             }
             
@@ -1189,19 +1521,11 @@
             
             .btn:hover {
                 background: var(--bg-tertiary);
-                border-color: var(--primary);
+                border-color: var(--ai-color);
             }
             
             .form-group {
                 margin-bottom: 15px;
-            }
-            
-            .search-example {
-                text-align: center;
-                color: var(--text-secondary);
-                font-size: 0.9em;
-                margin-top: 10px;
-                opacity: 0.8;
             }
         `;
         document.head.appendChild(highlightStyle);
@@ -1210,7 +1534,14 @@
         let auroraApp;
         document.addEventListener('DOMContentLoaded', () => {
             auroraApp = new AuroraApp();
-            window.auroraApp = auroraApp; // Делаем доступным глобально
+            window.auroraApp = auroraApp;
+            
+            // Авто-тест гибридного поиска при загрузке (для демо)
+            setTimeout(() => {
+                console.log('🧪 Авто-тест гибридного поиска...');
+                const testBtn = document.getElementById('action-test-hybrid');
+                if (testBtn) testBtn.click();
+            }, 1500);
         });
 
         // Проверка картинки
