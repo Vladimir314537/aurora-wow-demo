@@ -1549,6 +1549,14 @@
                 if (testBtn) testBtn.click();
             }, 1500);
         });
+        // ===== ОБРАБОТЧИК ДЛЯ КНОПКИ ЦИФРОВОГО ДВОЙНИКА =====
+const digitalTwinBtn = document.getElementById('digital-twin-btn');
+if (digitalTwinBtn) {
+    digitalTwinBtn.addEventListener('click', function() {
+        window.location.href = 'mirror.html';
+    });
+    console.log('✅ Кнопка "Зеркало мышления" активирована');
+}
 
         // Проверка картинки
         document.getElementById('heroImage').onload = function() {
