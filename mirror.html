@@ -1,16 +1,165 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora Digital Twin - Зеркало мышления</title>
-    <link rel="stylesheet" href="mirror.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <div class="mirror-container">
-        <!-- Здесь будет демо -->
+<!-- Вставляем в mirror.html вместо комментария -->
+<div class="mirror-container">
+    <!-- Шапка -->
+    <div class="header">
+        <h1><i class="fas fa-brain"></i> Зеркало мышления Aurora</h1>
+        <p>Анализируйте свои мыслительные паттерны и становитесь эффективнее</p>
     </div>
-    <script src="mirror.js"></script>
-</body>
-</html>
+    
+    <!-- Шаг 1: Ввод данных -->
+    <div class="step active" id="step1">
+        <div class="step-title">
+            <div class="step-number">1</div>
+            <h2>Введите ваши мысли</h2>
+        </div>
+        
+        <div class="input-section">
+            <p class="instruction">Напишите 3 ваши последние мысли или задачи:</p>
+            
+            <div class="notes-input">
+                <div class="input-group">
+                    <label>Мысль 1:</label>
+                    <input type="text" id="note1" placeholder="Например: 'Нужно закончить отчёт'">
+                </div>
+                
+                <div class="input-group">
+                    <label>Мысль 2:</label>
+                    <input type="text" id="note2" placeholder="Например: 'Идея для нового проекта'">
+                </div>
+                
+                <div class="input-group">
+                    <label>Мысль 3:</label>
+                    <input type="text" id="note3" placeholder="Например: 'Встреча с командой завтра'">
+                </div>
+            </div>
+            
+            <div class="quick-notes">
+                <p>Или выберите примеры:</p>
+                <div class="quick-buttons">
+                    <button class="quick-btn" data-note="Нужно принять решение по проекту">
+                        <i class="fas fa-check-circle"></i> Принятие решений
+                    </button>
+                    <button class="quick-btn" data-note="Планирую задачи на неделю">
+                        <i class="fas fa-calendar"></i> Планирование
+                    </button>
+                    <button class="quick-btn" data-note="Новая идея для улучшения процесса">
+                        <i class="fas fa-lightbulb"></i> Креативная идея
+                    </button>
+                </div>
+            </div>
+            
+            <button class="next-btn" id="nextStep1">
+                Далее: Анализ <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Шаг 2: Анализ (с анимацией) -->
+    <div class="step" id="step2">
+        <div class="step-title">
+            <div class="step-number">2</div>
+            <h2>Анализируем ваши паттерны</h2>
+        </div>
+        
+        <div class="analysis-section">
+            <div class="analyzing">
+                <div class="loader">
+                    <div class="brain-icon pulse">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <p>Изучаем ваши мыслительные привычки...</p>
+                </div>
+                
+                <div class="progress-bars">
+                    <div class="progress-item">
+                        <span>Анализ решений</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <span>Определение паттернов</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <span>Генерация инсайтов</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="next-btn" id="nextStep2" style="display: none;">
+                Показать результаты <i class="fas fa-chart-line"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Шаг 3: Результаты -->
+    <div class="step" id="step3">
+        <div class="step-title">
+            <div class="step-number">3</div>
+            <h2>Ваши мыслительные паттерны</h2>
+        </div>
+        
+        <div class="results-section">
+            <div class="pattern-card">
+                <h3><i class="fas fa-chart-pie"></i> Ваш профиль мышления</h3>
+                <div class="pattern-badge" id="thinkingProfile">
+                    Загрузка...
+                </div>
+                <p class="pattern-desc" id="profileDesc"></p>
+            </div>
+            
+            <div class="insights-grid">
+                <div class="insight-card" id="strengthCard">
+                    <div class="insight-header strength">
+                        <i class="fas fa-trophy"></i>
+                        <h4>Сильная сторона</h4>
+                    </div>
+                    <p id="strengthText">Анализируем...</p>
+                </div>
+                
+                <div class="insight-card" id="improvementCard">
+                    <div class="insight-header improvement">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Для развития</h4>
+                    </div>
+                    <p id="improvementText">Определяем...</p>
+                </div>
+                
+                <div class="insight-card" id="recommendationCard">
+                    <div class="insight-header recommendation">
+                        <i class="fas fa-bullseye"></i>
+                        <h4>Рекомендация</h4>
+                    </div>
+                    <p id="recommendationText">Формируем...</p>
+                </div>
+            </div>
+            
+            <div class="action-plan">
+                <h3><i class="fas fa-calendar-check"></i> План на неделю</h3>
+                <ul id="actionPlan">
+                    <li>План формируется...</li>
+                </ul>
+            </div>
+            
+            <div class="actions">
+                <button class="action-btn" id="restartBtn">
+                    <i class="fas fa-redo"></i> Начать заново
+                </button>
+                <button class="action-btn primary" id="exportBtn">
+                    <i class="fas fa-download"></i> Скачать отчет
+                </button>
+                <button class="action-btn" id="backToAurora">
+                    <i class="fas fa-arrow-left"></i> Вернуться в Aurora
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
