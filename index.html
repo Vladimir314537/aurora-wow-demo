@@ -688,11 +688,82 @@
 </head>
 <body>
     <!-- Герой-секция с картинкой -->
-    <section class="hero-section">
-        <div class="hero-image-container">
-            <img src="angel.png" alt="Aurora" class="hero-image" id="heroImage">
-        </div>
-    </section>
+   <!-- НОВАЯ ГЕРОЙ-СЕКЦИЯ С ФОНОМ -->
+<section class="hero-section" id="heroSection" style="
+    width: 100%;
+    height: 85vh;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+    background: 
+        linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)),
+        url('angel.png') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: heroFadeIn 1.2s ease-out;
+">
+    
+    <!-- Фоновое изображение как запасной вариант -->
+    <img src="angel.png" 
+         alt="Aurora" 
+         style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: -2;
+            opacity: 0;
+            pointer-events: none;
+         "
+         onload="this.style.opacity='1'"
+         id="heroImageFallback">
+    
+    <!-- Контент поверх фона -->
+    <div class="hero-content" style="
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 20px;
+        max-width: 800px;
+        animation: contentSlideUp 1s ease-out 0.3s both;
+    ">
+        <!-- Тут можно добавить текст если хочешь -->
+        <!-- <h1 style="color: white; font-size: 3em;">AURORA</h1> -->
+    </div>
+    
+    <!-- Эффект свечения по краям -->
+    <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            ellipse at center,
+            transparent 0%,
+            rgba(15, 23, 42, 0.3) 40%,
+            rgba(15, 23, 42, 0.7) 70%,
+            rgba(15, 23, 42, 0.9) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+    "></div>
+    
+    <!-- Анимированные частицы (опционально) -->
+    <div class="particles" style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+    "></div>
+</section>
 
        <!-- Голубая кнопка звука -->
     <div class="voice-section">
