@@ -147,43 +147,33 @@
             transform-style: preserve-3d;
             transform: rotateY(-5deg) rotateX(2deg);
             transition: transform 0.5s ease;
-            padding: 15px; /* Отступ для неоновой рамки */
-            background: rgba(15, 23, 42, 0.7); /* Темный фон для рамки */
-            box-shadow: 
-                0 0 0 1px rgba(0, 243, 255, 0.3),
-                0 0 30px rgba(139, 92, 246, 0.4),
-                inset 0 0 20px rgba(15, 23, 42, 0.8);
+            background: transparent;
+            width: 100%;
+            height: 500px;
         }
 
         .image-frame:hover {
             transform: rotateY(0deg) rotateX(0deg);
-            box-shadow: 
-                0 0 0 2px rgba(0, 243, 255, 0.6),
-                0 0 50px rgba(139, 92, 246, 0.7),
-                inset 0 0 30px rgba(15, 23, 42, 0.9);
         }
 
         .hero-image {
             width: 100%;
-            height: auto;
-            max-height: 500px;
-            min-height: 400px;
-            object-fit: contain;
+            height: 100%;
+            object-fit: cover;
             display: block;
-            border-radius: 15px;
+            border-radius: 20px;
             position: relative;
             z-index: 2;
-            background: transparent;
         }
 
         /* Улучшенная неоновая рамка */
         .neon-border {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 30px;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 29px;
             z-index: 1;
             overflow: hidden;
             pointer-events: none;
@@ -192,10 +182,10 @@
         .neon-border::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: linear-gradient(
                 45deg, 
                 var(--neon-blue) 0%, 
@@ -205,10 +195,10 @@
                 var(--neon-yellow) 100%
             );
             background-size: 400% 400%;
-            border-radius: 32px;
+            border-radius: 29px;
             animation: neonGlow 4s linear infinite;
             z-index: 1;
-            filter: blur(15px);
+            filter: blur(12px);
             opacity: 0.7;
         }
 
@@ -219,8 +209,8 @@
             left: 2px;
             right: 2px;
             bottom: 2px;
-            background: var(--bg-primary);
-            border-radius: 28px;
+            background: transparent;
+            border-radius: 25px;
             z-index: 2;
         }
 
@@ -930,9 +920,8 @@
                 font-size: 3em;
             }
             
-            .hero-image {
-                max-height: 450px;
-                min-height: 350px;
+            .image-frame {
+                height: 450px;
             }
         }
 
@@ -958,6 +947,7 @@
             .image-frame {
                 max-width: 600px;
                 margin: 0 auto;
+                height: 400px;
             }
             
             .hero-actions {
@@ -975,9 +965,8 @@
                 font-size: 2.2em;
             }
             
-            .hero-image {
-                max-height: 350px;
-                min-height: 250px;
+            .image-frame {
+                height: 350px;
             }
             
             .hero-content {
@@ -1036,9 +1025,8 @@
                 font-size: 1.8em;
             }
             
-            .hero-image {
-                max-height: 280px;
-                min-height: 200px;
+            .image-frame {
+                height: 280px;
             }
             
             .hero-badge {
@@ -1145,8 +1133,9 @@
             <div class="hero-image-container">
                 <div class="neon-border"></div>
                 <div class="image-frame">
+                    <!-- ИСПРАВЛЕННЫЙ ПУТЬ К ИЗОБРАЖЕНИЮ -->
                     <img src="angel.png" alt="Aurora Цифровой Дневник" class="hero-image" id="heroImage"
-                         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"500\" viewBox=\"0 0 600 500\"><defs><linearGradient id=\"grad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:%233b82f6;stop-opacity:1\"/><stop offset=\"100%\" style=\"stop-color:%238b5cf6;stop-opacity:1\"/></linearGradient></defs><rect width=\"600\" height=\"500\" fill=\"url(%23grad)\"/></svg>'">
+                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';">
                 </div>
             </div>
         </div>
@@ -1540,25 +1529,23 @@
         // Оптимизация загрузки изображения
         function optimizeHeroImage() {
             const heroImage = document.getElementById('heroImage');
+            const imageFrame = document.querySelector('.image-frame');
             
             // Проверяем, загрузилось ли изображение
             if (heroImage.complete) {
                 if (heroImage.naturalHeight === 0) {
                     // Изображение не загрузилось, показываем fallback
-                    console.log('Изображение не загрузилось, показываем градиент');
+                    console.log('Изображение не загрузилось, показываем fallback');
+                    heroImage.src = 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';
                 } else {
-                    console.log('Изображение успешно загружено');
-                    // Устанавливаем прозрачный фон, чтобы был виден основной фон приложения
-                    heroImage.style.background = 'transparent';
+                    console.log('✅ Изображение успешно загружено:', heroImage.src);
                 }
             }
             
             // Добавляем обработчик ошибки
             heroImage.onerror = function() {
-                console.log('Ошибка загрузки изображения');
-                this.style.opacity = '0';
-                // Показываем fallback через CSS
-                this.parentElement.style.background = 'linear-gradient(135deg, var(--primary), var(--ai-color))';
+                console.log('❌ Ошибка загрузки изображения, показываем fallback');
+                this.src = 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';
             };
         }
 
@@ -1595,7 +1582,7 @@
             createParticles();
             
             // Оптимизируем изображение
-            optimizeHeroImage();
+            setTimeout(optimizeHeroImage, 100);
             
             // Пересоздаем частицы при изменении размера окна
             window.addEventListener('resize', function() {
@@ -1606,7 +1593,7 @@
                 }
             });
             
-            console.log('🚀 Герой-секция полностью загружена и оптимизирована');
+            console.log('🚀 Герой-секция полностью загружена');
         });
 
         // ========== СИСТЕМА ЗВУКА ==========
