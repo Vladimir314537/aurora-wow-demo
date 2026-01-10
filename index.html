@@ -15,6 +15,8 @@
             --neon-blue: #00f3ff;
             --neon-purple: #bc13fe;
             --neon-pink: #ff00ff;
+            --neon-green: #00ff9d;
+            --neon-yellow: #ffed4e;
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-tertiary: #334155;
@@ -131,6 +133,7 @@
             flex-wrap: wrap;
         }
 
+        /* НЕОНОВАЯ РАМКА БЕЗ НАДПИСЕЙ */
         .hero-image-container {
             position: relative;
             perspective: 1000px;
@@ -141,17 +144,23 @@
             position: relative;
             border-radius: 25px;
             overflow: hidden;
-            box-shadow: 
-                0 0 60px rgba(139, 92, 246, 0.3),
-                0 0 100px rgba(59, 130, 246, 0.2),
-                0 0 140px rgba(139, 92, 246, 0.1);
             transform-style: preserve-3d;
             transform: rotateY(-5deg) rotateX(2deg);
             transition: transform 0.5s ease;
+            padding: 15px; /* Отступ для неоновой рамки */
+            background: rgba(15, 23, 42, 0.7); /* Темный фон для рамки */
+            box-shadow: 
+                0 0 0 1px rgba(0, 243, 255, 0.3),
+                0 0 30px rgba(139, 92, 246, 0.4),
+                inset 0 0 20px rgba(15, 23, 42, 0.8);
         }
 
         .image-frame:hover {
             transform: rotateY(0deg) rotateX(0deg);
+            box-shadow: 
+                0 0 0 2px rgba(0, 243, 255, 0.6),
+                0 0 50px rgba(139, 92, 246, 0.7),
+                inset 0 0 30px rgba(15, 23, 42, 0.9);
         }
 
         .hero-image {
@@ -161,28 +170,45 @@
             min-height: 400px;
             object-fit: contain;
             display: block;
-            border-radius: 20px;
-            background: rgba(15, 23, 42, 0.3);
+            border-radius: 15px;
+            position: relative;
+            z-index: 2;
+            background: transparent;
         }
 
-        /* Неоновая рамка */
+        /* Улучшенная неоновая рамка */
         .neon-border {
             position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: 29px;
-            background: linear-gradient(45deg, 
-                var(--neon-blue), 
-                var(--neon-purple), 
-                var(--neon-pink),
-                var(--ai-color),
-                var(--neon-blue));
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 30px;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(
+                45deg, 
+                var(--neon-blue) 0%, 
+                var(--neon-purple) 25%, 
+                var(--neon-pink) 50%,
+                var(--neon-green) 75%,
+                var(--neon-yellow) 100%
+            );
             background-size: 400% 400%;
+            border-radius: 32px;
             animation: neonGlow 4s linear infinite;
-            z-index: -1;
-            filter: blur(10px);
+            z-index: 1;
+            filter: blur(15px);
             opacity: 0.7;
         }
 
@@ -193,9 +219,9 @@
             left: 2px;
             right: 2px;
             bottom: 2px;
-            border-radius: 27px;
             background: var(--bg-primary);
-            z-index: -1;
+            border-radius: 28px;
+            z-index: 2;
         }
 
         /* Частицы */
@@ -268,6 +294,17 @@
             100% {
                 transform: translateY(-100px) translateX(calc(var(--start-x, 0) + var(--drift, 100px)));
                 opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.1); 
+                opacity: 0.8; 
             }
         }
 
@@ -1085,22 +1122,18 @@
                 </div>
                 
                 <h1 class="hero-title">
-                    Aurora Digital Twin
+                    Aurora Цифровой Дневник
                     <span style="display: block; font-size: 0.6em; margin-top: 10px;">
-                        Познай себя через свои же мысли
+                        Познай себя через свои мысли
                     </span>
                 </h1>
                 
                 <p class="hero-subtitle">
                     Персональный AI, который анализирует ваши мысли, находит паттерны успеха 
-                    и помогает принимать решения на основе вашего же опыта.
+                    и помогает принимать решения на основе вашего опыта.
                 </p>
                 
                 <div class="hero-actions">
-                    <button class="voice-btn" style="margin-right: 15px;">
-                        <i class="fas fa-play"></i>
-                        Запустить демо
-                    </button>
                     <button class="voice-btn" style="background: linear-gradient(135deg, var(--ai-color), #7c3aed);">
                         <i class="fas fa-brain"></i>
                         Узнать больше
@@ -1112,8 +1145,8 @@
             <div class="hero-image-container">
                 <div class="neon-border"></div>
                 <div class="image-frame">
-                    <img src="angel.png" alt="Aurora Digital Twin" class="hero-image" id="heroImage"
-                         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"500\" viewBox=\"0 0 600 500\"><defs><linearGradient id=\"grad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:%233b82f6;stop-opacity:1\"/><stop offset=\"100%\" style=\"stop-color:%238b5cf6;stop-opacity:1\"/></linearGradient></defs><rect width=\"600\" height=\"500\" fill=\"url(%23grad)\"/><text x=\"300\" y=\"250\" font-family=\"Arial\" font-size=\"24\" fill=\"white\" text-anchor=\"middle\">AURORA DIGITAL TWIN</text></svg>'">
+                    <img src="angel.png" alt="Aurora Цифровой Дневник" class="hero-image" id="heroImage"
+                         onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"500\" viewBox=\"0 0 600 500\"><defs><linearGradient id=\"grad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\"><stop offset=\"0%\" style=\"stop-color:%233b82f6;stop-opacity:1\"/><stop offset=\"100%\" style=\"stop-color:%238b5cf6;stop-opacity:1\"/></linearGradient></defs><rect width=\"600\" height=\"500\" fill=\"url(%23grad)\"/></svg>'">
                 </div>
             </div>
         </div>
