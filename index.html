@@ -666,6 +666,64 @@
                 height: 60vh;
                 min-height: 300px;
             }
+        }  
+        /* Анимации для герой-секции */
+@keyframes heroFadeIn {
+    from { 
+        opacity: 0; 
+        filter: brightness(0.8) blur(5px); 
+    }
+    to { 
+        opacity: 1; 
+        filter: brightness(1) blur(0); 
+    }
+}
+
+@keyframes contentSlideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Эффект параллакса при скролле */
+.hero-section {
+    background-attachment: fixed;
+}
+
+/* Для мобильных - отключаем параллакс */
+@media (max-width: 768px) {
+    .hero-section {
+        background-attachment: scroll;
+        background-size: cover;
+        height: 70vh;
+        min-height: 400px;
+    }
+}
+
+/* Частицы эффект (опционально) */
+@keyframes particleFloat {
+    0%, 100% { 
+        transform: translate(0, 0) rotate(0deg); 
+        opacity: 0.3;
+    }
+    25% { 
+        transform: translate(10px, -15px) rotate(90deg); 
+        opacity: 0.5;
+    }
+    50% { 
+        transform: translate(-5px, -25px) rotate(180deg); 
+        opacity: 0.7;
+    }
+    75% { 
+        transform: translate(-15px, -10px) rotate(270deg); 
+        opacity: 0.5;
+    }
+}
             
             .app-title h2 {
                 font-size: 1.8em;
