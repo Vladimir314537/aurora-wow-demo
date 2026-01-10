@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURORA 4.0 - Система мышления с гибридным поиском</title>
+    <title>AURORA 4.0 - Система мышления с умным поиском</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -37,102 +37,47 @@
             overflow-x: hidden;
         }
 
-        /* ===== ИСПРАВЛЕННАЯ ГЕРОЙ-СЕКЦИЯ ===== */
+        /* ===== ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ ===== */
         .hero-section {
             width: 100%;
             height: 85vh;
             min-height: 500px;
             position: relative;
             overflow: hidden;
-            background: #000;
+            background: 
+                linear-gradient(rgba(15, 23, 42, 0.3), rgba(30, 41, 59, 0.5)),
+                url('angel.png') center/cover no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* КОНТЕЙНЕР ДЛЯ ИДЕАЛЬНОГО ОТОБРАЖЕНИЯ КАРТИНКИ */
-        .image-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: linear-gradient(135deg,
-                rgba(15, 23, 42, 0.8) 0%,
-                rgba(30, 41, 59, 0.7) 25%,
-                rgba(59, 130, 246, 0.15) 50%,
-                rgba(139, 92, 246, 0.1) 75%,
-                rgba(15, 23, 42, 0.8) 100%
-            );
-        }
-
-        /* КАРТИНКА, КОТОРАЯ НИКОГДА НЕ ОБРЕЗАЕТСЯ */
-        .hero-image {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            
-            /* Центрирование */
+        /* Эффект свечения по краям */
+        .hero-glow {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            
-            /* Гарантия полной видимости */
-            object-fit: scale-down;
-            
-            /* Красивые эффекты */
-            border-radius: 4px;
-            box-shadow: 
-                0 0 40px rgba(59, 130, 246, 0.2),
-                0 0 80px rgba(139, 92, 246, 0.1);
-            
-            /* Анимация появления */
-            animation: floatIn 1.2s ease-out;
-            
-            /* Убираем черные полосы - фон уже есть в контейнере */
-            background: transparent;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 40%,
+                rgba(15, 23, 42, 0.4) 70%,
+                rgba(15, 23, 42, 0.7) 100%
+            );
+            pointer-events: none;
+            z-index: 1;
         }
 
-        /* Эффект звездного неба на фоне */
-        .stars-background {
+        /* Частицы */
+        .particles {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.3), transparent),
-                radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.2), transparent),
-                radial-gradient(0.5px 0.5px at 90px 40px, rgba(255,255,255,0.1), transparent),
-                radial-gradient(0.5px 0.5px at 130px 80px, rgba(255,255,255,0.2), transparent),
-                radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.1), transparent);
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            animation: twinkle 8s infinite alternate;
+            z-index: 0;
             pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Эффект мерцания */
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.5; }
-        }
-
-        @keyframes floatIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.95);
-                filter: blur(5px);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-                filter: blur(0);
-            }
         }
 
         /* ===== ГОЛУБАЯ КНОПКА ЗВУКА ===== */
@@ -160,7 +105,6 @@
             font-weight: 600;
             position: relative;
             overflow: hidden;
-            z-index: 10;
         }
 
         .voice-btn:hover {
@@ -216,160 +160,6 @@
         .wave:nth-child(3) { animation-delay: 0.2s; }
         .wave:nth-child(4) { animation-delay: 0.3s; }
         .wave:nth-child(5) { animation-delay: 0.4s; }
-
-        /* ===== ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА ===== */
-        .fire-button-section {
-            text-align: center;
-            padding: 25px 20px;
-            background: linear-gradient(180deg, 
-                rgba(15, 23, 42, 0.9) 0%, 
-                rgba(30, 41, 59, 0.95) 100%);
-            margin: 0 auto 30px;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 107, 107, 0.3);
-            box-shadow: 
-                inset 0 0 50px rgba(255, 107, 107, 0.1),
-                0 10px 40px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-        }
-
-        .fire-button-label {
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .fire-label-text {
-            color: #ffd166;
-            font-weight: 800;
-            font-size: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 20px;
-            background: rgba(15, 23, 42, 0.7);
-            border-radius: 50px;
-            border: 2px solid rgba(255, 209, 102, 0.4);
-            animation: label-float 4s infinite ease-in-out;
-            text-shadow: 0 0 15px rgba(255, 209, 102, 0.7);
-            backdrop-filter: blur(5px);
-        }
-
-        .fire-btn {
-            background: linear-gradient(45deg, 
-                #ff6b6b 0%, #ee5a24 25%, #ff9f43 50%, 
-                #feca57 75%, #ff9f43 100%);
-            background-size: 400% 400%;
-            border: none;
-            color: white;
-            padding: 18px 45px;
-            font-weight: 900;
-            font-size: 18px;
-            border-radius: 60px;
-            cursor: pointer;
-            animation: 
-                fire-gradient-shift 3s ease infinite,
-                fire-bounce 2.5s ease infinite,
-                fire-glow 1.8s ease-in-out infinite;
-            box-shadow: 
-                0 10px 30px rgba(255, 107, 107, 0.6),
-                0 0 50px rgba(255, 107, 107, 0.5),
-                0 0 80px rgba(255, 107, 107, 0.4),
-                inset 0 2px 0 rgba(255, 255, 255, 0.4),
-                inset 0 -4px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: visible;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            min-width: 320px;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            z-index: 2;
-        }
-
-        .fire-btn:hover {
-            transform: scale(1.05);
-            animation-play-state: paused;
-        }
-
-        /* Анимации для огненной кнопки */
-        @keyframes label-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        @keyframes fire-gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes fire-bounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            25% { transform: translateY(-8px) scale(1.03); }
-            50% { transform: translateY(0) scale(1); }
-            75% { transform: translateY(-4px) scale(1.02); }
-        }
-
-        @keyframes fire-glow {
-            0%, 100% { 
-                box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6),
-                           0 0 50px rgba(255, 107, 107, 0.5),
-                           0 0 80px rgba(255, 107, 107, 0.4);
-            }
-            50% { 
-                box-shadow: 0 15px 45px rgba(255, 107, 107, 0.9),
-                           0 0 90px rgba(255, 107, 107, 0.8),
-                           0 0 140px rgba(255, 107, 107, 0.6);
-            }
-        }
-
-        @keyframes fire-flicker {
-            0%, 100% { 
-                transform: scale(1);
-                filter: drop-shadow(0 0 5px #ff9f43);
-            }
-            50% { 
-                transform: scale(1.2);
-                filter: drop-shadow(0 0 15px #ff6b6b);
-            }
-        }
-
-        @keyframes brain-spin {
-            0% { transform: rotateY(0deg) scale(1); }
-            50% { transform: rotateY(180deg) scale(1.2); }
-            100% { transform: rotateY(360deg) scale(1); }
-        }
-
-        /* Искры для кнопки */
-        .spark {
-            position: absolute;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #ff6b6b;
-        }
-
-        @keyframes spark-fly-1 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0); }
-            10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(60px, -50px) scale(0); }
-        }
-
-        @keyframes spark-fly-2 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0); }
-            10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(-70px, -30px) scale(0); }
-        }
-
-        @keyframes spark-fly-3 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0); }
-            10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(40px, 40px) scale(0); }
-        }
 
         /* ===== ОСНОВНОЕ ПРИЛОЖЕНИЕ ===== */
         .main-app {
@@ -826,6 +616,106 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg); 
+                opacity: 0.3;
+            }
+            25% { 
+                transform: translate(10px, -15px) rotate(90deg); 
+                opacity: 0.5;
+            }
+            50% { 
+                transform: translate(-5px, -25px) rotate(180deg); 
+                opacity: 0.7;
+            }
+            75% { 
+                transform: translate(-15px, -10px) rotate(270deg); 
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes fire-bg-shift {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes label-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes fire-gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes fire-bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-8px) scale(1.03); }
+            50% { transform: translateY(0) scale(1); }
+            75% { transform: translateY(-4px) scale(1.02); }
+        }
+        
+        @keyframes fire-glow {
+            0%, 100% { 
+                box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6),
+                           0 0 50px rgba(255, 107, 107, 0.5),
+                           0 0 80px rgba(255, 107, 107, 0.4);
+            }
+            50% { 
+                box-shadow: 0 15px 45px rgba(255, 107, 107, 0.9),
+                           0 0 90px rgba(255, 107, 107, 0.8),
+                           0 0 140px rgba(255, 107, 107, 0.6);
+            }
+        }
+        
+        @keyframes fire-flicker {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 0 5px #ff9f43);
+            }
+            50% { 
+                transform: scale(1.2);
+                filter: drop-shadow(0 0 15px #ff6b6b);
+            }
+        }
+        
+        @keyframes brain-spin {
+            0% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.2); }
+            100% { transform: rotateY(360deg) scale(1); }
+        }
+        
+        @keyframes spark-fly-1 {
+            0% { opacity: 0; transform: translate(0, 0) scale(0); }
+            10% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(60px, -50px) scale(0); }
+        }
+        
+        @keyframes spark-fly-2 {
+            0% { opacity: 0; transform: translate(0, 0) scale(0); }
+            10% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(-70px, -30px) scale(0); }
+        }
+        
+        @keyframes spark-fly-3 {
+            0% { opacity: 0; transform: translate(0, 0) scale(0); }
+            10% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(40px, 40px) scale(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
         /* Адаптивность */
         @media (max-width: 1024px) {
             .aurora-container {
@@ -874,15 +764,15 @@
             }
 
             .fire-button-section {
-                padding: 20px 15px;
-                margin: 0 15px 25px;
+                padding: 20px 15px !important;
+                margin: 0px 15px 25px !important;
             }
             
-            .fire-btn {
-                padding: 16px 35px;
-                font-size: 16px;
-                min-width: 280px;
-                gap: 12px;
+            #digital-twin-fire-btn {
+                padding: 16px 35px !important;
+                font-size: 16px !important;
+                min-width: 280px !important;
+                gap: 12px !important;
             }
         }
 
@@ -909,45 +799,25 @@
                 font-size: 1em;
             }
 
-            .fire-btn {
-                padding: 14px 25px;
-                font-size: 15px;
-                min-width: 250px;
-            }
-        }
-
-        /* Для очень маленьких экранов */
-        @media (max-width: 360px) {
-            .hero-section {
-                height: 50vh;
-                min-height: 250px;
-            }
-            
-            .app-title h2 {
-                font-size: 1.6em;
-            }
-            
-            .fire-btn {
-                padding: 12px 20px;
-                font-size: 14px;
-                min-width: 220px;
+            #digital-twin-fire-btn {
+                padding: 14px 25px !important;
+                font-size: 15px !important;
+                min-width: 250px !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- ===== ИСПРАВЛЕННАЯ ГЕРОЙ-СЕКЦИЯ ===== -->
-    <section class="hero-section">
-        <div class="image-container">
-            <!-- Звездный фон -->
-            <div class="stars-background"></div>
-            
-            <!-- Картинка, которая никогда не обрезается -->
-            <img src="angel.png" alt="Aurora" class="hero-image" id="heroImage">
-        </div>
+    <!-- ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ -->
+    <section class="hero-section" id="heroSection">
+        <!-- Анимированные частицы -->
+        <div class="particles"></div>
+        
+        <!-- Эффект свечения по краям -->
+        <div class="hero-glow"></div>
     </section>
 
-    <!-- ===== ГОЛУБАЯ КНОПКА ЗВУКА ===== -->
+    <!-- Голубая кнопка звука -->
     <div class="voice-section">
         <button class="voice-btn" id="voiceBtn">
             <i class="fas fa-volume-up"></i>
@@ -965,8 +835,24 @@
         </div>
     </div>
 
-    <!-- ===== ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА ===== -->
-    <div class="fire-button-section">
+    <!-- ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА -->
+    <div class="fire-button-section" style="
+        text-align: center;
+        padding: 25px 20px;
+        background: linear-gradient(180deg, 
+            rgba(15, 23, 42, 0.8) 0%, 
+            rgba(30, 41, 59, 0.9) 100%);
+        margin: 0px auto 30px;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(255, 107, 107, 0.3);
+        box-shadow: 
+            inset 0 0 50px rgba(255, 107, 107, 0.1),
+            0 10px 40px rgba(0, 0, 0, 0.3);
+        max-width: 800px;
+    ">
+        
         <!-- Анимированный фон -->
         <div style="
             position: absolute;
@@ -980,8 +866,22 @@
         "></div>
         
         <!-- Подсказка -->
-        <div class="fire-button-label">
-            <span class="fire-label-text">
+        <div style="margin-bottom: 20px; position: relative; z-index: 2;">
+            <span style="
+                color: #ffd166; 
+                font-weight: 800; 
+                font-size: 16px; 
+                display: inline-flex; 
+                align-items: center; 
+                gap: 12px; 
+                padding: 10px 20px;
+                background: rgba(15, 23, 42, 0.7);
+                border-radius: 50px;
+                border: 2px solid rgba(255, 209, 102, 0.4);
+                animation: label-float 4s infinite ease-in-out;
+                text-shadow: 0 0 15px rgba(255, 209, 102, 0.7);
+                backdrop-filter: blur(5px);
+            ">
                 <i class="fas fa-bolt" style="color: #ff9f43;"></i>
                 ✨ НОВАЯ ФИЧА: Проанализируйте своё мышление!
                 <i class="fas fa-bolt" style="color: #ff9f43;"></i>
@@ -989,7 +889,42 @@
         </div>
         
         <!-- Сама горящая кнопка -->
-        <button id="digitalTwinFireBtn" class="fire-btn">
+        <button id="digital-twin-fire-btn" 
+                style="
+                    background: linear-gradient(45deg, 
+                        #ff6b6b 0%, #ee5a24 25%, #ff9f43 50%, 
+                        #feca57 75%, #ff9f43 100%);
+                    background-size: 400% 400%;
+                    border: none;
+                    color: white;
+                    padding: 18px 45px;
+                    font-weight: 900;
+                    font-size: 18px;
+                    border-radius: 60px;
+                    cursor: pointer;
+                    animation: 
+                        fire-gradient-shift 3s ease infinite,
+                        fire-bounce 2.5s ease infinite,
+                        fire-glow 1.8s ease-in-out infinite;
+                    box-shadow: 
+                        0 10px 30px rgba(255, 107, 107, 0.6),
+                        0 0 50px rgba(255, 107, 107, 0.5),
+                        0 0 80px rgba(255, 107, 107, 0.4),
+                        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+                        inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+                    position: relative;
+                    overflow: visible;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 15px;
+                    min-width: 320px;
+                    transition: all 0.4s ease;
+                    text-transform: uppercase;
+                    letter-spacing: 1.5px;
+                    z-index: 2;
+                ">
+            
             <!-- Иконка огня -->
             <i class="fas fa-fire" style="
                 font-size: 22px; 
@@ -1010,23 +945,32 @@
             "></i>
             
             <!-- Искры -->
-            <div class="spark" id="spark1" style="
+            <div class="spark" style="
+                position: absolute;
                 width: 6px; height: 6px;
                 background: radial-gradient(circle, #fff 30%, #ff6b6b 70%);
+                border-radius: 50%;
+                box-shadow: 0 0 15px #ff6b6b;
                 animation: spark-fly-1 2s infinite linear;
                 top: 20%; left: 30%;
             "></div>
             
-            <div class="spark" id="spark2" style="
+            <div class="spark" style="
+                position: absolute;
                 width: 5px; height: 5px;
                 background: radial-gradient(circle, #fff 40%, #ff9f43 60%);
+                border-radius: 50%;
+                box-shadow: 0 0 12px #ff9f43;
                 animation: spark-fly-2 2.3s infinite linear;
                 top: 70%; left: 20%;
             "></div>
             
-            <div class="spark" id="spark3" style="
+            <div class="spark" style="
+                position: absolute;
                 width: 4px; height: 4px;
                 background: radial-gradient(circle, #fff 20%, #ee5a24 80%);
+                border-radius: 50%;
+                box-shadow: 0 0 10px #ee5a24;
                 animation: spark-fly-3 2.1s infinite linear;
                 top: 40%; left: 80%;
             "></div>
@@ -1047,7 +991,7 @@
         </div>
     </div>
 
-    <!-- ===== ОСНОВНОЕ ПРИЛОЖЕНИЕ ===== -->
+    <!-- Основное приложение -->
     <div class="main-app">
         <div class="app-title">
             <h2>AURORA 4.0 с гибридным поиском</h2>
@@ -1270,151 +1214,6 @@
             voiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
         });
 
-        // ========== ИСПРАВЛЕНИЕ КАРТИНКИ ==========
-        const heroImage = document.getElementById('heroImage');
-        
-        function ensureImagePerfectFit() {
-            if (!heroImage.complete) return;
-            
-            const container = document.querySelector('.image-container');
-            const containerWidth = container.clientWidth;
-            const containerHeight = container.clientHeight;
-            const imgWidth = heroImage.naturalWidth;
-            const imgHeight = heroImage.naturalHeight;
-            
-            console.log(`📐 Контейнер: ${containerWidth}x${containerHeight}, Картинка: ${imgWidth}x${imgHeight}`);
-            
-            const containerRatio = containerWidth / containerHeight;
-            const imgRatio = imgWidth / imgHeight;
-            
-            // Определяем, как лучше вписать картинку
-            if (imgRatio > containerRatio) {
-                // Картинка шире - ограничиваем по ширине
-                heroImage.style.width = '100%';
-                heroImage.style.height = 'auto';
-                console.log('📱 Картинка шире - ограничили ширину');
-            } else {
-                // Картинка выше - ограничиваем по высоте
-                heroImage.style.width = 'auto';
-                heroImage.style.height = '100%';
-                console.log('💻 Картинка выше - ограничили высоту');
-            }
-        }
-        
-        // Обработчики для картинки
-        heroImage.onload = function() {
-            console.log('✅ Картинка Aurora загружена');
-            ensureImagePerfectFit();
-            
-            // Добавляем красивый эффект появления
-            this.style.opacity = '0';
-            setTimeout(() => {
-                this.style.transition = 'opacity 0.8s ease';
-                this.style.opacity = '1';
-            }, 100);
-        };
-        
-        heroImage.onerror = function() {
-            console.warn('⚠️ Ошибка загрузки картинки, пробуем альтернативы...');
-            
-            const fallbacks = [
-                'angel.png',
-                './angel.png',
-                'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80'
-            ];
-            
-            let current = 0;
-            function tryNext() {
-                if (current < fallbacks.length) {
-                    heroImage.src = fallbacks[current];
-                    current++;
-                    setTimeout(() => {
-                        if (!heroImage.complete) tryNext();
-                    }, 500);
-                }
-            }
-            tryNext();
-        };
-        
-        // Адаптация при изменении размера окна
-        window.addEventListener('resize', ensureImagePerfectFit);
-
-        // ========== ГОРЯЩАЯ КНОПКА ==========
-        const fireBtn = document.getElementById('digitalTwinFireBtn');
-        
-        if (fireBtn) {
-            fireBtn.addEventListener('click', function() {
-                console.log('🔥 Кнопка цифрового двойника нажата!');
-                
-                // Эффект нажатия
-                this.style.transform = 'scale(0.95)';
-                this.style.filter = 'brightness(0.9)';
-                
-                // Создаем эффект взрыва искр
-                for (let i = 0; i < 15; i++) {
-                    setTimeout(() => {
-                        createExtraSpark();
-                    }, i * 50);
-                }
-                
-                // Показываем сообщение
-                setTimeout(() => {
-                    alert('🚀 Цифровой двойник Aurora в разработке!\n\nЭта функция появится в следующем обновлении. Сейчас вы можете протестировать гибридный поиск — он уже работает!');
-                }, 300);
-                
-                // Возвращаем кнопку в исходное состояние
-                setTimeout(() => {
-                    this.style.transform = '';
-                    this.style.filter = '';
-                }, 300);
-            });
-            
-            // Анимируем цвет искр
-            setInterval(() => {
-                const sparks = document.querySelectorAll('.spark');
-                const colors = [
-                    { bg: '#ff6b6b', shadow: '#ff6b6b' },
-                    { bg: '#ff9f43', shadow: '#ff9f43' },
-                    { bg: '#feca57', shadow: '#feca57' },
-                    { bg: '#ee5a24', shadow: '#ee5a24' },
-                    { bg: '#ffd166', shadow: '#ffd166' }
-                ];
-                
-                sparks.forEach(spark => {
-                    const color = colors[Math.floor(Math.random() * colors.length)];
-                    spark.style.background = `radial-gradient(circle, #fff 30%, ${color.bg} 70%)`;
-                    spark.style.boxShadow = `0 0 15px ${color.shadow}`;
-                });
-            }, 2000);
-            
-            // Функция создания дополнительных искр
-            function createExtraSpark() {
-                const spark = document.createElement('div');
-                spark.className = 'spark';
-                spark.style.cssText = `
-                    position: absolute;
-                    width: ${Math.random() * 4 + 2}px;
-                    height: ${Math.random() * 4 + 2}px;
-                    border-radius: 50%;
-                    background: radial-gradient(circle, #fff 40%, #ff6b6b 60%);
-                    box-shadow: 0 0 10px #ff6b6b;
-                    top: ${Math.random() * 100}%;
-                    left: ${Math.random() * 100}%;
-                    animation: spark-fly-${Math.floor(Math.random() * 3) + 1} ${Math.random() * 1 + 0.5}s linear forwards;
-                    pointer-events: none;
-                    z-index: 3;
-                `;
-                
-                fireBtn.appendChild(spark);
-                
-                setTimeout(() => {
-                    if (spark.parentNode) {
-                        spark.parentNode.removeChild(spark);
-                    }
-                }, 1500);
-            }
-        }
-
         // ========== ГИБРИДНЫЙ ПОИСК AURORA ==========
         class HybridSearch {
             constructor() {
@@ -1517,6 +1316,7 @@
                 console.log(`📊 Найдено ${results.length} заметок с гибридным поиском`);
                 results.forEach((result, i) => {
                     console.log(`  ${i+1}. "${result.note.title}" (очков: ${result.score})`);
+                    result.matches.forEach(match => console.log(`     • ${match}`));
                 });
                 
                 this.searchHistory[this.searchHistory.length - 1].results = results.length;
@@ -1595,6 +1395,18 @@
                     }
                 });
                 return highlighted;
+            }
+            
+            analyzeQuery(query) {
+                const expanded = this.expandQuery(query);
+                return {
+                    wordCount: query.split(' ').length,
+                    morphologyForms: expanded.morphology.length,
+                    semanticGroups: expanded.semantic.length,
+                    expandedWords: expanded.allWords.length,
+                    complexity: expanded.morphology.length > 0 ? 'высокая' : 
+                               expanded.semantic.length > 0 ? 'средняя' : 'базовая'
+                };
             }
         }
 
@@ -1712,9 +1524,12 @@
                 const searchResult = this.searchEngine.search(query, this.notes);
                 this.smartSearches++;
                 
-                // Показываем результаты поиска
-                this.renderSearchResults(searchResult);
+                const analysis = this.searchEngine.analyzeQuery(query);
+                if (analysis.complexity !== 'базовая') {
+                    this.contextMatches += searchResult.results.length;
+                }
                 
+                this.renderSearchResults(searchResult);
                 this.updateAnalytics();
                 
                 return searchResult;
@@ -1780,6 +1595,7 @@
                         <p>• Метод поиска: <strong>${searchResult.analytics.searchMethod}</strong></p>
                         <p>• Расширено до: <strong>${searchResult.analytics.expandedQuery.allWords.length}</strong> форм и синонимов</p>
                         <p>• Наиболее релевантные: ${searchResult.analytics.topMatches.map(m => `"${m.title}"`).join(', ')}</p>
+                        <p>• Сложность запроса: <strong>${this.searchEngine.analyzeQuery(searchResult.analytics.query).complexity}</strong></p>
                     `;
                     container.appendChild(analyticsDiv);
                 }
@@ -1922,7 +1738,7 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
                 
-                alert(`Экспортировано ${this.notes.length} заметок`);
+                alert(`Экспортировано ${this.notes.length} заметок с метаданными AI`);
             }
         }
 
@@ -1957,13 +1773,81 @@
             .form-group {
                 margin-bottom: 15px;
             }
-            
-            @keyframes fire-bg-shift {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
         `;
         document.head.appendChild(highlightStyle);
+
+        // ===== ГОРЯЩАЯ КНОПКА И ЧАСТИЦЫ =====
+        const fireButton = document.getElementById('digital-twin-fire-btn');
+        if (fireButton) {
+            fireButton.addEventListener('click', function() {
+                console.log('🔥 Горящая кнопка нажата! Переход к цифровому двойнику...');
+                window.location.href = 'mirror.html';
+            });
+            
+            // Меняем цвет искр каждые 2 секунды
+            setInterval(() => {
+                const sparks = document.querySelectorAll('.spark');
+                const colors = [
+                    { bg: '#ff6b6b', shadow: '#ff6b6b' },
+                    { bg: '#ff9f43', shadow: '#ff9f43' },
+                    { bg: '#feca57', shadow: '#feca57' },
+                    { bg: '#ee5a24', shadow: '#ee5a24' },
+                    { bg: '#ffd166', shadow: '#ffd166' }
+                ];
+                
+                sparks.forEach(spark => {
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    spark.style.background = `radial-gradient(circle, #fff 30%, ${randomColor.bg} 70%)`;
+                    spark.style.boxShadow = `0 0 15px ${randomColor.shadow}`;
+                });
+            }, 2000);
+            
+            console.log('✅ Горящая кнопка цифрового двойника активирована');
+        }
+
+        // Создаем частицы эффект
+        function createParticles() {
+            const container = document.querySelector('.particles');
+            if (!container) return;
+            
+            const particlesCount = window.innerWidth < 768 ? 12 : 25;
+            
+            for (let i = 0; i < particlesCount; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 3 + 1}px;
+                    height: ${Math.random() * 3 + 1}px;
+                    background: radial-gradient(circle, 
+                        rgba(255, 255, 255, ${Math.random() * 0.2 + 0.1}) 30%,
+                        rgba(139, 92, 246, ${Math.random() * 0.1 + 0.05}) 70%);
+                    border-radius: 50%;
+                    top: ${Math.random() * 100}%;
+                    left: ${Math.random() * 100}%;
+                    animation: particleFloat ${Math.random() * 10 + 5}s infinite ease-in-out;
+                    animation-delay: ${Math.random() * 2}s;
+                    filter: blur(${Math.random() * 0.5}px);
+                    pointer-events: none;
+                `;
+                container.appendChild(particle);
+            }
+        }
+
+        // Запускаем когда страница загружена
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createParticles);
+        } else {
+            createParticles();
+        }
+
+        // Пересоздаем частицы при изменении размера
+        window.addEventListener('resize', function() {
+            const container = document.querySelector('.particles');
+            if (container) {
+                container.innerHTML = '';
+                setTimeout(createParticles, 100);
+            }
+        });
 
         // Запуск приложения
         let auroraApp;
@@ -1979,7 +1863,7 @@
             }, 1500);
         });
 
-        console.log('✨ Aurora 4.0 полностью загружена и готова к работе!');
+        console.log('✨ Aurora 4.0 полностью загружена и готова!');
     </script>
 </body>
 </html>
