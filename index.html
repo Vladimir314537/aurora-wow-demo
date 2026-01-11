@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora - Цифровой двойник для познания себя</title>
+    <title>AURORA 4.0 - Система мышления с умным поиском</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -17,9 +17,6 @@
             --neon-pink: #ff00ff;
             --neon-green: #00ff9d;
             --neon-yellow: #ffed4e;
-            --fire-red: #ff6b6b;
-            --fire-orange: #ff9f43;
-            --fire-yellow: #feca57;
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-tertiary: #334155;
@@ -48,7 +45,7 @@
             overflow-x: hidden;
         }
 
-        /* ===== ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ БЕЗ ПЕРЕЛИВАНИЙ ===== */
+        /* ===== ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ ===== */
         .hero-section {
             width: 100%;
             min-height: 100vh;
@@ -59,7 +56,14 @@
             justify-content: center;
             padding: 40px 20px;
             background: 
-                linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%);
+                /* Основной фон приложения */
+                linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%),
+                /* Градиенты вместо черных областей */
+                var(--gradient-1),
+                var(--gradient-2);
+            background-blend-mode: overlay, multiply, screen;
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
         }
 
         .hero-container {
@@ -108,9 +112,11 @@
             font-weight: 900;
             line-height: 1.1;
             margin-bottom: 25px;
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
+            background: linear-gradient(135deg, var(--primary), var(--ai-color), var(--neon-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientText 3s ease infinite;
         }
 
         .hero-subtitle {
@@ -127,7 +133,7 @@
             flex-wrap: wrap;
         }
 
-        /* ЧИСТАЯ КАРТИНКА БЕЗ ЭФФЕКТОВ ПЕРЕЛИВАНИЯ */
+        /* НЕОНОВАЯ РАМКА БЕЗ НАДПИСЕЙ */
         .hero-image-container {
             position: relative;
             perspective: 1000px;
@@ -144,13 +150,10 @@
             background: transparent;
             width: 100%;
             height: 500px;
-            border: 2px solid rgba(139, 92, 246, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .image-frame:hover {
             transform: rotateY(0deg) rotateX(0deg);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
         }
 
         .hero-image {
@@ -158,26 +161,57 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            border-radius: 23px;
+            border-radius: 20px;
             position: relative;
             z-index: 2;
         }
 
-        /* Простая синяя подсветка вместо неона */
-        .image-glow {
+        /* Улучшенная неоновая рамка */
+        .neon-border {
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 27px;
-            background: linear-gradient(45deg, 
-                rgba(59, 130, 246, 0.3) 0%, 
-                rgba(139, 92, 246, 0.3) 100%);
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 29px;
             z-index: 1;
-            filter: blur(8px);
-            opacity: 0.5;
-            animation: subtleGlow 4s ease-in-out infinite alternate;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg, 
+                var(--neon-blue) 0%, 
+                var(--neon-purple) 25%, 
+                var(--neon-pink) 50%,
+                var(--neon-green) 75%,
+                var(--neon-yellow) 100%
+            );
+            background-size: 400% 400%;
+            border-radius: 29px;
+            animation: neonGlow 4s linear infinite;
+            z-index: 1;
+            filter: blur(12px);
+            opacity: 0.7;
+        }
+
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: transparent;
+            border-radius: 25px;
+            z-index: 2;
         }
 
         /* Частицы */
@@ -193,185 +227,75 @@
 
         .particle {
             position: absolute;
-            width: 3px;
-            height: 3px;
+            width: 4px;
+            height: 4px;
             background: radial-gradient(circle, 
                 rgba(255, 255, 255, 0.8) 20%,
-                var(--primary-light) 50%,
+                var(--neon-blue) 50%,
                 transparent 70%);
             border-radius: 50%;
             filter: blur(1px);
             animation: particleFloat var(--duration, 10s) linear infinite;
         }
 
-        /* ===== ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА ===== */
-        .fire-button-section {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(180deg, 
-                rgba(15, 23, 42, 0.95) 0%, 
-                rgba(30, 41, 59, 0.98) 100%);
-            margin: 0px auto 40px;
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 107, 107, 0.3);
-            box-shadow: 
-                inset 0 0 40px rgba(255, 107, 107, 0.1),
-                0 15px 40px rgba(0, 0, 0, 0.3);
-            max-width: 850px;
-            transition: all 0.3s ease;
+        /* Анимации */
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        .fire-button-section:hover {
-            border-color: rgba(255, 107, 107, 0.5);
-            box-shadow: 
-                inset 0 0 60px rgba(255, 107, 107, 0.15),
-                0 20px 50px rgba(0, 0, 0, 0.4);
+        @keyframes gradientText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        .fire-bg {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                radial-gradient(circle at 15% 85%, 
-                    rgba(255, 107, 107, 0.1) 0%, 
-                    transparent 60%),
-                radial-gradient(circle at 85% 15%, 
-                    rgba(255, 159, 67, 0.1) 0%, 
-                    transparent 60%);
-            animation: fire-bg-shift 15s infinite linear;
-            pointer-events: none;
+        @keyframes neonGlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 400% 0%; }
         }
 
-        .fire-button-hint {
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 2;
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(-5deg) rotateX(2deg); }
+            50% { transform: translateY(-20px) rotateY(-8deg) rotateX(4deg); }
         }
 
-        .fire-button-hint span {
-            color: #ffd166; 
-            font-weight: 800; 
-            font-size: 16px; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 12px; 
-            padding: 10px 20px;
-            background: rgba(15, 23, 42, 0.7);
-            border-radius: 50px;
-            border: 2px solid rgba(255, 209, 102, 0.4);
-            animation: label-float 4s infinite ease-in-out;
-            text-shadow: 0 0 10px rgba(255, 209, 102, 0.5);
-            backdrop-filter: blur(5px);
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        #digital-twin-fire-btn {
-            background: linear-gradient(45deg, 
-                #ff6b6b 0%, #ee5a24 25%, #ff9f43 50%, 
-                #feca57 75%, #ff9f43 100%);
-            background-size: 400% 400%;
-            border: none;
-            color: white;
-            padding: 18px 45px;
-            font-weight: 900;
-            font-size: 18px;
-            border-radius: 60px;
-            cursor: pointer;
-            animation: 
-                fire-gradient-shift 3s ease infinite,
-                fire-bounce 2.5s ease infinite,
-                fire-glow 1.8s ease-in-out infinite;
-            box-shadow: 
-                0 8px 25px rgba(255, 107, 107, 0.5),
-                0 0 40px rgba(255, 107, 107, 0.4),
-                inset 0 2px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -4px 8px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: visible;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            min-width: 320px;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            z-index: 2;
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(var(--start-x, 0));
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(calc(var(--start-x, 0) + var(--drift, 100px)));
+                opacity: 0;
+            }
         }
 
-        #digital-twin-fire-btn:hover {
-            transform: scale(1.05);
-            animation: 
-                fire-gradient-shift 1.5s ease infinite,
-                fire-bounce 1.5s ease infinite,
-                fire-glow 0.9s ease-in-out infinite;
-            box-shadow: 
-                0 12px 35px rgba(255, 107, 107, 0.7),
-                0 0 60px rgba(255, 107, 107, 0.6),
-                inset 0 2px 0 rgba(255, 255, 255, 0.4),
-                inset 0 -4px 12px rgba(0, 0, 0, 0.4);
-        }
-
-        #digital-twin-fire-btn:active {
-            transform: scale(0.98);
-        }
-
-        .fire-icon {
-            font-size: 22px; 
-            animation: fire-flicker 0.8s infinite alternate;
-            filter: drop-shadow(0 0 6px #ff6b6b);
-        }
-
-        .brain-icon {
-            font-size: 22px; 
-            animation: brain-spin 3s infinite linear;
-            filter: drop-shadow(0 0 6px #8b5cf6);
-        }
-
-        .spark {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 3;
-        }
-
-        .spark-1 {
-            width: 5px; height: 5px;
-            background: radial-gradient(circle, #fff 30%, #ff6b6b 70%);
-            box-shadow: 0 0 12px #ff6b6b;
-            animation: spark-fly-1 2s infinite linear;
-            top: 20%; left: 30%;
-        }
-
-        .spark-2 {
-            width: 4px; height: 4px;
-            background: radial-gradient(circle, #fff 40%, #ff9f43 60%);
-            box-shadow: 0 0 10px #ff9f43;
-            animation: spark-fly-2 2.3s infinite linear;
-            top: 70%; left: 20%;
-        }
-
-        .spark-3 {
-            width: 3px; height: 3px;
-            background: radial-gradient(circle, #fff 20%, #ee5a24 80%);
-            box-shadow: 0 0 8px #ee5a24;
-            animation: spark-fly-3 2.1s infinite linear;
-            top: 40%; left: 80%;
-        }
-
-        .fire-button-description {
-            margin-top: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .fire-button-description p {
-            color: #cbd5e1; 
-            font-size: 14px; 
-            max-width: 500px; 
-            margin: 0 auto; 
-            line-height: 1.5;
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.1); 
+                opacity: 0.8; 
+            }
         }
 
         /* ===== ГОЛУБАЯ КНОПКА ЗВУКА ===== */
@@ -407,6 +331,14 @@
             background: linear-gradient(135deg, var(--primary-light), var(--primary));
         }
 
+        .voice-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .voice-btn i {
+            font-size: 1.3em;
+        }
+
         .playing-indicator {
             display: none;
             align-items: center;
@@ -436,6 +368,16 @@
             animation: wave 1.2s ease-in-out infinite;
         }
 
+        @keyframes wave {
+            0%, 100% { height: 8px; }
+            50% { height: 20px; }
+        }
+
+        .wave:nth-child(2) { animation-delay: 0.1s; }
+        .wave:nth-child(3) { animation-delay: 0.2s; }
+        .wave:nth-child(4) { animation-delay: 0.3s; }
+        .wave:nth-child(5) { animation-delay: 0.4s; }
+
         /* ===== ОСНОВНОЕ ПРИЛОЖЕНИЕ ===== */
         .main-app {
             padding: 40px 20px;
@@ -457,6 +399,7 @@
             font-weight: 800;
         }
 
+        /* ===== КОНТЕЙНЕР AURORA ===== */
         .aurora-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -638,6 +581,10 @@
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+
+        .section-header h2 i {
+            color: var(--primary);
         }
 
         .notes-count {
@@ -880,54 +827,16 @@
             margin-top: 20px;
         }
 
-        /* ===== АНИМАЦИИ ===== */
-        @keyframes subtleGlow {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.6; }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotateY(-5deg) rotateX(2deg); }
-            50% { transform: translateY(-20px) rotateY(-8deg) rotateX(4deg); }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) translateX(var(--start-x, 0));
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(calc(var(--start-x, 0) + var(--drift, 100px)));
-                opacity: 0;
-            }
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 1; 
-            }
-            50% { 
-                transform: scale(1.1); 
-                opacity: 0.8; 
-            }
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
         }
 
         @keyframes fire-bg-shift {
@@ -955,66 +864,57 @@
         
         @keyframes fire-glow {
             0%, 100% { 
-                box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5),
-                           0 0 40px rgba(255, 107, 107, 0.4);
+                box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6),
+                           0 0 50px rgba(255, 107, 107, 0.5),
+                           0 0 80px rgba(255, 107, 107, 0.4);
             }
             50% { 
-                box-shadow: 0 12px 35px rgba(255, 107, 107, 0.7),
-                           0 0 60px rgba(255, 107, 107, 0.6);
+                box-shadow: 0 15px 45px rgba(255, 107, 107, 0.9),
+                           0 0 90px rgba(255, 107, 107, 0.8),
+                           0 0 140px rgba(255, 107, 107, 0.6);
             }
         }
         
         @keyframes fire-flicker {
             0%, 100% { 
                 transform: scale(1);
-                filter: drop-shadow(0 0 4px #ff9f43);
+                filter: drop-shadow(0 0 5px #ff9f43);
             }
             50% { 
                 transform: scale(1.2);
-                filter: drop-shadow(0 0 12px #ff6b6b);
+                filter: drop-shadow(0 0 15px #ff6b6b);
             }
         }
         
         @keyframes brain-spin {
             0% { transform: rotateY(0deg) scale(1); }
-            50% { transform: rotateY(180deg) scale(1.1); }
+            50% { transform: rotateY(180deg) scale(1.2); }
             100% { transform: rotateY(360deg) scale(1); }
         }
         
         @keyframes spark-fly-1 {
             0% { opacity: 0; transform: translate(0, 0) scale(0); }
             10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(50px, -40px) scale(0); }
+            100% { opacity: 0; transform: translate(60px, -50px) scale(0); }
         }
         
         @keyframes spark-fly-2 {
             0% { opacity: 0; transform: translate(0, 0) scale(0); }
             10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(-60px, -25px) scale(0); }
+            100% { opacity: 0; transform: translate(-70px, -30px) scale(0); }
         }
         
         @keyframes spark-fly-3 {
             0% { opacity: 0; transform: translate(0, 0) scale(0); }
             10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(35px, 35px) scale(0); }
+            100% { opacity: 0; transform: translate(40px, 40px) scale(0); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
-        @keyframes wave {
-            0%, 100% { height: 8px; }
-            50% { height: 20px; }
-        }
-
-        .wave:nth-child(2) { animation-delay: 0.1s; }
-        .wave:nth-child(3) { animation-delay: 0.2s; }
-        .wave:nth-child(4) { animation-delay: 0.3s; }
-        .wave:nth-child(5) { animation-delay: 0.4s; }
-
-        /* ===== АДАПТИВНОСТЬ ===== */
+        /* Адаптивность */
         @media (max-width: 1200px) {
             .hero-title {
                 font-size: 3em;
@@ -1022,17 +922,6 @@
             
             .image-frame {
                 height: 450px;
-            }
-            
-            .aurora-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .sidebar {
-                grid-template-columns: 1fr 1fr;
-                display: grid;
-                gap: 25px;
             }
         }
 
@@ -1084,6 +973,17 @@
                 padding: 20px;
             }
             
+            .aurora-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .sidebar {
+                grid-template-columns: 1fr 1fr;
+                display: grid;
+                gap: 25px;
+            }
+            
             .notes-grid {
                 grid-template-columns: 1fr;
             }
@@ -1104,19 +1004,15 @@
             }
 
             .fire-button-section {
-                padding: 20px 15px;
-                margin: 0px 15px 25px;
+                padding: 20px 15px !important;
+                margin: 0px 15px 25px !important;
             }
             
             #digital-twin-fire-btn {
-                padding: 16px 35px;
-                font-size: 16px;
-                min-width: 280px;
-                gap: 12px;
-            }
-            
-            .sidebar {
-                grid-template-columns: 1fr;
+                padding: 16px 35px !important;
+                font-size: 16px !important;
+                min-width: 280px !important;
+                gap: 12px !important;
             }
         }
 
@@ -1164,9 +1060,37 @@
             }
 
             #digital-twin-fire-btn {
-                padding: 14px 25px;
-                font-size: 15px;
-                min-width: 250px;
+                padding: 14px 25px !important;
+                font-size: 15px !important;
+                min-width: 250px !important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .aurora-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .sidebar {
+                grid-template-columns: 1fr 1fr;
+                display: grid;
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                height: auto;
+                min-height: 70vh;
+            }
+            
+            .app-title h2 {
+                font-size: 2.2em;
+            }
+            
+            .sidebar {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1174,83 +1098,50 @@
 <body>
     <!-- ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ -->
     <section class="hero-section" id="heroSection">
+        <!-- Частицы -->
         <div class="particles-container" id="particlesContainer"></div>
         
         <div class="hero-container">
+            <!-- Левая часть - контент -->
             <div class="hero-content">
                 <div class="hero-badge">
                     <i class="fas fa-bolt"></i>
-                    <span>AURORA DIGITAL TWIN</span>
+                    <span>НОВОЕ ПОКОЛЕНИЕ AI</span>
                 </div>
                 
                 <h1 class="hero-title">
-                    Aurora -
+                    Aurora Цифровой Дневник
                     <span style="display: block; font-size: 0.6em; margin-top: 10px;">
-                        Цифровой двойник для познания себя
+                        Познай себя через свои мысли
                     </span>
                 </h1>
                 
                 <p class="hero-subtitle">
-                    Персональный AI-ассистент, который изучает ваши паттерны мышления, 
-                    находит закономерности в принятии решений и помогает стать лучшей версией себя.
+                    Персональный AI, который анализирует ваши мысли, находит паттерны успеха 
+                    и помогает принимать решения на основе вашего опыта.
                 </p>
                 
-                <!-- УБРАНА КНОПКА "УЗНАТЬ БОЛЬШЕ" - ОСТАЛСЯ ТОЛЬКО ДЕМО -->
                 <div class="hero-actions">
-                    <button class="voice-btn" onclick="window.location.href='#demo'">
-                        <i class="fas fa-play"></i>
-                        Посмотреть демо
+                    <button class="voice-btn" style="background: linear-gradient(135deg, var(--ai-color), #7c3aed);">
+                        <i class="fas fa-brain"></i>
+                        Узнать больше
                     </button>
                 </div>
             </div>
             
-            <!-- ОПТИМИЗИРОВАННАЯ КАРТИНКА БЕЗ ПЕРЕЛИВАНИЙ -->
+            <!-- Правая часть - изображение с неоновой рамкой -->
             <div class="hero-image-container">
+                <div class="neon-border"></div>
                 <div class="image-frame">
-                    <div class="image-glow"></div>
-                    <img src="angel.png" alt="Aurora Digital Twin" class="hero-image" id="heroImage"
+                    <!-- ИСПРАВЛЕННЫЙ ПУТЬ К ИЗОБРАЖЕНИЮ -->
+                    <img src="angel.png" alt="Aurora Цифровой Дневник" class="hero-image" id="heroImage"
                          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА -->
-    <div class="fire-button-section">
-        <div class="fire-bg"></div>
-        
-        <div class="fire-button-hint">
-            <span>
-                <i class="fas fa-bolt"></i>
-                ✨ НОВАЯ ФИЧА: Проанализируйте своё мышление!
-                <i class="fas fa-bolt"></i>
-            </span>
-        </div>
-        
-        <button id="digital-twin-fire-btn">
-            <i class="fas fa-fire fire-icon"></i>
-            
-            <span style="position: relative; z-index: 3;">
-                🔥 ЗАПУСТИТЬ ЦИФРОВОЙ ДВОЙНИК 🔥
-            </span>
-            
-            <i class="fas fa-brain brain-icon"></i>
-            
-            <div class="spark spark-1"></div>
-            <div class="spark spark-2"></div>
-            <div class="spark spark-3"></div>
-        </button>
-        
-        <div class="fire-button-description">
-            <p>
-                <i class="fas fa-info-circle" style="color: #60a5fa; margin-right: 8px;"></i>
-                Узнайте свои паттерны мышления за 30 секунд. На основе ваших заметок Aurora анализирует:
-                успешные решения, повторяющиеся ошибки и оптимальное время для продуктивности.
-            </p>
-        </div>
-    </div>
-
-    <!-- ГОЛУБАЯ КНОПКА ЗВУКА -->
+    <!-- Голубая кнопка звука -->
     <div class="voice-section">
         <button class="voice-btn" id="voiceBtn">
             <i class="fas fa-volume-up"></i>
@@ -1268,10 +1159,166 @@
         </div>
     </div>
 
+    <!-- ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА -->
+    <div class="fire-button-section" style="
+        text-align: center;
+        padding: 25px 20px;
+        background: linear-gradient(180deg, 
+            rgba(15, 23, 42, 0.8) 0%, 
+            rgba(30, 41, 59, 0.9) 100%);
+        margin: 0px auto 30px;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(255, 107, 107, 0.3);
+        box-shadow: 
+            inset 0 0 50px rgba(255, 107, 107, 0.1),
+            0 10px 40px rgba(0, 0, 0, 0.3);
+        max-width: 800px;
+    ">
+        
+        <!-- Анимированный фон -->
+        <div style="
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 159, 67, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(254, 202, 87, 0.1) 0%, transparent 50%);
+            animation: fire-bg-shift 15s infinite linear;
+            pointer-events: none;
+        "></div>
+        
+        <!-- Подсказка -->
+        <div style="margin-bottom: 20px; position: relative; z-index: 2;">
+            <span style="
+                color: #ffd166; 
+                font-weight: 800; 
+                font-size: 16px; 
+                display: inline-flex; 
+                align-items: center; 
+                gap: 12px; 
+                padding: 10px 20px;
+                background: rgba(15, 23, 42, 0.7);
+                border-radius: 50px;
+                border: 2px solid rgba(255, 209, 102, 0.4);
+                animation: label-float 4s infinite ease-in-out;
+                text-shadow: 0 0 15px rgba(255, 209, 102, 0.7);
+                backdrop-filter: blur(5px);
+            ">
+                <i class="fas fa-bolt" style="color: #ff9f43;"></i>
+                ✨ НОВАЯ ФИЧА: Проанализируйте своё мышление!
+                <i class="fas fa-bolt" style="color: #ff9f43;"></i>
+            </span>
+        </div>
+        
+        <!-- Сама горящая кнопка -->
+        <button id="digital-twin-fire-btn" 
+                style="
+                    background: linear-gradient(45deg, 
+                        #ff6b6b 0%, #ee5a24 25%, #ff9f43 50%, 
+                        #feca57 75%, #ff9f43 100%);
+                    background-size: 400% 400%;
+                    border: none;
+                    color: white;
+                    padding: 18px 45px;
+                    font-weight: 900;
+                    font-size: 18px;
+                    border-radius: 60px;
+                    cursor: pointer;
+                    animation: 
+                        fire-gradient-shift 3s ease infinite,
+                        fire-bounce 2.5s ease infinite,
+                        fire-glow 1.8s ease-in-out infinite;
+                    box-shadow: 
+                        0 10px 30px rgba(255, 107, 107, 0.6),
+                        0 0 50px rgba(255, 107, 107, 0.5),
+                        0 0 80px rgba(255, 107, 107, 0.4),
+                        inset 0 2px 0 rgba(255, 255, 255, 0.4),
+                        inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+                    position: relative;
+                    overflow: visible;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 15px;
+                    min-width: 320px;
+                    transition: all 0.4s ease;
+                    text-transform: uppercase;
+                    letter-spacing: 1.5px;
+                    z-index: 2;
+                ">
+            
+            <!-- Иконка огня -->
+            <i class="fas fa-fire" style="
+                font-size: 22px; 
+                animation: fire-flicker 0.8s infinite alternate;
+                filter: drop-shadow(0 0 8px #ff6b6b);
+            "></i>
+            
+            <!-- Текст -->
+            <span style="position: relative; z-index: 3;">
+                🔥 ГОРЯЧЕЕ: Анализ мышления 🔥
+            </span>
+            
+            <!-- Иконка мозга -->
+            <i class="fas fa-brain" style="
+                font-size: 22px; 
+                animation: brain-spin 3s infinite linear;
+                filter: drop-shadow(0 0 8px #8b5cf6);
+            "></i>
+            
+            <!-- Искры -->
+            <div class="spark" style="
+                position: absolute;
+                width: 6px; height: 6px;
+                background: radial-gradient(circle, #fff 30%, #ff6b6b 70%);
+                border-radius: 50%;
+                box-shadow: 0 0 15px #ff6b6b;
+                animation: spark-fly-1 2s infinite linear;
+                top: 20%; left: 30%;
+            "></div>
+            
+            <div class="spark" style="
+                position: absolute;
+                width: 5px; height: 5px;
+                background: radial-gradient(circle, #fff 40%, #ff9f43 60%);
+                border-radius: 50%;
+                box-shadow: 0 0 12px #ff9f43;
+                animation: spark-fly-2 2.3s infinite linear;
+                top: 70%; left: 20%;
+            "></div>
+            
+            <div class="spark" style="
+                position: absolute;
+                width: 4px; height: 4px;
+                background: radial-gradient(circle, #fff 20%, #ee5a24 80%);
+                border-radius: 50%;
+                box-shadow: 0 0 10px #ee5a24;
+                animation: spark-fly-3 2.1s infinite linear;
+                top: 40%; left: 80%;
+            "></div>
+        </button>
+        
+        <!-- Подпись -->
+        <div style="margin-top: 20px; position: relative; z-index: 2;">
+            <p style="
+                color: #cbd5e1; 
+                font-size: 14px; 
+                max-width: 500px; 
+                margin: 0 auto; 
+                line-height: 1.5;
+            ">
+                <i class="fas fa-info-circle" style="color: #60a5fa; margin-right: 8px;"></i>
+                Узнайте свои паттерны мышления за 30 секунд. На основе ваших заметок.
+            </p>
+        </div>
+    </div>
+
     <!-- Основное приложение -->
-    <div class="main-app" id="demo">
+    <div class="main-app">
         <div class="app-title">
-            <h2>Aurora - с гибридным поиском</h2>
+            <h2>AURORA 4.0 с гибридным поиском</h2>
         </div>
         
         <div class="aurora-container">
@@ -1281,7 +1328,7 @@
                         <i class="fas fa-brain"></i>
                     </div>
                     <div class="logo-text">
-                        <h1>Aurora <span class="version-badge">Digital Twin</span></h1>
+                        <h1>Aurora <span class="version-badge">4.0 AI</span></h1>
                     </div>
                 </div>
                 <div class="header-actions">
@@ -1299,50 +1346,50 @@
                     </div>
                     <div class="search-box">
                         <input type="text" class="search-input" id="search-input" 
-                               placeholder="Например: 'успешные решения' или 'повторяющиеся ошибки'">
+                               placeholder="Например: 'пойду гулять' или 'планы движения'">
                         <button class="search-btn pulse" id="search-btn">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
                     
                     <div class="search-info">
-                        <h4><i class="fas fa-robot"></i> Понимает паттерны мышления:</h4>
-                        <p>• <strong>Повторяющиеся решения:</strong> находит ваши успешные стратегии</p>
-                        <p>• <strong>Эмоциональные паттерны:</strong> анализирует связи между настроением и продуктивностью</p>
-                        <p>• <strong>Временные закономерности:</strong> определяет лучшее время для разных задач</p>
-                        <p>• <strong>Семантику мышления:</strong> понимает смысл, а не только слова</p>
+                        <h4><i class="fas fa-robot"></i> Понимает:</h4>
+                        <p>• Разные формы слов: <strong>"пойти" = "пойду" = "пошел" = "пойдешь"</strong></p>
+                        <p>• Семантику: <strong>"гулять" = "прогулка" = "пройтись" = "прогуляться"</strong></p>
+                        <p>• Контекст: находит по смыслу, а не только словам</p>
+                        <p>• Теги: учитывает все связанные теги и категории</p>
                     </div>
                     
                     <div id="search-results-header" class="search-results-header" style="display: none;">
                         <i class="fas fa-check-circle"></i>
-                        <span>Найдено <strong id="found-count">0</strong> паттернов мышления: "<span id="current-query" class="query"></span>"</span>
+                        <span>Найдено <strong id="found-count">0</strong> заметок по запросу: "<span id="current-query" class="query"></span>"</span>
                     </div>
                 </section>
 
                 <section class="create-note">
                     <div class="section-header">
-                        <h2><i class="fas fa-plus-circle"></i> Новая мысль для анализа</h2>
+                        <h2><i class="fas fa-plus-circle"></i> Новая заметка</h2>
                     </div>
                     <form class="note-form" id="note-form">
                         <div class="form-group">
-                            <input type="text" id="note-title" class="search-input" placeholder="Ситуация/Реакция (например: Успешное решение на работе)">
+                            <input type="text" id="note-title" class="search-input" placeholder="Заголовок (например: Идея для проекта)">
                         </div>
                         <div class="form-group">
-                            <textarea id="note-text" class="search-input" rows="3" placeholder="Опишите мысль, решение, эмоцию... Цифровой двойник проанализирует паттерн"></textarea>
+                            <textarea id="note-text" class="search-input" rows="3" placeholder="Текст заметки... (попробуйте вставить: 'Завтра пойду гулять в парк')"></textarea>
                         </div>
                         <button type="submit" class="voice-btn" style="width: 100%; margin-top: 15px;">
-                            <i class="fas fa-brain"></i> Сохранить для анализа
+                            <i class="fas fa-save"></i> Сохранить заметку
                         </button>
                     </form>
                 </section>
 
                 <section class="notes-section">
                     <div class="section-header">
-                        <h2><i class="fas fa-sticky-note"></i> Мысли и решения</h2>
-                        <div class="notes-count" id="notes-count">3 записи</div>
+                        <h2><i class="fas fa-sticky-note"></i> Заметки</h2>
+                        <div class="notes-count" id="notes-count">2 заметки</div>
                     </div>
                     <div class="notes-grid" id="notes-container">
-                        <!-- Заметки будут загружены JavaScript -->
+                        <!-- Заметки будут загружены сюда JavaScript -->
                     </div>
                 </section>
             </main>
@@ -1351,34 +1398,34 @@
                 <div class="analytics-card">
                     <div class="card-header">
                         <i class="fas fa-chart-network"></i>
-                        <h3>Аналитика мышления</h3>
+                        <h3>Аналитика поиска</h3>
                     </div>
                     <div class="stats-grid">
                         <div class="stat-item">
-                            <div class="stat-value" id="total-notes">3</div>
-                            <div class="stat-label">Всего мыслей</div>
+                            <div class="stat-value" id="total-notes">2</div>
+                            <div class="stat-label">Всего заметок</div>
                         </div>
                         <div class="stat-item ai">
                             <div class="stat-value ai" id="smart-searches">0</div>
-                            <div class="stat-label">Проанализировано</div>
+                            <div class="stat-label">Умных поисков</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value" id="movement-notes">2</div>
-                            <div class="stat-label">Успешных решений</div>
+                            <div class="stat-value" id="movement-notes">1</div>
+                            <div class="stat-label">Перемещений</div>
                         </div>
                         <div class="stat-item ai">
                             <div class="stat-value ai" id="context-matches">0</div>
-                            <div class="stat-label">Паттернов найдено</div>
+                            <div class="stat-label">Контекстных совпадений</div>
                         </div>
                     </div>
                     
                     <div class="search-analytics" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
-                        <h4><i class="fas fa-brain"></i> Цифровой двойник анализирует:</h4>
+                        <h4><i class="fas fa-microchip"></i> AI-понимание</h4>
                         <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.4;">
-                            <p>• <strong>Эмоциональные паттерны</strong></p>
-                            <p>• <strong>Успешные стратегии</strong></p>
-                            <p>• <strong>Временные закономерности</strong></p>
-                            <p>• <strong>Повторяющиеся ошибки</strong></p>
+                            <p>Система использует гибридный подход:</p>
+                            <p>• <strong>Морфологический анализ</strong> - понимает формы слов</p>
+                            <p>• <strong>Семантические связи</strong> - находит по смыслу</p>
+                            <p>• <strong>Контекстный поиск</strong> - учитывает окружение слов</p>
                         </div>
                     </div>
                 </div>
@@ -1386,43 +1433,43 @@
                 <div class="quick-actions-card">
                     <div class="card-header">
                         <i class="fas fa-bolt"></i>
-                        <h3>Тесты цифрового двойника</h3>
+                        <h3>Тесты поиска</h3>
                     </div>
                     <div class="actions-list">
-                        <div class="action-item" id="action-test-patterns">
+                        <div class="action-item" id="action-test-hybrid">
+                            <div class="action-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="action-text">
+                                <span>Тест гибридного поиска</span>
+                                <small>"пойду гулять" (найдет 2 заметки)</small>
+                            </div>
+                        </div>
+                        <div class="action-item" id="action-test-morphology">
+                            <div class="action-icon">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <div class="action-text">
+                                <span>Тест морфологии</span>
+                                <small>"прогулка" или "пошел"</small>
+                            </div>
+                        </div>
+                        <div class="action-item" id="action-test-context">
                             <div class="action-icon">
                                 <i class="fas fa-project-diagram"></i>
                             </div>
                             <div class="action-text">
-                                <span>Найти паттерны успеха</span>
-                                <small>"успешные решения"</small>
+                                <span>Тест контекста</span>
+                                <small>"планы движения"</small>
                             </div>
                         </div>
-                        <div class="action-item" id="action-test-emotions">
-                            <div class="action-icon">
-                                <i class="fas fa-smile"></i>
-                            </div>
-                            <div class="action-text">
-                                <span>Анализ эмоций</span>
-                                <small>"радость" или "разочарование"</small>
-                            </div>
-                        </div>
-                        <div class="action-item" id="action-test-time">
-                            <div class="action-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="action-text">
-                                <span>Временные паттерны</span>
-                                <small>"утром" или "вечером"</small>
-                            </div>
-                        </div>
-                        <div class="action-item" id="action-add-digital-note">
+                        <div class="action-item" id="action-add-ai-sample">
                             <div class="action-icon">
                                 <i class="fas fa-robot"></i>
                             </div>
                             <div class="action-text">
-                                <span>Добавить для анализа</span>
-                                <small>Новый паттерн мышления</small>
+                                <span>Добавить AI-заметку</span>
+                                <small>С разными формами слов</small>
                             </div>
                         </div>
                     </div>
@@ -1431,12 +1478,9 @@
         </div>
         
         <footer class="footer">
-            <div class="footer-logo">Aurora - Digital Twin</div>
-            <p style="color: var(--text-secondary); margin-bottom: 10px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Персональный цифровой двойник для познания себя через анализ собственного мышления
-            </p>
+            <div class="footer-logo">AURORA AI</div>
             <p class="footer-copyright">
-                © 2024 Aurora - Digital Twin | Цифровой двойник для анализа паттернов мышления
+                © 2024 Система мышления Aurora 4.0 с гибридным поиском | Понимает смысл, а не только слова
             </p>
         </footer>
     </div>
@@ -1482,18 +1526,23 @@
             }
         }
 
+        // Оптимизация загрузки изображения
         function optimizeHeroImage() {
             const heroImage = document.getElementById('heroImage');
+            const imageFrame = document.querySelector('.image-frame');
             
+            // Проверяем, загрузилось ли изображение
             if (heroImage.complete) {
                 if (heroImage.naturalHeight === 0) {
+                    // Изображение не загрузилось, показываем fallback
                     console.log('Изображение не загрузилось, показываем fallback');
                     heroImage.src = 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';
                 } else {
-                    console.log('✅ Изображение успешно загружено');
+                    console.log('✅ Изображение успешно загружено:', heroImage.src);
                 }
             }
             
+            // Добавляем обработчик ошибки
             heroImage.onerror = function() {
                 console.log('❌ Ошибка загрузки изображения, показываем fallback');
                 this.src = 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';
@@ -1504,22 +1553,8 @@
         const fireButton = document.getElementById('digital-twin-fire-btn');
         if (fireButton) {
             fireButton.addEventListener('click', function() {
-                console.log('🚀 Переход к Digital Twin...');
-                
-                // Анимация клика
-                this.style.animation = 'none';
-                setTimeout(() => {
-                    this.style.animation = `
-                        fire-gradient-shift 3s ease infinite,
-                        fire-bounce 2.5s ease infinite,
-                        fire-glow 1.8s ease-in-out infinite
-                    `;
-                }, 100);
-                
-                // Переход на страницу цифрового двойника
-                setTimeout(() => {
-                    window.location.href = 'mirror.html';
-                }, 500);
+                console.log('🔥 Переход к Digital Twin...');
+                window.location.href = 'mirror.html';
             });
             
             // Анимация искр
@@ -1541,11 +1576,15 @@
             }, 2000);
         }
 
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
+        // ===== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
         document.addEventListener('DOMContentLoaded', function() {
+            // Создаем частицы
             createParticles();
+            
+            // Оптимизируем изображение
             setTimeout(optimizeHeroImage, 100);
             
+            // Пересоздаем частицы при изменении размера окна
             window.addEventListener('resize', function() {
                 const container = document.getElementById('particlesContainer');
                 if (container) {
@@ -1554,10 +1593,10 @@
                 }
             });
             
-            console.log('🚀 Aurora - Digital Twin загружен');
+            console.log('🚀 Герой-секция полностью загружена');
         });
 
-        // ===== СИСТЕМА ЗВУКА =====
+        // ========== СИСТЕМА ЗВУКА ==========
         const audio = document.getElementById('welcomeAudio');
         const voiceBtn = document.getElementById('voiceBtn');
         const playingIndicator = document.getElementById('playingIndicator');
@@ -1603,28 +1642,29 @@
             voiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
         });
 
-        // ===== ГИБРИДНЫЙ ПОИСК AURORA ДЛЯ ЦИФРОВОГО ДВОЙНИКА =====
+        // ========== ГИБРИДНЫЙ ПОИСК AURORA ==========
         class HybridSearch {
             constructor() {
                 this.morphology = {
-                    "успех": ["успешный", "успешно", "успехи", "преуспевать", "достижение"],
-                    "ошибка": ["ошибки", "ошибаться", "провал", "неудача", "проблема"],
-                    "решение": ["решать", "решил", "решила", "принятие решения", "выбор"],
-                    "эмоция": ["эмоциональный", "чувство", "настроение", "переживание", "ощущение"],
-                    "время": ["временной", "период", "момент", "секунда", "час"],
-                    "утро": ["утренний", "рано", "просыпаться", "завтрак", "начало дня"],
-                    "вечер": ["вечерний", "поздно", "заканчивать", "отдых", "сон"],
-                    "работа": ["рабочий", "труд", "задача", "проект", "дело"],
-                    "продуктивность": ["продуктивный", "эффективность", "результат", "достижение", "успех"],
-                    "привычка": ["привычный", "повторение", "рутина", "традиция", "образец"]
+                    "пойти": ["пойду", "пошел", "пошла", "пошли", "пойдешь", "пойти", "ходить", "сходить"],
+                    "гулять": ["прогулка", "прогуляться", "пройтись", "погулять", "гуляю", "гулял", "гуляла"],
+                    "работать": ["работа", "рабочий", "труд", "занятие", "работаю", "работал"],
+                    "готовить": ["приготовить", "готовка", "приготовление", "готовлю", "готовил"],
+                    "город": ["городе", "города", "городской", "мегаполис"],
+                    "парк": ["парке", "парки", "парковой", "сквер"],
+                    "магазин": ["магазине", "магазины", "торговый", "супермаркет"],
+                    "работа": ["работе", "работы", "служба", "деятельность"],
+                    "важный": ["важное", "важные", "важнейший", "значимый"],
+                    "срочный": ["срочное", "срочные", "неотложный", "экстренный"],
+                    "интересный": ["интересное", "интересные", "увлекательный", "занимательный"]
                 };
                 
                 this.semanticGroups = {
-                    "успех": ["успех", "достижение", "победа", "триумф", "результат", "прогресс"],
-                    "ошибки": ["ошибка", "неудача", "провал", "проблема", "сложность", "трудность"],
-                    "эмоции": ["радость", "грусть", "злость", "удивление", "страх", "волнение", "спокойствие"],
-                    "время": ["утро", "день", "вечер", "ночь", "рассвет", "закат", "перерыв"],
-                    "продуктивность": ["фокус", "концентрация", "энергия", "мотивация", "вдохновение"]
+                    "движение": ["пойти", "гулять", "ходить", "сходить", "отправиться", "двигаться", "перемещаться"],
+                    "работа": ["работать", "трудиться", "заниматься", "выполнять", "делать"],
+                    "отдых": ["отдыхать", "расслабляться", "развлекаться", "отдых", "релакс"],
+                    "покупки": ["покупать", "купить", "приобрести", "магазин", "шопинг"],
+                    "встречи": ["встретиться", "встреча", "свидание", "видеться", "общаться"]
                 };
                 
                 this.searchHistory = [];
@@ -1632,7 +1672,7 @@
             
             search(query, notes) {
                 const originalQuery = query.toLowerCase().trim();
-                console.log(`🔍 Поиск паттернов: "${originalQuery}"`);
+                console.log(`🔍 Поиск: "${originalQuery}"`);
                 
                 this.searchHistory.push({
                     query: originalQuery,
@@ -1641,7 +1681,7 @@
                 });
                 
                 const expandedQuery = this.expandQuery(originalQuery);
-                console.log(`🧠 Расширенный запрос для цифрового двойника:`, expandedQuery);
+                console.log(`🧠 Расширенный запрос:`, expandedQuery);
                 
                 const results = [];
                 const scoring = [];
@@ -1701,9 +1741,10 @@
                 
                 results.sort((a, b) => b.score - a.score);
                 
-                console.log(`📊 Найдено ${results.length} паттернов мышления`);
+                console.log(`📊 Найдено ${results.length} заметок с гибридным поиском`);
                 results.forEach((result, i) => {
                     console.log(`  ${i+1}. "${result.note.title}" (очков: ${result.score})`);
+                    result.matches.forEach(match => console.log(`     • ${match}`));
                 });
                 
                 this.searchHistory[this.searchHistory.length - 1].results = results.length;
@@ -1717,10 +1758,9 @@
                         topMatches: results.slice(0, 3).map(r => ({
                             title: r.note.title,
                             score: r.score,
-                            matchCount: r.matches.length,
-                            patternType: this.detectPatternType(r.note)
+                            matchCount: r.matches.length
                         })),
-                        searchMethod: results.length > 0 ? 'гибридный анализ паттернов' : 'базовый'
+                        searchMethod: results.length > 0 ? 'гибридный' : 'базовый'
                     }
                 };
             }
@@ -1751,17 +1791,17 @@
                         }
                     }
                     
-                    if (word === "успех" || word === "успешный") {
-                        synonyms.push("достижение", "победа", "триумф");
-                        ["достижение", "победа", "триумф"].forEach(w => allWords.add(w));
+                    if (word === "пойду" || word === "пошел") {
+                        synonyms.push("пойти", "ходить", "сходить");
+                        ["пойти", "ходить", "сходить"].forEach(w => allWords.add(w));
                     }
-                    if (word === "ошибка") {
-                        synonyms.push("неудача", "провал", "проблема");
-                        ["неудача", "провал", "проблема"].forEach(w => allWords.add(w));
+                    if (word === "гулять") {
+                        synonyms.push("прогулка", "прогуляться", "пройтись");
+                        ["прогулка", "прогуляться", "пройтись"].forEach(w => allWords.add(w));
                     }
-                    if (word === "эмоция") {
-                        synonyms.push("чувство", "настроение", "переживание");
-                        ["чувство", "настроение", "переживание"].forEach(w => allWords.add(w));
+                    if (word === "работа") {
+                        synonyms.push("труд", "дело", "занятие");
+                        ["труд", "дело", "занятие"].forEach(w => allWords.add(w));
                     }
                 });
                 
@@ -1785,15 +1825,6 @@
                 return highlighted;
             }
             
-            detectPatternType(note) {
-                const text = (note.title + ' ' + note.text).toLowerCase();
-                if (text.includes('успех') || text.includes('достижение')) return 'успешный паттерн';
-                if (text.includes('ошибка') || text.includes('неудача')) return 'паттерн ошибок';
-                if (text.includes('эмоция') || text.includes('чувство')) return 'эмоциональный паттерн';
-                if (text.includes('утро') || text.includes('вечер')) return 'временной паттерн';
-                return 'общий паттерн';
-            }
-            
             analyzeQuery(query) {
                 const expanded = this.expandQuery(query);
                 return {
@@ -1801,40 +1832,40 @@
                     morphologyForms: expanded.morphology.length,
                     semanticGroups: expanded.semantic.length,
                     expandedWords: expanded.allWords.length,
-                    complexity: expanded.morphology.length > 0 ? 'глубокий анализ' : 
-                               expanded.semantic.length > 0 ? 'семантический анализ' : 'базовый поиск'
+                    complexity: expanded.morphology.length > 0 ? 'высокая' : 
+                               expanded.semantic.length > 0 ? 'средняя' : 'базовая'
                 };
             }
         }
 
-        // ===== СИСТЕМА ЗАМЕТОК ДЛЯ ЦИФРОВОГО ДВОЙНИКА =====
+        // ========== СИСТЕМА ЗАМЕТОК AURORA ==========
         const demoNotes = [
             {
                 id: 1,
-                title: "Успешное решение на работе",
-                text: "Сегодня принял сложное решение по проекту - делегировал задачи команде. Результат: проект завершили на 2 дня раньше срока. Эмоция: удовлетворение и гордость.",
-                tags: ["успех", "работа", "решение", "делегирование", "удовлетворение"],
-                date: "Сегодня, 14:30",
-                patternType: "успешный паттерн",
-                category: "работа"
-            },
-            {
-                id: 2,
-                title: "Повторяющаяся ошибка в общении",
-                text: "Снова перебил коллегу на собрании. Заметил эту привычку - когда волнуюсь, начинаю говорить, не дослушав. Эмоция: разочарование в себе.",
-                tags: ["ошибка", "общение", "привычка", "разочарование", "собрание"],
-                date: "Вчера, 11:15",
-                patternType: "паттерн ошибок",
+                title: "Планы на понедельник",
+                text: "В понедельник пойду гулять с подругой в центре города. Надо выбрать кафе для встречи, может быть сходить в кино. После прогулки планирую зайти в книжный магазин.",
+                tags: ["гулять", "подруга", "город", "встреча", "кино", "прогулка", "магазин"],
+                date: "Сегодня, 10:30",
+                hasMovement: true,
                 category: "личное"
             },
             {
+                id: 2,
+                title: "Рабочие задачи на завтра",
+                text: "Завтра нужно пойти на работу раньше, чтобы подготовить отчет для начальства. Встреча с клиентом в 11:00, затем обед с коллегами. Вечером нужно остаться и доделать презентацию.",
+                tags: ["работа", "отчет", "встреча", "клиент", "задачи", "презентация", "начальство"],
+                date: "Вчера, 14:15",
+                hasMovement: true,
+                category: "работа"
+            },
+            {
                 id: 3,
-                title: "Утренняя продуктивность",
-                text: "Заметил, что самые сложные задачи лучше решать с 9 до 11 утра. После обеда концентрация падает. В это время лучше делать рутинные задачи.",
-                tags: ["время", "утро", "продуктивность", "задачи", "расписание"],
-                date: "3 дня назад",
-                patternType: "временной паттерн",
-                category: "анализ"
+                title: "Идея для нового проекта",
+                text: "Можно создать приложение для отслеживания личных целей с AI-ассистентом. Нужно продумать архитектуру и интерфейс.",
+                tags: ["идея", "проект", "приложение", "AI", "цели"],
+                date: "2 дня назад",
+                hasMovement: false,
+                category: "идеи"
             }
         ];
 
@@ -1851,16 +1882,16 @@
                 this.renderNotes();
                 this.setupEventListeners();
                 this.updateAnalytics();
-                console.log('🚀 Aurora - Digital Twin с гибридным поиском запущен');
+                console.log('🚀 Aurora 4.0 с гибридным поиском запущен');
             }
 
             loadNotes() {
-                const saved = localStorage.getItem('aurora-digital-twin-notes');
+                const saved = localStorage.getItem('aurora-notes');
                 return saved ? JSON.parse(saved) : [...demoNotes];
             }
 
             saveNotes() {
-                localStorage.setItem('aurora-digital-twin-notes', JSON.stringify(this.notes));
+                localStorage.setItem('aurora-notes', JSON.stringify(this.notes));
             }
 
             renderNotes(filteredNotes = null) {
@@ -1872,9 +1903,9 @@
                 if (notesToRender.length === 0) {
                     container.innerHTML = `
                         <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary)">
-                            <i class="fas fa-brain" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
-                            <h3 style="margin-bottom: 10px;">Записей для анализа пока нет</h3>
-                            <p>Добавьте первую мысль для анализа цифровым двойником</p>
+                            <i class="fas fa-sticky-note" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <h3 style="margin-bottom: 10px;">Заметок пока нет</h3>
+                            <p>Создайте первую заметку или добавьте пример</p>
                         </div>
                     `;
                 } else {
@@ -1886,7 +1917,7 @@
                             <div class="note-text">${note.text}</div>
                             <div class="note-tags">
                                 ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
-                                <span class="note-tag ai">${note.patternType}</span>
+                                ${note.hasMovement ? '<span class="note-tag ai">перемещение</span>' : ''}
                                 ${note.category === 'работа' ? '<span class="note-tag" style="background: rgba(245,158,11,0.2); border-color: #f59e0b;">работа</span>' : ''}
                             </div>
                             <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
@@ -1898,21 +1929,21 @@
                 }
 
                 document.getElementById('notes-count').textContent = 
-                    `${notesToRender.length} паттерн${this.getPluralForm(notesToRender.length)}`;
+                    `${notesToRender.length} замет${this.getPluralForm(notesToRender.length)}`;
             }
 
             getPluralForm(number) {
-                if (number === 1) return '';
-                if (number >= 2 && number <= 4) return 'а';
-                return 'ов';
+                if (number % 10 === 1 && number % 100 !== 11) return 'ка';
+                if (number % 10 >= 2 && number % 10 <= 4 && (number % 100 < 10 || number % 100 >= 20)) return 'ки';
+                return 'ок';
             }
 
             updateAnalytics() {
                 document.getElementById('total-notes').textContent = this.notes.length;
                 document.getElementById('smart-searches').textContent = this.smartSearches;
                 
-                const successNotes = this.notes.filter(n => n.patternType === 'успешный паттерн').length;
-                document.getElementById('movement-notes').textContent = successNotes;
+                const movementNotes = this.notes.filter(n => n.hasMovement).length;
+                document.getElementById('movement-notes').textContent = movementNotes;
                 
                 document.getElementById('context-matches').textContent = this.contextMatches;
             }
@@ -1922,7 +1953,7 @@
                 this.smartSearches++;
                 
                 const analysis = this.searchEngine.analyzeQuery(query);
-                if (analysis.complexity !== 'базовый поиск') {
+                if (analysis.complexity !== 'базовая') {
                     this.contextMatches += searchResult.results.length;
                 }
                 
@@ -1944,11 +1975,11 @@
                     container.innerHTML = `
                         <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary)">
                             <i class="fas fa-search" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
-                            <h3 style="margin-bottom: 10px;">Цифровой двойник не нашел паттернов</h3>
+                            <h3 style="margin-bottom: 10px;">Гибридный поиск не нашел совпадений</h3>
                             <p>Запрос: "<strong>${searchResult.analytics.query}</strong>"</p>
-                            <p style="font-size: 14px; margin-top: 10px;">Попробуйте описать паттерн другими словами</p>
+                            <p style="font-size: 14px; margin-top: 10px;">Попробуйте другие формы слов или синонимы</p>
                             <button class="voice-btn" style="margin-top: 15px; padding: 10px 20px;" onclick="auroraApp.renderNotes()">
-                                Показать все паттерны
+                                Показать все заметки
                             </button>
                         </div>
                     `;
@@ -1972,12 +2003,12 @@
                             <div class="note-text">${displayText}</div>
                             <div class="note-tags">
                                 ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
-                                <span class="note-tag ai">${note.patternType}</span>
+                                ${note.hasMovement ? '<span class="note-tag ai">перемещение</span>' : ''}
                             </div>
                             <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
                                 <i class="far fa-clock"></i> ${note.date}
                                 <span style="float: right; color: var(--ai-color);">
-                                    <i class="fas fa-brain"></i> Паттерн мышления
+                                    <i class="fas fa-bolt"></i> AI-совпадение
                                 </span>
                             </div>
                         `;
@@ -1988,17 +2019,17 @@
                     analyticsDiv.className = 'search-info';
                     analyticsDiv.style.marginTop = '20px';
                     analyticsDiv.innerHTML = `
-                        <h4><i class="fas fa-chart-bar"></i> Анализ цифрового двойника:</h4>
-                        <p>• Метод анализа: <strong>${searchResult.analytics.searchMethod}</strong></p>
-                        <p>• Найдено паттернов: <strong>${searchResult.analytics.totalFound}</strong></p>
-                        <p>• Типы паттернов: ${searchResult.analytics.topMatches.map(m => m.patternType).join(', ')}</p>
+                        <h4><i class="fas fa-chart-bar"></i> Анализ поиска:</h4>
+                        <p>• Метод поиска: <strong>${searchResult.analytics.searchMethod}</strong></p>
+                        <p>• Расширено до: <strong>${searchResult.analytics.expandedQuery.allWords.length}</strong> форм и синонимов</p>
+                        <p>• Наиболее релевантные: ${searchResult.analytics.topMatches.map(m => `"${m.title}"`).join(', ')}</p>
                         <p>• Сложность запроса: <strong>${this.searchEngine.analyzeQuery(searchResult.analytics.query).complexity}</strong></p>
                     `;
                     container.appendChild(analyticsDiv);
                 }
 
                 document.getElementById('notes-count').textContent = 
-                    `${searchResult.results.length} паттерн${this.getPluralForm(searchResult.results.length)} (анализ двойника)`;
+                    `${searchResult.results.length} замет${this.getPluralForm(searchResult.results.length)} (гибридный поиск)`;
             }
 
             setupEventListeners() {
@@ -2009,7 +2040,7 @@
                     const text = document.getElementById('note-text').value.trim();
                     
                     if (!title || !text) {
-                        alert('Пожалуйста, заполните описание ситуации и мысли');
+                        alert('Пожалуйста, заполните заголовок и текст заметки');
                         return;
                     }
                     
@@ -2019,7 +2050,7 @@
                         text,
                         tags: [],
                         date: 'Только что',
-                        patternType: this.detectPatternTypeFromText(text),
+                        hasMovement: this.containsMovementWords(text),
                         category: this.detectCategory(text)
                     };
                     
@@ -2053,37 +2084,37 @@
                     }
                 });
 
-                document.getElementById('action-test-patterns').addEventListener('click', () => {
-                    document.getElementById('search-input').value = 'успешные решения';
+                document.getElementById('action-test-hybrid').addEventListener('click', () => {
+                    document.getElementById('search-input').value = 'пойду гулять';
                     document.getElementById('search-btn').click();
                 });
 
-                document.getElementById('action-test-emotions').addEventListener('click', () => {
-                    document.getElementById('search-input').value = 'эмоции разочарование';
+                document.getElementById('action-test-morphology').addEventListener('click', () => {
+                    document.getElementById('search-input').value = 'прогулка';
                     document.getElementById('search-btn').click();
                 });
 
-                document.getElementById('action-test-time').addEventListener('click', () => {
-                    document.getElementById('search-input').value = 'время утро продуктивность';
+                document.getElementById('action-test-context').addEventListener('click', () => {
+                    document.getElementById('search-input').value = 'планы движения';
                     document.getElementById('search-btn').click();
                 });
 
-                document.getElementById('action-add-digital-note').addEventListener('click', () => {
+                document.getElementById('action-add-ai-sample').addEventListener('click', () => {
                     const samples = [
                         {
-                            title: "Эмоциональная реакция на критику",
-                            text: "Получил конструктивную критику от руководителя. Первая реакция - защищаться. Но смог взять паузу, поблагодарить и проанализировать. Через час понял, что критика была полезной.",
-                            tags: ["эмоции", "критика", "реакция", "анализ", "рост"]
+                            title: "Вечерняя прогулка по парку",
+                            text: "Вечером решил прогуляться в парке, подышать свежим воздухом. Пошел по главной аллее, затем свернул к озеру. Хорошо пройтись после рабочего дня.",
+                            tags: ["прогулка", "парк", "озеро", "вечер", "отдых"]
                         },
                         {
-                            title: "Принятие решения в стрессе",
-                            text: "В условиях дедлайна принял импульсивное решение, которое привело к дополнительным проблемам. Паттерн: в стрессе склонен к быстрым, необдуманным решениям.",
-                            tags: ["стресс", "решение", "ошибка", "паттерн", "дедлайн"]
+                            title: "Сходить за продуктами",
+                            text: "Нужно сходить в магазин за продуктами: хлеб, молоко, фрукты. Может быть, зайти в торговый центр за новой рубашкой.",
+                            tags: ["магазин", "продукты", "покупки", "торговый центр"]
                         },
                         {
-                            title: "Вечерняя рефлексия",
-                            text: "Вечером лучше всего получается анализировать прошедший день. Заметил, что в это время приходят самые ценные инсайты и понимания.",
-                            tags: ["вечер", "рефлексия", "инсайты", "анализ", "время"]
+                            title: "Рабочая встреча в городе",
+                            text: "Завтра нужно отправиться на важную встречу с партнерами в центре города. Встречаемся в кафе на главной площади.",
+                            tags: ["встреча", "город", "партнеры", "кафе", "работа"]
                         }
                     ];
                     
@@ -2093,7 +2124,7 @@
                         id: Date.now(),
                         ...sample,
                         date: 'Только что',
-                        patternType: this.detectPatternTypeFromText(sample.text),
+                        hasMovement: this.containsMovementWords(sample.text),
                         category: this.detectCategory(sample.text)
                     };
                     
@@ -2102,7 +2133,7 @@
                     this.renderNotes();
                     this.updateAnalytics();
                     
-                    alert(`Добавлен паттерн для анализа: "${sample.title}"`);
+                    alert(`Добавлена AI-заметка: "${sample.title}"`);
                 });
 
                 document.getElementById('export-btn').addEventListener('click', () => {
@@ -2110,24 +2141,16 @@
                 });
             }
 
-            detectPatternTypeFromText(text) {
-                const lowerText = text.toLowerCase();
-                if (lowerText.includes('успех') || lowerText.includes('достижение') || lowerText.includes('гордость')) 
-                    return 'успешный паттерн';
-                if (lowerText.includes('ошибка') || lowerText.includes('неудача') || lowerText.includes('разочарование')) 
-                    return 'паттерн ошибок';
-                if (lowerText.includes('эмоция') || lowerText.includes('чувство') || lowerText.includes('реакция')) 
-                    return 'эмоциональный паттерн';
-                if (lowerText.includes('время') || lowerText.includes('утро') || lowerText.includes('вечер')) 
-                    return 'временной паттерн';
-                return 'общий паттерн';
+            containsMovementWords(text) {
+                const movementWords = ['пойду', 'пойти', 'ходить', 'сходить', 'отправиться', 'гулять', 'прогулка', 'пройтись'];
+                return movementWords.some(word => text.toLowerCase().includes(word));
             }
 
             detectCategory(text) {
                 const lowerText = text.toLowerCase();
-                if (lowerText.includes('работа') || lowerText.includes('коллега') || lowerText.includes('проект')) return 'работа';
-                if (lowerText.includes('эмоция') || lowerText.includes('чувство') || lowerText.includes('переживание')) return 'личное';
-                if (lowerText.includes('время') || lowerText.includes('паттерн') || lowerText.includes('анализ')) return 'анализ';
+                if (lowerText.includes('работа') || lowerText.includes('отчет') || lowerText.includes('клиент')) return 'работа';
+                if (lowerText.includes('идея') || lowerText.includes('проект') || lowerText.includes('приложение')) return 'идеи';
+                if (lowerText.includes('гулять') || lowerText.includes('прогулка') || lowerText.includes('парк')) return 'личное';
                 return 'общее';
             }
 
@@ -2137,13 +2160,13 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `aurora-digital-twin-${new Date().toISOString().split('T')[0]}.json`;
+                a.download = `aurora-notes-${new Date().toISOString().split('T')[0]}.json`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
                 
-                alert(`Экспортировано ${this.notes.length} паттернов мышления для анализа цифровым двойником`);
+                alert(`Экспортировано ${this.notes.length} заметок с метаданными AI`);
             }
         }
 
@@ -2187,15 +2210,15 @@
             auroraApp = new AuroraApp();
             window.auroraApp = auroraApp;
             
-            // Авто-тест цифрового двойника при загрузке
+            // Авто-тест гибридного поиска при загрузке
             setTimeout(() => {
-                console.log('🧪 Авто-тест анализа паттернов...');
-                const testBtn = document.getElementById('action-test-patterns');
+                console.log('🧪 Авто-тест гибридного поиска...');
+                const testBtn = document.getElementById('action-test-hybrid');
                 if (testBtn) testBtn.click();
             }, 1500);
         });
 
-        console.log('✨ Aurora - Digital Twin полностью загружен и готов к анализу!');
+        console.log('✨ Aurora 4.0 полностью загружена и готова!');
     </script>
 </body>
 </html>
