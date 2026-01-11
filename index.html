@@ -637,6 +637,88 @@
             background: rgba(139, 92, 246, 0.2);
         }
 
+        /* Выбор заметок для демо */
+        .note-selector {
+            margin-bottom: 20px;
+        }
+
+        .note-selector h4 {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .note-selector-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .note-select-btn {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .note-select-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .note-select-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .note-select-btn.work-note {
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+            border-color: rgba(220, 38, 38, 0.3);
+        }
+
+        .note-select-btn.work-note.active {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .note-select-btn.walk-note {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .note-select-btn.walk-note.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .note-select-btn.project-note {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--ai-color);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .note-select-btn.project-note.active {
+            background: var(--ai-color);
+            color: white;
+            border-color: var(--ai-color);
+        }
+
         .note-input-area {
             margin-bottom: 30px;
         }
@@ -1794,23 +1876,26 @@
                 
                 <div class="zone-content">
                     <div class="data-item personal" id="personalNote1">
-                        <strong>Личная заметка:</strong> "Сегодня сложный рабочий день..."
+                        <strong>Выберите заметку для анализа:</strong>
+                        <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
+                            ⬇️ Используйте выбор заметок ниже
+                        </div>
                     </div>
-                    <div class="data-item personal" id="personalNote2">
-                        <strong>Личная заметка:</strong> "Чувствую стресс из-за дедлайна"
+                    <div class="data-item personal" id="personalNote2" style="display: none;">
+                        <!-- Загрузится динамически -->
                     </div>
-                    <div class="data-item personal" id="personalNote3">
-                        <strong>Личная заметка:</strong> "Вечерняя прогулка помогла расслабиться"
+                    <div class="data-item personal" id="personalNote3" style="display: none;">
+                        <!-- Загрузится динамически -->
                     </div>
                     
                     <div class="data-item pattern" id="pattern1" style="display: none;">
-                        <strong>Выявлен паттерн:</strong> "Работа → стресс" (87%)
+                        <!-- Выявленные паттерны -->
                     </div>
                     <div class="data-item pattern" id="pattern2" style="display: none;">
-                        <strong>Выявлен паттерн:</strong> "Прогулка → релаксация" (92%)
+                        <!-- Выявленные паттерны -->
                     </div>
                     <div class="data-item pattern" id="pattern3" style="display: none;">
-                        <strong>Выявлен паттерн:</strong> "Вечер → позитивные эмоции"
+                        <!-- Выявленные паттерны -->
                     </div>
                 </div>
                 
@@ -1853,20 +1938,20 @@
                 
                 <div class="zone-content">
                     <div class="data-item encrypted" id="encryptedPattern1" style="display: none;">
-                        <strong>Получен шаблон:</strong> "emotional_correlation_work_stress"
+                        <!-- Полученные шаблоны -->
                     </div>
                     <div class="data-item encrypted" id="encryptedPattern2" style="display: none;">
-                        <strong>Получен шаблон:</strong> "time_based_evening_relaxation"
+                        <!-- Полученные шаблоны -->
                     </div>
                     
                     <div class="data-item advice" id="advice1" style="display: none;">
-                        <strong>Совет:</strong> "Рекомендуем вечерние прогулки для снижения стресса"
+                        <!-- Советы ИИ -->
                     </div>
                     <div class="data-item advice" id="advice2" style="display: none;">
-                        <strong>Совет:</strong> "Планируйте сложные задачи на утро"
+                        <!-- Советы ИИ -->
                     </div>
                     <div class="data-item advice" id="advice3" style="display: none;">
-                        <strong>Совет:</strong> "Обнаружена связь работы со стрессом"
+                        <!-- Советы ИИ -->
                     </div>
                 </div>
                 
@@ -1880,9 +1965,28 @@
         <div class="interactive-demo">
             <h3 class="demo-title">🎮 Интерактивная демонстрация</h3>
             
+            <!-- Выбор заметок -->
+            <div class="note-selector">
+                <h4><i class="fas fa-sticky-note"></i> Выберите заметку для анализа:</h4>
+                <div class="note-selector-container">
+                    <button class="note-select-btn work-note" data-note-id="work">
+                        <i class="fas fa-briefcase"></i> Рабочая заметка
+                    </button>
+                    <button class="note-select-btn walk-note" data-note-id="walk">
+                        <i class="fas fa-walking"></i> Прогулка
+                    </button>
+                    <button class="note-select-btn project-note" data-note-id="project">
+                        <i class="fas fa-lightbulb"></i> Проект
+                    </button>
+                    <button class="note-select-btn custom-note active" data-note-id="custom">
+                        <i class="fas fa-edit"></i> Своя заметка
+                    </button>
+                </div>
+            </div>
+            
             <!-- Примеры заметок -->
             <div class="demo-examples">
-                <h4><i class="fas fa-lightbulb"></i> Попробуйте разные типы заметок:</h4>
+                <h4><i class="fas fa-lightbulb"></i> Или используйте примеры:</h4>
                 <div class="examples-container">
                     <button class="example-btn work-conflict" data-example="work_conflict">
                         <i class="fas fa-user-tie"></i> Конфликт на работе
@@ -2277,6 +2381,31 @@
             }, 2000);
         }
 
+        // ===== ГОТОВЫЕ ЗАМЕТКИ ДЛЯ ДЕМО =====
+        const demoNotesData = {
+            'work': {
+                title: "Рабочие задачи на завтра",
+                text: "Завтра нужно пойти на работу раньше, чтобы подготовить отчет для начальства. Встреча с клиентом в 11:00, затем обед с коллегами. Вечером нужно остаться и доделать презентацию.",
+                tags: ["работа", "отчет", "встреча", "клиент", "задачи", "презентация", "начальство"],
+                type: "work_conflict",
+                category: "работа"
+            },
+            'walk': {
+                title: "Планы на понедельник",
+                text: "В понедельник пойду гулять с подругой в центре города. Надо выбрать кафе для встречи, может быть сходить в кино. После прогулки планирую зайти в книжный магазин.",
+                tags: ["гулять", "подруга", "город", "встреча", "кино", "прогулка", "магазин"],
+                type: "walk",
+                category: "личное"
+            },
+            'project': {
+                title: "Идея для нового проекта",
+                text: "Можно создать приложение для отслеживания личных целей с AI-ассистентом. Нужно продумать архитектуру и интерфейс. Возможно использовать React для фронтенда и Node.js для бэкенда.",
+                tags: ["идея", "проект", "приложение", "AI", "цели", "разработка"],
+                type: "general",
+                category: "идеи"
+            }
+        };
+
         // ===== ДЕМО АНАЛИТИК-СОВЕТНИК =====
         class AnalystAdvisorDemo {
             constructor() {
@@ -2286,6 +2415,7 @@
                 this.demoResults = document.getElementById('demoResults');
                 this.localAnalysisText = document.getElementById('localAnalysisText');
                 this.aiAdviceText = document.getElementById('aiAdviceText');
+                this.currentNote = null;
                 
                 this.setupEventListeners();
                 this.initializeDemo();
@@ -2300,18 +2430,38 @@
                     this.sendToAi();
                 });
                 
+                // Выбор заметок для демо
+                document.querySelectorAll('.note-select-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const noteId = btn.getAttribute('data-note-id');
+                        this.selectNote(noteId);
+                        
+                        // Обновляем активную кнопку
+                        document.querySelectorAll('.note-select-btn').forEach(b => {
+                            b.classList.remove('active');
+                        });
+                        btn.classList.add('active');
+                    });
+                });
+                
                 // Примеры заметок
                 document.querySelectorAll('.example-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const exampleType = btn.getAttribute('data-example');
                         this.loadExample(exampleType);
+                        
+                        // Переключаем на "свою заметку"
+                        document.querySelectorAll('.note-select-btn').forEach(b => {
+                            b.classList.remove('active');
+                        });
+                        document.querySelector('.note-select-btn.custom-note').classList.add('active');
                     });
                 });
             }
 
             initializeDemo() {
-                // Показать начальные данные
-                this.showInitialData();
+                // Загружаем первую заметку по умолчанию
+                this.selectNote('work');
                 
                 // Анимация потока данных
                 setTimeout(() => {
@@ -2319,16 +2469,95 @@
                 }, 1000);
             }
 
-            showInitialData() {
-                // Показать личные заметки
-                for (let i = 1; i <= 3; i++) {
-                    const note = document.getElementById(`personalNote${i}`);
-                    if (note) {
-                        setTimeout(() => {
-                            note.style.display = 'block';
-                            note.style.animation = 'fadeIn 0.5s ease';
-                        }, i * 300);
+            selectNote(noteId) {
+                if (noteId === 'custom') {
+                    // Пользовательский ввод
+                    this.currentNote = {
+                        text: this.demoNoteInput.value.trim(),
+                        title: "Пользовательская заметка",
+                        type: this.detectNoteType(this.demoNoteInput.value.trim())
+                    };
+                    return;
+                }
+                
+                const note = demoNotesData[noteId];
+                if (note) {
+                    this.currentNote = note;
+                    
+                    // Обновляем поле ввода
+                    this.demoNoteInput.value = note.text;
+                    
+                    // Обновляем блоки архитектуры
+                    this.updateArchitectureBlocks(note);
+                    
+                    // Сбрасываем кнопку ИИ
+                    this.sendToAiBtn.disabled = true;
+                    this.demoResults.classList.remove('active');
+                    
+                    console.log(`📝 Загружена заметка: "${note.title}"`);
+                }
+            }
+
+            updateArchitectureBlocks(note) {
+                // Очищаем предыдущие данные
+                this.clearArchitectureBlocks();
+                
+                // Обновляем локальный аналитик
+                this.updateLocalAnalystBlock(note);
+            }
+
+            clearArchitectureBlocks() {
+                // Очищаем блоки
+                const blocks = [
+                    'personalNote2', 'personalNote3',
+                    'pattern1', 'pattern2', 'pattern3',
+                    'encryptedPattern1', 'encryptedPattern2',
+                    'advice1', 'advice2', 'advice3'
+                ];
+                
+                blocks.forEach(blockId => {
+                    const block = document.getElementById(blockId);
+                    if (block) {
+                        block.style.display = 'none';
+                        block.innerHTML = '';
                     }
+                });
+                
+                document.getElementById('encryptedData').style.display = 'none';
+            }
+
+            updateLocalAnalystBlock(note) {
+                // Показываем заметку в локальном аналитике
+                const noteBlock = document.getElementById('personalNote1');
+                if (noteBlock) {
+                    noteBlock.innerHTML = `
+                        <strong>Заметка:</strong> "${note.title}"<br>
+                        <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
+                            ${note.text.substring(0, 80)}${note.text.length > 80 ? '...' : ''}
+                        </div>
+                    `;
+                }
+                
+                // Показываем теги заметки
+                if (note.tags && note.tags.length > 0) {
+                    const tagsBlock = document.getElementById('personalNote2');
+                    if (tagsBlock) {
+                        tagsBlock.innerHTML = `
+                            <strong>Теги:</strong> ${note.tags.join(', ')}
+                        `;
+                        tagsBlock.style.display = 'block';
+                        tagsBlock.style.animation = 'fadeIn 0.5s ease';
+                    }
+                }
+                
+                // Показываем категорию
+                const categoryBlock = document.getElementById('personalNote3');
+                if (categoryBlock) {
+                    categoryBlock.innerHTML = `
+                        <strong>Категория:</strong> ${note.category}
+                    `;
+                    categoryBlock.style.display = 'block';
+                    categoryBlock.style.animation = 'fadeIn 0.5s ease';
                 }
             }
 
@@ -2403,6 +2632,21 @@
                     this.demoNoteInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     this.demoNoteInput.focus();
                     
+                    // Обновляем текущую заметку
+                    this.currentNote = {
+                        text: examples[exampleType],
+                        title: "Пример заметки",
+                        type: exampleType
+                    };
+                    
+                    // Обновляем архитектурные блоки
+                    this.updateLocalAnalystBlock({
+                        title: "Пример заметки",
+                        text: examples[exampleType],
+                        tags: [],
+                        category: this.detectCategory(examples[exampleType])
+                    });
+                    
                     // Сбросить кнопку ИИ
                     this.sendToAiBtn.disabled = true;
                     this.demoResults.classList.remove('active');
@@ -2419,7 +2663,14 @@
                     return;
                 }
                 
-                // Показать анимацию анализа
+                // Обновляем текущую заметку
+                this.currentNote = {
+                    text: noteText,
+                    title: "Пользовательская заметка",
+                    type: this.detectNoteType(noteText)
+                };
+                
+                // Показываем анимацию анализа
                 this.localAnalyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
                 this.localAnalyzeBtn.disabled = true;
                 
@@ -2431,8 +2682,8 @@
                     this.demoResults.classList.add('active');
                     this.localAnalysisText.innerHTML = analysis;
                     
-                    // Показать выявленные паттерны
-                    this.showPatterns();
+                    // Показать выявленные паттерны в блоке архитектуры
+                    this.showPatterns(noteText);
                     
                     // Включить кнопку отправки ИИ
                     this.sendToAiBtn.disabled = false;
@@ -2525,6 +2776,14 @@
                 return labels[type] || 'Общая заметка';
             }
 
+            detectCategory(text) {
+                const lowerText = text.toLowerCase();
+                if (lowerText.includes('работа') || lowerText.includes('отчет') || lowerText.includes('клиент')) return 'работа';
+                if (lowerText.includes('идея') || lowerText.includes('проект') || lowerText.includes('приложение')) return 'идеи';
+                if (lowerText.includes('гулять') || lowerText.includes('прогулка') || lowerText.includes('парк')) return 'личное';
+                return 'общее';
+            }
+
             analyzeWorkConflict(text) {
                 return `
                     <div style="margin-top: 10px; padding: 10px; background: rgba(220, 38, 38, 0.1); border-radius: 8px; border-left: 3px solid #dc2626;">
@@ -2579,6 +2838,48 @@
                         </p>
                     </div>
                 `;
+            }
+
+            showPatterns(text) {
+                const patterns = this.detectPatternsForArchitecture(text);
+                
+                // Показать паттерны в локальной зоне
+                patterns.forEach((pattern, index) => {
+                    const patternBlock = document.getElementById(`pattern${index + 1}`);
+                    if (patternBlock) {
+                        setTimeout(() => {
+                            patternBlock.innerHTML = `<strong>Выявлен паттерн:</strong> ${pattern}`;
+                            patternBlock.style.display = 'block';
+                            patternBlock.style.animation = 'fadeIn 0.5s ease';
+                        }, (index + 1) * 400);
+                    }
+                });
+                
+                // Показать зашифрованные данные
+                document.getElementById('encryptedData').style.display = 'block';
+            }
+
+            detectPatternsForArchitecture(text) {
+                const lowerText = text.toLowerCase();
+                const patterns = [];
+                
+                if (lowerText.includes('работа') || lowerText.includes('начальник') || lowerText.includes('задачи')) {
+                    patterns.push('Работа → напряжение');
+                }
+                
+                if (lowerText.includes('вечер') || lowerText.includes('прогулка') || lowerText.includes('расслаб')) {
+                    patterns.push('Вечер → релаксация');
+                }
+                
+                if (lowerText.includes('стресс') || lowerText.includes('устал') || lowerText.includes('бесил')) {
+                    patterns.push('Эмоциональное напряжение');
+                }
+                
+                if (lowerText.includes('планирую') || lowerText.includes('нужно') || lowerText.includes('сделать')) {
+                    patterns.push('Планирование задач');
+                }
+                
+                return patterns.length > 0 ? patterns.slice(0, 3) : ['Общий паттерн мышления'];
             }
 
             detectEmotions(words) {
@@ -2667,24 +2968,8 @@
                 return patterns.length > 0 ? patterns : ['Общий паттерн мышления'];
             }
 
-            showPatterns() {
-                // Показать паттерны в локальной зоне
-                for (let i = 1; i <= 3; i++) {
-                    const pattern = document.getElementById(`pattern${i}`);
-                    if (pattern) {
-                        setTimeout(() => {
-                            pattern.style.display = 'block';
-                            pattern.style.animation = 'fadeIn 0.5s ease';
-                        }, i * 400);
-                    }
-                }
-                
-                // Показать зашифрованные данные
-                document.getElementById('encryptedData').style.display = 'block';
-            }
-
             sendToAi() {
-                const noteText = this.demoNoteInput.value.trim();
+                const noteText = this.currentNote ? this.currentNote.text : this.demoNoteInput.value.trim();
                 
                 // Показать анимацию отправки
                 this.sendToAiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправляю...';
@@ -2693,30 +2978,38 @@
                 // Имитация отправки ИИ
                 setTimeout(() => {
                     // Показать полученные шаблоны
-                    for (let i = 1; i <= 2; i++) {
-                        const pattern = document.getElementById(`encryptedPattern${i}`);
-                        if (pattern) {
-                            setTimeout(() => {
-                                pattern.style.display = 'block';
-                                pattern.style.animation = 'fadeIn 0.5s ease';
-                            }, i * 400);
+                    const patterns = this.detectPatternsForArchitecture(noteText);
+                    
+                    patterns.forEach((pattern, index) => {
+                        if (index < 2) {
+                            const patternBlock = document.getElementById(`encryptedPattern${index + 1}`);
+                            if (patternBlock) {
+                                setTimeout(() => {
+                                    patternBlock.innerHTML = `<strong>Получен шаблон:</strong> "${this.encryptPattern(pattern)}"`;
+                                    patternBlock.style.display = 'block';
+                                    patternBlock.style.animation = 'fadeIn 0.5s ease';
+                                }, (index + 1) * 400);
+                            }
                         }
-                    }
+                    });
                     
                     // Показать советы
-                    for (let i = 1; i <= 3; i++) {
-                        const advice = document.getElementById(`advice${i}`);
-                        if (advice) {
-                            setTimeout(() => {
-                                advice.style.display = 'block';
-                                advice.style.animation = 'fadeIn 0.5s ease';
-                            }, (i + 2) * 400);
-                        }
-                    }
+                    const advice = this.generateAiAdviceForArchitecture(noteText);
                     
-                    // Показать рекомендации ИИ (ПЕРЕДАЕМ ТЕКСТ ЗАМЕТКИ!)
-                    const advice = this.generateAiAdvice(noteText);
-                    this.aiAdviceText.innerHTML = advice;
+                    advice.forEach((adviceText, index) => {
+                        const adviceBlock = document.getElementById(`advice${index + 1}`);
+                        if (adviceBlock) {
+                            setTimeout(() => {
+                                adviceBlock.innerHTML = `<strong>Совет:</strong> ${adviceText}`;
+                                adviceBlock.style.display = 'block';
+                                adviceBlock.style.animation = 'fadeIn 0.5s ease';
+                            }, (index + 3) * 400);
+                        }
+                    });
+                    
+                    // Показать рекомендации ИИ
+                    const fullAdvice = this.generateAiAdvice(noteText);
+                    this.aiAdviceText.innerHTML = fullAdvice;
                     
                     // Восстановить кнопку
                     this.sendToAiBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Отправить ИИ';
@@ -2725,6 +3018,49 @@
                     const noteType = this.detectNoteType(noteText);
                     console.log(`✅ ИИ-обработка завершена для типа: ${noteType}`);
                 }, 2000);
+            }
+
+            encryptPattern(pattern) {
+                // Простое шифрование для демонстрации
+                const encrypted = pattern
+                    .toLowerCase()
+                    .replace(/[а-яё]/g, char => {
+                        const code = char.charCodeAt(0);
+                        return String.fromCharCode(code + 1);
+                    })
+                    .replace(/[^a-z0-9]/g, '_');
+                
+                return encrypted + '_' + Math.random().toString(36).substring(2, 6);
+            }
+
+            generateAiAdviceForArchitecture(text) {
+                const noteType = this.detectNoteType(text);
+                
+                if (noteType === 'work_conflict') {
+                    return [
+                        "Рекомендуем вечерние прогулки для снижения стресса",
+                        "Планируйте сложные задачи на утро",
+                        "Обнаружена связь работы со стрессом"
+                    ];
+                } else if (noteType === 'stress') {
+                    return [
+                        "Делайте перерывы каждый час по 5 минут",
+                        "Пейте больше воды в течение дня",
+                        "Попробуйте медитацию перед сном"
+                    ];
+                } else if (noteType === 'walk') {
+                    return [
+                        "Сделайте прогулки регулярной привычкой",
+                        "Попробуйте разные маршруты для разнообразия",
+                        "Сочетайте прогулки с прослушиванием аудиокниг"
+                    ];
+                } else {
+                    return [
+                        "Структурируйте задачи по приоритетам",
+                        "Делайте заметки о своих успехах",
+                        "Анализируйте результаты в конце недели"
+                    ];
+                }
             }
 
             generateAiAdvice(noteText = '') {
@@ -3188,9 +3524,9 @@
                 this.updateAnalytics();
                 console.log('🚀 Aurora 4.0 с гибридным поиском запущен');
                 console.log('📋 ДЛЯ ТЕСТА АНАЛИТИК-СОВЕТНИК:');
-                console.log('1. Нажмите "Конфликт на работе" - увидите анализ рабочих конфликтов');
-                console.log('2. Нажмите "Локальный анализ" - увидите детальный разбор');
-                console.log('3. Нажмите "Отправить ИИ" - получите персональные рекомендации');
+                console.log('1. Выберите заметку из списка выше');
+                console.log('2. Нажмите "Локальный анализ" - увидите анализ в блоке архитектуры');
+                console.log('3. Нажмите "Отправить ИИ" - получите рекомендации в блоке ИИ');
                 console.log('📋 ДЛЯ ТЕСТА ГИБРИДНОГО ПОИСКА:');
                 console.log('1. Введите "пойду гулять" - найдёт 2 заметки');
                 console.log('2. Введите "прогулка" - найдёт по морфологии');
