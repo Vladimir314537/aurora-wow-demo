@@ -336,6 +336,387 @@
         .wave:nth-child(4) { animation-delay: 0.3s; }
         .wave:nth-child(5) { animation-delay: 0.4s; }
 
+        /* ===== СЕКЦИЯ ДЕМО АНАЛИТИК-СОВЕТНИК ===== */
+        .analyst-demo-section {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.95) 0%, 
+                rgba(30, 41, 59, 0.95) 100%);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .analyst-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .analyst-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            line-height: 1.6;
+        }
+
+        .architecture-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            align-items: center;
+        }
+
+        .analyst-zone {
+            background: rgba(139, 92, 246, 0.1);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .server-zone {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .encryption-zone {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zone-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid;
+        }
+
+        .analyst-zone .zone-header {
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .server-zone .zone-header {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .zone-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .analyst-zone .zone-icon {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(139, 92, 246, 0.1));
+            color: var(--ai-color);
+        }
+
+        .server-zone .zone-icon {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1));
+            color: var(--primary);
+        }
+
+        .encryption-zone .zone-icon {
+            color: var(--accent);
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .zone-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .zone-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .zone-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .data-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 15px;
+            border-radius: 10px;
+            border-left: 4px solid;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .analyst-zone .data-item {
+            border-left-color: var(--ai-color);
+        }
+
+        .analyst-zone .data-item:hover {
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateX(5px);
+        }
+
+        .server-zone .data-item {
+            border-left-color: var(--primary);
+        }
+
+        .server-zone .data-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(5px);
+        }
+
+        .data-item.personal {
+            background: rgba(220, 38, 38, 0.1);
+            border-left-color: #dc2626;
+        }
+
+        .data-item.pattern {
+            background: rgba(139, 92, 246, 0.1);
+            border-left-color: var(--ai-color);
+        }
+
+        .data-item.encrypted {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: var(--accent);
+        }
+
+        .data-item.advice {
+            background: rgba(59, 130, 246, 0.1);
+            border-left-color: var(--primary);
+        }
+
+        .arrow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .arrow {
+            font-size: 24px;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        .encryption-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* Интерактивная демо */
+        .interactive-demo {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .demo-title {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .note-input-area {
+            margin-bottom: 30px;
+        }
+
+        .note-input {
+            width: 100%;
+            height: 150px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            color: var(--text-primary);
+            font-size: 16px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .note-input:focus {
+            outline: none;
+            border-color: var(--ai-color);
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .demo-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-btn.analyst {
+            background: var(--ai-color);
+            color: white;
+        }
+
+        .demo-btn.analyst:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+        }
+
+        .demo-btn.server {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .demo-btn.server:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .demo-results {
+            display: none;
+        }
+
+        .demo-results.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .analyst-result .result-title {
+            color: var(--ai-color);
+        }
+
+        .server-result .result-title {
+            color: var(--primary);
+        }
+
+        .result-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .privacy-note {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .privacy-note i {
+            color: var(--accent);
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Преимущества архитектуры */
+        .benefits-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--ai-color);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--ai-color), var(--primary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .benefit-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .benefit-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
         /* ===== ОСНОВНОЕ ПРИЛОЖЕНИЕ ===== */
         .main-app {
             padding: 40px 20px;
@@ -760,6 +1141,24 @@
             font-weight: 700;
         }
 
+        /* ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА */
+        .fire-button-section {
+            text-align: center;
+            padding: 25px 20px;
+            background: linear-gradient(180deg, 
+                rgba(15, 23, 42, 0.8) 0%, 
+                rgba(30, 41, 59, 0.9) 100%);
+            margin: 0px auto 30px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            box-shadow: 
+                inset 0 0 50px rgba(255, 107, 107, 0.1),
+                0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+        }
+
         /* Футер */
         .footer {
             text-align: center;
@@ -789,12 +1188,6 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
         }
 
         @keyframes fire-bg-shift {
@@ -881,6 +1274,17 @@
             .image-frame {
                 height: 450px;
             }
+            
+            .architecture-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .arrow-container {
+                flex-direction: row;
+                justify-content: center;
+                gap: 40px;
+            }
         }
 
         @media (max-width: 992px) {
@@ -911,6 +1315,17 @@
             .hero-actions {
                 justify-content: center;
             }
+            
+            .aurora-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .sidebar {
+                grid-template-columns: 1fr 1fr;
+                display: grid;
+                gap: 25px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -929,17 +1344,6 @@
             
             .hero-content {
                 padding: 20px;
-            }
-            
-            .aurora-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .sidebar {
-                grid-template-columns: 1fr 1fr;
-                display: grid;
-                gap: 25px;
             }
             
             .notes-grid {
@@ -971,6 +1375,19 @@
                 font-size: 16px !important;
                 min-width: 280px !important;
                 gap: 12px !important;
+            }
+            
+            .analyst-zone, .server-zone {
+                min-height: 300px;
+                padding: 20px;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-buttons {
+                flex-direction: column;
             }
         }
 
@@ -1268,6 +1685,205 @@
         </div>
     </div>
 
+    <!-- ===== СЕКЦИЯ ДЕМО АНАЛИТИК-СОВЕТНИК ===== -->
+    <section class="analyst-demo-section">
+        <h2 class="analyst-title">🎯 Архитектура "Аналитик-Советник"</h2>
+        <p class="analyst-subtitle">
+            Инновационная технология, которая разделяет данные и интеллект. 
+            Ваши мысли остаются локально, а ИИ получает только обезличенные паттерны.
+        </p>
+        
+        <!-- Архитектурная схема -->
+        <div class="architecture-container">
+            <!-- Локальный аналитик -->
+            <div class="analyst-zone" id="localAnalystZone">
+                <div class="zone-header">
+                    <div class="zone-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="zone-title">Локальный Аналитик</h3>
+                        <p class="zone-subtitle">На устройстве пользователя</p>
+                    </div>
+                </div>
+                
+                <div class="zone-content">
+                    <div class="data-item personal" id="personalNote1">
+                        <strong>Личная заметка:</strong> "Сегодня сложный рабочий день..."
+                    </div>
+                    <div class="data-item personal" id="personalNote2">
+                        <strong>Личная заметка:</strong> "Чувствую стресс из-за дедлайна"
+                    </div>
+                    <div class="data-item personal" id="personalNote3">
+                        <strong>Личная заметка:</strong> "Вечерняя прогулка помогла расслабиться"
+                    </div>
+                    
+                    <div class="data-item pattern" id="pattern1" style="display: none;">
+                        <strong>Выявлен паттерн:</strong> "Работа → стресс" (87%)
+                    </div>
+                    <div class="data-item pattern" id="pattern2" style="display: none;">
+                        <strong>Выявлен паттерн:</strong> "Прогулка → релаксация" (92%)
+                    </div>
+                    <div class="data-item pattern" id="pattern3" style="display: none;">
+                        <strong>Выявлен паттерн:</strong> "Вечер → позитивные эмоции"
+                    </div>
+                </div>
+                
+                <div style="margin-top: auto; padding: 10px; background: rgba(139, 92, 246, 0.1); border-radius: 10px; text-align: center; font-size: 12px; color: var(--ai-color);">
+                    <i class="fas fa-lock"></i> 100% приватно - данные не покидают устройство
+                </div>
+            </div>
+
+            <!-- Шифрование -->
+            <div class="arrow-container">
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+                <div class="encryption-zone">
+                    <div class="zone-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3 class="zone-title">Шифрование</h3>
+                    <div class="encryption-badge">AES-256</div>
+                    <div id="encryptedData" style="margin-top: 10px; font-size: 11px; color: var(--text-secondary); display: none;">
+                        🔐 Зашифровано: U2FsdGVkX1+...
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </div>
+
+            <!-- Серверный советник -->
+            <div class="server-zone" id="serverAdvisorZone">
+                <div class="zone-header">
+                    <div class="zone-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div>
+                        <h3 class="zone-title">ИИ-Советник</h3>
+                        <p class="zone-subtitle">На защищённом сервере</p>
+                    </div>
+                </div>
+                
+                <div class="zone-content">
+                    <div class="data-item encrypted" id="encryptedPattern1" style="display: none;">
+                        <strong>Получен шаблон:</strong> "emotional_correlation_work_stress"
+                    </div>
+                    <div class="data-item encrypted" id="encryptedPattern2" style="display: none;">
+                        <strong>Получен шаблон:</strong> "time_based_evening_relaxation"
+                    </div>
+                    
+                    <div class="data-item advice" id="advice1" style="display: none;">
+                        <strong>Совет:</strong> "Рекомендуем вечерние прогулки для снижения стресса"
+                    </div>
+                    <div class="data-item advice" id="advice2" style="display: none;">
+                        <strong>Совет:</strong> "Планируйте сложные задачи на утро"
+                    </div>
+                    <div class="data-item advice" id="advice3" style="display: none;">
+                        <strong>Совет:</strong> "Обнаружена связь работы со стрессом"
+                    </div>
+                </div>
+                
+                <div style="margin-top: auto; padding: 10px; background: rgba(59, 130, 246, 0.1); border-radius: 10px; text-align: center; font-size: 12px; color: var(--primary);">
+                    <i class="fas fa-eye-slash"></i> ИИ "слепой" - видит только обезличенные паттерны
+                </div>
+            </div>
+        </div>
+
+        <!-- Интерактивная демо -->
+        <div class="interactive-demo">
+            <h3 class="demo-title">🎮 Интерактивная демонстрация</h3>
+            
+            <div class="note-input-area">
+                <textarea class="note-input" id="demoNoteInput" placeholder="Введите здесь вашу заметку для анализа... Например: 'Сегодня был тяжелый рабочий день. Чувствую усталость и стресс. Вечером прогулялся в парке, стало легче.'"></textarea>
+            </div>
+            
+            <div class="demo-buttons">
+                <button class="demo-btn analyst" id="localAnalyzeBtn">
+                    <i class="fas fa-brain"></i> Локальный анализ
+                </button>
+                <button class="demo-btn server" id="sendToAiBtn" disabled>
+                    <i class="fas fa-cloud-upload-alt"></i> Отправить ИИ
+                </button>
+            </div>
+            
+            <div class="demo-results" id="demoResults">
+                <div class="result-section analyst-result">
+                    <div class="result-title">
+                        <i class="fas fa-microchip" style="color: var(--ai-color);"></i>
+                        <span>Локальный анализ завершен</span>
+                    </div>
+                    <div class="result-content">
+                        <div id="localAnalysisText">Анализ текста в реальном времени...</div>
+                        <div style="margin-top: 10px; font-size: 13px; color: var(--accent);">
+                            <i class="fas fa-shield-alt"></i> 
+                            <strong>Безопасность:</strong> Текст остался на вашем устройстве
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-section server-result">
+                    <div class="result-title">
+                        <i class="fas fa-robot" style="color: var(--primary);"></i>
+                        <span>Рекомендации от ИИ</span>
+                    </div>
+                    <div class="result-content">
+                        <div id="aiAdviceText">Ожидайте рекомендации...</div>
+                        <div style="margin-top: 10px; font-size: 13px; color: var(--primary);">
+                            <i class="fas fa-info-circle"></i> 
+                            <strong>Важно:</strong> ИИ не видел ваш текст, только паттерны
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="privacy-note">
+                <i class="fas fa-user-shield"></i>
+                <p><strong>Гарантия приватности:</strong> Ваши личные заметки никогда не покидают ваше устройство. 
+                ИИ получает только обезличенные паттерны, из которых невозможно восстановить оригинальный текст.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества архитектуры -->
+    <div class="benefits-section">
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h3 class="benefit-title">Абсолютная приватность</h3>
+                <p class="benefit-description">
+                    Ваши мысли остаются только на вашем устройстве. Никто, включая нас, 
+                    не имеет доступа к содержанию ваших заметок.
+                </p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="benefit-title">Мощный ИИ без компромиссов</h3>
+                <p class="benefit-description">
+                    Получайте умные рекомендации, не жертвуя конфиденциальностью. 
+                    ИИ работает с обезличенными данными.
+                </p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h3 class="benefit-title">Соответствие стандартам</h3>
+                <p class="benefit-description">
+                    Архитектура соответствует GDPR, HIPAA и профессиональной этике 
+                    врачей, юристов, психологов и исследователей.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Основное приложение -->
     <div class="main-app">
         <div class="app-title">
@@ -1529,6 +2145,307 @@
             }, 2000);
         }
 
+        // ===== ДЕМО АНАЛИТИК-СОВЕТНИК =====
+        class AnalystAdvisorDemo {
+            constructor() {
+                this.localAnalyzeBtn = document.getElementById('localAnalyzeBtn');
+                this.sendToAiBtn = document.getElementById('sendToAiBtn');
+                this.demoNoteInput = document.getElementById('demoNoteInput');
+                this.demoResults = document.getElementById('demoResults');
+                this.localAnalysisText = document.getElementById('localAnalysisText');
+                this.aiAdviceText = document.getElementById('aiAdviceText');
+                
+                this.setupEventListeners();
+                this.initializeDemo();
+            }
+
+            setupEventListeners() {
+                this.localAnalyzeBtn.addEventListener('click', () => {
+                    this.performLocalAnalysis();
+                });
+
+                this.sendToAiBtn.addEventListener('click', () => {
+                    this.sendToAi();
+                });
+            }
+
+            initializeDemo() {
+                // Показать начальные данные
+                this.showInitialData();
+                
+                // Анимация потока данных
+                setTimeout(() => {
+                    this.simulateDataFlow();
+                }, 1000);
+            }
+
+            showInitialData() {
+                // Показать личные заметки
+                for (let i = 1; i <= 3; i++) {
+                    const note = document.getElementById(`personalNote${i}`);
+                    if (note) {
+                        setTimeout(() => {
+                            note.style.display = 'block';
+                            note.style.animation = 'fadeIn 0.5s ease';
+                        }, i * 300);
+                    }
+                }
+            }
+
+            simulateDataFlow() {
+                // Создать анимацию потока данных
+                const dataFlowInterval = setInterval(() => {
+                    this.createDataParticle();
+                }, 1500);
+
+                // Остановить через 10 секунд
+                setTimeout(() => {
+                    clearInterval(dataFlowInterval);
+                }, 10000);
+            }
+
+            createDataParticle() {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: fixed;
+                    width: 8px;
+                    height: 8px;
+                    background: radial-gradient(circle, var(--accent) 30%, transparent 70%);
+                    border-radius: 50%;
+                    z-index: 1000;
+                    pointer-events: none;
+                    animation: dataFlow 2s linear forwards;
+                `;
+
+                // Начальная позиция (локальная зона)
+                const startZone = document.getElementById('localAnalystZone');
+                const startRect = startZone.getBoundingClientRect();
+                particle.style.left = (startRect.right - 20) + 'px';
+                particle.style.top = (startRect.top + startRect.height / 2) + 'px';
+
+                document.body.appendChild(particle);
+
+                // Добавить стиль для анимации
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes dataFlow {
+                        0% {
+                            transform: translateX(0) translateY(0);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translateX(300px) translateY(0);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+
+                // Удалить частицу после анимации
+                setTimeout(() => {
+                    particle.remove();
+                    style.remove();
+                }, 2000);
+            }
+
+            performLocalAnalysis() {
+                const noteText = this.demoNoteInput.value.trim();
+                
+                if (!noteText) {
+                    alert('Пожалуйста, введите заметку для анализа');
+                    return;
+                }
+                
+                // Показать анимацию анализа
+                this.localAnalyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
+                this.localAnalyzeBtn.disabled = true;
+                
+                // Имитация локального анализа
+                setTimeout(() => {
+                    const analysis = this.analyzeNoteLocally(noteText);
+                    
+                    // Показать результаты
+                    this.demoResults.classList.add('active');
+                    this.localAnalysisText.innerHTML = analysis;
+                    
+                    // Показать выявленные паттерны
+                    this.showPatterns();
+                    
+                    // Включить кнопку отправки ИИ
+                    this.sendToAiBtn.disabled = false;
+                    
+                    // Восстановить кнопку
+                    this.localAnalyzeBtn.innerHTML = '<i class="fas fa-brain"></i> Локальный анализ';
+                    this.localAnalyzeBtn.disabled = false;
+                    
+                    console.log('✅ Локальный анализ завершен');
+                }, 1500);
+            }
+
+            analyzeNoteLocally(text) {
+                const words = text.toLowerCase().split(' ');
+                
+                // Простой анализ текста
+                const emotions = this.detectEmotions(words);
+                const topics = this.detectTopics(words);
+                const patterns = this.detectPatterns(words);
+                
+                return `
+                    <div style="margin-bottom: 10px;">
+                        <strong>Эмоции:</strong> ${emotions.join(', ')}
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Темы:</strong> ${topics.join(', ')}
+                    </div>
+                    <div>
+                        <strong>Выявленные паттерны:</strong> ${patterns.join(', ')}
+                    </div>
+                `;
+            }
+
+            showPatterns() {
+                // Показать паттерны в локальной зоне
+                for (let i = 1; i <= 3; i++) {
+                    const pattern = document.getElementById(`pattern${i}`);
+                    if (pattern) {
+                        setTimeout(() => {
+                            pattern.style.display = 'block';
+                            pattern.style.animation = 'fadeIn 0.5s ease';
+                        }, i * 400);
+                    }
+                }
+                
+                // Показать зашифрованные данные
+                document.getElementById('encryptedData').style.display = 'block';
+            }
+
+            sendToAi() {
+                // Показать анимацию отправки
+                this.sendToAiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправляю...';
+                this.sendToAiBtn.disabled = true;
+                
+                // Имитация отправки ИИ
+                setTimeout(() => {
+                    // Показать полученные шаблоны
+                    for (let i = 1; i <= 2; i++) {
+                        const pattern = document.getElementById(`encryptedPattern${i}`);
+                        if (pattern) {
+                            setTimeout(() => {
+                                pattern.style.display = 'block';
+                                pattern.style.animation = 'fadeIn 0.5s ease';
+                            }, i * 400);
+                        }
+                    }
+                    
+                    // Показать советы
+                    for (let i = 1; i <= 3; i++) {
+                        const advice = document.getElementById(`advice${i}`);
+                        if (advice) {
+                            setTimeout(() => {
+                                advice.style.display = 'block';
+                                advice.style.animation = 'fadeIn 0.5s ease';
+                            }, (i + 2) * 400);
+                        }
+                    }
+                    
+                    // Показать рекомендации ИИ
+                    const advice = this.generateAiAdvice();
+                    this.aiAdviceText.innerHTML = advice;
+                    
+                    // Восстановить кнопку
+                    this.sendToAiBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Отправить ИИ';
+                    this.sendToAiBtn.disabled = false;
+                    
+                    console.log('✅ ИИ-обработка завершена');
+                }, 2000);
+            }
+
+            generateAiAdvice() {
+                return `
+                    <div style="margin-bottom: 10px;">
+                        ✅ <strong>Рекомендация 1:</strong> Регулярные вечерние прогулки помогут снизить уровень стресса после рабочего дня.
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        ✅ <strong>Рекомендация 2:</strong> Сложные задачи лучше планировать на утренние часы, когда продуктивность выше.
+                    </div>
+                    <div>
+                        ✅ <strong>Рекомендация 3:</strong> Обнаружена связь между рабочими задачами и стрессом. Рассмотрите техники тайм-менеджмента.
+                    </div>
+                `;
+            }
+
+            detectEmotions(words) {
+                const emotionKeywords = {
+                    'радост': 'радость',
+                    'счастлив': 'счастье',
+                    'доволен': 'удовлетворение',
+                    'груст': 'грусть',
+                    'печал': 'печаль',
+                    'тревож': 'тревога',
+                    'стресс': 'стресс',
+                    'устал': 'усталость',
+                    'злой': 'злость',
+                    'споко': 'спокойствие'
+                };
+                
+                const detected = new Set();
+                words.forEach(word => {
+                    for (const [key, emotion] of Object.entries(emotionKeywords)) {
+                        if (word.includes(key)) {
+                            detected.add(emotion);
+                        }
+                    }
+                });
+                
+                return Array.from(detected).slice(0, 3);
+            }
+
+            detectTopics(words) {
+                const topicKeywords = {
+                    'работ': 'работа',
+                    'проект': 'проекты',
+                    'задач': 'задачи',
+                    'семь': 'семья',
+                    'друг': 'друзья',
+                    'здоров': 'здоровье',
+                    'спорт': 'спорт',
+                    'хобби': 'хобби',
+                    'учёб': 'учеба',
+                    'финанс': 'финансы'
+                };
+                
+                const detected = new Set();
+                words.forEach(word => {
+                    for (const [key, topic] of Object.entries(topicKeywords)) {
+                        if (word.includes(key)) {
+                            detected.add(topic);
+                        }
+                    }
+                });
+                
+                return Array.from(detected).slice(0, 3);
+            }
+
+            detectPatterns(words) {
+                const patterns = [];
+                
+                if (words.some(w => w.includes('работ'))) {
+                    patterns.push('Рабочий контекст');
+                }
+                
+                if (words.some(w => w.includes('утр') || w.includes('вечер') || w.includes('день'))) {
+                    patterns.push('Временной паттерн');
+                }
+                
+                const emotionalWords = ['радост', 'груст', 'тревож', 'стресс', 'устал'];
+                if (words.some(w => emotionalWords.some(ew => w.includes(ew)))) {
+                    patterns.push('Эмоциональный паттерн');
+                }
+                
+                return patterns.length > 0 ? patterns : ['Общий паттерн мышления'];
+            }
+        }
+
         // ===== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
         document.addEventListener('DOMContentLoaded', function() {
             // Создаем частицы
@@ -1546,7 +2463,10 @@
                 }
             });
             
-            console.log('🚀 Герой-секция полностью загружена');
+            // Инициализируем демо Аналитик-Советник
+            new AnalystAdvisorDemo();
+            
+            console.log('🚀 Герой-секция и демо Аналитик-Советник загружены');
         });
 
         // ========== СИСТЕМА ЗВУКА ==========
