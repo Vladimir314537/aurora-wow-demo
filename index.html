@@ -45,7 +45,7 @@
             overflow-x: hidden;
         }
 
-        /* ===== ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ ===== */
+        /* ===== ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ С АНИМАЦИЕЙ ===== */
         .hero-section {
             width: 100%;
             min-height: 100vh;
@@ -129,6 +129,83 @@
             flex-wrap: wrap;
         }
 
+        /* УПРОЩЕННАЯ РАМКА БЕЗ ПЕРЕЛИВАНИЙ */
+        .hero-image-container {
+            position: relative;
+            perspective: 1000px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .image-frame {
+            position: relative;
+            border-radius: 25px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: rotateY(-5deg) rotateX(2deg);
+            transition: transform 0.5s ease;
+            background: transparent;
+            width: 100%;
+            height: 500px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-frame:hover {
+            transform: rotateY(0deg) rotateX(0deg);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 23px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Упрощенная рамка */
+        .simple-border {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 27px;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+            background: linear-gradient(45deg, 
+                rgba(59, 130, 246, 0.2) 0%, 
+                rgba(139, 92, 246, 0.2) 50%,
+                rgba(59, 130, 246, 0.2) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        /* Частицы */
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.8) 20%,
+                var(--neon-blue) 50%,
+                transparent 70%);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: particleFloat var(--duration, 10s) linear infinite;
+        }
+
         /* Кнопка приветствия в герое */
         .hero-voice-btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -192,73 +269,64 @@
         .wave:nth-child(4) { animation-delay: 0.3s; }
         .wave:nth-child(5) { animation-delay: 0.4s; }
 
-        .image-frame {
-            position: relative;
-            border-radius: 25px;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            transform: rotateY(-5deg) rotateX(2deg);
-            transition: transform 0.5s ease;
-            background: transparent;
-            width: 100%;
-            height: 500px;
-            border: 2px solid rgba(59, 130, 246, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        /* Анимации */
+        @keyframes gradientText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        .image-frame:hover {
-            transform: rotateY(0deg) rotateX(0deg);
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(-5deg) rotateX(2deg); }
+            50% { transform: translateY(-20px) rotateY(-8deg) rotateX(4deg); }
         }
 
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            border-radius: 23px;
-            position: relative;
-            z-index: 2;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .simple-border {
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 27px;
-            z-index: 1;
-            overflow: hidden;
-            pointer-events: none;
-            background: linear-gradient(45deg, 
-                rgba(59, 130, 246, 0.2) 0%, 
-                rgba(139, 92, 246, 0.2) 50%,
-                rgba(59, 130, 246, 0.2) 100%);
-            border: 1px solid rgba(59, 130, 246, 0.4);
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(var(--start-x, 0));
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(calc(var(--start-x, 0) + var(--drift, 100px)));
+                opacity: 0;
+            }
         }
 
-        /* Частицы */
-        .particles-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.1); 
+                opacity: 0.8; 
+            }
         }
 
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: radial-gradient(circle, 
-                rgba(255, 255, 255, 0.8) 20%,
-                var(--neon-blue) 50%,
-                transparent 70%);
-            border-radius: 50%;
-            filter: blur(1px);
-            animation: particleFloat var(--duration, 10s) linear infinite;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes wave {
+            0%, 100% { height: 8px; }
+            50% { height: 20px; }
         }
 
         /* ===== БЛОКИ ФИЧЕЙ ===== */
@@ -405,24 +473,6 @@
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
             background: linear-gradient(135deg, var(--primary), var(--ai-color));
-        }
-
-        /* ===== ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА ===== */
-        .fire-button-section {
-            text-align: center;
-            padding: 25px 20px;
-            background: linear-gradient(180deg, 
-                rgba(15, 23, 42, 0.8) 0%, 
-                rgba(30, 41, 59, 0.9) 100%);
-            margin: 0px auto 30px;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 107, 107, 0.3);
-            box-shadow: 
-                inset 0 0 50px rgba(255, 107, 107, 0.1),
-                0 10px 40px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
         }
 
         /* ===== ОСНОВНОЕ ПРИЛОЖЕНИЕ ===== */
@@ -874,138 +924,6 @@
             margin-top: 20px;
         }
 
-        /* Анимации */
-        @keyframes gradientText {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotateY(-5deg) rotateX(2deg); }
-            50% { transform: translateY(-20px) rotateY(-8deg) rotateX(4deg); }
-        }
-
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) translateX(var(--start-x, 0));
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(calc(var(--start-x, 0) + var(--drift, 100px)));
-                opacity: 0;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 1; 
-            }
-            50% { 
-                transform: scale(1.1); 
-                opacity: 0.8; 
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes wave {
-            0%, 100% { height: 8px; }
-            50% { height: 20px; }
-        }
-
-        /* Анимации огненной кнопки */
-        @keyframes fire-bg-shift {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        @keyframes label-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        @keyframes fire-gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes fire-bounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            25% { transform: translateY(-8px) scale(1.03); }
-            50% { transform: translateY(0) scale(1); }
-            75% { transform: translateY(-4px) scale(1.02); }
-        }
-        
-        @keyframes fire-glow {
-            0%, 100% { 
-                box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6),
-                           0 0 50px rgba(255, 107, 107, 0.5),
-                           0 0 80px rgba(255, 107, 107, 0.4);
-            }
-            50% { 
-                box-shadow: 0 15px 45px rgba(255, 107, 107, 0.9),
-                           0 0 90px rgba(255, 107, 107, 0.8),
-                           0 0 140px rgba(255, 107, 107, 0.6);
-            }
-        }
-        
-        @keyframes fire-flicker {
-            0%, 100% { 
-                transform: scale(1);
-                filter: drop-shadow(0 0 5px #ff9f43);
-            }
-            50% { 
-                transform: scale(1.2);
-                filter: drop-shadow(0 0 15px #ff6b6b);
-            }
-        }
-        
-        @keyframes brain-spin {
-            0% { transform: rotateY(0deg) scale(1); }
-            50% { transform: rotateY(180deg) scale(1.2); }
-            100% { transform: rotateY(360deg) scale(1); }
-        }
-        
-        @keyframes spark-fly-1 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0); }
-            10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(60px, -50px) scale(0); }
-        }
-        
-        @keyframes spark-fly-2 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0); }
-            10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(-70px, -30px) scale(0); }
-        }
-        
-        @keyframes spark-fly-3 {
-            0% { opacity: 0; transform: translate(0, 0) scale(0); }
-            10% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(40px, 40px) scale(0); }
-        }
-
         /* Адаптивность */
         @media (max-width: 1200px) {
             .hero-title {
@@ -1150,7 +1068,7 @@
     </style>
 </head>
 <body>
-    <!-- ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ -->
+    <!-- ОПТИМИЗИРОВАННАЯ ГЕРОЙ-СЕКЦИЯ С АНИМАЦИЕЙ -->
     <section class="hero-section" id="heroSection">
         <!-- Частицы -->
         <div class="particles-container" id="particlesContainer"></div>
@@ -1193,7 +1111,7 @@
                 </div>
             </div>
             
-            <!-- Правая часть - изображение -->
+            <!-- Правая часть - изображение с анимацией -->
             <div class="hero-image-container">
                 <div class="simple-border"></div>
                 <div class="image-frame">
@@ -1203,146 +1121,6 @@
             </div>
         </div>
     </section>
-
-    <!-- ГОРЯЩАЯ КНОПКА ЦИФРОВОГО ДВОЙНИКА -->
-    <div class="fire-button-section">
-        <!-- Анимированный фон -->
-        <div style="
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 159, 67, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(254, 202, 87, 0.1) 0%, transparent 50%);
-            animation: fire-bg-shift 15s infinite linear;
-            pointer-events: none;
-        "></div>
-        
-        <!-- Подсказка -->
-        <div style="margin-bottom: 20px; position: relative; z-index: 2;">
-            <span style="
-                color: #ffd166; 
-                font-weight: 800; 
-                font-size: 16px; 
-                display: inline-flex; 
-                align-items: center; 
-                gap: 12px; 
-                padding: 10px 20px;
-                background: rgba(15, 23, 42, 0.7);
-                border-radius: 50px;
-                border: 2px solid rgba(255, 209, 102, 0.4);
-                animation: label-float 4s infinite ease-in-out;
-                text-shadow: 0 0 15px rgba(255, 209, 102, 0.7);
-                backdrop-filter: blur(5px);
-            ">
-                <i class="fas fa-bolt" style="color: #ff9f43;"></i>
-                ✨ НОВАЯ ФИЧА: Проанализируйте своё мышление!
-                <i class="fas fa-bolt" style="color: #ff9f43;"></i>
-            </span>
-        </div>
-        
-        <!-- Сама горящая кнопка -->
-        <button id="digital-twin-fire-btn" 
-                style="
-                    background: linear-gradient(45deg, 
-                        #ff6b6b 0%, #ee5a24 25%, #ff9f43 50%, 
-                        #feca57 75%, #ff9f43 100%);
-                    background-size: 400% 400%;
-                    border: none;
-                    color: white;
-                    padding: 18px 45px;
-                    font-weight: 900;
-                    font-size: 18px;
-                    border-radius: 60px;
-                    cursor: pointer;
-                    animation: 
-                        fire-gradient-shift 3s ease infinite,
-                        fire-bounce 2.5s ease infinite,
-                        fire-glow 1.8s ease-in-out infinite;
-                    box-shadow: 
-                        0 10px 30px rgba(255, 107, 107, 0.6),
-                        0 0 50px rgba(255, 107, 107, 0.5),
-                        0 0 80px rgba(255, 107, 107, 0.4),
-                        inset 0 2px 0 rgba(255, 255, 255, 0.4),
-                        inset 0 -4px 10px rgba(0, 0, 0, 0.3);
-                    position: relative;
-                    overflow: visible;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 15px;
-                    min-width: 320px;
-                    transition: all 0.4s ease;
-                    text-transform: uppercase;
-                    letter-spacing: 1.5px;
-                    z-index: 2;
-                ">
-            
-            <!-- Иконка огня -->
-            <i class="fas fa-fire" style="
-                font-size: 22px; 
-                animation: fire-flicker 0.8s infinite alternate;
-                filter: drop-shadow(0 0 8px #ff6b6b);
-            "></i>
-            
-            <!-- Текст -->
-            <span style="position: relative; z-index: 3;">
-                🔥 ГОРЯЧЕЕ: Анализ мышления 🔥
-            </span>
-            
-            <!-- Иконка мозга -->
-            <i class="fas fa-brain" style="
-                font-size: 22px; 
-                animation: brain-spin 3s infinite linear;
-                filter: drop-shadow(0 0 8px #8b5cf6);
-            "></i>
-            
-            <!-- Искры -->
-            <div class="spark" style="
-                position: absolute;
-                width: 6px; height: 6px;
-                background: radial-gradient(circle, #fff 30%, #ff6b6b 70%);
-                border-radius: 50%;
-                box-shadow: 0 0 15px #ff6b6b;
-                animation: spark-fly-1 2s infinite linear;
-                top: 20%; left: 30%;
-            "></div>
-            
-            <div class="spark" style="
-                position: absolute;
-                width: 5px; height: 5px;
-                background: radial-gradient(circle, #fff 40%, #ff9f43 60%);
-                border-radius: 50%;
-                box-shadow: 0 0 12px #ff9f43;
-                animation: spark-fly-2 2.3s infinite linear;
-                top: 70%; left: 20%;
-            "></div>
-            
-            <div class="spark" style="
-                position: absolute;
-                width: 4px; height: 4px;
-                background: radial-gradient(circle, #fff 20%, #ee5a24 80%);
-                border-radius: 50%;
-                box-shadow: 0 0 10px #ee5a24;
-                animation: spark-fly-3 2.1s infinite linear;
-                top: 40%; left: 80%;
-            "></div>
-        </button>
-        
-        <!-- Подпись -->
-        <div style="margin-top: 20px; position: relative; z-index: 2;">
-            <p style="
-                color: #cbd5e1; 
-                font-size: 14px; 
-                max-width: 500px; 
-                margin: 0 auto; 
-                line-height: 1.5;
-            ">
-                <i class="fas fa-info-circle" style="color: #60a5fa; margin-right: 8px;"></i>
-                Узнайте свои паттерны мышления за 30 секунд. На основе ваших заметок.
-            </p>
-        </div>
-    </div>
 
     <!-- БЛОК 1: Зеркальное мышление -->
     <section class="feature-section">
@@ -1388,7 +1166,7 @@
                 <div class="feature-action">
                     <a href="mirror.html" class="feature-btn">
                         <i class="fas fa-play-circle"></i>
-                        Запустить демо зеркального мышления
+                        Запустить зеркало мышления
                     </a>
                 </div>
             </div>
@@ -1436,10 +1214,10 @@
                 </div>
                 
                 <div class="feature-action">
-                    <button class="feature-btn" id="analystDemoBtn">
+                    <a href="analyst.html" class="feature-btn">
                         <i class="fas fa-play-circle"></i>
                         Попробовать демо архитектуры
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -1632,106 +1410,6 @@
         </p>
     </footer>
 
-    <!-- Модальное окно демо архитектуры -->
-    <div id="analystModal" style="
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 2000;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    ">
-        <div style="
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-            position: relative;
-        ">
-            <button onclick="closeAnalystModal()" style="
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background: none;
-                border: none;
-                color: var(--text-secondary);
-                font-size: 24px;
-                cursor: pointer;
-            ">&times;</button>
-            
-            <h3 style="font-size: 1.8em; font-weight: 700; margin-bottom: 20px; color: var(--text-primary);">
-                <i class="fas fa-microchip"></i> Демо архитектуры "Аналитик-Советник"
-            </h3>
-            
-            <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 30px;">
-                Введите заметку ниже, чтобы увидеть, как она обрабатывается в трёхуровневой архитектуре.
-                Обратите внимание: исходный текст остаётся на вашем устройстве.
-            </p>
-            
-            <div style="margin: 30px 0;">
-                <textarea id="archDemoInput" style="
-                    width: 100%;
-                    height: 120px;
-                    padding: 15px;
-                    background: var(--bg-primary);
-                    border: 2px solid var(--border);
-                    border-radius: 10px;
-                    color: var(--text-primary);
-                    font-size: 16px;
-                    resize: vertical;
-                " placeholder="Введите заметку для анализа... Например: 'Сегодня был тяжелый рабочий день. Чувствую стресс. Вечером прогулялся, стало легче.'"></textarea>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 30px 0;">
-                <button class="example-btn" style="text-align: center; padding: 10px;" onclick="loadExample('work')">
-                    <i class="fas fa-briefcase"></i><br>Работа
-                </button>
-                <button class="example-btn" style="text-align: center; padding: 10px;" onclick="loadExample('stress')">
-                    <i class="fas fa-brain"></i><br>Стресс
-                </button>
-                <button class="example-btn" style="text-align: center; padding: 10px;" onclick="loadExample('walk')">
-                    <i class="fas fa-walking"></i><br>Прогулка
-                </button>
-            </div>
-            
-            <button class="feature-btn" onclick="runArchitectureDemo()" style="width: 100%;">
-                <i class="fas fa-play"></i> Запустить демо обработки
-            </button>
-            
-            <div id="archDemoResults" style="margin-top: 30px; display: none;">
-                <div style="background: rgba(139, 92, 246, 0.1); padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid var(--ai-color);">
-                    <strong style="color: var(--ai-color);"><i class="fas fa-mobile-alt"></i> Локальный Аналитик:</strong>
-                    <p style="color: var(--text-secondary); margin-top: 5px;" id="localResult">
-                        Анализирует текст на устройстве...
-                    </p>
-                </div>
-                
-                <div style="background: rgba(16, 185, 129, 0.1); padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid var(--accent);">
-                    <strong style="color: var(--accent);"><i class="fas fa-key"></i> Шифрование:</strong>
-                    <p style="color: var(--text-secondary); margin-top: 5px;" id="encryptResult">
-                        Шифрует паттерны AES-256...
-                    </p>
-                </div>
-                
-                <div style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
-                    <strong style="color: var(--primary);"><i class="fas fa-cloud"></i> ИИ-Советник:</strong>
-                    <p style="color: var(--text-secondary); margin-top: 5px;" id="aiResult">
-                        Анализирует обезличенные паттерны...
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Аудио элемент -->
     <audio id="welcomeAudio" preload="auto">
         <source src="welcome.mp3" type="audio/mpeg">
@@ -1796,33 +1474,6 @@
             };
         }
 
-        // ===== ГОРЯЩАЯ КНОПКА =====
-        const fireButton = document.getElementById('digital-twin-fire-btn');
-        if (fireButton) {
-            fireButton.addEventListener('click', function() {
-                console.log('🔥 Переход к Digital Twin...');
-                window.location.href = 'mirror.html';
-            });
-            
-            // Анимация искр
-            setInterval(() => {
-                const sparks = document.querySelectorAll('.spark');
-                const colors = [
-                    { bg: '#ff6b6b', shadow: '#ff6b6b' },
-                    { bg: '#ff9f43', shadow: '#ff9f43' },
-                    { bg: '#feca57', shadow: '#feca57' },
-                    { bg: '#ee5a24', shadow: '#ee5a24' },
-                    { bg: '#ffd166', shadow: '#ffd166' }
-                ];
-                
-                sparks.forEach(spark => {
-                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    spark.style.background = `radial-gradient(circle, #fff 30%, ${randomColor.bg} 70%)`;
-                    spark.style.boxShadow = `0 0 15px ${randomColor.shadow}`;
-                });
-            }, 2000);
-        }
-
         // ===== АУДИО СИСТЕМА =====
         const audio = document.getElementById('welcomeAudio');
         const heroVoiceBtn = document.getElementById('heroVoiceBtn');
@@ -1867,87 +1518,6 @@
             isPlaying = false;
             playingIndicator.classList.remove('active');
             heroVoiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
-        });
-
-        // ===== ДЕМО АРХИТЕКТУРЫ =====
-        document.getElementById('analystDemoBtn').addEventListener('click', function() {
-            document.getElementById('analystModal').style.display = 'flex';
-        });
-
-        function closeAnalystModal() {
-            document.getElementById('analystModal').style.display = 'none';
-        }
-
-        function loadExample(type) {
-            const examples = {
-                'work': 'На заводе целый день бесил начальник. Достал требовать кучу разных заданий одновременно. Как мне с ним себя вести? Чувствую раздражение и бессилие.',
-                'stress': 'Сегодня был очень тяжелый рабочий день. Чувствую полную опустошенность и усталость. Голова болит, ничего не хочется делать.',
-                'walk': 'Решил вечером прогуляться в парке. Свежий воздух и природа всегда помогают расслабиться. Надо сделать это привычкой.'
-            };
-            
-            const input = document.getElementById('archDemoInput');
-            if (input && examples[type]) {
-                input.value = examples[type];
-            }
-        }
-
-        function runArchitectureDemo() {
-            const input = document.getElementById('archDemoInput');
-            const resultsDiv = document.getElementById('archDemoResults');
-            const localResult = document.getElementById('localResult');
-            const encryptResult = document.getElementById('encryptResult');
-            const aiResult = document.getElementById('aiResult');
-            
-            if (!input || !input.value.trim()) {
-                alert('Пожалуйста, введите заметку для анализа');
-                return;
-            }
-            
-            const text = input.value.trim();
-            
-            // Скрываем результаты и показываем заново
-            resultsDiv.style.display = 'none';
-            
-            // Анализ на локальном устройстве
-            setTimeout(() => {
-                localResult.innerHTML = `
-                    <strong>Проанализировано на устройстве:</strong><br>
-                    • Текст остался локально<br>
-                    • Выявлены паттерны: работа → стресс<br>
-                    • Определены эмоции: раздражение, усталость<br>
-                    <em style="color: var(--accent); font-size: 12px;">Данные не покинули ваше устройство</em>
-                `;
-                resultsDiv.style.display = 'block';
-                
-                // Шифрование
-                setTimeout(() => {
-                    encryptResult.innerHTML = `
-                        <strong>Паттерны зашифрованы:</strong><br>
-                        🔐 U2FsdGVkX1+7F8kD5A2L9qPwM4nT6RvYcXzJ7KmN3HpQ=<br>
-                        • pattern_work_stress: 87%<br>
-                        • pattern_evening_walk_relax: 92%<br>
-                        <em style="color: var(--accent); font-size: 12px;">Исходный текст невозможно восстановить</em>
-                    `;
-                    
-                    // ИИ-анализ
-                    setTimeout(() => {
-                        aiResult.innerHTML = `
-                            <strong>ИИ проанализировал паттерны:</strong><br>
-                            ✅ Рекомендация: Вечерние прогулки снижают стресс на 40%<br>
-                            ✅ Совет: Планируйте сложные задачи на утро<br>
-                            ✅ Инсайт: Обнаружена связь работы с напряжением<br>
-                            <em style="color: var(--primary); font-size: 12px;">ИИ не видел ваш текст, только паттерны</em>
-                        `;
-                    }, 1000);
-                }, 1000);
-            }, 500);
-        }
-
-        // Закрытие модального окна по клику вне его
-        document.getElementById('analystModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeAnalystModal();
-            }
         });
 
         // ===== ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ =====
