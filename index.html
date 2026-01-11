@@ -55,15 +55,11 @@
             align-items: center;
             justify-content: center;
             padding: 40px 20px;
-            background: 
-                /* Основной фон приложения */
-                linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%),
-                /* Градиенты вместо черных областей */
-                var(--gradient-1),
-                var(--gradient-2);
-            background-blend-mode: overlay, multiply, screen;
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.95) 0%, 
+                rgba(30, 41, 59, 0.95) 100%);
+            background-size: cover;
+            background-position: center;
         }
 
         .hero-container {
@@ -133,7 +129,7 @@
             flex-wrap: wrap;
         }
 
-        /* НЕОНОВАЯ РАМКА БЕЗ НАДПИСЕЙ */
+        /* УПРОЩЕННАЯ РАМКА БЕЗ ПЕРЕЛИВАНИЙ */
         .hero-image-container {
             position: relative;
             perspective: 1000px;
@@ -150,6 +146,8 @@
             background: transparent;
             width: 100%;
             height: 500px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
         .image-frame:hover {
@@ -161,57 +159,27 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            border-radius: 20px;
+            border-radius: 23px;
             position: relative;
             z-index: 2;
         }
 
-        /* Улучшенная неоновая рамка */
-        .neon-border {
+        /* Упрощенная рамка */
+        .simple-border {
             position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: 29px;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 27px;
             z-index: 1;
             overflow: hidden;
             pointer-events: none;
-        }
-
-        .neon-border::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                45deg, 
-                var(--neon-blue) 0%, 
-                var(--neon-purple) 25%, 
-                var(--neon-pink) 50%,
-                var(--neon-green) 75%,
-                var(--neon-yellow) 100%
-            );
-            background-size: 400% 400%;
-            border-radius: 29px;
-            animation: neonGlow 4s linear infinite;
-            z-index: 1;
-            filter: blur(12px);
-            opacity: 0.7;
-        }
-
-        .neon-border::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            right: 2px;
-            bottom: 2px;
-            background: transparent;
-            border-radius: 25px;
-            z-index: 2;
+            background: linear-gradient(45deg, 
+                rgba(59, 130, 246, 0.2) 0%, 
+                rgba(139, 92, 246, 0.2) 50%,
+                rgba(59, 130, 246, 0.2) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.4);
         }
 
         /* Частицы */
@@ -239,19 +207,9 @@
         }
 
         /* Анимации */
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
         @keyframes gradientText {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
-        }
-
-        @keyframes neonGlow {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 400% 0%; }
         }
 
         @keyframes float {
@@ -1110,7 +1068,7 @@
                 </div>
                 
                 <h1 class="hero-title">
-                    Aurora Цифровой Дневник
+                    Aurora - Цифровой Дневник
                     <span style="display: block; font-size: 0.6em; margin-top: 10px;">
                         Познай себя через свои мысли
                     </span>
@@ -1121,17 +1079,12 @@
                     и помогает принимать решения на основе вашего опыта.
                 </p>
                 
-                <div class="hero-actions">
-                    <button class="voice-btn" style="background: linear-gradient(135deg, var(--ai-color), #7c3aed);">
-                        <i class="fas fa-brain"></i>
-                        Узнать больше
-                    </button>
-                </div>
+                <!-- Кнопки убраны -->
             </div>
             
-            <!-- Правая часть - изображение с неоновой рамкой -->
+            <!-- Правая часть - изображение с упрощенной рамкой -->
             <div class="hero-image-container">
-                <div class="neon-border"></div>
+                <div class="simple-border"></div>
                 <div class="image-frame">
                     <!-- ИСПРАВЛЕННЫЙ ПУТЬ К ИЗОБРАЖЕНИЮ -->
                     <img src="angel.png" alt="Aurora Цифровой Дневник" class="hero-image" id="heroImage"
