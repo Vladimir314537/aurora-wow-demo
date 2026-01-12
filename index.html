@@ -606,7 +606,7 @@
             background: linear-gradient(135deg, var(--primary), var(--ai-color));
         }
 
-        /* ===== ГИБРИДНЫЙ ПОИСК ===== */
+        /* ===== СТИЛИ ДЛЯ ГИБРИДНОГО ПОИСКА (ОРИГИНАЛЬНЫЕ) ===== */
         .main-app {
             padding: 40px 20px;
             background: var(--bg-primary);
@@ -620,49 +620,46 @@
 
         .app-title {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 0 10px;
-        }
-
-        @media (min-width: 768px) {
-            .app-title {
-                margin-bottom: 40px;
-                padding: 0 20px;
-            }
+            margin-bottom: 40px;
+            padding: 0 20px;
         }
 
         .app-title h2 {
-            font-size: 1.8em;
+            font-size: 2.8em;
+            font-weight: 800;
             background: linear-gradient(135deg, var(--primary), var(--ai-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
-            font-weight: 800;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .app-title h2 {
-                font-size: 2.8em;
+                font-size: 2em;
             }
         }
 
-        /* Контейнер Aurora */
+        @media (max-width: 480px) {
+            .app-title h2 {
+                font-size: 1.8em;
+            }
+        }
+
         .aurora-container {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 30px;
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: 992px) {
             .aurora-container {
                 grid-template-columns: 1fr 300px;
                 gap: 25px;
             }
         }
 
-        /* Шапка */
         .header {
             grid-column: 1 / -1;
             display: flex;
@@ -685,170 +682,143 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, var(--primary), var(--ai-color));
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 24px;
             color: white;
             box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .logo-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
-                border-radius: 12px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
             }
         }
 
         .logo-text h1 {
-            font-size: 22px;
+            font-size: 28px;
             background: linear-gradient(135deg, var(--primary), var(--ai-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .logo-text h1 {
-                font-size: 28px;
+                font-size: 22px;
             }
         }
 
         .version-badge {
             background: linear-gradient(135deg, var(--ai-color), var(--primary));
             color: white;
-            padding: 3px 8px;
-            border-radius: 15px;
-            font-size: 10px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 700;
-            margin-left: 8px;
+            margin-left: 10px;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .version-badge {
-                padding: 4px 12px;
-                font-size: 12px;
-                border-radius: 20px;
-                margin-left: 10px;
+                padding: 3px 8px;
+                font-size: 10px;
+                margin-left: 8px;
             }
         }
 
-        /* Основной контент */
+        .btn {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--ai-color);
+        }
+
         .main-content {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 30px;
         }
 
-        @media (min-width: 768px) {
-            .main-content {
-                gap: 30px;
-            }
-        }
-
-        /* Карточки */
         .search-section, .create-note, .notes-section {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 25px;
             border: 1px solid var(--border);
-            box-shadow: 0 5px 15px var(--shadow);
+            box-shadow: 0 8px 25px var(--shadow);
             transition: transform 0.3s ease;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .search-section, .create-note, .notes-section {
-                border-radius: 16px;
-                padding: 25px;
-                box-shadow: 0 8px 25px var(--shadow);
+                padding: 20px;
+                border-radius: 12px;
             }
         }
 
         .search-section:hover, .create-note:hover, .notes-section:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px);
         }
 
-        @media (min-width: 768px) {
-            .search-section:hover, .create-note:hover, .notes-section:hover {
-                transform: translateY(-5px);
-            }
-        }
-
-        /* Поиск */
         .search-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .search-header {
-                gap: 15px;
-                margin-bottom: 20px;
-            }
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         .search-header i {
             color: var(--ai-color);
-            font-size: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .search-header i {
-                font-size: 24px;
-            }
+            font-size: 24px;
         }
 
         .search-header h2 {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
-        }
-
-        @media (min-width: 768px) {
-            .search-header h2 {
-                font-size: 20px;
-            }
         }
 
         .search-box {
             position: relative;
-            margin-bottom: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .search-box {
-                margin-bottom: 20px;
-            }
+            margin-bottom: 20px;
         }
 
         .search-input {
             width: 100%;
-            padding: 14px 45px 14px 15px;
+            padding: 16px 50px 16px 20px;
             background: var(--bg-secondary);
             border: 2px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 16px;
             transition: all 0.3s ease;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .search-input {
-                padding: 16px 50px 16px 20px;
-                border-radius: 12px;
-                font-size: 16px;
+                padding: 14px 45px 14px 15px;
+                font-size: 15px;
             }
         }
 
@@ -860,15 +830,15 @@
 
         .search-btn {
             position: absolute;
-            right: 8px;
+            right: 10px;
             top: 50%;
             transform: translateY(-50%);
             background: linear-gradient(135deg, var(--ai-color), var(--primary));
             color: white;
             border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -876,40 +846,292 @@
             transition: all 0.3s ease;
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             .search-btn {
-                right: 10px;
-                width: 40px;
-                height: 40px;
-                border-radius: 10px;
+                width: 35px;
+                height: 35px;
+                right: 8px;
             }
         }
 
-        /* Боковая панель */
-        .sidebar {
+        .search-btn:hover {
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .search-info {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .search-info h4 {
+            color: var(--ai-color);
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            align-items: center;
+            gap: 8px;
         }
 
-        @media (min-width: 768px) {
-            .sidebar {
-                gap: 25px;
-            }
+        .search-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 5px;
         }
 
-        /* Заметки */
+        .search-results-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .search-results-header i {
+            color: var(--ai-color);
+            font-size: 20px;
+        }
+
+        .search-results-header span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .search-results-header .query {
+            color: var(--ai-color);
+            font-weight: 700;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-header h2 i {
+            color: var(--primary);
+        }
+
+        .notes-count {
+            background: linear-gradient(135deg, var(--ai-color), var(--primary));
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
         .notes-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 20px;
         }
 
         @media (min-width: 768px) {
             .notes-grid {
                 grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: 20px;
             }
+        }
+
+        .note-card {
+            background: linear-gradient(145deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .note-card:hover {
+            border-color: var(--ai-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .note-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .note-text {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .note-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .note-tag {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .note-tag.ai {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+            border-color: var(--ai-color);
+            color: var(--ai-color);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        @media (max-width: 991px) {
+            .sidebar {
+                grid-template-columns: 1fr 1fr;
+                display: grid;
+                gap: 25px;
+            }
+        }
+
+        .analytics-card, .quick-actions-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .analytics-card:hover, .quick-actions-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card-header i {
+            color: var(--ai-color);
+            font-size: 20px;
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-item.ai {
+            border-color: var(--ai-color);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), var(--bg-secondary));
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-value.ai {
+            color: var(--ai-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .actions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .action-item:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--ai-color);
+            transform: translateX(5px);
+        }
+
+        .action-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--ai-color), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .action-text span {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        .action-text small {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
         }
 
         /* Футер */
@@ -958,7 +1180,7 @@
             }
         }
 
-        /* Анимации */
+        /* ===== АНИМАЦИИ ===== */
         @keyframes gradientText {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -1270,14 +1492,13 @@
                 </p>
             </div>
             
-            <!-- ВСТАВЛЯЕМ СЮДА ВЕСЬ БЛОК ГИБРИДНОГО ПОИСКА -->
+            <!-- ОРИГИНАЛЬНЫЙ БЛОК ГИБРИДНОГО ПОИСКА -->
             <div class="main-app">
                 <div class="app-title">
                     <h2>Гибридный поиск Aurora</h2>
                 </div>
                 
                 <div class="aurora-container">
-                    <!-- Шапка -->
                     <header class="header">
                         <div class="logo">
                             <div class="logo-icon">
@@ -1288,14 +1509,13 @@
                             </div>
                         </div>
                         <div class="header-actions">
-                            <button class="btn" id="export-btn" style="background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); padding: 10px 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; font-size: 14px; font-weight: 600;">
+                            <button class="btn" id="export-btn">
                                 <i class="fas fa-download"></i> Экспорт
                             </button>
                         </div>
                     </header>
 
                     <main class="main-content">
-                        <!-- Поиск -->
                         <section class="search-section">
                             <div class="search-header">
                                 <i class="fas fa-search-plus"></i>
@@ -1309,43 +1529,41 @@
                                 </button>
                             </div>
                             
-                            <div class="search-info" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); border-radius: 12px; padding: 15px; margin-top: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                                <h4 style="color: var(--ai-color); margin-bottom: 10px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px;"><i class="fas fa-robot"></i> Понимает:</h4>
-                                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 5px;">• Разные формы слов: <strong>"пойти" = "пойду" = "пошел" = "пойдешь"</strong></p>
-                                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 5px;">• Семантику: <strong>"гулять" = "прогулка" = "пройтись" = "прогуляться"</strong></p>
-                                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.4; margin-bottom: 5px;">• Контекст: находит по смыслу, а не только словам</p>
-                                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.4;">• Теги: учитывает все связанные теги и категории</p>
+                            <div class="search-info">
+                                <h4><i class="fas fa-robot"></i> Понимает:</h4>
+                                <p>• Разные формы слов: <strong>"пойти" = "пойду" = "пошел" = "пойдешь"</strong></p>
+                                <p>• Семантику: <strong>"гулять" = "прогулка" = "пройтись" = "прогуляться"</strong></p>
+                                <p>• Контекст: находит по смыслу, а не только словам</p>
+                                <p>• Теги: учитывает все связанные теги и категории</p>
                             </div>
                             
-                            <div id="search-results-header" class="search-results-header" style="display: none; align-items: center; gap: 10px; margin-bottom: 20px; padding: 15px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(16, 185, 129, 0.1)); border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                                <i class="fas fa-check-circle" style="color: var(--ai-color); font-size: 20px;"></i>
-                                <span style="color: var(--text-primary); font-weight: 600;">Найдено <strong id="found-count">0</strong> заметок по запросу: "<span id="current-query" class="query" style="color: var(--ai-color); font-weight: 700;"></span>"</span>
+                            <div id="search-results-header" class="search-results-header" style="display: none;">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Найдено <strong id="found-count">0</strong> заметок по запросу: "<span id="current-query" class="query"></span>"</span>
                             </div>
                         </section>
 
-                        <!-- Создание заметки -->
                         <section class="create-note">
-                            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-                                <h2 style="font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 12px;"><i class="fas fa-plus-circle" style="color: var(--primary);"></i> Новая заметка</h2>
+                            <div class="section-header">
+                                <h2><i class="fas fa-plus-circle"></i> Новая заметка</h2>
                             </div>
                             <form class="note-form" id="note-form">
-                                <div class="form-group" style="margin-bottom: 15px;">
+                                <div class="form-group">
                                     <input type="text" id="note-title" class="search-input" placeholder="Заголовок (например: Идея для проекта)">
                                 </div>
                                 <div class="form-group">
                                     <textarea id="note-text" class="search-input" rows="3" placeholder="Текст заметки... (попробуйте вставить: 'Завтра пойду гулять в парк')"></textarea>
                                 </div>
-                                <button type="submit" class="hero-voice-btn" style="width: 100%; margin-top: 15px; padding: 14px 30px; font-size: 1em;">
+                                <button type="submit" class="hero-voice-btn" style="width: 100%; margin-top: 15px;">
                                     <i class="fas fa-save"></i> Сохранить заметку
                                 </button>
                             </form>
                         </section>
 
-                        <!-- Список заметок -->
                         <section class="notes-section">
                             <div class="section-header">
-                                <h2 style="font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 12px;"><i class="fas fa-sticky-note" style="color: var(--primary);"></i> Заметки</h2>
-                                <div class="notes-count" id="notes-count" style="background: linear-gradient(135deg, var(--ai-color), var(--primary)); color: white; padding: 6px 15px; border-radius: 20px; font-size: 14px; font-weight: 700;">2 заметки</div>
+                                <h2><i class="fas fa-sticky-note"></i> Заметки</h2>
+                                <div class="notes-count" id="notes-count">2 заметки</div>
                             </div>
                             <div class="notes-grid" id="notes-container">
                                 <!-- Заметки будут загружены сюда JavaScript -->
@@ -1354,19 +1572,18 @@
                     </main>
 
                     <aside class="sidebar">
-                        <!-- Аналитика -->
-                        <div class="analytics-card" style="background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 16px; padding: 25px; border: 1px solid var(--border); transition: transform 0.3s ease;">
-                            <div class="card-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-                                <i class="fas fa-chart-network" style="color: var(--ai-color); font-size: 20px;"></i>
-                                <h3 style="font-size: 18px; font-weight: 700;">Аналитика поиска</h3>
+                        <div class="analytics-card">
+                            <div class="card-header">
+                                <i class="fas fa-chart-network"></i>
+                                <h3>Аналитика поиска</h3>
                             </div>
-                            <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div class="stat-item" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 15px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">
-                                    <div class="stat-value" id="total-notes" style="font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 5px;">2</div>
-                                    <div class="stat-label" style="font-size: 12px; color: var(--text-secondary); font-weight: 600;">Всего заметок</div>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value" id="total-notes">2</div>
+                                    <div class="stat-label">Всего заметок</div>
                                 </div>
-                                <div class="stat-item ai" style="border-color: var(--ai-color); background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), var(--bg-secondary));">
-                                    <div class="stat-value ai" id="smart-searches" style="color: var(--ai-color);">0</div>
+                                <div class="stat-item ai">
+                                    <div class="stat-value ai" id="smart-searches">0</div>
                                     <div class="stat-label">Умных поисков</div>
                                 </div>
                                 <div class="stat-item">
@@ -1380,7 +1597,7 @@
                             </div>
                             
                             <div class="search-analytics" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
-                                <h4 style="color: var(--ai-color); margin-bottom: 10px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px;"><i class="fas fa-microchip"></i> AI-понимание</h4>
+                                <h4><i class="fas fa-microchip"></i> AI-понимание</h4>
                                 <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.4;">
                                     <p>Система использует гибридный подход:</p>
                                     <p>• <strong>Морфологический анализ</strong> - понимает формы слов</p>
@@ -1390,23 +1607,21 @@
                             </div>
                         </div>
 
-                        <!-- Быстрые действия -->
-                        <div class="quick-actions-card" style="background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 16px; padding: 25px; border: 1px solid var(--border); transition: transform 0.3s ease;">
+                        <div class="quick-actions-card">
                             <div class="card-header">
-                                <i class="fas fa-bolt" style="color: var(--ai-color); font-size: 20px;"></i>
-                                <h3 style="font-size: 18px; font-weight: 700;">Тесты поиска</h3>
+                                <i class="fas fa-bolt"></i>
+                                <h3>Тесты поиска</h3>
                             </div>
-                            <div class="actions-list" style="display: flex; flex-direction: column; gap: 12px;">
-                                <div class="action-item" id="action-test-hybrid" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--bg-secondary); border-radius: 12px; cursor: pointer; transition: all 0.3s ease; border: 1px solid var(--border);">
-                                    <div class="action-icon" style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--ai-color), var(--primary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 16px;">
+                            <div class="actions-list">
+                                <div class="action-item" id="action-test-hybrid">
+                                    <div class="action-icon">
                                         <i class="fas fa-search"></i>
                                     </div>
                                     <div class="action-text">
-                                        <span style="font-size: 14px; font-weight: 700; color: var(--text-primary); display: block;">Тест гибридного поиска</span>
-                                        <small style="font-size: 12px; color: var(--text-secondary);">"пойду гулять" (найдет 2 заметки)</small>
+                                        <span>Тест гибридного поиска</span>
+                                        <small>"пойду гулять" (найдет 2 заметки)</small>
                                     </div>
                                 </div>
-                                
                                 <div class="action-item" id="action-test-morphology">
                                     <div class="action-icon">
                                         <i class="fas fa-language"></i>
@@ -1416,7 +1631,6 @@
                                         <small>"прогулка" или "пошел"</small>
                                     </div>
                                 </div>
-                                
                                 <div class="action-item" id="action-test-context">
                                     <div class="action-icon">
                                         <i class="fas fa-project-diagram"></i>
@@ -1426,7 +1640,6 @@
                                         <small>"планы движения"</small>
                                     </div>
                                 </div>
-                                
                                 <div class="action-item" id="action-add-ai-sample">
                                     <div class="action-icon">
                                         <i class="fas fa-robot"></i>
@@ -1556,6 +1769,561 @@
             });
         }
 
+        // ===== ГИБРИДНЫЙ ПОИСК =====
+        function initHybridSearch() {
+            class HybridSearch {
+                constructor() {
+                    this.morphology = {
+                        "пойти": ["пойду", "пошел", "пошла", "пошли", "пойдешь", "пойти", "ходить", "сходить"],
+                        "гулять": ["прогулка", "прогуляться", "пройтись", "погулять", "гуляю", "гулял", "гуляла"],
+                        "работать": ["работа", "рабочий", "труд", "занятие", "работаю", "работал"],
+                        "готовить": ["приготовить", "готовка", "приготовление", "готовлю", "готовил"],
+                        "город": ["городе", "города", "городской", "мегаполис"],
+                        "парк": ["парке", "парки", "парковой", "сквер"],
+                        "магазин": ["магазине", "магазины", "торговый", "супермаркет"],
+                        "работа": ["работе", "работы", "служба", "деятельность"],
+                        "важный": ["важное", "важные", "важнейший", "значимый"],
+                        "срочный": ["срочное", "срочные", "неотложный", "экстренный"],
+                        "интересный": ["интересное", "интересные", "увлекательный", "занимательный"]
+                    };
+                    
+                    this.semanticGroups = {
+                        "движение": ["пойти", "гулять", "ходить", "сходить", "отправиться", "двигаться", "перемещаться"],
+                        "работа": ["работать", "трудиться", "заниматься", "выполнять", "делать"],
+                        "отдых": ["отдыхать", "расслабляться", "развлекаться", "отдых", "релакс"],
+                        "покупки": ["покупать", "купить", "приобрести", "магазин", "шопинг"],
+                        "встречи": ["встретиться", "встреча", "свидание", "видеться", "общаться"]
+                    };
+                    
+                    this.searchHistory = [];
+                }
+                
+                search(query, notes) {
+                    const originalQuery = query.toLowerCase().trim();
+                    console.log(`🔍 Поиск: "${originalQuery}"`);
+                    
+                    this.searchHistory.push({
+                        query: originalQuery,
+                        timestamp: new Date().toISOString(),
+                        results: 0
+                    });
+                    
+                    const expandedQuery = this.expandQuery(originalQuery);
+                    console.log(`🧠 Расширенный запрос:`, expandedQuery);
+                    
+                    const results = [];
+                    const scoring = [];
+                    
+                    notes.forEach((note, index) => {
+                        const noteText = (note.title + ' ' + note.text + ' ' + note.tags.join(' ')).toLowerCase();
+                        let score = 0;
+                        let matches = [];
+                        
+                        if (noteText.includes(originalQuery)) {
+                            score += 100;
+                            matches.push(`точное совпадение: "${originalQuery}"`);
+                        }
+                        
+                        expandedQuery.morphology.forEach(word => {
+                            if (noteText.includes(word)) {
+                                score += 30;
+                                matches.push(`форма: "${word}"`);
+                            }
+                        });
+                        
+                        expandedQuery.semantic.forEach(group => {
+                            group.words.forEach(word => {
+                                if (noteText.includes(word)) {
+                                    score += 20;
+                                    matches.push(`семантика: "${word}" (${group.name})`);
+                                }
+                            });
+                        });
+                        
+                        expandedQuery.synonyms.forEach(synonym => {
+                            if (noteText.includes(synonym)) {
+                                score += 15;
+                                matches.push(`синоним: "${synonym}"`);
+                            }
+                        });
+                        
+                        const words = originalQuery.split(' ');
+                        words.forEach(word => {
+                            if (word.length > 3 && noteText.includes(word)) {
+                                score += 10;
+                                matches.push(`частичное: "${word}"`);
+                            }
+                        });
+                        
+                        if (score > 0) {
+                            results.push({
+                                note: note,
+                                score: score,
+                                matches: matches,
+                                highlightedText: this.highlightMatches(note.text, expandedQuery.allWords)
+                            });
+                            
+                            scoring.push({ index, score });
+                        }
+                    });
+                    
+                    results.sort((a, b) => b.score - a.score);
+                    
+                    console.log(`📊 Найдено ${results.length} заметок с гибридным поиском`);
+                    results.forEach((result, i) => {
+                        console.log(`  ${i+1}. "${result.note.title}" (очков: ${result.score})`);
+                        result.matches.forEach(match => console.log(`     • ${match}`));
+                    });
+                    
+                    this.searchHistory[this.searchHistory.length - 1].results = results.length;
+                    
+                    return {
+                        results: results.map(r => r.note),
+                        analytics: {
+                            query: originalQuery,
+                            expandedQuery: expandedQuery,
+                            totalFound: results.length,
+                            topMatches: results.slice(0, 3).map(r => ({
+                                title: r.note.title,
+                                score: r.score,
+                                matchCount: r.matches.length
+                            })),
+                            searchMethod: results.length > 0 ? 'гибридный' : 'базовый'
+                        }
+                    };
+                }
+                
+                expandQuery(query) {
+                    const words = query.split(' ').filter(w => w.length > 2);
+                    const morphologyForms = [];
+                    const semanticGroups = [];
+                    const synonyms = [];
+                    const allWords = new Set(words);
+                    
+                    words.forEach(word => {
+                        for (const [base, forms] of Object.entries(this.morphology)) {
+                            if (forms.includes(word) || word.includes(base)) {
+                                morphologyForms.push(...forms);
+                                allWords.add(base);
+                                forms.forEach(f => allWords.add(f));
+                            }
+                        }
+                        
+                        for (const [groupName, groupWords] of Object.entries(this.semanticGroups)) {
+                            if (groupWords.includes(word)) {
+                                semanticGroups.push({
+                                    name: groupName,
+                                    words: groupWords
+                                });
+                                groupWords.forEach(w => allWords.add(w));
+                            }
+                        }
+                        
+                        if (word === "пойду" || word === "пошел") {
+                            synonyms.push("пойти", "ходить", "сходить");
+                            ["пойти", "ходить", "сходить"].forEach(w => allWords.add(w));
+                        }
+                        if (word === "гулять") {
+                            synonyms.push("прогулка", "прогуляться", "пройтись");
+                            ["прогулка", "прогуляться", "пройтись"].forEach(w => allWords.add(w));
+                        }
+                        if (word === "работа") {
+                            synonyms.push("труд", "дело", "занятие");
+                            ["труд", "дело", "занятие"].forEach(w => allWords.add(w));
+                        }
+                    });
+                    
+                    return {
+                        original: query,
+                        morphology: [...new Set(morphologyForms)],
+                        semantic: semanticGroups,
+                        synonyms: [...new Set(synonyms)],
+                        allWords: [...allWords]
+                    };
+                }
+                
+                highlightMatches(text, searchWords) {
+                    let highlighted = text;
+                    searchWords.forEach(word => {
+                        if (word.length > 2) {
+                            const regex = new RegExp(`(${word})`, 'gi');
+                            highlighted = highlighted.replace(regex, '<mark>$1</mark>');
+                        }
+                    });
+                    return highlighted;
+                }
+                
+                analyzeQuery(query) {
+                    const expanded = this.expandQuery(query);
+                    return {
+                        wordCount: query.split(' ').length,
+                        morphologyForms: expanded.morphology.length,
+                        semanticGroups: expanded.semantic.length,
+                        expandedWords: expanded.allWords.length,
+                        complexity: expanded.morphology.length > 0 ? 'высокая' : 
+                                   expanded.semantic.length > 0 ? 'средняя' : 'базовая'
+                    };
+                }
+            }
+
+            // ===== СИСТЕМА ЗАМЕТОК AURORA =====
+            const demoNotes = [
+                {
+                    id: 1,
+                    title: "Планы на понедельник",
+                    text: "В понедельник пойду гулять с подругой в центре города. Надо выбрать кафе для встречи, может быть сходить в кино. После прогулки планирую зайти в книжный магазин.",
+                    tags: ["гулять", "подруга", "город", "встреча", "кино", "прогулка", "магазин"],
+                    date: "Сегодня, 10:30",
+                    hasMovement: true,
+                    category: "личное"
+                },
+                {
+                    id: 2,
+                    title: "Рабочие задачи на завтра",
+                    text: "Завтра нужно пойти на работу раньше, чтобы подготовить отчет для начальства. Встреча с клиентом в 11:00, затем обед с коллегами. Вечером нужно остаться и доделать презентацию.",
+                    tags: ["работа", "отчет", "встреча", "клиент", "задачи", "презентация", "начальство"],
+                    date: "Вчера, 14:15",
+                    hasMovement: true,
+                    category: "работа"
+                },
+                {
+                    id: 3,
+                    title: "Идея для нового проекта",
+                    text: "Можно создать приложение для отслеживания личных целей с AI-ассистентом. Нужно продумать архитектуру и интерфейс.",
+                    tags: ["идея", "проект", "приложение", "AI", "цели"],
+                    date: "2 дня назад",
+                    hasMovement: false,
+                    category: "идеи"
+                }
+            ];
+
+            class AuroraApp {
+                constructor() {
+                    this.notes = this.loadNotes();
+                    this.searchEngine = new HybridSearch();
+                    this.smartSearches = 0;
+                    this.contextMatches = 0;
+                    this.init();
+                }
+
+                init() {
+                    this.renderNotes();
+                    this.setupEventListeners();
+                    this.updateAnalytics();
+                    console.log('🚀 Aurora 4.0 с гибридным поиском запущен');
+                }
+
+                loadNotes() {
+                    const saved = localStorage.getItem('aurora-notes');
+                    return saved ? JSON.parse(saved) : [...demoNotes];
+                }
+
+                saveNotes() {
+                    localStorage.setItem('aurora-notes', JSON.stringify(this.notes));
+                }
+
+                renderNotes(filteredNotes = null) {
+                    const container = document.getElementById('notes-container');
+                    const notesToRender = filteredNotes || this.notes;
+                    
+                    container.innerHTML = '';
+
+                    if (notesToRender.length === 0) {
+                        container.innerHTML = `
+                            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary)">
+                                <i class="fas fa-sticky-note" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                                <h3 style="margin-bottom: 10px;">Заметок пока нет</h3>
+                                <p>Создайте первую заметку или добавьте пример</p>
+                            </div>
+                        `;
+                    } else {
+                        notesToRender.forEach(note => {
+                            const element = document.createElement('div');
+                            element.className = 'note-card';
+                            element.innerHTML = `
+                                <div class="note-title">${note.title}</div>
+                                <div class="note-text">${note.text}</div>
+                                <div class="note-tags">
+                                    ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
+                                    ${note.hasMovement ? '<span class="note-tag ai">перемещение</span>' : ''}
+                                    ${note.category === 'работа' ? '<span class="note-tag" style="background: rgba(245,158,11,0.2); border-color: #f59e0b;">работа</span>' : ''}
+                                </div>
+                                <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+                                    <i class="far fa-clock"></i> ${note.date}
+                                </div>
+                            `;
+                            container.appendChild(element);
+                        });
+                    }
+
+                    document.getElementById('notes-count').textContent = 
+                        `${notesToRender.length} замет${this.getPluralForm(notesToRender.length)}`;
+                }
+
+                getPluralForm(number) {
+                    if (number % 10 === 1 && number % 100 !== 11) return 'ка';
+                    if (number % 10 >= 2 && number % 10 <= 4 && (number % 100 < 10 || number % 100 >= 20)) return 'ки';
+                    return 'ок';
+                }
+
+                updateAnalytics() {
+                    document.getElementById('total-notes').textContent = this.notes.length;
+                    document.getElementById('smart-searches').textContent = this.smartSearches;
+                    
+                    const movementNotes = this.notes.filter(n => n.hasMovement).length;
+                    document.getElementById('movement-notes').textContent = movementNotes;
+                    
+                    document.getElementById('context-matches').textContent = this.contextMatches;
+                }
+
+                performSmartSearch(query) {
+                    const searchResult = this.searchEngine.search(query, this.notes);
+                    this.smartSearches++;
+                    
+                    const analysis = this.searchEngine.analyzeQuery(query);
+                    if (analysis.complexity !== 'базовая') {
+                        this.contextMatches += searchResult.results.length;
+                    }
+                    
+                    this.renderSearchResults(searchResult);
+                    this.updateAnalytics();
+                    
+                    return searchResult;
+                }
+
+                renderSearchResults(searchResult) {
+                    const container = document.getElementById('notes-container');
+                    const header = document.getElementById('search-results-header');
+                    const foundCount = document.getElementById('found-count');
+                    const currentQuery = document.getElementById('current-query');
+                    
+                    container.innerHTML = '';
+                    
+                    if (searchResult.results.length === 0) {
+                        container.innerHTML = `
+                            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary)">
+                                <i class="fas fa-search" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                                <h3 style="margin-bottom: 10px;">Гибридный поиск не нашел совпадений</h3>
+                                <p>Запрос: "<strong>${searchResult.analytics.query}</strong>"</p>
+                                <p style="font-size: 14px; margin-top: 10px;">Попробуйте другие формы слов или синонимы</p>
+                                <button class="hero-voice-btn" style="margin-top: 15px; padding: 10px 20px;" onclick="auroraApp.renderNotes()">
+                                    Показать все заметки
+                                </button>
+                            </div>
+                        `;
+                        header.style.display = 'none';
+                    } else {
+                        foundCount.textContent = searchResult.results.length;
+                        currentQuery.textContent = searchResult.analytics.query;
+                        header.style.display = 'flex';
+                        
+                        searchResult.results.forEach((note, index) => {
+                            const element = document.createElement('div');
+                            element.className = 'note-card';
+                            
+                            let displayText = note.text;
+                            if (searchResult.analytics.expandedQuery) {
+                                displayText = this.searchEngine.highlightMatches(note.text, searchResult.analytics.expandedQuery.allWords);
+                            }
+                            
+                            element.innerHTML = `
+                                <div class="note-title">${this.searchEngine.highlightMatches(note.title, searchResult.analytics.expandedQuery.allWords)}</div>
+                                <div class="note-text">${displayText}</div>
+                                <div class="note-tags">
+                                    ${note.tags.map(tag => `<span class="note-tag">${tag}</span>`).join('')}
+                                    ${note.hasMovement ? '<span class="note-tag ai">перемещение</span>' : ''}
+                                </div>
+                                <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+                                    <i class="far fa-clock"></i> ${note.date}
+                                    <span style="float: right; color: var(--ai-color);">
+                                        <i class="fas fa-bolt"></i> AI-совпадение
+                                    </span>
+                                </div>
+                            `;
+                            container.appendChild(element);
+                        });
+                        
+                        const analyticsDiv = document.createElement('div');
+                        analyticsDiv.className = 'search-info';
+                        analyticsDiv.style.marginTop = '20px';
+                        analyticsDiv.innerHTML = `
+                            <h4><i class="fas fa-chart-bar"></i> Анализ поиска:</h4>
+                            <p>• Метод поиска: <strong>${searchResult.analytics.searchMethod}</strong></p>
+                            <p>• Расширено до: <strong>${searchResult.analytics.expandedQuery.allWords.length}</strong> форм и синонимов</p>
+                            <p>• Наиболее релевантные: ${searchResult.analytics.topMatches.map(m => `"${m.title}"`).join(', ')}</p>
+                            <p>• Сложность запроса: <strong>${this.searchEngine.analyzeQuery(searchResult.analytics.query).complexity}</strong></p>
+                        `;
+                        container.appendChild(analyticsDiv);
+                    }
+
+                    document.getElementById('notes-count').textContent = 
+                        `${searchResult.results.length} замет${this.getPluralForm(searchResult.results.length)} (гибридный поиск)`;
+                }
+
+                setupEventListeners() {
+                    document.getElementById('note-form').addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        
+                        const title = document.getElementById('note-title').value.trim();
+                        const text = document.getElementById('note-text').value.trim();
+                        
+                        if (!title || !text) {
+                            alert('Пожалуйста, заполните заголовок и текст заметки');
+                            return;
+                        }
+                        
+                        const newNote = {
+                            id: Date.now(),
+                            title,
+                            text,
+                            tags: [],
+                            date: 'Только что',
+                            hasMovement: this.containsMovementWords(text),
+                            category: this.detectCategory(text)
+                        };
+                        
+                        this.notes.unshift(newNote);
+                        this.saveNotes();
+                        this.renderNotes();
+                        this.updateAnalytics();
+                        
+                        document.getElementById('note-form').reset();
+                        
+                        document.querySelector('.notes-section').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    });
+
+                    document.getElementById('search-btn').addEventListener('click', () => {
+                        const query = document.getElementById('search-input').value.trim();
+                        if (!query) {
+                            this.renderNotes();
+                            document.getElementById('search-results-header').style.display = 'none';
+                            return;
+                        }
+                        
+                        this.performSmartSearch(query);
+                    });
+
+                    document.getElementById('search-input').addEventListener('keyup', (e) => {
+                        if (e.key === 'Enter') {
+                            document.getElementById('search-btn').click();
+                        }
+                    });
+
+                    document.getElementById('action-test-hybrid').addEventListener('click', () => {
+                        document.getElementById('search-input').value = 'пойду гулять';
+                        document.getElementById('search-btn').click();
+                    });
+
+                    document.getElementById('action-test-morphology').addEventListener('click', () => {
+                        document.getElementById('search-input').value = 'прогулка';
+                        document.getElementById('search-btn').click();
+                    });
+
+                    document.getElementById('action-test-context').addEventListener('click', () => {
+                        document.getElementById('search-input').value = 'планы движения';
+                        document.getElementById('search-btn').click();
+                    });
+
+                    document.getElementById('action-add-ai-sample').addEventListener('click', () => {
+                        const samples = [
+                            {
+                                title: "Вечерняя прогулка по парку",
+                                text: "Вечером решил прогуляться в парке, подышать свежим воздухом. Пошел по главной аллее, затем свернул к озеру. Хорошо пройтись после рабочего дня.",
+                                tags: ["прогулка", "парк", "озеро", "вечер", "отдых"]
+                            },
+                            {
+                                title: "Сходить за продуктами",
+                                text: "Нужно сходить в магазин за продуктами: хлеб, молоко, фрукты. Может быть, зайти в торговый центр за новой рубашкой.",
+                                tags: ["магазин", "продукты", "покупки", "торговый центр"]
+                            },
+                            {
+                                title: "Рабочая встреча в городе",
+                                text: "Завтра нужно отправиться на важную встречу с партнерами в центре города. Встречаемся в кафе на главной площади.",
+                                tags: ["встреча", "город", "партнеры", "кафе", "работа"]
+                            }
+                        ];
+                        
+                        const sample = samples[Math.floor(Math.random() * samples.length)];
+                        
+                        const newNote = {
+                            id: Date.now(),
+                            ...sample,
+                            date: 'Только что',
+                            hasMovement: this.containsMovementWords(sample.text),
+                            category: this.detectCategory(sample.text)
+                        };
+                        
+                        this.notes.unshift(newNote);
+                        this.saveNotes();
+                        this.renderNotes();
+                        this.updateAnalytics();
+                        
+                        alert(`Добавлена AI-заметка: "${sample.title}"`);
+                    });
+
+                    document.getElementById('export-btn').addEventListener('click', () => {
+                        this.exportData();
+                    });
+                }
+
+                containsMovementWords(text) {
+                    const movementWords = ['пойду', 'пойти', 'ходить', 'сходить', 'отправиться', 'гулять', 'прогулка', 'пройтись'];
+                    return movementWords.some(word => text.toLowerCase().includes(word));
+                }
+
+                detectCategory(text) {
+                    const lowerText = text.toLowerCase();
+                    if (lowerText.includes('работа') || lowerText.includes('отчет') || lowerText.includes('клиент')) return 'работа';
+                    if (lowerText.includes('идея') || lowerText.includes('проект') || lowerText.includes('приложение')) return 'идеи';
+                    if (lowerText.includes('гулять') || lowerText.includes('прогулка') || lowerText.includes('парк')) return 'личное';
+                    return 'общее';
+                }
+
+                exportData() {
+                    const data = JSON.stringify(this.notes, null, 2);
+                    const blob = new Blob([data], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `aurora-notes-${new Date().toISOString().split('T')[0]}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    alert(`Экспортировано ${this.notes.length} заметок с метаданными AI`);
+                }
+            }
+
+            // Стиль для подсветки найденного текста
+            const highlightStyle = document.createElement('style');
+            highlightStyle.textContent = `
+                mark {
+                    background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(59, 130, 246, 0.4));
+                    color: var(--text-primary);
+                    padding: 1px 3px;
+                    border-radius: 3px;
+                    font-weight: bold;
+                }
+            `;
+            document.head.appendChild(highlightStyle);
+
+            // Запуск приложения
+            let auroraApp;
+            auroraApp = new AuroraApp();
+            window.auroraApp = auroraApp;
+            
+            // Авто-тест гибридного поиска при загрузке
+            setTimeout(() => {
+                console.log('🧪 Авто-тест гибридного поиска...');
+                const testBtn = document.getElementById('action-test-hybrid');
+                if (testBtn) testBtn.click();
+            }, 1500);
+        }
+
         // ===== ИНИЦИАЛИЗАЦИЯ =====
         document.addEventListener('DOMContentLoaded', function() {
             // Создаем частицы
@@ -1573,7 +2341,10 @@
                 }
             });
             
-            console.log('🚀 Aurora 4.0 загружен');
+            // Инициализируем гибридный поиск
+            initHybridSearch();
+            
+            console.log('🚀 Aurora 4.0 полностью загружен');
         });
 
         // Анимация волны для аудио
