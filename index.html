@@ -266,6 +266,8 @@
             width: 100%;
             max-width: 300px;
             justify-content: center;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         @media (min-width: 768px) {
@@ -589,6 +591,8 @@
             width: 100%;
             max-width: 300px;
             justify-content: center;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         @media (min-width: 768px) {
@@ -606,7 +610,7 @@
             background: linear-gradient(135deg, var(--primary), var(--ai-color));
         }
 
-        /* ===== СТИЛИ ДЛЯ ГИБРИДНОГО ПОИСКА (ОРИГИНАЛЬНЫЕ) ===== */
+        /* ===== ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ ГИБРИДНОГО ПОИСКА ===== */
         .main-app {
             padding: 40px 20px;
             background: var(--bg-primary);
@@ -748,6 +752,8 @@
             transition: all 0.3s ease;
             font-size: 14px;
             font-weight: 600;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn:hover {
@@ -844,6 +850,9 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            min-width: 44px;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         @media (max-width: 768px) {
@@ -1098,6 +1107,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: 1px solid var(--border);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .action-item:hover {
@@ -1180,6 +1190,264 @@
             }
         }
 
+        /* ===== ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ ===== */
+        @media (max-width: 767px) {
+            /* Основной контейнер */
+            .feature-section .main-app {
+                padding: 20px 0;
+                margin: 0 -10px;
+                width: calc(100% + 20px);
+            }
+
+            /* Контейнер Aurora */
+            .feature-section .aurora-container {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                padding: 0 15px;
+            }
+
+            /* Заголовок приложения */
+            .feature-section .app-title {
+                padding: 0;
+                margin-bottom: 20px;
+            }
+
+            .feature-section .app-title h2 {
+                font-size: 1.4em;
+                text-align: center;
+                padding: 0 10px;
+            }
+
+            /* Хедер с логотипом */
+            .feature-section .header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 15px;
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .feature-section .logo {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            /* Карточки поиска, создания заметок и списка заметок */
+            .feature-section .search-section,
+            .feature-section .create-note,
+            .feature-section .notes-section {
+                padding: 20px 15px;
+                border-radius: 12px;
+                margin: 0;
+            }
+
+            /* Поле поиска */
+            .feature-section .search-input {
+                padding: 14px 45px 14px 15px;
+                font-size: 16px;
+                border-radius: 10px;
+            }
+
+            /* Кнопка поиска */
+            .feature-section .search-btn {
+                width: 35px;
+                height: 35px;
+                right: 8px;
+            }
+
+            /* Сайдбар на мобилках */
+            .feature-section .sidebar {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            /* Карточки аналитики и быстрых действий */
+            .feature-section .analytics-card,
+            .feature-section .quick-actions-card {
+                padding: 20px;
+                margin: 0;
+            }
+
+            /* Сетка статистики */
+            .feature-section .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .feature-section .stat-item {
+                padding: 12px;
+            }
+
+            .feature-section .stat-value {
+                font-size: 22px;
+            }
+
+            /* Сетка заметок */
+            .feature-section .notes-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            /* Карточки заметок */
+            .feature-section .note-card {
+                padding: 15px;
+                border-radius: 10px;
+            }
+
+            /* Заголовок секции заметок */
+            .feature-section .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .feature-section .notes-count {
+                align-self: flex-start;
+                margin-top: 5px;
+            }
+
+            /* Информация о поиске */
+            .feature-section .search-info {
+                padding: 12px;
+                margin-top: 15px;
+            }
+
+            .feature-section .search-info p {
+                font-size: 12px;
+                line-height: 1.3;
+            }
+
+            /* Хедер результатов поиска */
+            .feature-section .search-results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            /* Форма создания заметки */
+            .feature-section .note-form {
+                margin-top: 0;
+            }
+
+            .feature-section .form-group {
+                margin-bottom: 12px;
+            }
+
+            /* Кнопки в мобильной версии */
+            .feature-section .hero-voice-btn {
+                width: 100%;
+                padding: 14px 20px;
+                font-size: 1em;
+            }
+
+            /* Аналитика поиска */
+            .feature-section .search-analytics {
+                margin-top: 15px;
+                padding-top: 15px;
+            }
+
+            .feature-section .search-analytics p {
+                font-size: 12px;
+                line-height: 1.3;
+            }
+
+            /* Списки действий */
+            .feature-section .actions-list {
+                gap: 10px;
+            }
+
+            .feature-section .action-item {
+                padding: 12px;
+            }
+
+            /* Заголовки внутри карточек */
+            .feature-section .card-header h3 {
+                font-size: 16px;
+            }
+
+            /* Убираем лишние отступы */
+            .feature-section .search-header,
+            .feature-section .section-header {
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Дополнительные исправления для очень маленьких экранов */
+        @media (max-width: 360px) {
+            .feature-section .main-app {
+                padding: 15px 0;
+                margin: 0 -5px;
+                width: calc(100% + 10px);
+            }
+
+            .feature-section .aurora-container {
+                padding: 0 10px;
+                gap: 12px;
+            }
+
+            .feature-section .search-section,
+            .feature-section .create-note,
+            .feature-section .notes-section {
+                padding: 15px 12px;
+            }
+
+            .feature-section .search-input {
+                padding: 12px 40px 12px 12px;
+                font-size: 15px;
+            }
+
+            .feature-section .search-btn {
+                width: 32px;
+                height: 32px;
+                right: 6px;
+            }
+
+            .feature-section .analytics-card,
+            .feature-section .quick-actions-card {
+                padding: 15px;
+            }
+
+            .feature-section .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .feature-section .stat-item {
+                padding: 10px 8px;
+            }
+
+            .feature-section .stat-value {
+                font-size: 20px;
+            }
+        }
+
+        /* Исправление для планшетов */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .feature-section .main-app {
+                padding: 30px 20px;
+            }
+
+            .feature-section .aurora-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-section .sidebar {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .feature-section .notes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
         /* ===== АНИМАЦИИ ===== */
         @keyframes gradientText {
             0%, 100% { background-position: 0% 50%; }
@@ -1238,20 +1506,17 @@
         }
 
         /* ===== ДОПОЛНИТЕЛЬНЫЕ ИСПРАВЛЕНИЯ ===== */
-        /* Убираем горизонтальный скролл */
         html, body {
             max-width: 100%;
             overflow-x: hidden;
         }
 
-        /* Улучшаем отображение длинного текста */
         .wrap-text {
             word-break: break-word;
             overflow-wrap: break-word;
             hyphens: auto;
         }
 
-        /* Улучшаем отображение на очень маленьких экранах */
         @media (max-width: 360px) {
             .hero-title {
                 font-size: 1.8em;
@@ -1270,7 +1535,6 @@
             }
         }
 
-        /* Улучшаем отображение на средних планшетах */
         @media (min-width: 768px) and (max-width: 991px) {
             .hero-container {
                 gap: 40px;
@@ -1281,7 +1545,6 @@
             }
         }
 
-        /* Улучшаем отображение на больших экранах */
         @media (min-width: 1400px) {
             .hero-container {
                 max-width: 1400px;
@@ -1296,7 +1559,6 @@
             }
         }
 
-        /* Исправление для полей ввода на iOS */
         input, textarea {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -1304,16 +1566,35 @@
             border-radius: 10px;
         }
 
-        /* Улучшение для мобильных кнопок */
-        .hero-voice-btn, .feature-btn, .search-btn {
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        /* Предотвращаем увеличение шрифтов на iOS */
         @media screen and (max-width: 767px) {
             input, select, textarea {
                 font-size: 16px !important;
+            }
+        }
+
+        /* Плавные переходы для мобильных устройств */
+        @media (max-width: 767px) {
+            .feature-section .aurora-container,
+            .feature-section .search-section,
+            .feature-section .create-note,
+            .feature-section .notes-section,
+            .feature-section .analytics-card,
+            .feature-section .quick-actions-card {
+                transition: all 0.2s ease;
+            }
+        }
+
+        /* Исправление для iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            @media (max-width: 767px) {
+                .feature-section .search-input,
+                .feature-section textarea {
+                    font-size: 16px;
+                }
+
+                .feature-section .aurora-container {
+                    padding-bottom: env(safe-area-inset-bottom, 15px);
+                }
             }
         }
     </style>
@@ -1767,6 +2048,37 @@
                 playingIndicator.style.display = 'none';
                 heroVoiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
             });
+        }
+
+        // ===== ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ =====
+        function optimizeForMobile() {
+            if (window.innerWidth <= 767) {
+                console.log('📱 Активирована мобильная оптимизация');
+                
+                // Упрощаем анимации для производительности
+                document.querySelectorAll('.note-card, .analytics-card, .quick-actions-card').forEach(card => {
+                    card.style.transition = 'all 0.2s ease';
+                });
+                
+                // Оптимизация прокрутки при фокусе
+                document.querySelectorAll('.search-input, textarea').forEach(input => {
+                    input.addEventListener('focus', function() {
+                        setTimeout(() => {
+                            window.scrollTo({
+                                top: this.getBoundingClientRect().top + window.pageYOffset - 100,
+                                behavior: 'smooth'
+                            });
+                        }, 300);
+                    });
+                });
+                
+                // Адаптация для iOS
+                if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                    document.querySelectorAll('input, textarea').forEach(el => {
+                        el.style.fontSize = '16px';
+                    });
+                }
+            }
         }
 
         // ===== ГИБРИДНЫЙ ПОИСК =====
@@ -2332,6 +2644,9 @@
             // Оптимизируем изображение
             setTimeout(optimizeHeroImage, 100);
             
+            // Оптимизация для мобильных
+            optimizeForMobile();
+            
             // Пересоздаем частицы при изменении размера окна
             window.addEventListener('resize', function() {
                 const container = document.getElementById('particlesContainer');
@@ -2339,6 +2654,7 @@
                     container.innerHTML = '';
                     setTimeout(createParticles, 100);
                 }
+                optimizeForMobile();
             });
             
             // Инициализируем гибридный поиск
