@@ -1583,6 +1583,715 @@
             console.log('🔄 Демо сброшено');
         }
 
+               // ===== РЕАЛЬНЫЙ ЛОКАЛЬНЫЙ AI СЕЙФ =====
+        class RealLocalAISafe {
+            constructor() {
+                this.isInitialized = false;
+                this.analysisCache = new Map();
+                
+                this.emotionDictionary = {
+                    positive: ['отлично', 'хорошо', 'рад', 'счастлив', 'успешно', 'прекрасно', 'замечательно', 'удовлетворен', 'восторг', 'любовь', 'нравится', 'восхитительно', 'потрясающе', 'супер', 'класс', 'здорово', 'прекрасный', 'замечательный', 'чудесно', 'отлично'],
+                    negative: ['стресс', 'бесит', 'боюсь', 'страшно', 'устал', 'плохо', 'грустно', 'разочарован', 'злюсь', 'нервы', 'тревога', 'паника', 'депрессия', 'тоска', 'обидно', 'жаль', 'ужасно', 'кошмар', 'проблема', 'сложно', 'тяжело'],
+                    neutral: ['работал', 'поработал', 'делал', 'планирую', 'нужно', 'должен', 'следует', 'может', 'возможно', 'вероятно', 'обычно', 'часто', 'иногда', 'завтра', 'сегодня', 'вчера', 'утром', 'вечером']
+                };
+                
+                this.topicDictionary = {
+                    работа: ['работа', 'проект', 'задача', 'начальник', 'коллеги', 'офис', 'дедлайн', 'презентация', 'отчет', 'встреча', 'клиент', 'зарплата', 'карьера', 'должность', 'компания', 'бизнес'],
+                    отдых: ['гулять', 'отдых', 'отпуск', 'каникулы', 'выходные', 'праздник', 'развлечение', 'кино', 'ресторан', 'путешествие', 'отдыхать', 'расслабление', 'релакс', 'медитация', 'сон', 'отпуск'],
+                    семья: ['семья', 'дети', 'родители', 'муж', 'жена', 'друг', 'подруга', 'отношения', 'любовь', 'брак', 'свадьба', 'день рождения', 'праздник', 'родные', 'близкие'],
+                    здоровье: ['здоровье', 'болезнь', 'врач', 'больница', 'лекарство', 'диета', 'спорт', 'тренировка', 'фитнес', 'йога', 'бег', 'плавание', 'здоровый', 'самочувствие', 'энергия'],
+                    финансы: ['деньги', 'зарплата', 'доход', 'расход', 'бюджет', 'инвестиции', 'сбережения', 'кредит', 'ипотека', 'покупка', 'продажа', 'экономия', 'финансы', 'банк'],
+                    образование: ['учеба', 'курсы', 'обучение', 'книга', 'чтение', 'изучение', 'знания', 'навыки', 'развитие', 'образование', 'университет', 'школа']
+                };
+                
+                this.totalAnalyses = 0;
+                this.totalBytesSaved = 0;
+                this.startTime = Date.now();
+            }
+            
+            async initialize() {
+                if (this.isInitialized) return true;
+                
+                // Имитация загрузки модели
+                await new Promise(resolve => setTimeout(resolve, 300));
+                this.isInitialized = true;
+                
+                console.log('🤖 Локальный AI инициализирован');
+                return true;
+            }
+            
+            async analyze(text) {
+                if (!this.isInitialized) {
+                    await this.initialize();
+                }
+                
+                const startTime = Date.now();
+                this.totalAnalyses++;
+                
+                // Проверяем кеш для производительности
+                const cacheKey = this.hashText(text);
+                if (this.analysisCache.has(cacheKey)) {
+                    return this.analysisCache.get(cacheKey);
+                }
+                
+                // 1. Анализ эмоций
+                const emotion = this.analyzeEmotion(text);
+                
+                // 2. Анализ тем
+                const topics = this.extractTopics(text);
+                
+                // 3. Ключевые слова
+                const keywords = this.extractKeywords(text);
+                
+                // 4. Статистика текста
+                const stats = this.calculateStats(text);
+                
+                // 5. Паттерны для шифрования
+                const patterns = this.extractPatterns(text, emotion, topics);
+                
+                const analysis = {
+                    emotion: emotion,
+                    topics: topics,
+                    keywords: keywords,
+                    stats: stats,
+                    patterns: patterns,
+                    metadata: {
+                        processedLocally: true,
+                        bytesSent: 0,
+                        processingTime: Date.now() - startTime,
+                        model: 'local-ai-safe-v1',
+                        timestamp: new Date().toISOString()
+                    }
+                };
+                
+                // Сохраняем в кеш
+                this.analysisCache.set(cacheKey, analysis);
+                
+                // Рассчитываем сэкономленные байты (примерно 1000 байт на запрос)
+                this.totalBytesSaved += text.length;
+                
+                return analysis;
+            }
+            
+            analyzeEmotion(text) {
+                const lowerText = text.toLowerCase();
+                let positiveScore = 0;
+                let negativeScore = 0;
+                let neutralScore = 0;
+                
+                // Подсчитываем эмоциональные слова
+                this.emotionDictionary.positive.forEach(word => {
+                    if (lowerText.includes(word)) positiveScore++;
+                });
+                
+                this.emotionDictionary.negative.forEach(word => {
+                    if (lowerText.includes(word)) negativeScore++;
+                });
+                
+                this.emotionDictionary.neutral.forEach(word => {
+                    if (lowerText.includes(word)) neutralScore++;
+                });
+                
+                // Определяем доминирующую эмоцию
+                const total = positiveScore + negativeScore + neutralScore;
+                
+                if (total === 0) {
+                    return {
+                        dominant: 'нейтральный',
+                        confidence: 1.0,
+                        scores: { positive: 0, negative: 0, neutral: 1 },
+                        emoji: '😐'
+                    };
+                }
+                
+                const scores = {
+                    positive: positiveScore / total,
+                    negative: negativeScore / total,
+                    neutral: neutralScore / total
+                };
+                
+                let dominant = 'нейтральный';
+                let emoji = '😐';
+                let maxScore = scores.neutral;
+                
+                if (scores.positive > maxScore) {
+                    dominant = 'позитивный';
+                    emoji = '😊';
+                    maxScore = scores.positive;
+                }
+                
+                if (scores.negative > maxScore) {
+                    dominant = 'негативный';
+                    emoji = '😔';
+                    maxScore = scores.negative;
+                }
+                
+                return {
+                    dominant: dominant,
+                    confidence: maxScore,
+                    scores: scores,
+                    emoji: emoji,
+                    wordCount: { positive: positiveScore, negative: negativeScore, neutral: neutralScore }
+                };
+            }
+            
+            extractTopics(text) {
+                const lowerText = text.toLowerCase();
+                const foundTopics = [];
+                
+                Object.entries(this.topicDictionary).forEach(([topic, words]) => {
+                    const matches = words.filter(word => lowerText.includes(word));
+                    if (matches.length > 0) {
+                        foundTopics.push({
+                            name: topic,
+                            relevance: matches.length / words.length,
+                            matches: matches,
+                            matchCount: matches.length
+                        });
+                    }
+                });
+                
+                // Сортируем по релевантности
+                return foundTopics.sort((a, b) => b.relevance - a.relevance);
+            }
+            
+            extractKeywords(text) {
+                // Удаляем спецсимволы и разбиваем на слова
+                const words = text.toLowerCase()
+                    .replace(/[^\w\sа-яА-Я]/g, ' ')
+                    .split(/\s+/)
+                    .filter(word => word.length > 3 && !this.isStopWord(word));
+                
+                // Подсчитываем частоту
+                const frequency = {};
+                words.forEach(word => {
+                    frequency[word] = (frequency[word] || 0) + 1;
+                });
+                
+                // Возвращаем топ-5 ключевых слов
+                return Object.entries(frequency)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([word, count]) => ({ 
+                        word, 
+                        count,
+                        importance: count / words.length
+                    }));
+            }
+            
+            extractPatterns(text, emotion, topics) {
+                const patterns = [];
+                
+                // Паттерн эмоций
+                patterns.push({
+                    type: 'emotion',
+                    value: emotion.dominant,
+                    confidence: emotion.confidence,
+                    code: `emotion_${emotion.dominant}_${Math.round(emotion.confidence * 100)}`
+                });
+                
+                // Паттерны тем
+                topics.forEach(topic => {
+                    patterns.push({
+                        type: 'topic',
+                        value: topic.name,
+                        relevance: topic.relevance,
+                        code: `topic_${topic.name}_${Math.round(topic.relevance * 100)}`
+                    });
+                });
+                
+                // Паттерн длины текста
+                const length = text.length;
+                let lengthType = 'short';
+                if (length > 500) lengthType = 'long';
+                else if (length > 200) lengthType = 'medium';
+                
+                patterns.push({
+                    type: 'length',
+                    value: lengthType,
+                    characters: length,
+                    code: `length_${lengthType}_${length}`
+                });
+                
+                return patterns;
+            }
+            
+            calculateStats(text) {
+                const words = text.split(/\s+/).filter(w => w.length > 0);
+                const chars = text.length;
+                const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+                
+                return {
+                    words: words.length,
+                    characters: chars,
+                    sentences: sentences,
+                    readingTime: Math.ceil(words.length / 200), // 200 слов в минуту
+                    wordDiversity: new Set(words.map(w => w.toLowerCase())).size / words.length
+                };
+            }
+            
+            isStopWord(word) {
+                const stopWords = ['это', 'что', 'как', 'так', 'для', 'чтобы', 'если', 'или', 'но', 'а', 'и', 'в', 'на', 'с', 'по', 'у', 'о', 'от', 'до', 'за', 'из', 'к', 'же', 'ли', 'бы', 'то', 'во', 'со', 'не', 'ни', 'да', 'нет', 'очень', 'просто', 'может', 'можно', 'нужно', 'должен', 'хочу', 'могу'];
+                return stopWords.includes(word.toLowerCase());
+            }
+            
+            hashText(text) {
+                // Простая хэш-функция для кеширования
+                let hash = 0;
+                for (let i = 0; i < text.length; i++) {
+                    const char = text.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return Math.abs(hash).toString();
+            }
+            
+            getStatistics() {
+                const uptime = Date.now() - this.startTime;
+                return {
+                    totalAnalyses: this.totalAnalyses,
+                    totalBytesSaved: this.totalBytesSaved,
+                    cacheSize: this.analysisCache.size,
+                    uptimeMinutes: Math.floor(uptime / 60000),
+                    bytesPerAnalysis: this.totalAnalyses > 0 ? Math.round(this.totalBytesSaved / this.totalAnalyses) : 0
+                };
+            }
+            
+            simulateEncryption(patterns) {
+                // Симуляция шифрования AES-256
+                const encrypted = patterns.map(pattern => {
+                    const code = pattern.code;
+                    // Простая "шифровка" для демонстрации
+                    let encryptedCode = '';
+                    for (let i = 0; i < code.length; i++) {
+                        const charCode = code.charCodeAt(i);
+                        encryptedCode += String.fromCharCode(charCode ^ 0x55); // XOR шифрование
+                    }
+                    
+                    // Кодирование в base64 для реалистичности
+                    return {
+                        original: pattern.code,
+                        encrypted: btoa(encryptedCode),
+                        type: pattern.type
+                    };
+                });
+                
+                return encrypted;
+            }
+        }
+
+        // ===== ИНТЕГРАЦИЯ С СУЩЕСТВУЮЩИМ ДЕМО =====
+        let realLocalAI = null;
+        let currentAnalysis = null;
+
+        function initializeRealAI() {
+            if (!realLocalAI) {
+                realLocalAI = new RealLocalAISafe();
+                console.log('🚀 Реальный локальный AI инициализирован');
+                
+                // Показываем статус в консоли
+                setTimeout(() => {
+                    const stats = realLocalAI.getStatistics();
+                    console.log('📊 Статистика локального AI:', stats);
+                }, 1000);
+            }
+            return realLocalAI;
+        }
+
+        // Модифицируем существующие функции демо
+        function enhanceExistingDemo() {
+            // Сохраняем оригинальные функции
+            const originalPerformLocalAnalysis = window.performLocalAnalysis;
+            const originalUpdateEncryptionStep = window.updateEncryptionStep;
+            
+            // Переопределяем функцию локального анализа
+            window.performLocalAnalysis = async function() {
+                const note = demoNotes[currentNote];
+                if (!note) return;
+                
+                const analyzeBtn = document.getElementById('analyzeBtn');
+                const localContent = document.getElementById('localContent');
+                
+                // Блокируем кнопку
+                analyzeBtn.disabled = true;
+                analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую локально...';
+                
+                // Инициализируем AI
+                const ai = initializeRealAI();
+                
+                // Очищаем содержимое
+                localContent.innerHTML = '';
+                
+                try {
+                    // Выполняем РЕАЛЬНЫЙ локальный анализ
+                    currentAnalysis = await ai.analyze(note.text);
+                    
+                    // Показываем результаты реального анализа с анимацией
+                    await showRealAnalysisResults(currentAnalysis, note);
+                    
+                    // Включаем кнопку отправки ИИ
+                    document.getElementById('sendToAiBtn').disabled = false;
+                    
+                    // Восстанавливаем кнопку
+                    analyzeBtn.disabled = false;
+                    analyzeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Анализ завершен';
+                    
+                    isAnalyzed = true;
+                    
+                    // Обновляем шифрование с реальными данными
+                    updateEncryptionStepWithRealData(currentAnalysis);
+                    
+                    // Показываем статистику приватности
+                    showPrivacyStats(ai);
+                    
+                    console.log('✅ Реальный локальный анализ завершен:', currentAnalysis);
+                    
+                } catch (error) {
+                    console.error('Ошибка анализа:', error);
+                    analyzeBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка';
+                    setTimeout(() => {
+                        analyzeBtn.innerHTML = '<i class="fas fa-brain"></i> Локальный анализ';
+                        analyzeBtn.disabled = false;
+                    }, 2000);
+                }
+            };
+            
+            // Улучшаем функцию шифрования
+            window.updateEncryptionStep = function() {
+                if (currentAnalysis) {
+                    updateEncryptionStepWithRealData(currentAnalysis);
+                } else {
+                    // Используем оригинальную функцию как fallback
+                    originalUpdateEncryptionStep();
+                }
+            };
+            
+            console.log('🔧 Существующее демо улучшено реальным AI');
+        }
+
+        async function showRealAnalysisResults(analysis, note) {
+            const localContent = document.getElementById('localContent');
+            
+            // Массив результатов для последовательного отображения
+            const results = [
+                // Заметка
+                () => `
+                    <div class="data-item personal">
+                        <i class="fas fa-eye"></i>
+                        <span><strong>Заметка:</strong> "${note.text.substring(0, 70)}${note.text.length > 70 ? '...' : ''}"</span>
+                    </div>
+                `,
+                
+                // Эмоция с эмодзи
+                () => `
+                    <div class="data-item pattern">
+                        <i class="fas fa-smile"></i>
+                        <span><strong>Эмоция:</strong> ${analysis.emotion.emoji} ${analysis.emotion.dominant} (${(analysis.emotion.confidence * 100).toFixed(0)}%)</span>
+                        <div style="margin-top: 5px; font-size: 11px; color: var(--text-secondary);">
+                            Слова: 😊 ${analysis.emotion.wordCount.positive} 😔 ${analysis.emotion.wordCount.negative} 😐 ${analysis.emotion.wordCount.neutral}
+                        </div>
+                    </div>
+                `,
+                
+                // Темы
+                () => {
+                    const topicsHtml = analysis.topics.slice(0, 3).map(topic => 
+                        `<span style="background: rgba(139, 92, 246, 0.2); color: var(--ai-color); padding: 3px 10px; border-radius: 12px; font-size: 12px; margin-right: 5px; margin-bottom: 5px; display: inline-block;">
+                            ${topic.name} (${Math.round(topic.relevance * 100)}%)
+                        </span>`
+                    ).join('');
+                    
+                    return `
+                        <div class="data-item pattern">
+                            <i class="fas fa-tags"></i>
+                            <span><strong>Основные темы:</strong></span>
+                            <div style="margin-top: 8px;">${topicsHtml}</div>
+                        </div>
+                    `;
+                },
+                
+                // Ключевые слова
+                () => {
+                    const keywordsHtml = analysis.keywords.slice(0, 4).map(kw => 
+                        `<span style="background: rgba(16, 185, 129, 0.2); color: var(--accent); padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-right: 5px; margin-bottom: 3px; display: inline-block;">
+                            ${kw.word} (${kw.count})
+                        </span>`
+                    ).join('');
+                    
+                    return `
+                        <div class="data-item pattern">
+                            <i class="fas fa-key"></i>
+                            <span><strong>Ключевые слова:</strong></span>
+                            <div style="margin-top: 8px;">${keywordsHtml}</div>
+                        </div>
+                    `;
+                },
+                
+                // Статистика
+                () => `
+                    <div class="data-item pattern">
+                        <i class="fas fa-chart-bar"></i>
+                        <span><strong>Статистика:</strong> ${analysis.stats.words} слов, ${analysis.stats.sentences} предложений, чтение: ${analysis.stats.readingTime} мин</span>
+                    </div>
+                `,
+                
+                // Приватность
+                () => `
+                    <div class="data-item pattern" style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--accent);">
+                        <i class="fas fa-microchip"></i>
+                        <span><strong>Обработано локально:</strong> ${analysis.metadata.processingTime}мс, 0 байт отправлено</span>
+                        <div style="margin-top: 5px; font-size: 11px; color: var(--accent);">
+                            <i class="fas fa-shield-alt"></i> Все данные остались на вашем устройстве
+                        </div>
+                    </div>
+                `
+            ];
+            
+            // Отображаем с анимацией
+            for (let i = 0; i < results.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                const item = document.createElement('div');
+                item.innerHTML = results[i]();
+                item.style.animation = 'fadeIn 0.5s ease';
+                localContent.appendChild(item);
+                
+                // Прокручиваем к новому элементу
+                item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function updateEncryptionStepWithRealData(analysis) {
+            const encryptContent = document.getElementById('encryptContent');
+            
+            if (!analysis || !analysis.patterns) {
+                encryptContent.innerHTML = `
+                    <div class="data-item encrypted">
+                        <i class="fas fa-lock"></i>
+                        <span>Ожидание данных для шифрования...</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            encryptContent.innerHTML = '';
+            
+            // Шифруем паттерны
+            const encryptedPatterns = realLocalAI.simulateEncryption(analysis.patterns);
+            
+            // Отображаем зашифрованные данные с анимацией
+            encryptedPatterns.forEach((pattern, index) => {
+                setTimeout(() => {
+                    const item = document.createElement('div');
+                    item.className = 'data-item encrypted';
+                    
+                    let content = '';
+                    if (index === 0) {
+                        content = `
+                            <i class="fas fa-shield-alt"></i>
+                            <span style="font-family: monospace; font-size: 11px; word-break: break-all;">
+                                🔐 ${pattern.encrypted.substring(0, 40)}...
+                            </span>
+                        `;
+                    } else {
+                        const typeEmoji = pattern.type === 'emotion' ? '😊' : pattern.type === 'topic' ? '🏷️' : '📏';
+                        content = `
+                            <i class="fas fa-code"></i>
+                            <span><strong>${typeEmoji} ${pattern.type}:</strong> ${pattern.original}</span>
+                        `;
+                    }
+                    
+                    item.innerHTML = content;
+                    item.style.animation = 'fadeIn 0.5s ease';
+                    encryptContent.appendChild(item);
+                    
+                    // Прокрутка
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, index * 400);
+            });
+            
+            // Добавляем сообщение о безопасности
+            setTimeout(() => {
+                const securityMsg = document.createElement('div');
+                securityMsg.className = 'data-item encrypted';
+                securityMsg.style.background = 'rgba(16, 185, 129, 0.1)';
+                securityMsg.style.borderLeft = '3px solid var(--accent)';
+                securityMsg.innerHTML = `
+                    <i class="fas fa-user-secret"></i>
+                    <span><strong>Безопасно:</strong> Исходный текст невозможно восстановить из паттернов</span>
+                `;
+                securityMsg.style.animation = 'fadeIn 0.5s ease';
+                encryptContent.appendChild(securityMsg);
+            }, encryptedPatterns.length * 400 + 300);
+        }
+
+        function showPrivacyStats(ai) {
+            const stats = ai.getStatistics();
+            
+            // Показываем статистику в консоли
+            console.group('📊 Статистика приватности');
+            console.log(`• Анализов выполнено: ${stats.totalAnalyses}`);
+            console.log(`• Байт сохранено: ${stats.totalBytesSaved} (≈ ${Math.round(stats.totalBytesSaved / 1024)} KB)`);
+            console.log(`• Время работы: ${stats.uptimeMinutes} мин`);
+            console.log(`• Размер кеша: ${stats.cacheSize} записей`);
+            console.groupEnd();
+            
+            // Показываем всплывающее уведомление
+            setTimeout(() => {
+                showNotification(`🛡️ Приватность сохранена! ${stats.totalBytesSaved} байт не ушли в интернет.`);
+            }, 1000);
+        }
+
+        function showNotification(message) {
+            // Создаем уведомление
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, var(--accent), rgba(16, 185, 129, 0.8));
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                max-width: 300px;
+                animation: fadeInUp 0.5s ease;
+                border-left: 4px solid white;
+                font-size: 14px;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-shield-alt" style="font-size: 18px;"></i>
+                    <div>${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Удаляем через 5 секунд
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 5000);
+        }
+
+        // Добавляем CSS анимации для уведомлений
+        const notificationStyles = document.createElement('style');
+        notificationStyles.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+            }
+            
+            /* Стиль для проверки Network */
+            .network-check {
+                background: rgba(245, 158, 11, 0.1);
+                border: 2px solid #f59e0b;
+                border-radius: 10px;
+                padding: 15px;
+                margin-top: 15px;
+                font-size: 13px;
+                color: var(--text-secondary);
+            }
+            
+            .network-check h5 {
+                color: #f59e0b;
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+        `;
+        document.head.appendChild(notificationStyles);
+
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализируем существующее демо
+            initializeDemo();
+            setupEventListeners();
+            
+            // Добавляем улучшения через 1 секунду
+            setTimeout(() => {
+                enhanceExistingDemo();
+                console.log('🎯 Демо улучшено реальным локальным AI');
+                
+                // Добавляем кнопку проверки Network
+                addNetworkCheckButton();
+            }, 1500);
+            
+            console.log('🚀 Демо архитектуры "Аналитик-Советник" загружено с реальным AI');
+        });
+
+        function addNetworkCheckButton() {
+            // Добавляем кнопку проверки Network tab в конец демо-карточки
+            const demoCard = document.querySelector('.demo-card');
+            if (!demoCard) return;
+            
+            const networkCheckDiv = document.createElement('div');
+            networkCheckDiv.className = 'network-check';
+            networkCheckDiv.innerHTML = `
+                <h5><i class="fas fa-tasks"></i> Проверка приватности:</h5>
+                <p>Откройте DevTools (F12) → вкладка "Network" → выполните анализ → убедитесь: <strong>0 запросов отправлено!</strong></p>
+                <button id="networkTestBtn" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; padding: 8px 15px; border-radius: 8px; margin-top: 10px; cursor: pointer; font-size: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-vial"></i> Проверить в Network tab
+                </button>
+            `;
+            
+            demoCard.appendChild(networkCheckDiv);
+            
+            // Обработчик кнопки
+            document.getElementById('networkTestBtn').addEventListener('click', function() {
+                const btn = this;
+                const originalText = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Проверяю...';
+                btn.disabled = true;
+                
+                // Имитация проверки
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Проверьте Network tab!';
+                    btn.style.background = 'rgba(16, 185, 129, 0.2)';
+                    btn.style.color = 'var(--accent)';
+                    btn.style.borderColor = 'var(--accent)';
+                    
+                    // Показываем подсказку
+                    showNotification('🔍 Откройте Network tab (F12) и убедитесь: 0 запросов при анализе!');
+                    
+                    // Восстанавливаем через 3 секунды
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                        btn.style.background = 'rgba(245, 158, 11, 0.2)';
+                        btn.style.color = '#f59e0b';
+                        btn.style.borderColor = '#f59e0b';
+                    }, 3000);
+                }, 1000);
+            });
+        }
+
         // ===== АНИМАЦИИ ПРИ ПРОКРУТКЕ =====
         const observerOptions = {
             threshold: 0.1,
@@ -1601,6 +2310,10 @@
         document.querySelectorAll('.arch-step, .privacy-card, .note-card').forEach(el => {
             observer.observe(el);
         });
+
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
