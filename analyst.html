@@ -2733,196 +2733,186 @@
         };
 
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.arch-step, .privacy-card, .note-card').forEach(el => {
-            observer.observe(el);
-        });
-
-    </script>
-</body>
-</html>
-
-    </script>
-</body>
-</html>
-
-<!-- ВСТАВЬТЕ ЭТОТ КОД ПРЯМО ПЕРЕД </script> на строке 2757 -->
-
-<!-- ============== ЛОКАЛЬНЫЙ АНАЛИЗ ============== -->
-<div class="local-analysis-container" style="margin: 30px 0; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px;">
-    <h3 style="color: #667eea; margin-top: 0;">Локальный анализ системы</h3>
-    
-    <button id="startAnalysisBtn" 
-            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                   color: white; 
-                   border: none; 
-                   padding: 12px 24px; 
-                   border-radius: 8px; 
-                   font-size: 16px; 
-                   cursor: pointer;">
-        🚀 Запустить локальный анализ
-    </button>
-    
-    <div id="statusArea" style="margin: 15px 0; min-height: 40px;">
-        <p id="statusText" style="color: #aaa;">Нажмите кнопку для запуска анализа</p>
-        <div id="loader" style="display: none; align-items: center; gap: 10px;">
-            <div style="width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); 
-                        border-radius: 50%; border-top-color: #667eea; 
-                        animation: spin 1s linear infinite;"></div>
-            <p>Выполняется анализ...</p>
-        </div>
-    </div>
-    
-    <div id="resultsArea" style="display: none; background: rgba(0,0,0,0.3); 
-                                 border-radius: 8px; padding: 20px; margin-top: 20px;">
-        <!-- Результаты появятся здесь -->
-    </div>
-</div>
-
-<style>
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-</style>
-
-<script>
-// JavaScript для локального анализа
-document.addEventListener('DOMContentLoaded', function() {
-    const startBtn = document.getElementById('startAnalysisBtn');
-    const statusText = document.getElementById('statusText');
-    const loader = document.getElementById('loader');
-    const resultsArea = document.getElementById('resultsArea');
-    
-    let isAnalyzing = false;
-    
-    startBtn.addEventListener('click', async function() {
-        if (isAnalyzing) return;
-        
-        isAnalyzing = true;
-        startBtn.disabled = true;
-        startBtn.innerHTML = '⏳ Анализ выполняется...';
-        loader.style.display = 'flex';
-        statusText.textContent = 'Выполняется локальный анализ системы...';
-        resultsArea.style.display = 'none';
-        
-        try {
-            // Имитация анализа (3 секунды)
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            
-            // Генерация результатов
-            const results = generateAnalysisResults();
-            
-            // Отображение результатов
-            displayResults(results);
-            
-            statusText.textContent = '✅ Анализ успешно завершен!';
-            statusText.style.color = '#4CAF50';
-            
-        } catch (error) {
-            console.error('Ошибка анализа:', error);
-            statusText.textContent = '❌ Ошибка при выполнении анализа';
-            statusText.style.color = '#f44336';
-        } finally {
-            isAnalyzing = false;
-            startBtn.disabled = false;
-            startBtn.innerHTML = '🔄 Повторить анализ';
-            loader.style.display = 'none';
-        }
-    });
-    
-    function generateAnalysisResults() {
-        const now = new Date();
-        return {
-            timestamp: now.toLocaleString(),
-            metrics: {
-                производительность: Math.floor(Math.random() * 40) + 60,
-                стабильность: Math.floor(Math.random() * 30) + 70,
-                безопасность: Math.floor(Math.random() * 50) + 50,
-                скорость: Math.floor(Math.random() * 45) + 55
-            },
-            issues: [
-                'Оптимизировать кэширование данных',
-                'Проверить соединение с базой данных',
-                'Обновить конфигурационные файлы',
-                'Увеличить время ожидания запросов'
-            ].sort(() => Math.random() - 0.5).slice(0, 2),
-            recommendations: [
-                'Регулярно очищайте кэш',
-                'Проверяйте логи системы',
-                'Обновляйте ПО вовремя',
-                'Делайте резервные копии'
-            ]
-        };
-    }
-    
-    function displayResults(data) {
-        let metricsHTML = '';
-        for (const [key, value] of Object.entries(data.metrics)) {
-            let color = '#4CAF50';
-            if (value < 70) color = '#FF9800';
-            if (value < 50) color = '#f44336';
-            
-            metricsHTML += `
-                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 6px;">
-                    <strong>${key}:</strong> 
-                    <span style="color: ${color}; font-weight: bold;">${value}%</span>
-                    <div style="height: 5px; background: #333; border-radius: 3px; margin-top: 5px;">
-                        <div style="width: ${value}%; height: 100%; background: ${color}; border-radius: 3px;"></div>
-                    </div>
-                </div>
-            `;
-        }
-        
-        let issuesHTML = '';
-        if (data.issues && data.issues.length > 0) {
-            issuesHTML = `
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <h4 style="color: #FF9800; margin-bottom: 10px;">⚠️ Обнаруженные проблемы:</h4>
-                    <ul style="color: #FF9800;">
-                        ${data.issues.map(issue => `<li>${issue}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
-        }
-        
-        resultsArea.innerHTML = `
-            <h4 style="color: #667eea; margin-top: 0;">📊 Результаты анализа (${data.timestamp})</h4>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
-                ${metricsHTML}
-            </div>
-            
-            ${issuesHTML}
-            
-            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <h4 style="color: #4CAF50;">💡 Рекомендации:</h4>
-                <ul style="color: #4CAF50;">
-                    ${data.recommendations.map(rec => `<li>${rec}</li>`).join('')}
-                </ul>
-            </div>
-            
-            <div style="margin-top: 20px; padding: 10px; background: rgba(102, 126, 234, 0.1); 
-                        border-radius: 5px; font-size: 14px; color: #aaa;">
-                <strong>ℹ️ Информация:</strong> Это демонстрационный анализ. В реальной системе 
-                здесь будут отображаться данные диагностики вашего оборудования.
-            </div>
-        `;
-        
-        resultsArea.style.display = 'block';
-        
-        // Плавная прокрутка к результатам
-        resultsArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-});
-</script>
-<!-- ============== КОНЕЦ ЛОКАЛЬНОГО АНАЛИЗА ============== -->
-
-    </script>
-</body>
-</html>
+          2736 entries.forEach(entry => {
+2737     if (entry.isIntersecting) {
+2738     entry.target.classList = [];
+2739     }
+2740 });
+2741 
+2742 observerOptions;
+2743 
+2744 document.querySelector('.arch-sections').observe(els);
+2745 
+2746 
+2747 <!-- ============== ЛОКАЛЬНЫЙ АНАЛИЗ ============== -->
+2748 <div class="local-analysis-container" style="margin: 30px 0; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+2749     <h3 style="color: #667eea; margin-top: 0;">Локальный анализ системы</h3>
+2750     
+2751     <button id="startAnalysisBtn" 
+2752             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+2753                    color: white; 
+2754                    border: none; 
+2755                    padding: 12px 24px; 
+2756                    border-radius: 8px; 
+2757                    font-size: 16px; 
+2758                    cursor: pointer;">
+2759         🚀 Запустить локальный анализ
+2760     </button>
+2761     
+2762     <div id="statusArea" style="margin: 15px 0; min-height: 40px;">
+2763         <p id="statusText" style="color: #aaa;">Нажмите кнопку для запуска анализа</p>
+2764         <div id="loader" style="display: none; align-items: center; gap: 10px;">
+2765             <div style="width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); 
+2766                         border-radius: 50%; border-top-color: #667eea; 
+2767                         animation: spin 1s linear infinite;"></div>
+2768             <p>Выполняется анализ...</p>
+2769         </div>
+2770     </div>
+2771     
+2772     <div id="resultsArea" style="display: none; background: rgba(0,0,0,0.3); 
+2773                                  border-radius: 8px; padding: 20px; margin-top: 20px;">
+2774         <!-- Результаты появятся здесь -->
+2775     </div>
+2776 </div>
+2777 
+2778 <style>
+2779     @keyframes spin {
+2780         to { transform: rotate(360deg); }
+2781     }
+2782 </style>
+2783 
+2784 <script>
+2785 // JavaScript для локального анализа
+2786 document.addEventListener('DOMContentLoaded', function() {
+2787     const startBtn = document.getElementById('startAnalysisBtn');
+2788     const statusText = document.getElementById('statusText');
+2789     const loader = document.getElementById('loader');
+2790     const resultsArea = document.getElementById('resultsArea');
+2791     
+2792     let isAnalyzing = false;
+2793     
+2794     startBtn.addEventListener('click', async function() {
+2795         if (isAnalyzing) return;
+2796         
+2797         isAnalyzing = true;
+2798         startBtn.disabled = true;
+2799         startBtn.innerHTML = '⏳ Анализ выполняется...';
+2800         loader.style.display = 'flex';
+2801         statusText.textContent = 'Выполняется локальный анализ системы...';
+2802         resultsArea.style.display = 'none';
+2803         
+2804         try {
+2805             // Имитация анализа (3 секунды)
+2806             await new Promise(resolve => setTimeout(resolve, 3000));
+2807             
+2808             // Генерация результатов
+2809             const results = generateAnalysisResults();
+2810             
+2811             // Отображение результатов
+2812             displayResults(results);
+2813             
+2814             statusText.textContent = '✅ Анализ успешно завершен!';
+2815             statusText.style.color = '#4CAF50';
+2816             
+2817         } catch (error) {
+2818             console.error('Ошибка анализа:', error);
+2819             statusText.textContent = '❌ Ошибка при выполнении анализа';
+2820             statusText.style.color = '#f44336';
+2821         } finally {
+2822             isAnalyzing = false;
+2823             startBtn.disabled = false;
+2824             startBtn.innerHTML = '🔄 Повторить анализ';
+2825             loader.style.display = 'none';
+2826         }
+2827     });
+2828     
+2829     function generateAnalysisResults() {
+2830         const now = new Date();
+2831         return {
+2832             timestamp: now.toLocaleString(),
+2833             metrics: {
+2834                 производительность: Math.floor(Math.random() * 40) + 60,
+2835                 стабильность: Math.floor(Math.random() * 30) + 70,
+2836                 безопасность: Math.floor(Math.random() * 50) + 50,
+2837                 скорость: Math.floor(Math.random() * 45) + 55
+2838             },
+2839             issues: [
+2840                 'Оптимизировать кэширование данных',
+2841                 'Проверить соединение с базой данных',
+2842                 'Обновить конфигурационные файлы',
+2843                 'Увеличить время ожидания запросов'
+2844             ].sort(() => Math.random() - 0.5).slice(0, 2),
+2845             recommendations: [
+2846                 'Регулярно очищайте кэш',
+2847                 'Проверяйте логи системы',
+2848                 'Обновляйте ПО вовремя',
+2849                 'Делайте резервные копии'
+2850             ]
+2851         };
+2852     }
+2853     
+2854     function displayResults(data) {
+2855         let metricsHTML = '';
+2856         for (const [key, value] of Object.entries(data.metrics)) {
+2857             let color = '#4CAF50';
+2858             if (value < 70) color = '#FF9800';
+2859             if (value < 50) color = '#f44336';
+2860             
+2861             metricsHTML += `
+2862                 <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 6px;">
+2863                     <strong>${key}:</strong> 
+2864                     <span style="color: ${color}; font-weight: bold;">${value}%</span>
+2865                     <div style="height: 5px; background: #333; border-radius: 3px; margin-top: 5px;">
+2866                         <div style="width: ${value}%; height: 100%; background: ${color}; border-radius: 3px;"></div>
+2867                     </div>
+2868                 </div>
+2869             `;
+2870         }
+2871         
+2872         let issuesHTML = '';
+2873         if (data.issues && data.issues.length > 0) {
+2874             issuesHTML = `
+2875                 <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+2876                     <h4 style="color: #FF9800; margin-bottom: 10px;">⚠️ Обнаруженные проблемы:</h4>
+2877                     <ul style="color: #FF9800;">
+2878                         ${data.issues.map(issue => `<li>${issue}</li>`).join('')}
+2879                     </ul>
+2880                 </div>
+2881             `;
+2882         }
+2883         
+2884         resultsArea.innerHTML = `
+2885             <h4 style="color: #667eea; margin-top: 0;">📊 Результаты анализа (${data.timestamp})</h4>
+2886             
+2887             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+2888                 ${metricsHTML}
+2889             </div>
+2890             
+2891             ${issuesHTML}
+2892             
+2893             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+2894                 <h4 style="color: #4CAF50;">💡 Рекомендации:</h4>
+2895                 <ul style="color: #4CAF50;">
+2896                     ${data.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+2897                 </ul>
+2898             </div>
+2899             
+2900             <div style="margin-top: 20px; padding: 10px; background: rgba(102, 126, 234, 0.1); 
+2901                         border-radius: 5px; font-size: 14px; color: #aaa;">
+2902                 <strong>ℹ️ Информация:</strong> Это демонстрационный анализ. В реальной системе 
+2903                 здесь будут отображаться данные диагностики вашего оборудования.
+2904             </div>
+2905         `;
+2906         
+2907         resultsArea.style.display = 'block';
+2908         
+2909         // Плавная прокрутка к результатам
+2910         resultsArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+2911     }
+2912 });
+2913 </script>
+2914 <!-- ============== КОНЕЦ ЛОКАЛЬНОГО АНАЛИЗА ============== -->
+2915 
+2916 </script>
+2917 </body>
+2918 </html>
