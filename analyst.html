@@ -2726,22 +2726,25 @@
         `;
         document.head.appendChild(notificationStyles);
 
-        // ===== АНИМАЦИИ ПРИ ПРОКРУТКЕ =====
+            // ===== АНИМАЦИИ ПРИ ПРОКРУТКЕ =====
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
-          2736 entries.forEach(entry => {
-     if (entry.isIntersecting) {
-     entry.target.classList = [];
-     }
- });
- 
- observerOptions;
- 
-</script>
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList = [];
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.arch-step, .privacy-card, .note-card').forEach(el => {
+            observer.observe(el);
+        });
+
+    </script>
 
 <!-- ============== ЛОКАЛЬНЫЙ АНАЛИЗ ============== -->
 <div class="local-analysis-container" style="margin: 30px auto; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px; max-width: 800px;">
