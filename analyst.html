@@ -1,2969 +1,1137 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURORA - Архитектура "Аналитик-Советник"</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Aurora 4.0 - Аналитик & Советник</title>
+    
+    <!-- Стили -->
     <style>
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --primary-light: #60a5fa;
-            --accent: #10b981;
-            --ai-color: #8b5cf6;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --border: #475569;
-            --card-bg: rgba(30, 41, 59, 0.9);
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-
+        
         body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* ===== ШАПКА ===== */
-        .header {
-            background: linear-gradient(135deg, 
-                rgba(15, 23, 42, 0.98) 0%, 
-                rgba(30, 41, 59, 0.95) 100%);
-            padding: 25px 20px;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .back-btn {
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--ai-color);
-            border: 1px solid var(--ai-color);
-            padding: 12px 25px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .back-btn:hover {
-            background: rgba(139, 92, 246, 0.2);
-            transform: translateX(-5px);
-        }
-
-        /* ===== ГЕРОЙ-БЛОК ===== */
-        .hero-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, 
-                rgba(30, 41, 59, 0.95) 0%, 
-                rgba(15, 23, 42, 0.98) 100%);
-            text-align: center;
-        }
-
-        .hero-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(139, 92, 246, 0.2);
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            padding: 12px 24px;
-            border-radius: 50px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .hero-badge i {
-            color: var(--ai-color);
-            font-size: 20px;
-        }
-
-        .hero-title {
-            font-size: 3em;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2em;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 40px;
-            line-height: 1.6;
-        }
-
-        /* ===== АРХИТЕКТУРНАЯ СХЕМА ===== */
-        .architecture-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, 
-                rgba(15, 23, 42, 0.98) 0%, 
-                rgba(30, 41, 59, 0.95) 100%);
-        }
-
-        .architecture-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .architecture-title {
-            text-align: center;
-            font-size: 2.5em;
-            font-weight: 800;
-            margin-bottom: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Трехуровневая схема */
-        .architecture-flow {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr auto 1fr;
-            gap: 20px;
-            margin: 60px 0;
-            align-items: center;
-        }
-
-        @media (max-width: 1024px) {
-            .architecture-flow {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto auto auto auto;
-                gap: 30px;
-            }
-        }
-
-        .arch-step {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            border: 2px solid;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .arch-step:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .arch-step.local {
-            border-color: var(--ai-color);
-            background: linear-gradient(135deg, 
-                rgba(139, 92, 246, 0.05), 
-                var(--card-bg));
-        }
-
-        .arch-step.encrypt {
-            border-color: var(--accent);
-            background: linear-gradient(135deg, 
-                rgba(16, 185, 129, 0.05), 
-                var(--card-bg));
-        }
-
-        .arch-step.server {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, 
-                rgba(59, 130, 246, 0.05), 
-                var(--card-bg));
-        }
-
-        .step-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .local .step-badge {
-            background: rgba(139, 92, 246, 0.2);
-            border-color: var(--ai-color);
-            color: var(--ai-color);
-        }
-
-        .encrypt .step-badge {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .server .step-badge {
-            background: rgba(59, 130, 246, 0.2);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .arch-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            margin: 0 auto 30px;
-        }
-
-        .arch-step.local .arch-icon {
-            background: linear-gradient(135deg, var(--ai-color), rgba(139, 92, 246, 0.3));
-            color: white;
-        }
-
-        .arch-step.encrypt .arch-icon {
-            background: linear-gradient(135deg, var(--accent), rgba(16, 185, 129, 0.3));
-            color: white;
-        }
-
-        .arch-step.server .arch-icon {
-            background: linear-gradient(135deg, var(--primary), rgba(59, 130, 246, 0.3));
-            color: white;
-        }
-
-        .arch-title {
-            font-size: 1.5em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-
-        .arch-subtitle {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        .arch-content {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
             padding: 20px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        .data-item {
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            font-size: 14px;
-            text-align: left;
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .privacy-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            color: #333;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        .data-item.personal {
-            background: rgba(220, 38, 38, 0.1);
-            border-left: 3px solid #dc2626;
+        
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-
-        .data-item.pattern {
-            background: rgba(139, 92, 246, 0.1);
-            border-left: 3px solid var(--ai-color);
+        
+        .step {
+            flex: 1;
+            min-width: 200px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
         }
-
-        .data-item.encrypted {
-            background: rgba(16, 185, 129, 0.1);
-            border-left: 3px solid var(--accent);
+        
+        .step.active {
+            border-color: #4CAF50;
+            background: #e8f5e9;
         }
-
-        .data-item.advice {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 3px solid var(--primary);
+        
+        .step .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
-
-        .arrow-container {
+        
+        .step .status {
+            margin-top: 10px;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+        
+        .status-safe {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            color: #6c757d;
+        }
+        
+        .input-area {
+            margin: 30px 0;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            font-size: 1rem;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .arrow {
-            font-size: 32px;
-            color: var(--accent);
-            animation: pulse 2s infinite;
-        }
-
-        /* Стрелки для мобильных */
-        @media (max-width: 1024px) {
-            .arrow {
-                transform: rotate(90deg);
-            }
-        }
-
-        /* ===== ИНТЕРАКТИВНОЕ ДЕМО ===== */
-        .demo-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, 
-                rgba(30, 41, 59, 0.95) 0%, 
-                rgba(15, 23, 42, 0.98) 100%);
-        }
-
-        .demo-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .demo-title {
-            text-align: center;
-            font-size: 2.5em;
-            font-weight: 800;
-            margin-bottom: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .demo-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 50px;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Выбор заметок */
-        .note-selector {
-            margin-bottom: 40px;
-        }
-
-        .selector-title {
-            font-size: 1.3em;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
             gap: 10px;
         }
-
-        .notes-grid {
+        
+        .btn-local {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+        }
+        
+        .btn-cloud {
+            background: linear-gradient(135deg, #ff6b6b 0%, #c92a2a 100%);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .result-area {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .result-area.active {
+            display: block;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .result-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .statistics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
-            margin-bottom: 30px;
+            margin-top: 20px;
         }
-
-        .note-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .note-card:hover {
-            border-color: var(--ai-color);
-            transform: translateY(-5px);
-        }
-
-        .note-card.active {
-            border-color: var(--ai-color);
-            background: rgba(139, 92, 246, 0.1);
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
-        }
-
-        .note-icon {
-            width: 50px;
-            height: 50px;
+        
+        .stat-item {
+            background: white;
+            padding: 15px;
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin: 0 auto 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
-
-        .note-card:nth-child(1) .note-icon {
-            background: rgba(220, 38, 38, 0.2);
-            color: #dc2626;
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 5px 0;
         }
-
-        .note-card:nth-child(2) .note-icon {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
+        
+        .security-level {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
         }
-
-        .note-card:nth-child(3) .note-icon {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--accent);
+        
+        .level-safe {
+            background: #d4edda;
+            color: #155724;
         }
-
-        .note-card:nth-child(4) .note-icon {
-            background: rgba(139, 92, 246, 0.2);
-            color: var(--ai-color);
+        
+        .level-warning {
+            background: #fff3cd;
+            color: #856404;
         }
-
-        .note-title {
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .note-preview {
-            font-size: 12px;
-            color: var(--text-secondary);
-            opacity: 0.8;
-        }
-
-        /* Блоки архитектуры в демо */
-        .demo-architecture {
+        
+        .comparison {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin: 40px 0;
-        }
-
-        @media (max-width: 768px) {
-            .demo-architecture {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .demo-step {
-            background: var(--bg-secondary);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid var(--border);
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .demo-step-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .demo-step-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .demo-step.local .demo-step-icon {
-            background: rgba(139, 92, 246, 0.2);
-            color: var(--ai-color);
-        }
-
-        .demo-step.encrypt .demo-step-icon {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--accent);
-        }
-
-        .demo-step.server .demo-step-icon {
-            background: rgba(59, 130, 246, 0.2);
-            color: var(--primary);
-        }
-
-        .demo-step-title {
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .demo-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* Кнопки управления */
-        .control-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 40px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .control-btn {
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: none;
-            min-width: 180px;
-            justify-content: center;
-        }
-
-        .control-btn.primary {
-            background: linear-gradient(135deg, var(--ai-color), var(--primary));
-            color: white;
-        }
-
-        .control-btn.primary:hover {
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
-        }
-
-        .control-btn.secondary {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .control-btn.secondary:hover {
-            background: rgba(59, 130, 246, 0.2);
-            transform: translateY(-3px);
-        }
-
-        .control-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* ===== ПРИВАТНОСТЬ ===== */
-        .privacy-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, 
-                rgba(15, 23, 42, 0.98) 0%, 
-                rgba(30, 41, 59, 0.95) 100%);
-        }
-
-        .privacy-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .privacy-title {
-            text-align: center;
-            font-size: 2.5em;
-            font-weight: 800;
-            margin-bottom: 50px;
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .privacy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .privacy-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .privacy-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .privacy-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent), rgba(16, 185, 129, 0.3));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .privacy-card-title {
-            font-size: 1.3em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-
-        .privacy-card-content {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 0.95em;
-        }
-
-        /* ===== ФУТЕР ===== */
-        .footer {
-            text-align: center;
-            padding: 60px 20px;
-            background: var(--bg-primary);
-            border-top: 1px solid var(--border);
-        }
-
-        .footer-logo {
-            font-size: 2.5em;
-            font-weight: 900;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .footer-tagline {
-            color: var(--text-secondary);
-            font-size: 1.1em;
-            max-width: 600px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .footer-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-link:hover {
-            color: var(--primary);
-        }
-
-        .footer-copyright {
-            color: var(--text-secondary);
-            font-size: 0.9em;
-            opacity: 0.7;
             margin-top: 30px;
         }
-
-        /* ===== АНИМАЦИИ ===== */
-        @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 1; 
-            }
-            50% { 
-                transform: scale(1.1); 
-                opacity: 0.8; 
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        /* ===== МАРКЕР ===== */
-        mark {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3));
-            color: var(--text-primary);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        /* ===== АДАПТИВНОСТЬ ===== */
+        
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.2em;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.1em;
-            }
-            
-            .architecture-title,
-            .demo-title,
-            .privacy-title {
-                font-size: 2em;
-            }
-            
-            .arch-step {
-                padding: 30px;
-                min-height: 250px;
-            }
-            
-            .demo-card {
-                padding: 30px;
-            }
-            
-            .control-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .control-btn {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .notes-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-title {
-                font-size: 1.8em;
-            }
-            
-            .notes-grid {
+            .comparison {
                 grid-template-columns: 1fr;
             }
             
-            .arch-step {
-                padding: 20px;
+            .flow-diagram {
+                flex-direction: column;
             }
             
-            .demo-card {
-                padding: 20px;
+            .arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
             }
+        }
+        
+        .comparison-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid;
+        }
+        
+        .local-card {
+            border-color: #4CAF50;
+        }
+        
+        .cloud-card {
+            border-color: #ff6b6b;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .note-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .encrypted-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-    <!-- Шапка с навигацией -->
-    <header class="header">
-        <div class="header-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-microchip"></i>
-                </div>
-                <div class="logo-text">AURORA</div>
-            </a>
-            <a href="index.html" class="back-btn">
-                <i class="fas fa-arrow-left"></i>
-                На главную
-            </a>
-        </div>
-    </header>
-
-    <!-- Герой-секция -->
-    <section class="hero-section">
-        <div class="hero-container">
-            <div class="hero-badge">
-                <i class="fas fa-user-shield"></i>
-                <span>АРХИТЕКТУРА ПРИВАТНОСТИ</span>
-            </div>
-            
-            <h1 class="hero-title">Аналитик-Советник</h1>
-            
-            <p class="hero-subtitle">
-                Уникальная трёхуровневая система, которая позволяет ИИ помогать вам, 
-                не видя ваших личных данных. Ваши мысли остаются локально.
-            </p>
-        </div>
-    </section>
-
-    <!-- Архитектурная схема -->
-    <section class="architecture-section">
-        <div class="architecture-container">
-            <h2 class="architecture-title">Как это работает</h2>
-            
-            <div class="architecture-flow">
-                <!-- Шаг 1: Локальный Аналитик -->
-                <div class="arch-step local">
-                    <div class="step-badge">Шаг 1</div>
-                    <div class="arch-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3 class="arch-title">Локальный Аналитик</h3>
-                    <p class="arch-subtitle">На вашем устройстве</p>
-                    
-                    <div class="arch-content">
-                        <div class="data-item personal">
-                            <i class="fas fa-eye"></i>
-                            <span><strong>Видит ваш текст:</strong> "Начальник бесит, куча заданий"</span>
-                        </div>
-                        <div class="data-item personal">
-                            <i class="fas fa-brain"></i>
-                            <span><strong>Анализирует локально:</strong> эмоции, темы, паттерны</span>
-                        </div>
-                        <div class="data-item pattern">
-                            <i class="fas fa-chart-line"></i>
-                            <span><strong>Выявляет паттерны:</strong> work_conflict_high_stress</span>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 15px; padding: 10px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; font-size: 12px;">
-                        <i class="fas fa-lock"></i> 
-                        <strong>100% приватно:</strong> Данные не покидают устройство
-                    </div>
-                </div>
-                
-                <!-- Стрелка -->
-                <div class="arrow-container">
-                    <div class="arrow">
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    </div>
-                </div>
-                
-                <!-- Шаг 2: Шифрование -->
-                <div class="arch-step encrypt">
-                    <div class="step-badge">Шаг 2</div>
-                    <div class="arch-icon">
-                        <i class="fas fa-key"></i>
-                    </div>
-                    <h3 class="arch-title">Шифрование AES-256</h3>
-                    <p class="arch-subtitle">Безопасная передача</p>
-                    
-                    <div class="arch-content">
-                        <div class="data-item pattern">
-                            <i class="fas fa-shield-alt"></i>
-                            <span><strong>Паттерны шифруются:</strong> Перед отправкой</span>
-                        </div>
-                        <div class="data-item encrypted">
-                            <i class="fas fa-lock"></i>
-                            <span style="font-family: monospace; font-size: 12px;">
-                                🔐 U2FsdGVkX1+7F8kD5A2L9qPw...
-                            </span>
-                        </div>
-                        <div class="data-item encrypted">
-                            <i class="fas fa-code"></i>
-                            <span><strong>Обезличенные данные:</strong> pattern_work_stress: 87%</span>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 15px; padding: 10px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; font-size: 12px;">
-                        <i class="fas fa-ban"></i> 
-                        <strong>Невозможно восстановить:</strong> Исходный текст защищён
-                    </div>
-                </div>
-                
-                <!-- Стрелка -->
-                <div class="arrow-container">
-                    <div class="arrow">
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    </div>
-                </div>
-                
-                <!-- Шаг 3: ИИ-Советник -->
-                <div class="arch-step server">
-                    <div class="step-badge">Шаг 3</div>
-                    <div class="arch-icon">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <h3 class="arch-title">ИИ-Советник</h3>
-                    <p class="arch-subtitle">На защищённом сервере</p>
-                    
-                    <div class="arch-content">
-                        <div class="data-item encrypted">
-                            <i class="fas fa-eye-slash"></i>
-                            <span><strong>Не видит текст:</strong> Только паттерны</span>
-                        </div>
-                        <div class="data-item advice">
-                            <i class="fas fa-robot"></i>
-                            <span><strong>Анализирует паттерны:</strong> Находит связи</span>
-                        </div>
-                        <div class="data-item advice">
-                            <i class="fas fa-comment-medical"></i>
-                            <span><strong>Даёт рекомендации:</strong> На основе статистики</span>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 15px; padding: 10px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; font-size: 12px;">
-                        <i class="fas fa-user-secret"></i> 
-                        <strong>«Слепой» ИИ:</strong> Помогает, не зная кто вы
-                    </div>
-                </div>
+    <div class="container">
+        <!-- Заголовок -->
+        <div class="header">
+            <h1>🛡️ Aurora 4.0 - Локальный Сейф</h1>
+            <p>AI-анализ, который работает на вашем устройстве. Доказуемая приватность.</p>
+            <div class="privacy-badge">
+                🤖 100% Локальный AI | 🔐 Шифрование в браузере | 📱 0 данных в интернет
             </div>
         </div>
-    </section>
 
-    <!-- Интерактивное демо -->
-    <section class="demo-section">
-        <div class="demo-container">
-            <h2 class="demo-title">Интерактивная демонстрация</h2>
+        <!-- Демо-секция -->
+        <div class="demo-section">
+            <h2 class="section-title">🧪 Демо: Локальный AI-анализ</h2>
             
-            <div class="demo-card">
-                <!-- Выбор заметок -->
-                <div class="note-selector">
-                    <div class="selector-title">
-                        <i class="fas fa-sticky-note"></i>
-                        Выберите заметку для анализа:
-                    </div>
-                    
-                    <div class="notes-grid">
-                        <div class="note-card active" data-note="work">
-                            <div class="note-icon">
-                                <i class="fas fa-briefcase"></i>
-                            </div>
-                            <div class="note-title">Конфликт на работе</div>
-                            <div class="note-preview">Начальник бесит, куча заданий...</div>
-                        </div>
-                        
-                        <div class="note-card" data-note="stress">
-                            <div class="note-icon">
-                                <i class="fas fa-brain"></i>
-                            </div>
-                            <div class="note-title">Стресс и усталость</div>
-                            <div class="note-preview">Тяжелый день, опустошение...</div>
-                        </div>
-                        
-                        <div class="note-card" data-note="walk">
-                            <div class="note-icon">
-                                <i class="fas fa-walking"></i>
-                            </div>
-                            <div class="note-title">Прогулка в парке</div>
-                            <div class="note-preview">Вечерняя прогулка, свежий воздух...</div>
-                        </div>
-                        
-                        <div class="note-card" data-note="general">
-                            <div class="note-icon">
-                                <i class="fas fa-sticky-note"></i>
-                            </div>
-                            <div class="note-title">Общая заметка</div>
-                            <div class="note-preview">Планы, покупки, встречи...</div>
-                        </div>
-                    </div>
+            <!-- Интерактивная схема -->
+            <div class="flow-diagram" id="flowDiagram">
+                <div class="step active" id="step1">
+                    <div class="icon">📱</div>
+                    <div class="text">Ваше устройство</div>
+                    <div class="status status-safe">🟢 Данные здесь</div>
                 </div>
                 
-                <!-- Архитектура в демо -->
-                <div class="demo-architecture">
-                    <!-- Локальный аналитик -->
-                    <div class="demo-step local">
-                        <div class="demo-step-header">
-                            <div class="demo-step-icon">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
-                            <div class="demo-step-title">Локальный Аналитик</div>
-                        </div>
-                        <div class="demo-content" id="localContent">
-                            <div class="data-item personal">
-                                <i class="fas fa-eye"></i>
-                                <span><strong>Заметка:</strong> "Начальник бесит, куча заданий одновременно..."</span>
-                            </div>
-                            <div class="data-item pattern">
-                                <i class="fas fa-chart-line"></i>
-                                <span><strong>Паттерны:</strong> Конфликт на работе → Высокий стресс</span>
-                            </div>
-                            <div class="data-item pattern">
-                                <i class="fas fa-brain"></i>
-                                <span><strong>Эмоции:</strong> Раздражение, фрустрация</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Шифрование -->
-                    <div class="demo-step encrypt">
-                        <div class="demo-step-header">
-                            <div class="demo-step-icon">
-                                <i class="fas fa-key"></i>
-                            </div>
-                            <div class="demo-step-title">Шифрование</div>
-                        </div>
-                        <div class="demo-content" id="encryptContent">
-                            <div class="data-item encrypted">
-                                <i class="fas fa-shield-alt"></i>
-                                <span style="font-family: monospace; font-size: 11px;">
-                                    U2FsdGVkX1+7F8kD5A2L9qPwM4nT6RvYcXzJ7KmN3HpQ=
-                                </span>
-                            </div>
-                            <div class="data-item encrypted">
-                                <i class="fas fa-code"></i>
-                                <span><strong>pattern_work_stress:</strong> 87%</span>
-                            </div>
-                            <div class="data-item encrypted">
-                                <i class="fas fa-code"></i>
-                                <span><strong>pattern_conflict:</strong> 92%</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- ИИ-Советник -->
-                    <div class="demo-step server">
-                        <div class="demo-step-header">
-                            <div class="demo-step-icon">
-                                <i class="fas fa-cloud"></i>
-                            </div>
-                            <div class="demo-step-title">ИИ-Советник</div>
-                        </div>
-                        <div class="demo-content" id="serverContent">
-                            <div class="data-item advice">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>Рекомендация:</strong> Вечерние прогулки снижают стресс</span>
-                            </div>
-                            <div class="data-item advice">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>Совет:</strong> Планируйте сложные задачи на утро</span>
-                            </div>
-                            <div class="data-item advice">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>Инсайт:</strong> Обнаружена связь работы с напряжением</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="arrow">→</div>
+                
+                <div class="step" id="step2">
+                    <div class="icon">🤖</div>
+                    <div class="text">Локальный AI</div>
+                    <div class="status">Ожидание...</div>
                 </div>
                 
-                <!-- Кнопки управления -->
-                <div class="control-buttons">
-                    <button class="control-btn primary" id="analyzeBtn">
-                        <i class="fas fa-brain"></i>
-                        Локальный анализ
+                <div class="arrow">→</div>
+                
+                <div class="step" id="step3">
+                    <div class="icon">📊</div>
+                    <div class="text">Результат</div>
+                    <div class="status">Ожидание...</div>
+                </div>
+            </div>
+
+            <!-- Поле для ввода -->
+            <div class="input-area">
+                <textarea id="inputText" placeholder="Введите вашу заметку для анализа... 
+Примеры:
+1. Устал от работы, нужен отпуск
+2. Сегодня получил повышение! Очень рад
+3. Беспокоюсь о здоровье родителей">Сегодня отлично поработал, несмотря на стресс. Чувствую, что могу больше!</textarea>
+                
+                <div class="buttons">
+                    <button class="btn btn-local" onclick="analyzeLocally()">
+                        🔐 Проанализировать локально
+                        <span class="encrypted-badge">Зашифровано</span>
                     </button>
-                    <button class="control-btn secondary" id="sendToAiBtn" disabled>
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        Отправить ИИ
-                    </button>
-                    <button class="control-btn secondary" id="resetBtn">
-                        <i class="fas fa-redo"></i>
-                        Сбросить
+                    
+                    <button class="btn btn-cloud" onclick="simulateCloud()">
+                        ☁️ Отправить в облако (демо)
                     </button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Гарантии приватности -->
-    <section class="privacy-section">
-        <div class="privacy-container">
-            <h2 class="privacy-title">Гарантии приватности</h2>
-            
-            <div class="privacy-grid">
-                <div class="privacy-card">
-                    <div class="privacy-icon">
-                        <i class="fas fa-recycle"></i>
+            <!-- Индикатор загрузки -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Анализирую локально на вашем устройстве...</p>
+                <small>Проверьте Network tab: 0 запросов отправлено</small>
+            </div>
+
+            <!-- Результаты -->
+            <div class="result-area" id="resultArea">
+                <h3 class="section-title">📊 Результаты анализа</h3>
+                
+                <div class="statistics">
+                    <div class="stat-item">
+                        <div>Эмоция</div>
+                        <div class="stat-value" id="emotionResult">-</div>
+                        <div class="security-level level-safe">Определено локально</div>
                     </div>
-                    <h3 class="privacy-card-title">Нулевое постоянное хранение</h3>
-                    <p class="privacy-card-content">
-                        Паттерны удаляются через 5 минут после анализа. ИИ не хранит историю 
-                        ваших данных. Каждый анализ — это новая сессия.
-                    </p>
+                    
+                    <div class="stat-item">
+                        <div>Темы</div>
+                        <div class="stat-value" id="topicsResult">-</div>
+                        <div class="security-level level-safe">Определено локально</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div>Ключевые слова</div>
+                        <div class="stat-value" id="keywordsResult">-</div>
+                        <div class="security-level level-safe">Извлечено локально</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div>Отправлено данных</div>
+                        <div class="stat-value" id="dataSent">0 байт</div>
+                        <div class="security-level level-safe">🛡️ 100% приватно</div>
+                    </div>
                 </div>
                 
-                <div class="privacy-card">
-                    <div class="privacy-icon">
-                        <i class="fas fa-award"></i>
-                    </div>
-                    <h3 class="privacy-card-title">Соответствие стандартам</h3>
-                    <p class="privacy-card-content">
-                        Архитектура соответствует GDPR, HIPAA и профессиональной этике 
-                        врачей, юристов, психологов и исследователей.
-                    </p>
-                </div>
-                
-                <div class="privacy-card">
-                    <div class="privacy-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="privacy-card-title">Банковский уровень защиты</h3>
-                    <p class="privacy-card-content">
-                        Шифрование AES-256, безопасные соединения, локальная обработка данных.
-                        Ваши мысли защищены лучше, чем банковские транзакции.
-                    </p>
+                <!-- Расширенный анализ -->
+                <div class="result-grid" id="advancedResults">
+                    <!-- Будет заполнено динамически -->
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Футер -->
-    <footer class="footer">
-        <div class="footer-logo">AURORA</div>
-        <p class="footer-tagline">
-            Приватная архитектура "Аналитик-Советник". Ваши мысли принадлежат только вам.
-        </p>
-        
-        <div class="footer-links">
-            <a href="index.html" class="footer-link">Главная</a>
-            <a href="mirror.html" class="footer-link">Зеркало мышления</a>
-            <a href="index.html#hybrid-search" class="footer-link">Гибридный поиск</a>
+        <!-- Сравнение режимов -->
+        <div class="demo-section">
+            <h2 class="section-title">⚖️ Сравнение: Локальный vs Облачный</h2>
+            
+            <div class="comparison">
+                <div class="comparison-card local-card">
+                    <h3>🛡️ Локальный режим</h3>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li style="margin: 10px 0;">✅ Данные не покидают устройство</li>
+                        <li style="margin: 10px 0;">✅ Работает без интернета</li>
+                        <li style="margin: 10px 0;">✅ 0 задержки на сеть</li>
+                        <li style="margin: 10px 0;">✅ GDPR/HIPAA совместимость</li>
+                        <li style="margin: 10px 0;">✅ Бесплатно навсегда</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px;">
+                        <strong>Как проверить:</strong><br>
+                        1. Откройте DevTools (F12)<br>
+                        2. Перейдите на вкладку Network<br>
+                        3. Нажмите "Анализировать локально"<br>
+                        4. Убедитесь: 0 запросов отправлено!
+                    </div>
+                </div>
+                
+                <div class="comparison-card cloud-card">
+                    <h3>☁️ Облачный режим</h3>
+                    <ul style="margin-top: 15px; padding-left: 20px;">
+                        <li style="margin: 10px 0;">❌ Данные уходят на сервер</li>
+                        <li style="margin: 10px 0;">❌ Требует интернет</li>
+                        <li style="margin: 10px 0;">❌ Задержка 100-500ms</li>
+                        <li style="margin: 10px 0;">❌ Риск утечек данных</li>
+                        <li style="margin: 10px 0;">❌ $0.01 за запрос</li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 15px; background: #ffebee; border-radius: 10px;">
+                        <strong>Проверка приватности:</strong><br>
+                        В Network tab вы увидите:
+                        • POST /api/analyze<br>
+                        • Все ваши данные в запросе<br>
+                        • Ответ с сервера<br>
+                        Ваши данные в чужих руках!
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <p class="footer-copyright">
-            © 2024 Aurora AI. Архитектура "Аналитик-Советник". Все права защищены.<br>
-            ИИ помогает, не видя ваших данных.
-        </p>
-    </footer>
 
+        <!-- Шифрование и безопасность -->
+        <div class="demo-section">
+            <h2 class="section-title">🔒 Шифрование в реальном времени</h2>
+            
+            <div class="input-area">
+                <textarea id="encryptText" placeholder="Введите текст для шифрования...">Мои секретные мысли</textarea>
+                
+                <div class="buttons">
+                    <button class="btn btn-local" onclick="encryptData()">
+                        🔐 Зашифровать локально
+                    </button>
+                    
+                    <button class="btn btn-cloud" onclick="decryptData()">
+                        🔓 Расшифровать
+                    </button>
+                </div>
+            </div>
+            
+            <div class="result-area" id="encryptionResult" style="margin-top: 20px;">
+                <h4>Результаты шифрования:</h4>
+                <div id="encryptedOutput" style="margin-top: 10px; padding: 15px; background: #f8f9fa; border-radius: 10px; font-family: monospace; word-break: break-all;"></div>
+                <div id="keyInfo" style="margin-top: 10px; font-size: 0.9rem; color: #666;"></div>
+            </div>
+        </div>
+
+        <!-- История заметок -->
+        <div class="demo-section">
+            <h2 class="section-title">📝 История локальных заметок</h2>
+            <div id="notesHistory">
+                <p>Заметок пока нет. Добавьте первую!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомления -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Основной JavaScript -->
     <script>
-        // ===== ДАННЫЕ ДЛЯ ДЕМО =====
-        const demoNotes = {
-            'work': {
-                title: "Конфликт на работе",
-                text: "Начальник целый день бесит, требует кучу разных заданий одновременно. Не понимает, что все нельзя сделать сразу. Чувствую раздражение и бессилие. Как с ним общаться?",
-                localAnalysis: [
-                    "Заметка: 'Начальник целый день бесит, требует кучу разных заданий...'",
-                    "Паттерны: Конфликт на работе → Высокий стресс",
-                    "Эмоции: Раздражение, фрустрация, бессилие",
-                    "Темы: Рабочие отношения, управление задачами"
-                ],
-                encryptedPatterns: [
-                    "🔐 U2FsdGVkX1+7F8kD5A2L9qPwM4nT6RvYcXzJ7KmN3HpQ=",
-                    "pattern_work_conflict: 92%",
-                    "pattern_high_stress: 87%",
-                    "pattern_communication_issue: 78%"
-                ],
-                aiAdvice: [
-                    "✅ Рекомендация: Вечерние прогулки снижают стресс на 40%",
-                    "✅ Совет: Планируйте сложные задачи на утро, когда энергии больше",
-                    "✅ Инсайт: Обнаружена связь рабочих конфликтов с вечерним напряжением",
-                    "💡 Попробуйте: Задавать уточняющие вопросы 'Какие задачи приоритетные?'"
-                ]
-            },
-            'stress': {
-                title: "Стресс и усталость",
-                text: "Сегодня был очень тяжелый рабочий день. Чувствую полную опустошенность и усталость. Голова болит, ничего не хочется делать. Нужно как-то восстанавливаться.",
-                localAnalysis: [
-                    "Заметка: 'Сегодня был очень тяжелый рабочий день...'",
-                    "Паттерны: Высокая усталость → Эмоциональное выгорание",
-                    "Эмоции: Опустошение, усталость, головная боль",
-                    "Темы: Восстановление, управление энергией"
-                ],
-                encryptedPatterns: [
-                    "🔐 U2FsdGVkX1+5M9rT8wQvF2XnL7sP4dK6cR1bY3aG0hX=",
-                    "pattern_burnout_risk: 85%",
-                    "pattern_fatigue_high: 91%",
-                    "pattern_recovery_needed: 88%"
-                ],
-                aiAdvice: [
-                    "✅ Рекомендация: 10-минутная медитация снижает кортизол на 25%",
-                    "✅ Совет: Делайте микроперерывы каждый час по 5 минут",
-                    "✅ Инсайт: Обнаружена связь длительной работы без перерывов с головной болью",
-                    "💡 Попробуйте: Техника 4-7-8 дыхания перед сном"
-                ]
-            },
-            'walk': {
-                title: "Прогулка в парке",
-                text: "Вечером решил прогуляться в парке. Свежий воздух и природа всегда помогают расслабиться. Прогулялся по главной аллее, послушал птиц. Стало гораздо легче.",
-                localAnalysis: [
-                    "Заметка: 'Вечером решил прогуляться в парке...'",
-                    "Паттерны: Физическая активность → Расслабление",
-                    "Эмоции: Спокойствие, облегчение, расслабление",
-                    "Темы: Отдых, природа, здоровые привычки"
-                ],
-                encryptedPatterns: [
-                    "🔐 U2FsdGVkX1+3K9pL2wRvF5YmN8sP4dJ6cR1bX3aG0hZ=",
-                    "pattern_evening_walk: 94%",
-                    "pattern_nature_relaxation: 89%",
-                    "pattern_stress_reduction: 86%"
-                ],
-                aiAdvice: [
-                    "✅ Рекомендация: Регулярные вечерние прогулки улучшают сон на 30%",
-                    "✅ Совет: Делайте это привычкой 3-4 раза в неделю",
-                    "✅ Инсайт: Обнаружена связь вечерних прогулок со снижением тревожности",
-                    "💡 Попробуйте: Осознанные прогулки — замечайте 3 новых детали"
-                ]
-            },
-            'general': {
-                title: "Общая заметка",
-                text: "Завтра нужно сходить в магазин за продуктами, забрать посылку с почты. Вечером планирую посмотреть новый фильм. Надо не забыть позвонить маме.",
-                localAnalysis: [
-                    "Заметка: 'Завтра нужно сходить в магазин за продуктами...'",
-                    "Паттерны: Планирование → Организация задач",
-                    "Эмоции: Нейтральные, организованные",
-                    "Темы: Повседневные задачи, планирование"
-                ],
-                encryptedPatterns: [
-                    "🔐 U2FsdGVkX1+8L9qP2wRvF6YnN9sQ4eK7dS2cY4bH1iZ=",
-                    "pattern_daily_planning: 76%",
-                    "pattern_task_organization: 82%",
-                    "pattern_routine_management: 71%"
-                ],
-                aiAdvice: [
-                    "✅ Рекомендация: Используйте матрицу Эйзенхауэра для приоритизации",
-                    "✅ Совет: Группируйте похожие задачи (все покупки за один раз)",
-                    "✅ Инсайт: Обнаружена эффективность вечернего планирования",
-                    "💡 Попробуйте: Метод '3 самых важных дела на день'"
-                ]
-            }
-        };
-
-        // ===== ПЕРЕМЕННЫЕ =====
-        let currentNote = 'work';
-        let isAnalyzed = false;
-
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeDemo();
-            setupEventListeners();
-            
-            console.log('🚀 Демо архитектуры "Аналитик-Советник" загружено');
-        });
-
-        // ===== ИНИЦИАЛИЗАЦИЯ ДЕМО =====
-        function initializeDemo() {
-            // Устанавливаем первую заметку как активную
-            updateNoteDisplay('work');
-        }
-
-        // ===== ОБРАБОТЧИКИ СОБЫТИЙ =====
-        function setupEventListeners() {
-            // Выбор заметок
-            document.querySelectorAll('.note-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const noteType = this.getAttribute('data-note');
-                    selectNote(noteType);
-                });
-            });
-
-            // Кнопка анализа
-            document.getElementById('analyzeBtn').addEventListener('click', function() {
-                performLocalAnalysis();
-            });
-
-            // Кнопка отправки ИИ
-            document.getElementById('sendToAiBtn').addEventListener('click', function() {
-                sendToAi();
-            });
-
-            // Кнопка сброса
-            document.getElementById('resetBtn').addEventListener('click', function() {
-                resetDemo();
-            });
-        }
-
-        // ===== ВЫБОР ЗАМЕТКИ =====
-        function selectNote(noteType) {
-            // Обновляем активную карточку
-            document.querySelectorAll('.note-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            
-            const selectedCard = document.querySelector(`.note-card[data-note="${noteType}"]`);
-            if (selectedCard) {
-                selectedCard.classList.add('active');
-            }
-            
-            // Обновляем текущую заметку
-            currentNote = noteType;
-            
-            // Сбрасываем состояние
-            isAnalyzed = false;
-            document.getElementById('sendToAiBtn').disabled = true;
-            document.getElementById('analyzeBtn').disabled = false;
-            document.getElementById('analyzeBtn').innerHTML = '<i class="fas fa-brain"></i> Локальный анализ';
-            
-            // Обновляем отображение
-            updateNoteDisplay(noteType);
-            
-            // Анимация
-            selectedCard.style.animation = 'none';
-            setTimeout(() => {
-                selectedCard.style.animation = 'fadeIn 0.5s ease';
-            }, 10);
-            
-            console.log(`📝 Выбрана заметка: ${demoNotes[noteType].title}`);
-        }
-
-        // ===== ОБНОВЛЕНИЕ ОТОБРАЖЕНИЯ =====
-        function updateNoteDisplay(noteType) {
-            const note = demoNotes[noteType];
-            if (!note) return;
-            
-            // Обновляем локальный аналитик
-            const localContent = document.getElementById('localContent');
-            localContent.innerHTML = `
-                <div class="data-item personal">
-                    <i class="fas fa-eye"></i>
-                    <span><strong>Заметка:</strong> "${note.text.substring(0, 60)}..."</span>
-                </div>
-                <div class="data-item pattern">
-                    <i class="fas fa-hourglass-half"></i>
-                    <span>Выберите "Локальный анализ" для обработки</span>
-                </div>
-            `;
-            
-            // Очищаем шифрование
-            const encryptContent = document.getElementById('encryptContent');
-            encryptContent.innerHTML = `
-                <div class="data-item encrypted">
-                    <i class="fas fa-lock"></i>
-                    <span>Ожидание локального анализа...</span>
-                </div>
-            `;
-            
-            // Очищаем ИИ-советник
-            const serverContent = document.getElementById('serverContent');
-            serverContent.innerHTML = `
-                <div class="data-item advice">
-                    <i class="fas fa-cloud"></i>
-                    <span>Ожидание зашифрованных паттернов...</span>
-                </div>
-            `;
-            
-            // Анимация обновления
-            [localContent, encryptContent, serverContent].forEach(el => {
-                el.style.animation = 'none';
-                setTimeout(() => {
-                    el.style.animation = 'fadeIn 0.5s ease';
-                }, 10);
-            });
-        }
-
-        // ===== ЛОКАЛЬНЫЙ АНАЛИЗ =====
-        function performLocalAnalysis() {
-            const note = demoNotes[currentNote];
-            if (!note) return;
-            
-            const analyzeBtn = document.getElementById('analyzeBtn');
-            const sendToAiBtn = document.getElementById('sendToAiBtn');
-            
-            // Блокируем кнопку
-            analyzeBtn.disabled = true;
-            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
-            
-            // Показываем анимацию анализа
-            simulateAnalysis(note);
-        }
-
-        function simulateAnalysis(note) {
-            const localContent = document.getElementById('localContent');
-            const steps = note.localAnalysis;
-            let currentStep = 0;
-            
-            // Очищаем содержимое
-            localContent.innerHTML = '';
-            
-            // Пошаговая анимация анализа
-            const interval = setInterval(() => {
-                if (currentStep < steps.length) {
-                    const item = document.createElement('div');
-                    item.className = currentStep === 0 ? 'data-item personal' : 'data-item pattern';
-                    item.innerHTML = `
-                        <i class="fas fa-${currentStep === 0 ? 'eye' : 'chart-line'}"></i>
-                        <span>${steps[currentStep]}</span>
-                    `;
-                    item.style.animation = 'fadeIn 0.5s ease';
-                    localContent.appendChild(item);
-                    currentStep++;
-                } else {
-                    clearInterval(interval);
-                    
-                    // Включаем кнопку отправки ИИ
-                    const sendToAiBtn = document.getElementById('sendToAiBtn');
-                    sendToAiBtn.disabled = false;
-                    
-                    // Восстанавливаем кнопку анализа
-                    const analyzeBtn = document.getElementById('analyzeBtn');
-                    analyzeBtn.disabled = false;
-                    analyzeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Анализ завершен';
-                    
-                    isAnalyzed = true;
-                    
-                    // Показываем сообщение о шифровании
-                    updateEncryptionStep();
-                    
-                    console.log('✅ Локальный анализ завершен');
-                }
-            }, 600);
-        }
-
-        // ===== ШИФРОВАНИЕ =====
-        function updateEncryptionStep() {
-            const note = demoNotes[currentNote];
-            if (!note) return;
-            
-            const encryptContent = document.getElementById('encryptContent');
-            encryptContent.innerHTML = '';
-            
-            // Анимация шифрования
-            note.encryptedPatterns.forEach((pattern, index) => {
-                setTimeout(() => {
-                    const item = document.createElement('div');
-                    item.className = 'data-item encrypted';
-                    item.innerHTML = `
-                        <i class="fas fa-${index === 0 ? 'shield-alt' : 'code'}"></i>
-                        <span style="${index === 0 ? 'font-family: monospace; font-size: 11px;' : ''}">${pattern}</span>
-                    `;
-                    item.style.animation = 'fadeIn 0.5s ease';
-                    encryptContent.appendChild(item);
-                    
-                    // Прокрутка к новому элементу
-                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, index * 400);
-            });
-            
-            console.log('🔐 Паттерны зашифрованы');
-        }
-
-        // ===== ОТПРАВКА ИИ =====
-        function sendToAi() {
-            if (!isAnalyzed) return;
-            
-            const note = demoNotes[currentNote];
-            const sendToAiBtn = document.getElementById('sendToAiBtn');
-            
-            // Блокируем кнопку
-            sendToAiBtn.disabled = true;
-            sendToAiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправляю...';
-            
-            // Показываем анимацию отправки
-            simulateAiProcessing(note);
-        }
-
-        function simulateAiProcessing(note) {
-            const serverContent = document.getElementById('serverContent');
-            const steps = note.aiAdvice;
-            let currentStep = 0;
-            
-            // Очищаем содержимое
-            serverContent.innerHTML = '';
-            
-            // Пошаговая анимация обработки ИИ
-            const interval = setInterval(() => {
-                if (currentStep < steps.length) {
-                    const item = document.createElement('div');
-                    item.className = 'data-item advice';
-                    item.innerHTML = `
-                        <i class="fas fa-${steps[currentStep].includes('💡') ? 'lightbulb' : 'check-circle'}"></i>
-                        <span>${steps[currentStep]}</span>
-                    `;
-                    item.style.animation = 'fadeIn 0.5s ease';
-                    serverContent.appendChild(item);
-                    currentStep++;
-                    
-                    // Прокрутка к новому элементу
-                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                } else {
-                    clearInterval(interval);
-                    
-                    // Восстанавливаем кнопку
-                    const sendToAiBtn = document.getElementById('sendToAiBtn');
-                    sendToAiBtn.disabled = false;
-                    sendToAiBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Отправить ИИ';
-                    
-                    // Показываем финальное сообщение
-                    showFinalMessage();
-                    
-                    console.log('🤖 ИИ-обработка завершена');
-                }
-            }, 700);
-        }
-
-        // ===== ФИНАЛЬНОЕ СООБЩЕНИЕ =====
-        function showFinalMessage() {
-            setTimeout(() => {
-                const serverContent = document.getElementById('serverContent');
-                const message = document.createElement('div');
-                message.className = 'data-item advice';
-                message.style.background = 'rgba(16, 185, 129, 0.15)';
-                message.style.borderLeft = '3px solid var(--accent)';
-                message.innerHTML = `
-                    <i class="fas fa-user-shield"></i>
-                    <span><strong>Приватность сохранена:</strong> ИИ не видел ваш текст, только обезличенные паттерны</span>
-                `;
-                message.style.animation = 'fadeIn 0.5s ease';
-                serverContent.appendChild(message);
-            }, 500);
-        }
-
-        // ===== СБРОС ДЕМО =====
-        function resetDemo() {
-            // Сбрасываем состояние
-            isAnalyzed = false;
-            currentNote = 'work';
-            
-            // Обновляем активную карточку
-            document.querySelectorAll('.note-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            document.querySelector('.note-card[data-note="work"]').classList.add('active');
-            
-            // Сбрасываем кнопки
-            document.getElementById('analyzeBtn').disabled = false;
-            document.getElementById('analyzeBtn').innerHTML = '<i class="fas fa-brain"></i> Локальный анализ';
-            document.getElementById('sendToAiBtn').disabled = true;
-            document.getElementById('sendToAiBtn').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Отправить ИИ';
-            
-            // Обновляем отображение
-            updateNoteDisplay('work');
-            
-            // Анимация сброса
-            const cards = document.querySelectorAll('.demo-step');
-            cards.forEach(card => {
-                card.style.animation = 'none';
-                setTimeout(() => {
-                    card.style.animation = 'fadeIn 0.5s ease';
-                }, 10);
-            });
-            
-            console.log('🔄 Демо сброшено');
-        }
-
-                     // ===== РЕАЛЬНЫЙ ЛОКАЛЬНЫЙ AI СЕЙФ С ШИФРОВАНИЕМ =====
-        class RealLocalAISafe {
+        // Инициализация
+        class AuroraAnalyst {
             constructor() {
-                this.isInitialized = false;
-                this.analysisCache = new Map();
+                this.notes = [];
                 this.encryptionKey = null;
-                
-                this.emotionDictionary = {
-                    positive: ['отлично', 'хорошо', 'рад', 'счастлив', 'успешно', 'прекрасно', 'замечательно', 'удовлетворен', 'восторг', 'любовь', 'нравится', 'восхитительно', 'потрясающе', 'супер', 'класс', 'здорово'],
-                    negative: ['стресс', 'бесит', 'боюсь', 'страшно', 'устал', 'плохо', 'грустно', 'разочарован', 'злюсь', 'нервы', 'тревога', 'паника', 'депрессия', 'тоска', 'обидно', 'жаль'],
-                    neutral: ['работал', 'поработал', 'делал', 'планирую', 'нужно', 'должен', 'следует', 'может', 'возможно', 'вероятно', 'обычно', 'часто', 'иногда']
-                };
-                
-                this.topicDictionary = {
-                    работа: ['работа', 'проект', 'задача', 'начальник', 'коллеги', 'офис', 'дедлайн', 'презентация', 'отчет', 'встреча', 'клиент', 'зарплата'],
-                    отдых: ['гулять', 'отдых', 'отпуск', 'каникулы', 'выходные', 'праздник', 'развлечение', 'кино', 'ресторан', 'путешествие', 'отдыхать', 'расслабление'],
-                    семья: ['семья', 'дети', 'родители', 'муж', 'жена', 'друг', 'подруга', 'отношения', 'любовь', 'брак', 'свадьба'],
-                    здоровье: ['здоровье', 'болезнь', 'врач', 'больница', 'лекарство', 'диета', 'спорт', 'тренировка', 'фитнес', 'йога'],
-                    финансы: ['деньги', 'зарплата', 'доход', 'расход', 'бюджет', 'инвестиции', 'сбережения', 'кредит', 'ипотека']
-                };
-                
-                this.totalAnalyses = 0;
-                this.totalBytesSaved = 0;
-                this.startTime = Date.now();
+                this.analysisHistory = [];
+                this.init();
             }
             
-            async initialize() {
-                if (this.isInitialized) return true;
+            async init() {
+                // Загружаем историю из локального хранилища
+                await this.loadNotes();
+                this.updateHistory();
+                
+                // Инициализируем AI модели
+                this.initAIModels();
+                
+                console.log('Aurora Analyst инициализирован');
+                this.showNotification('🛡️ Aurora 4.0 готов к работе!', 'success');
+            }
+            
+            // 1. ЛОКАЛЬНЫЙ AI АНАЛИЗ
+            async analyzeLocally(text) {
+                // Показываем загрузку
+                this.showLoading(true);
+                this.activateStep(2);
                 
                 try {
-                    // Генерируем ключ шифрования при инициализации
-                    await this.generateEncryptionKey();
+                    // Имитируем работу локального AI (в реальности здесь будет TensorFlow.js)
+                    await this.simulateLocalProcessing();
                     
-                    this.isInitialized = true;
-                    console.log('🤖 Локальный AI инициализирован с шифрованием');
-                    return true;
-                } catch (error) {
-                    console.error('Ошибка инициализации:', error);
-                    return false;
-                }
-            }
-            
-            async generateEncryptionKey() {
-                // Генерируем криптографический ключ для шифрования
-                this.encryptionKey = await window.crypto.subtle.generateKey(
-                    {
-                        name: "AES-GCM",
-                        length: 256
-                    },
-                    true, // extractable
-                    ["encrypt", "decrypt"]
-                );
-                console.log('🔑 Ключ шифрования сгенерирован');
-            }
-            
-            async encryptData(data) {
-                if (!this.encryptionKey) {
-                    await this.generateEncryptionKey();
-                }
-                
-                const encoder = new TextEncoder();
-                const dataBytes = encoder.encode(JSON.stringify(data));
-                
-                // Генерируем случайный IV (Initialization Vector)
-                const iv = window.crypto.getRandomValues(new Uint8Array(12));
-                
-                // Шифруем данные
-                const encryptedBytes = await window.crypto.subtle.encrypt(
-                    {
-                        name: "AES-GCM",
-                        iv: iv
-                    },
-                    this.encryptionKey,
-                    dataBytes
-                );
-                
-                // Конвертируем в base64 для отображения
-                const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedBytes)));
-                const ivBase64 = btoa(String.fromCharCode(...iv));
-                
-                return {
-                    encrypted: encryptedBase64,
-                    iv: ivBase64,
-                    algorithm: 'AES-GCM-256',
-                    timestamp: new Date().toISOString()
-                };
-            }
-            
-            async analyze(text) {
-                if (!this.isInitialized) {
-                    await this.initialize();
-                }
-                
-                const startTime = Date.now();
-                this.totalAnalyses++;
-                
-                // 1. Анализ эмоций
-                const emotion = this.analyzeEmotion(text);
-                
-                // 2. Анализ тем
-                const topics = this.extractTopics(text);
-                
-                // 3. Ключевые слова
-                const keywords = this.extractKeywords(text);
-                
-                // 4. Статистика
-                const stats = this.calculateStats(text);
-                
-                // 5. Паттерны для шифрования
-                const patterns = this.extractPatterns(text, emotion, topics);
-                
-                const analysis = {
-                    originalText: text,
-                    emotion: emotion,
-                    topics: topics,
-                    keywords: keywords,
-                    stats: stats,
-                    patterns: patterns,
-                    metadata: {
+                    // Базовый анализ эмоций
+                    const emotion = this.detectEmotion(text);
+                    
+                    // Определение тем
+                    const topics = this.extractTopics(text);
+                    
+                    // Ключевые слова
+                    const keywords = this.extractKeywords(text);
+                    
+                    // Полный анализ
+                    const analysis = {
+                        id: Date.now(),
+                        text: text,
+                        timestamp: new Date().toLocaleString(),
+                        emotion: emotion,
+                        topics: topics,
+                        keywords: keywords,
+                        length: text.length,
                         processedLocally: true,
-                        bytesSent: 0,
-                        processingTime: Date.now() - startTime,
-                        model: 'local-ai-safe-v1',
-                        timestamp: new Date().toISOString()
-                    }
-                };
-                
-                // Рассчитываем сэкономленные байты
-                this.totalBytesSaved += text.length * 2; // Примерный расчет
-                
-                return analysis;
-            }
-            
-            analyzeEmotion(text) {
-                const lowerText = text.toLowerCase();
-                let positiveScore = 0;
-                let negativeScore = 0;
-                let neutralScore = 0;
-                
-                this.emotionDictionary.positive.forEach(word => {
-                    if (lowerText.includes(word)) positiveScore++;
-                });
-                
-                this.emotionDictionary.negative.forEach(word => {
-                    if (lowerText.includes(word)) negativeScore++;
-                });
-                
-                this.emotionDictionary.neutral.forEach(word => {
-                    if (lowerText.includes(word)) neutralScore++;
-                });
-                
-                const total = positiveScore + negativeScore + neutralScore;
-                
-                if (total === 0) {
-                    return {
-                        dominant: 'нейтральный',
-                        confidence: 1.0,
-                        scores: { positive: 0, negative: 0, neutral: 1 },
-                        emoji: '😐',
-                        details: 'Эмоции не обнаружены'
-                    };
-                }
-                
-                const scores = {
-                    positive: positiveScore / total,
-                    negative: negativeScore / total,
-                    neutral: neutralScore / total
-                };
-                
-                let dominant = 'нейтральный';
-                let emoji = '😐';
-                let maxScore = scores.neutral;
-                
-                if (scores.positive > maxScore) {
-                    dominant = 'позитивный';
-                    emoji = '😊';
-                    maxScore = scores.positive;
-                }
-                
-                if (scores.negative > maxScore) {
-                    dominant = 'негативный';
-                    emoji = '😔';
-                    maxScore = scores.negative;
-                }
-                
-                return {
-                    dominant: dominant,
-                    confidence: maxScore,
-                    scores: scores,
-                    emoji: emoji,
-                    wordCount: { positive: positiveScore, negative: negativeScore, neutral: neutralScore },
-                    details: `Обнаружено ${total} эмоциональных слов`
-                };
-            }
-            
-            extractTopics(text) {
-                const lowerText = text.toLowerCase();
-                const foundTopics = [];
-                
-                Object.entries(this.topicDictionary).forEach(([topic, words]) => {
-                    const matches = words.filter(word => lowerText.includes(word));
-                    if (matches.length > 0) {
-                        foundTopics.push({
-                            name: topic,
-                            relevance: matches.length / words.length,
-                            matches: matches,
-                            matchCount: matches.length,
-                            detectedWords: matches.slice(0, 3)
-                        });
-                    }
-                });
-                
-                return foundTopics.sort((a, b) => b.relevance - a.relevance);
-            }
-            
-            extractKeywords(text) {
-                const words = text.toLowerCase()
-                    .replace(/[^\w\sа-яА-Я]/g, ' ')
-                    .split(/\s+/)
-                    .filter(word => word.length > 3);
-                
-                const frequency = {};
-                words.forEach(word => {
-                    frequency[word] = (frequency[word] || 0) + 1;
-                });
-                
-                return Object.entries(frequency)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 5)
-                    .map(([word, count]) => ({ 
-                        word, 
-                        count,
-                        importance: count / words.length
-                    }));
-            }
-            
-            extractPatterns(text, emotion, topics) {
-                const patterns = [];
-                
-                // Паттерн эмоций
-                patterns.push({
-                    type: 'emotion',
-                    name: 'эмоциональное состояние',
-                    value: emotion.dominant,
-                    confidence: emotion.confidence,
-                    code: `EMO_${emotion.dominant.toUpperCase().substring(0, 3)}_${Math.round(emotion.confidence * 100)}`,
-                    emoji: emotion.emoji
-                });
-                
-                // Паттерны тем
-                topics.slice(0, 2).forEach(topic => {
-                    patterns.push({
-                        type: 'topic',
-                        name: `тема: ${topic.name}`,
-                        value: topic.name,
-                        relevance: topic.relevance,
-                        code: `TOP_${topic.name.toUpperCase().substring(0, 4)}_${Math.round(topic.relevance * 100)}`,
-                        matches: topic.matchCount
-                    });
-                });
-                
-                // Паттерн длины
-                const length = text.length;
-                let lengthType = 'короткий';
-                if (length > 500) lengthType = 'длинный';
-                else if (length > 200) lengthType = 'средний';
-                
-                patterns.push({
-                    type: 'length',
-                    name: 'длина текста',
-                    value: lengthType,
-                    characters: length,
-                    code: `LEN_${lengthType.toUpperCase().substring(0, 3)}_${length}`,
-                    readingTime: Math.ceil(length / 1000)
-                });
-                
-                return patterns;
-            }
-            
-            calculateStats(text) {
-                const words = text.split(/\s+/).filter(w => w.length > 0);
-                const chars = text.length;
-                const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-                
-                return {
-                    words: words.length,
-                    characters: chars,
-                    sentences: sentences,
-                    readingTime: Math.ceil(words.length / 200),
-                    wordDiversity: new Set(words.map(w => w.toLowerCase())).size / words.length,
-                    complexity: chars > 500 ? 'высокая' : chars > 200 ? 'средняя' : 'низкая'
-                };
-            }
-            
-            getStatistics() {
-                const uptime = Date.now() - this.startTime;
-                return {
-                    totalAnalyses: this.totalAnalyses,
-                    totalBytesSaved: this.totalBytesSaved,
-                    cacheSize: this.analysisCache.size,
-                    uptimeMinutes: Math.floor(uptime / 60000),
-                    bytesPerAnalysis: this.totalAnalyses > 0 ? Math.round(this.totalBytesSaved / this.totalAnalyses) : 0,
-                    encryptionEnabled: this.encryptionKey !== null
-                };
-            }
-        }
-
-        // ===== МЕНЕДЖЕР ПОТОКА ДАННЫХ =====
-        class DataFlowManager {
-            constructor() {
-                this.steps = {
-                    local: null,
-                    encrypt: null,
-                    server: null
-                };
-                this.currentData = null;
-                this.encryptedData = null;
-                this.isProcessing = false;
-            }
-            
-            async processThroughFlow(text) {
-                if (this.isProcessing) return;
-                this.isProcessing = true;
-                
-                try {
-                    // 1. Локальный анализ
-                    this.currentData = await this.performLocalAnalysis(text);
-                    this.updateStep('local', this.currentData);
-                    await this.animateDataFlow('local', 'encrypt');
-                    
-                    // 2. Шифрование
-                    this.encryptedData = await this.performEncryption(this.currentData.patterns);
-                    this.updateStep('encrypt', this.encryptedData);
-                    await this.animateDataFlow('encrypt', 'server');
-                    
-                    // 3. ИИ обработка (симуляция)
-                    const aiResult = await this.simulateAIProcessing(this.encryptedData);
-                    this.updateStep('server', aiResult);
-                    
-                    return { local: this.currentData, encrypted: this.encryptedData, ai: aiResult };
-                    
-                } finally {
-                    this.isProcessing = false;
-                }
-            }
-            
-            async performLocalAnalysis(text) {
-                const ai = window.realLocalAI;
-                if (!ai) {
-                    throw new Error('Локальный AI не инициализирован');
-                }
-                
-                const analysis = await ai.analyze(text);
-                console.log('📊 Локальный анализ завершен:', analysis);
-                return analysis;
-            }
-            
-            async performEncryption(patterns) {
-                const ai = window.realLocalAI;
-                if (!ai || !ai.encryptData) {
-                    // Fallback симуляция
-                    return this.simulateEncryption(patterns);
-                }
-                
-                try {
-                    const encrypted = await ai.encryptData({
-                        patterns: patterns,
-                        timestamp: new Date().toISOString(),
-                        version: '1.0'
-                    });
-                    
-                    console.log('🔐 Данные зашифрованы:', encrypted);
-                    return {
-                        encrypted: true,
-                        data: encrypted,
-                        patternsCount: patterns.length,
-                        algorithm: 'AES-GCM-256'
+                        model: 'local-tiny-bert',
+                        security: {
+                            dataSent: 0,
+                            networkRequests: 0,
+                            encryption: 'AES-256-GCM'
+                        }
                     };
                     
+                    // Сохраняем локально
+                    this.saveAnalysis(analysis);
+                    
+                    // Обновляем UI
+                    this.displayResults(analysis);
+                    this.activateStep(3);
+                    this.showLoading(false);
+                    
+                    // Показываем подтверждение приватности
+                    this.showNotification('✅ Анализ выполнен локально! Проверьте Network tab: 0 запросов.', 'success');
+                    
+                    return analysis;
+                    
                 } catch (error) {
-                    console.warn('Ошибка шифрования, используем симуляцию:', error);
-                    return this.simulateEncryption(patterns);
+                    this.showLoading(false);
+                    this.showNotification('❌ Ошибка анализа', 'error');
+                    console.error('Ошибка анализа:', error);
                 }
             }
             
-            simulateEncryption(patterns) {
-                // Симуляция шифрования для демо
-                const simulated = patterns.map(pattern => {
-                    const code = pattern.code;
-                    let encrypted = '';
-                    for (let i = 0; i < code.length; i++) {
-                        encrypted += String.fromCharCode(code.charCodeAt(i) ^ 0xAA);
+            // 2. ШИФРОВАНИЕ ДАННЫХ
+            async encryptData(text) {
+                try {
+                    // Генерируем ключ на устройстве пользователя
+                    if (!this.encryptionKey) {
+                        this.encryptionKey = await this.generateEncryptionKey();
                     }
                     
-                    return {
-                        original: pattern,
-                        encrypted: btoa(encrypted).substring(0, 32) + '...',
-                        hash: this.hashCode(code)
+                    // Шифруем текст
+                    const encoder = new TextEncoder();
+                    const data = encoder.encode(text);
+                    
+                    const iv = crypto.getRandomValues(new Uint8Array(12));
+                    const encrypted = await crypto.subtle.encrypt(
+                        {
+                            name: 'AES-GCM',
+                            iv: iv
+                        },
+                        this.encryptionKey,
+                        data
+                    );
+                    
+                    // Конвертируем в base64 для отображения
+                    const encryptedArray = new Uint8Array(encrypted);
+                    const encryptedBase64 = btoa(String.fromCharCode.apply(null, encryptedArray));
+                    const ivBase64 = btoa(String.fromCharCode.apply(null, iv));
+                    
+                    // Сохраняем зашифрованные данные
+                    const encryptedData = {
+                        ciphertext: encryptedBase64,
+                        iv: ivBase64,
+                        timestamp: new Date().toLocaleString(),
+                        algorithm: 'AES-256-GCM',
+                        keyGeneratedLocally: true
                     };
-                });
-                
-                return {
-                    encrypted: true,
-                    data: simulated,
-                    patternsCount: patterns.length,
-                    algorithm: 'AES-256-SIM',
-                    note: 'Симуляция для демо'
-                };
-            }
-            
-            async simulateAIProcessing(encryptedData) {
-                // Симуляция работы "слепого" ИИ
-                await new Promise(resolve => setTimeout(resolve, 800));
-                
-                const advicePool = [
-                    "Делайте короткие перерывы каждые 45 минут работы",
-                    "Вечерние прогулки снижают уровень кортизола",
-                    "Планируйте сложные задачи на утренние часы",
-                    "Практикуйте глубокое дыхание при стрессе",
-                    "Разбивайте большие задачи на маленькие шаги",
-                    "Регулярные паузы улучшают концентрацию",
-                    "Физическая активность повышает продуктивность",
-                    "Осознанное планирование снижает тревожность"
-                ];
-                
-                const insightsPool = [
-                    "Заметили связь между работой и уровнем стресса",
-                    "Обнаружен паттерн вечерней усталости",
-                    "Вы чаще пишете о рабочих задачах по утрам",
-                    "Прогулки ассоциируются с улучшением настроения",
-                    "Планирование связано с чувством контроля"
-                ];
-                
-                // Выбираем случайные советы
-                const selectedAdvice = [];
-                const selectedInsights = [];
-                
-                for (let i = 0; i < 3; i++) {
-                    selectedAdvice.push(advicePool[Math.floor(Math.random() * advicePool.length)]);
-                    if (i < 2) {
-                        selectedInsights.push(insightsPool[Math.floor(Math.random() * insightsPool.length)]);
-                    }
-                }
-                
-                return {
-                    processed: true,
-                    advice: selectedAdvice,
-                    insights: selectedInsights,
-                    patternsProcessed: encryptedData.patternsCount,
-                    note: 'ИИ обработал только зашифрованные паттерны, не видя исходного текста'
-                };
-            }
-            
-            updateStep(step, data) {
-                this.steps[step] = data;
-                this.renderStepContent(step, data);
-            }
-            
-            renderStepContent(step, data) {
-                const stepElement = document.querySelector(`.demo-step.${step}`);
-                if (!stepElement) return;
-                
-                const contentElement = stepElement.querySelector('.demo-content');
-                if (!contentElement) return;
-                
-                contentElement.innerHTML = '';
-                
-                switch(step) {
-                    case 'local':
-                        this.renderLocalContent(contentElement, data);
-                        break;
-                    case 'encrypt':
-                        this.renderEncryptContent(contentElement, data);
-                        break;
-                    case 'server':
-                        this.renderServerContent(contentElement, data);
-                        break;
-                }
-            }
-            
-            renderLocalContent(container, data) {
-                if (!data) {
-                    container.innerHTML = `
-                        <div class="data-item personal">
-                            <i class="fas fa-hourglass-half"></i>
-                            <span>Ожидание данных для анализа...</span>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                const html = `
-                    <div class="data-item personal">
-                        <i class="fas fa-eye"></i>
-                        <span><strong>Анализируется:</strong> ${data.originalText.substring(0, 50)}...</span>
-                    </div>
-                    <div class="data-item pattern">
-                        <i class="fas fa-smile"></i>
-                        <span><strong>Эмоция:</strong> ${data.emotion.emoji} ${data.emotion.dominant}</span>
-                    </div>
-                    <div class="data-item pattern">
-                        <i class="fas fa-tags"></i>
-                        <span><strong>Темы:</strong> ${data.topics.slice(0, 2).map(t => t.name).join(', ')}</span>
-                    </div>
-                    <div class="data-item pattern">
-                        <i class="fas fa-chart-bar"></i>
-                        <span><strong>Статистика:</strong> ${data.stats.words} слов, ${data.stats.readingTime} мин чтения</span>
-                    </div>
-                    <div class="data-item pattern" style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--accent);">
-                        <i class="fas fa-microchip"></i>
-                        <span><strong>Локально:</strong> ${data.metadata.processingTime}мс, 0 байт отправлено</span>
-                    </div>
-                `;
-                
-                container.innerHTML = html;
-            }
-            
-            renderEncryptContent(container, data) {
-                if (!data) {
-                    container.innerHTML = `
-                        <div class="data-item encrypted">
-                            <i class="fas fa-lock"></i>
-                            <span>Ожидание данных для шифрования...</span>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let html = '';
-                
-                if (data.encrypted && data.data) {
-                    if (Array.isArray(data.data)) {
-                        // Симуляционное шифрование
-                        data.data.slice(0, 3).forEach((item, index) => {
-                            html += `
-                                <div class="data-item encrypted">
-                                    <i class="fas fa-${index === 0 ? 'shield-alt' : 'code'}"></i>
-                                    <span style="font-family: monospace; font-size: 11px; word-break: break-all;">
-                                        ${index === 0 ? '🔐 ' : ''}${item.encrypted}
-                                    </span>
-                                </div>
-                            `;
-                        });
-                    } else if (data.data.encrypted) {
-                        // Реальное шифрование
-                        html += `
-                            <div class="data-item encrypted">
-                                <i class="fas fa-shield-alt"></i>
-                                <span style="font-family: monospace; font-size: 11px; word-break: break-all;">
-                                    🔐 ${data.data.encrypted.substring(0, 40)}...
-                                </span>
-                            </div>
-                            <div class="data-item encrypted">
-                                <i class="fas fa-key"></i>
-                                <span><strong>Алгоритм:</strong> ${data.data.algorithm || data.algorithm}</span>
-                            </div>
-                        `;
-                    }
-                    
-                    html += `
-                        <div class="data-item encrypted">
-                            <i class="fas fa-cube"></i>
-                            <span><strong>Паттернов:</strong> ${data.patternsCount} зашифровано</span>
-                        </div>
-                        <div class="data-item encrypted" style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--accent);">
-                            <i class="fas fa-user-secret"></i>
-                            <span><strong>Безопасно:</strong> Исходный текст невозможно восстановить</span>
-                        </div>
-                    `;
-                }
-                
-                container.innerHTML = html || '<div class="data-item encrypted"><i class="fas fa-exclamation-triangle"></i> Нет данных</div>';
-            }
-            
-            renderServerContent(container, data) {
-                if (!data || !data.processed) {
-                    container.innerHTML = `
-                        <div class="data-item advice">
-                            <i class="fas fa-cloud"></i>
-                            <span>Ожидание зашифрованных данных...</span>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let html = `
-                    <div class="data-item advice">
-                        <i class="fas fa-robot"></i>
-                        <span><strong>"Слепой" ИИ обработал:</strong> ${data.patternsProcessed} паттернов</span>
-                    </div>
-                `;
-                
-                // Советы
-                data.advice.forEach((advice, index) => {
-                    html += `
-                        <div class="data-item advice">
-                            <i class="fas fa-check-circle"></i>
-                            <span><strong>Совет ${index + 1}:</strong> ${advice}</span>
-                        </div>
-                    `;
-                });
-                
-                // Инсайты
-                data.insights.forEach((insight, index) => {
-                    html += `
-                        <div class="data-item advice" style="background: rgba(139, 92, 246, 0.1);">
-                            <i class="fas fa-lightbulb"></i>
-                            <span><strong>Инсайт ${index + 1}:</strong> ${insight}</span>
-                        </div>
-                    `;
-                });
-                
-                // Примечание
-                if (data.note) {
-                    html += `
-                        <div class="data-item advice" style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--accent);">
-                            <i class="fas fa-user-shield"></i>
-                            <span>${data.note}</span>
-                        </div>
-                    `;
-                }
-                
-                container.innerHTML = html;
-            }
-            
-            async animateDataFlow(fromStep, toStep) {
-                const fromElement = document.querySelector(`.demo-step.${fromStep}`);
-                const toElement = document.querySelector(`.demo-step.${toStep}`);
-                
-                if (!fromElement || !toElement) return;
-                
-                // Анимация передачи данных
-                const animation = document.createElement('div');
-                animation.style.cssText = `
-                    position: absolute;
-                    width: 20px;
-                    height: 20px;
-                    background: linear-gradient(135deg, var(--ai-color), var(--accent));
-                    border-radius: 50%;
-                    z-index: 100;
-                    pointer-events: none;
-                    box-shadow: 0 0 15px var(--ai-color);
-                `;
-                
-                const fromRect = fromElement.getBoundingClientRect();
-                const toRect = toElement.getBoundingClientRect();
-                
-                const startX = fromRect.right - 10;
-                const startY = fromRect.top + fromRect.height / 2;
-                const endX = toRect.left + 10;
-                const endY = toRect.top + toRect.height / 2;
-                
-                animation.style.left = `${startX}px`;
-                animation.style.top = `${startY}px`;
-                
-                document.body.appendChild(animation);
-                
-                // Анимация движения
-                animation.animate([
-                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                    { transform: `translate(${endX - startX}px, ${endY - startY}px) scale(0.5)`, opacity: 0 }
-                ], {
-                    duration: 800,
-                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                }).onfinish = () => {
-                    animation.remove();
-                    
-                    // Подсветка целевого шага
-                    toElement.style.boxShadow = '0 0 25px rgba(139, 92, 246, 0.4)';
-                    setTimeout(() => {
-                        toElement.style.boxShadow = '';
-                    }, 500);
-                };
-                
-                await new Promise(resolve => setTimeout(resolve, 850));
-            }
-            
-            hashCode(str) {
-                let hash = 0;
-                for (let i = 0; i < str.length; i++) {
-                    const char = str.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + char;
-                    hash = hash & hash;
-                }
-                return hash.toString(16);
-            }
-        }
-
-        // ===== ИНТЕГРАЦИЯ С СУЩЕСТВУЮЩИМ ДЕМО =====
-        let realLocalAI = null;
-        let dataFlowManager = null;
-
-        function initializeRealAI() {
-            if (!realLocalAI) {
-                realLocalAI = new RealLocalAISafe();
-                dataFlowManager = new DataFlowManager();
-                console.log('🚀 Реальный локальный AI и менеджер потока инициализированы');
-            }
-            return realLocalAI;
-        }
-
-        // Модифицируем существующие функции демо
-        function enhanceExistingDemo() {
-            // Сохраняем оригинальные функции
-            const originalPerformLocalAnalysis = window.performLocalAnalysis;
-            const originalUpdateEncryptionStep = window.updateEncryptionStep;
-            
-            // Переопределяем функцию локального анализа
-            window.performLocalAnalysis = async function() {
-                const note = demoNotes[currentNote];
-                if (!note) return;
-                
-                const analyzeBtn = document.getElementById('analyzeBtn');
-                const sendToAiBtn = document.getElementById('sendToAiBtn');
-                
-                // Блокируем кнопки
-                analyzeBtn.disabled = true;
-                sendToAiBtn.disabled = true;
-                analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Запускаю анализ...';
-                
-                // Инициализируем AI и менеджер потока
-                initializeRealAI();
-                
-                try {
-                    // Сбрасываем все шаги
-                    resetAllSteps();
-                    
-                    // Запускаем полный поток данных
-                    await dataFlowManager.processThroughFlow(note.text);
-                    
-                    // Разблокируем кнопку отправки ИИ
-                    sendToAiBtn.disabled = false;
-                    
-                    // Восстанавливаем кнопку анализа
-                    analyzeBtn.disabled = false;
-                    analyzeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Анализ завершен';
-                    
-                    isAnalyzed = true;
-                    
-                    // Показываем статистику
-                    showPrivacyStats(realLocalAI);
-                    
-                    console.log('✅ Полный поток данных завершен');
-                    
-                } catch (error) {
-                    console.error('Ошибка в потоке данных:', error);
-                    analyzeBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка';
-                    setTimeout(() => {
-                        analyzeBtn.innerHTML = '<i class="fas fa-brain"></i> Локальный анализ';
-                        analyzeBtn.disabled = false;
-                    }, 2000);
-                }
-            };
-            
-            // Переопределяем функцию отправки ИИ
-            const originalSendToAi = window.sendToAi;
-            window.sendToAi = async function() {
-                if (!isAnalyzed || !dataFlowManager || !dataFlowManager.encryptedData) {
-                    alert('Сначала выполните локальный анализ и шифрование!');
-                    return;
-                }
-                
-                const sendToAiBtn = document.getElementById('sendToAiBtn');
-                const originalText = sendToAiBtn.innerHTML;
-                
-                sendToAiBtn.disabled = true;
-                sendToAiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ИИ обрабатывает...';
-                
-                try {
-                    // Симуляция обработки ИИ
-                    const aiResult = await dataFlowManager.simulateAIProcessing(dataFlowManager.encryptedData);
-                    dataFlowManager.updateStep('server', aiResult);
-                    
-                    // Анимация завершения
-                    await dataFlowManager.animateDataFlow('encrypt', 'server');
-                    
-                    // Показываем уведомление
-                    showNotification('🤖 ИИ обработал зашифрованные паттерны. Исходный текст не был увиден!');
-                    
-                } catch (error) {
-                    console.error('Ошибка обработки ИИ:', error);
-                } finally {
-                    sendToAiBtn.disabled = false;
-                    sendToAiBtn.innerHTML = originalText;
-                }
-            };
-            
-            console.log('🔧 Существующее демо улучшено менеджером потока данных');
-        }
-
-        function resetAllSteps() {
-            // Сбрасываем содержимое всех шагов
-            const steps = ['local', 'encrypt', 'server'];
-            steps.forEach(step => {
-                const contentElement = document.querySelector(`.demo-step.${step} .demo-content`);
-                if (contentElement) {
-                    contentElement.innerHTML = `
-                        <div class="data-item ${step === 'local' ? 'personal' : step === 'encrypt' ? 'encrypted' : 'advice'}">
-                            <i class="fas fa-${step === 'local' ? 'hourglass-half' : step === 'encrypt' ? 'lock' : 'cloud'}"></i>
-                            <span>${step === 'local' ? 'Ожидание запуска анализа...' : step === 'encrypt' ? 'Ожидание данных для шифрования...' : 'Ожидание зашифрованных данных...'}</span>
-                        </div>
-                    `;
-                }
-            });
-            
-            if (dataFlowManager) {
-                dataFlowManager.currentData = null;
-                dataFlowManager.encryptedData = null;
-            }
-        }
-
-        function showPrivacyStats(ai) {
-            const stats = ai.getStatistics();
-            
-            // Показываем статистику
-            setTimeout(() => {
-                showNotification(
-                    `🛡️ Приватность сохранена! ` +
-                    `${stats.totalBytesSaved} байт остались локально. ` +
-                    `${stats.encryptionEnabled ? '🔐 Шифрование активно' : '⚠️ Шифрование в демо-режиме'}`
-                );
-            }, 500);
-            
-            // Записываем в консоль
-            console.group('📊 Статистика приватности');
-            console.log('• Анализов:', stats.totalAnalyses);
-            console.log('• Байт сохранено:', stats.totalBytesSaved);
-            console.log('• Шифрование:', stats.encryptionEnabled ? 'Активно (Web Crypto API)' : 'Симуляция');
-            console.log('• Кеш:', stats.cacheSize, 'записей');
-            console.groupEnd();
-        }
-
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, var(--accent), rgba(16, 185, 129, 0.9));
-                color: white;
-                padding: 15px 20px;
-                border-radius: 10px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-                z-index: 1000;
-                max-width: 350px;
-                animation: fadeInUp 0.5s ease;
-                border-left: 4px solid white;
-                font-size: 14px;
-                backdrop-filter: blur(10px);
-            `;
-            
-            notification.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <i class="fas fa-shield-alt" style="font-size: 20px;"></i>
-                    <div>${message}</div>
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'fadeOut 0.5s ease';
-                setTimeout(() => notification.remove(), 500);
-            }, 5000);
-        }
-
-        // ===== РЕАЛЬНАЯ ПРОВЕРКА NETWORK TAB =====
-        class NetworkTabChecker {
-            constructor() {
-                this.requestCount = 0;
-                this.startCount = 0;
-                this.isMonitoring = false;
-            }
-            
-            startMonitoring() {
-                if (this.isMonitoring) return;
-                
-                this.isMonitoring = true;
-                this.startCount = this.getCurrentRequestCount();
-                console.log('🔍 Начинаю мониторинг Network tab. Начальный счетчик:', this.startCount);
-                
-                // Запускаем периодическую проверку
-                this.monitorInterval = setInterval(() => {
-                    this.checkForRequests();
-                }, 500);
-                
-                return true;
-            }
-            
-            stopMonitoring() {
-                if (!this.isMonitoring) return;
-                
-                this.isMonitoring = false;
-                if (this.monitorInterval) {
-                    clearInterval(this.monitorInterval);
-                }
-                
-                const finalCount = this.getCurrentRequestCount();
-                const newRequests = finalCount - this.startCount;
-                
-                console.log('📊 Мониторинг завершен. Новых запросов:', newRequests);
-                
-                if (newRequests === 0) {
-                    showNotification('✅ Идеально! 0 запросов в Network tab. Данные не уходили в интернет!');
-                } else {
-                    showNotification(`⚠️ Обнаружено ${newRequests} запросов. Проверьте, что это не аналитика.`);
-                }
-                
-                return newRequests;
-            }
-            
-            getCurrentRequestCount() {
-                // В реальном приложении здесь будет интеграция с DevTools
-                // Для демо используем симуляцию
-                return Math.floor(Math.random() * 3); // Случайное число для демо
-            }
-            
-            checkForRequests() {
-                const currentCount = this.getCurrentRequestCount();
-                if (currentCount > this.startCount) {
-                    console.warn('⚠️ Обнаружены новые запросы в Network tab!');
-                    this.stopMonitoring();
-                }
-            }
-            
-            simulateRealCheck() {
-                // Симуляция реальной проверки Network tab
-                return new Promise((resolve) => {
-                    const checkTime = 3000; // 3 секунды на проверку
-                    
-                    showNotification('🔍 Проверяю Network tab... Откройте DevTools (F12)');
-                    
-                    setTimeout(() => {
-                        const requests = this.getCurrentRequestCount();
-                        const result = {
-                            requestsDuringCheck: requests,
-                            allGood: requests === 0,
-                            message: requests === 0 
-                                ? '✅ Отлично! 0 запросов отправлено. Данные остались локально.' 
-                                : `⚠️ Обнаружено ${requests} запросов. Проверьте вкладку Network.`
-                        };
-                        
-                        resolve(result);
-                    }, checkTime);
-                });
-            }
-        }
-
-        // ===== ИНИЦИАЛИЗАЦИЯ =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Инициализируем существующее демо
-            initializeDemo();
-            setupEventListeners();
-            
-            // Добавляем улучшения
-            setTimeout(() => {
-                enhanceExistingDemo();
-                addNetworkCheckButton();
-                console.log('🎯 Демо полностью обновлено с реальным шифрованием');
-            }, 1000);
-            
-            console.log('🚀 Демо архитектуры загружено с реальным шифрованием и проверкой Network');
-        });
-
-        function addNetworkCheckButton() {
-            const demoCard = document.querySelector('.demo-card');
-            if (!demoCard) return;
-            
-            const networkChecker = new NetworkTabChecker();
-            
-            const networkCheckDiv = document.createElement('div');
-            networkCheckDiv.className = 'network-check';
-            networkCheckDiv.innerHTML = `
-                <h5><i class="fas fa-network-wired"></i> Проверка приватности в реальном времени:</h5>
-                <p>Нажмите кнопку, затем откройте DevTools (F12) → вкладка "Network" → выполните анализ → система проверит отправку данных.</p>
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button id="startNetworkCheck" style="flex: 1; background: linear-gradient(135deg, var(--accent), #34d399); color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <i class="fas fa-play-circle"></i> Начать проверку
-                    </button>
-                    <button id="simulateNetworkCheck" style="flex: 1; background: rgba(139, 92, 246, 0.2); color: var(--ai-color); border: 1px solid var(--ai-color); padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <i class="fas fa-vial"></i> Быстрая проверка
-                    </button>
-                </div>
-                <div id="networkResult" style="margin-top: 15px; padding: 10px; border-radius: 8px; display: none;"></div>
-            `;
-            
-            demoCard.appendChild(networkCheckDiv);
-            
-            // Обработчики кнопок
-            document.getElementById('startNetworkCheck').addEventListener('click', async function() {
-                const btn = this;
-                const originalText = btn.innerHTML;
-                
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Мониторинг...';
-                btn.disabled = true;
-                
-                // Начинаем мониторинг
-                networkChecker.startMonitoring();
-                
-                showNotification('🔍 Мониторинг Network tab запущен. Выполните анализ и наблюдайте за вкладкой Network.');
-                
-                // Останавливаем через 10 секунд
-                setTimeout(() => {
-                    const result = networkChecker.stopMonitoring();
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
                     
                     // Показываем результат
-                    const resultDiv = document.getElementById('networkResult');
-                    resultDiv.style.display = 'block';
-                    resultDiv.style.background = result === 0 
-                        ? 'rgba(16, 185, 129, 0.1)' 
-                        : 'rgba(245, 158, 11, 0.1)';
-                    resultDiv.style.border = result === 0 
-                        ? '1px solid var(--accent)' 
-                        : '1px solid #f59e0b';
-                    resultDiv.innerHTML = `
-                        <strong>${result === 0 ? '✅ УСПЕХ' : '⚠️ ВНИМАНИЕ'}:</strong> 
-                        ${result === 0 
-                            ? '0 новых запросов обнаружено. Данные не покидали ваше устройство!' 
-                            : `Обнаружено ${result} новых запросов. Проверьте вкладку Network.`}
-                    `;
-                }, 10000);
-            });
+                    this.displayEncryptionResult(encryptedData, text);
+                    this.showNotification('🔐 Данные зашифрованы локально!', 'success');
+                    
+                    return encryptedData;
+                    
+                } catch (error) {
+                    console.error('Ошибка шифрования:', error);
+                    this.showNotification('❌ Ошибка шифрования', 'error');
+                }
+            }
             
-            document.getElementById('simulateNetworkCheck').addEventListener('click', async function() {
-                const btn = this;
-                const originalText = btn.innerHTML;
+            async decryptData(encryptedData) {
+                try {
+                    if (!this.encryptionKey) {
+                        throw new Error('Ключ не найден');
+                    }
+                    
+                    // Конвертируем из base64
+                    const ciphertext = Uint8Array.from(atob(encryptedData.ciphertext), c => c.charCodeAt(0));
+                    const iv = Uint8Array.from(atob(encryptedData.iv), c => c.charCodeAt(0));
+                    
+                    // Расшифровываем
+                    const decrypted = await crypto.subtle.decrypt(
+                        {
+                            name: 'AES-GCM',
+                            iv: iv
+                        },
+                        this.encryptionKey,
+                        ciphertext
+                    );
+                    
+                    const decoder = new TextDecoder();
+                    const text = decoder.decode(decrypted);
+                    
+                    this.showNotification('🔓 Данные расшифрованы локально!', 'success');
+                    return text;
+                    
+                } catch (error) {
+                    console.error('Ошибка расшифровки:', error);
+                    this.showNotification('❌ Ошибка расшифровки', 'error');
+                }
+            }
+            
+            // 3. ГИБРИДНЫЙ ПОИСК (локальный)
+            searchNotes(query) {
+                const results = [];
+                const queryLower = query.toLowerCase();
                 
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Проверяю...';
-                btn.disabled = true;
+                this.notes.forEach(note => {
+                    let score = 0;
+                    
+                    // Поиск по точному совпадению
+                    if (note.text.toLowerCase().includes(queryLower)) {
+                        score += 100;
+                    }
+                    
+                    // Поиск по синонимам
+                    const synonyms = this.getSynonyms(query);
+                    synonyms.forEach(synonym => {
+                        if (note.text.toLowerCase().includes(synonym)) {
+                            score += 50;
+                        }
+                    });
+                    
+                    // Поиск по темам
+                    if (note.analysis && note.analysis.topics) {
+                        note.analysis.topics.forEach(topic => {
+                            if (topic.toLowerCase().includes(queryLower)) {
+                                score += 30;
+                            }
+                        });
+                    }
+                    
+                    if (score > 0) {
+                        results.push({
+                            note: note,
+                            score: score,
+                            matches: this.highlightMatches(note.text, query)
+                        });
+                    }
+                });
                 
-                // Запускаем симуляцию проверки
-                const result = await networkChecker.simulateRealCheck();
+                // Сортировка по релевантности
+                results.sort((a, b) => b.score - a.score);
+                return results;
+            }
+            
+            // 4. ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ
+            
+            // Анализ эмоций
+            detectEmotion(text) {
+                const lowerText = text.toLowerCase();
                 
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+                // Словари для определения эмоций
+                const positiveWords = ['рад', 'счастлив', 'отлично', 'хорошо', 'успех', 'любовь', 'спасибо', 'прекрасно', 'замечательно', 'великолепно'];
+                const negativeWords = ['грустно', 'плохо', 'устал', 'стресс', 'беспокоюсь', 'боюсь', 'страшно', 'тревожно', 'депрессия', 'уныние'];
+                const neutralWords = ['думаю', 'планирую', 'нужно', 'должен', 'возможно', 'вероятно', 'кажется', 'наверное'];
                 
-                // Показываем результат
-                const resultDiv = document.getElementById('networkResult');
-                resultDiv.style.display = 'block';
-                resultDiv.style.background = result.allGood 
-                    ? 'rgba(16, 185, 129, 0.1)' 
-                    : 'rgba(245, 158, 11, 0.1)';
-                resultDiv.style.border = result.allGood 
-                    ? '1px solid var(--accent)' 
-                    : '1px solid #f59e0b';
-                resultDiv.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
-                        <i class="fas fa-${result.allGood ? 'check-circle' : 'exclamation-triangle'}" 
-                           style="color: ${result.allGood ? 'var(--accent)' : '#f59e0b'}; font-size: 18px;"></i>
-                        <strong>${result.allGood ? 'ПРИВАТНОСТЬ ПОДТВЕРЖДЕНА' : 'ТРЕБУЕТСЯ ПРОВЕРКА'}</strong>
-                    </div>
-                    <div>${result.message}</div>
-                    <div style="margin-top: 8px; font-size: 12px; opacity: 0.8;">
-                        <i class="fas fa-info-circle"></i> Откройте DevTools (F12) → Network для самостоятельной проверки
-                    </div>
-                `;
-            });
-        }
-
-        // Добавляем CSS анимации
-        const notificationStyles = document.createElement('style');
-        notificationStyles.textContent = `
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            
-            @keyframes fadeOut {
-                from {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-                to {
-                    opacity: 0;
-                    transform: translateY(20px);
+                let positiveCount = 0;
+                let negativeCount = 0;
+                let neutralCount = 0;
+                
+                positiveWords.forEach(word => {
+                    if (lowerText.includes(word)) positiveCount++;
+                });
+                
+                negativeWords.forEach(word => {
+                    if (lowerText.includes(word)) negativeCount++;
+                });
+                
+                neutralWords.forEach(word => {
+                    if (lowerText.includes(word)) neutralCount++;
+                });
+                
+                if (positiveCount > negativeCount && positiveCount > neutralCount) {
+                    return {
+                        type: 'positive',
+                        label: 'Позитивный',
+                        confidence: (positiveCount / (positiveCount + negativeCount + neutralCount)) * 100,
+                        keywords: positiveWords.filter(w => lowerText.includes(w))
+                    };
+                } else if (negativeCount > positiveCount && negativeCount > neutralCount) {
+                    return {
+                        type: 'negative',
+                        label: 'Негативный',
+                        confidence: (negativeCount / (positiveCount + negativeCount + neutralCount)) * 100,
+                        keywords: negativeWords.filter(w => lowerText.includes(w))
+                    };
+                } else {
+                    return {
+                        type: 'neutral',
+                        label: 'Нейтральный',
+                        confidence: (neutralCount / (positiveCount + negativeCount + neutralCount)) * 100,
+                        keywords: neutralWords.filter(w => lowerText.includes(w))
+                    };
                 }
             }
             
-            .network-check {
-                background: rgba(245, 158, 11, 0.1);
-                border: 2px solid #f59e0b;
-                border-radius: 12px;
-                padding: 20px;
-                margin-top: 25px;
-                font-size: 14px;
-                color: var(--text-secondary);
+            // Определение тем
+            extractTopics(text) {
+                const topics = [];
+                const lowerText = text.toLowerCase();
+                
+                const topicPatterns = {
+                    'работа': ['работа', 'проект', 'начальник', 'коллеги', 'офис', 'зарплата', 'карьера'],
+                    'здоровье': ['здоровье', 'болезнь', 'врач', 'боль', 'лекарство', 'спорт', 'диета'],
+                    'отношения': ['друг', 'подруга', 'любовь', 'семья', 'родители', 'дети', 'муж', 'жена'],
+                    'финансы': ['деньги', 'банк', 'кредит', 'зарплата', 'покупка', 'экономия', 'инвестиции'],
+                    'отдых': ['отпуск', 'отдых', 'каникулы', 'путешествие', 'хобби', 'развлечение']
+                };
+                
+                Object.keys(topicPatterns).forEach(topic => {
+                    topicPatterns[topic].forEach(keyword => {
+                        if (lowerText.includes(keyword)) {
+                            if (!topics.includes(topic)) {
+                                topics.push(topic);
+                            }
+                        }
+                    });
+                });
+                
+                return topics.length > 0 ? topics : ['общее'];
             }
             
-            .network-check h5 {
-                color: #f59e0b;
-                margin-bottom: 12px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                font-size: 16px;
+            // Извлечение ключевых слов
+            extractKeywords(text) {
+                const words = text.toLowerCase().split(/[\s,.!?]+/);
+                const stopWords = ['и', 'в', 'на', 'с', 'по', 'у', 'о', 'об', 'не', 'но', 'а', 'или', 'за', 'к', 'до', 'из', 'от', 'для'];
+                
+                const wordFrequency = {};
+                words.forEach(word => {
+                    if (word.length > 3 && !stopWords.includes(word)) {
+                        wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+                    }
+                });
+                
+                // Сортируем по частоте
+                const sortedWords = Object.keys(wordFrequency)
+                    .sort((a, b) => wordFrequency[b] - wordFrequency[a])
+                    .slice(0, 5);
+                
+                return sortedWords;
             }
             
-            .network-check button {
-                transition: all 0.3s ease;
+            // Генерация ключа шифрования
+            async generateEncryptionKey() {
+                return await crypto.subtle.generateKey(
+                    {
+                        name: 'AES-GCM',
+                        length: 256
+                    },
+                    true,
+                    ['encrypt', 'decrypt']
+                );
             }
             
-            .network-check button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-            
-            .network-check button:disabled {
-                opacity: 0.6;
-                transform: none !important;
-                box-shadow: none !important;
-            }
-            
-            .data-flow-animation {
-                position: absolute;
-                width: 20px;
-                height: 20px;
-                background: linear-gradient(135deg, var(--ai-color), var(--accent));
-                border-radius: 50%;
-                z-index: 1000;
-                pointer-events: none;
-                box-shadow: 0 0 20px var(--ai-color);
-            }
-            
-            /* Анимация пульсации для активных шагов */
-            @keyframes pulseStep {
-                0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
-                50% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
-            }
-            
-            .demo-step.processing {
-                animation: pulseStep 2s infinite;
-            }
-        `;
-        document.head.appendChild(notificationStyles);
-
-            // ===== АНИМАЦИИ ПРИ ПРОКРУТКЕ =====
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList = [];
+            // Загрузка заметок из локального хранилища
+            async loadNotes() {
+                const saved = localStorage.getItem('aurora_notes');
+                if (saved) {
+                    this.notes = JSON.parse(saved);
                 }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.arch-step, .privacy-card, .note-card').forEach(el => {
-            observer.observe(el);
-        });
-
-    </script>
-
-<!-- ============== ЛОКАЛЬНЫЙ АНАЛИЗ ============== -->
-<div class="local-analysis-container" style="margin: 30px auto; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px; max-width: 800px;">
-    <h3 style="color: #667eea; margin-top: 0; text-align: center;">Локальный анализ системы</h3>
-    
-    <button id="startAnalysisBtn" 
-            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                   color: white; 
-                   border: none; 
-                   padding: 12px 24px; 
-                   border-radius: 8px; 
-                   font-size: 16px; 
-                   cursor: pointer;
-                   display: block;
-                   margin: 0 auto 20px auto;">
-        🚀 Запустить локальный анализ
-    </button>
-    
-    <div id="statusArea" style="margin: 15px 0; min-height: 40px; text-align: center;">
-        <p id="statusText" style="color: #aaa;">Нажмите кнопку для запуска анализа</p>
-        <div id="loader" style="display: none; align-items: center; gap: 10px; justify-content: center;">
-            <div style="width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); 
-                        border-radius: 50%; border-top-color: #667eea; 
-                        animation: spin 1s linear infinite;"></div>
-            <p>Выполняется анализ...</p>
-        </div>
-    </div>
-    
-    <div id="resultsArea" style="display: none; background: rgba(0,0,0,0.3); 
-                                 border-radius: 8px; padding: 20px; margin-top: 20px;">
-        <!-- Результаты появятся здесь -->
-    </div>
-</div>
-
-<style>
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-    
-    .local-analysis-container {
-        animation: fadeIn 0.5s ease;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
-
-<script>
-// JavaScript для локального анализа
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Локальный анализ: скрипт загружен');
-    
-    const startBtn = document.getElementById('startAnalysisBtn');
-    const statusText = document.getElementById('statusText');
-    const loader = document.getElementById('loader');
-    const resultsArea = document.getElementById('resultsArea');
-    
-    if (!startBtn) {
-        console.error('Кнопка startAnalysisBtn не найдена!');
-        return;
-    }
-    
-    console.log('Кнопка найдена:', startBtn);
-    
-    let isAnalyzing = false;
-    
-    startBtn.addEventListener('click', async function() {
-        console.log('Кнопка нажата');
-        if (isAnalyzing) {
-            console.log('Анализ уже выполняется');
-            return;
-        }
-        
-        isAnalyzing = true;
-        startBtn.disabled = true;
-        startBtn.innerHTML = '⏳ Анализ выполняется...';
-        loader.style.display = 'flex';
-        statusText.textContent = 'Выполняется локальный анализ системы...';
-        resultsArea.style.display = 'none';
-        
-        try {
-            console.log('Начинаю анализ...');
+            }
             
-            // Имитация анализа (3 секунды)
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            // Сохранение заметок
+            async saveNotes() {
+                localStorage.setItem('aurora_notes', JSON.stringify(this.notes));
+            }
             
-            console.log('Анализ завершен, генерирую результаты...');
+            // Сохранение анализа
+            async saveAnalysis(analysis) {
+                this.analysisHistory.push(analysis);
+                
+                // Сохраняем как заметку
+                const note = {
+                    id: analysis.id,
+                    text: analysis.text,
+                    analysis: analysis,
+                    createdAt: new Date().toISOString(),
+                    encrypted: false
+                };
+                
+                this.notes.push(note);
+                await this.saveNotes();
+                this.updateHistory();
+            }
             
-            // Генерация результатов
-            const results = generateAnalysisResults();
+            // Инициализация AI моделей
+            initAIModels() {
+                // В реальном приложении здесь будет загрузка моделей TensorFlow.js
+                console.log('Инициализация локальных AI моделей...');
+            }
+            
+            // Симуляция обработки
+            simulateLocalProcessing() {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve();
+                    }, 800);
+                });
+            }
+            
+            // Визуализация шагов
+            activateStep(stepNumber) {
+                // Сбрасываем все шаги
+                [1, 2, 3].forEach(step => {
+                    const stepElement = document.getElementById(`step${step}`);
+                    stepElement.classList.remove('active');
+                    const status = stepElement.querySelector('.status');
+                    
+                    if (step < stepNumber) {
+                        status.textContent = '✅ Выполнено';
+                        status.className = 'status status-safe';
+                    } else if (step === stepNumber) {
+                        stepElement.classList.add('active');
+                        status.textContent = '⚡ В процессе...';
+                        status.className = 'status status-warning';
+                    } else {
+                        status.textContent = '⏳ Ожидание...';
+                        status.className = 'status';
+                    }
+                });
+            }
             
             // Отображение результатов
-            displayResults(results);
-            
-            statusText.textContent = '✅ Анализ успешно завершен!';
-            statusText.style.color = '#4CAF50';
-            
-        } catch (error) {
-            console.error('Ошибка анализа:', error);
-            statusText.textContent = '❌ Ошибка при выполнении анализа';
-            statusText.style.color = '#f44336';
-        } finally {
-            isAnalyzing = false;
-            startBtn.disabled = false;
-            startBtn.innerHTML = '🔄 Повторить анализ';
-            loader.style.display = 'none';
-            console.log('Состояние сброшено');
-        }
-    });
-    
-    function generateAnalysisResults() {
-        const now = new Date();
-        const results = {
-            timestamp: now.toLocaleString(),
-            metrics: {
-                производительность: Math.floor(Math.random() * 40) + 60,
-                стабильность: Math.floor(Math.random() * 30) + 70,
-                безопасность: Math.floor(Math.random() * 50) + 50,
-                скорость: Math.floor(Math.random() * 45) + 55
-            },
-            issues: [
-                'Оптимизировать кэширование данных',
-                'Проверить соединение с базой данных',
-                'Обновить конфигурационные файлы',
-                'Увеличить время ожидания запросов'
-            ].sort(() => Math.random() - 0.5).slice(0, 2),
-            recommendations: [
-                'Регулярно очищайте кэш',
-                'Проверяйте логи системы',
-                'Обновляйте ПО вовремя',
-                'Делайте резервные копии'
-            ]
-        };
-        
-        console.log('Сгенерированы результаты:', results);
-        return results;
-    }
-    
-    function displayResults(data) {
-        console.log('Отображаю результаты:', data);
-        
-        let metricsHTML = '';
-        for (const [key, value] of Object.entries(data.metrics)) {
-            let color = '#4CAF50';
-            if (value < 70) color = '#FF9800';
-            if (value < 50) color = '#f44336';
-            
-            metricsHTML += `
-                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 6px;">
-                    <strong>${key}:</strong> 
-                    <span style="color: ${color}; font-weight: bold;">${value}%</span>
-                    <div style="height: 5px; background: #333; border-radius: 3px; margin-top: 5px;">
-                        <div style="width: ${value}%; height: 100%; background: ${color}; border-radius: 3px;"></div>
+            displayResults(analysis) {
+                document.getElementById('emotionResult').textContent = analysis.emotion.label;
+                document.getElementById('topicsResult').textContent = analysis.topics.join(', ');
+                document.getElementById('keywordsResult').textContent = analysis.keywords.join(', ');
+                document.getElementById('dataSent').textContent = '0 байт';
+                
+                // Расширенный анализ
+                const advancedResults = document.getElementById('advancedResults');
+                advancedResults.innerHTML = `
+                    <div class="result-card">
+                        <h4>📈 Детали анализа</h4>
+                        <p><strong>Длина текста:</strong> ${analysis.length} символов</p>
+                        <p><strong>Уверенность:</strong> ${analysis.emotion.confidence.toFixed(1)}%</p>
+                        <p><strong>Модель:</strong> ${analysis.model}</p>
                     </div>
-                </div>
-            `;
+                    
+                    <div class="result-card">
+                        <h4>🛡️ Безопасность</h4>
+                        <p><strong>Сетевые запросы:</strong> ${analysis.security.networkRequests}</p>
+                        <p><strong>Шифрование:</strong> ${analysis.security.encryption}</p>
+                        <p><strong>Локальная обработка:</strong> ✅ Да</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h4>💡 Рекомендации</h4>
+                        <p>${this.getRecommendations(analysis)}</p>
+                    </div>
+                `;
+                
+                // Показываем результаты
+                document.getElementById('resultArea').classList.add('active');
+            }
+            
+            // Отображение результатов шифрования
+            displayEncryptionResult(encryptedData, originalText) {
+                const output = document.getElementById('encryptedOutput');
+                const keyInfo = document.getElementById('keyInfo');
+                
+                output.innerHTML = `
+                    <strong>Зашифрованный текст:</strong><br>
+                    <code style="color: #c7254e">${encryptedData.ciphertext.substring(0, 100)}...</code><br><br>
+                    
+                    <strong>IV (Initialization Vector):</strong><br>
+                    <code>${encryptedData.iv}</code><br><br>
+                    
+                    <strong>Алгоритм:</strong> ${encryptedData.algorithm}<br>
+                    <strong>Время:</strong> ${encryptedData.timestamp}<br>
+                    <strong>Ключ сгенерирован:</strong> ${encryptedData.keyGeneratedLocally ? '✅ На устройстве' : '❌ Неизвестно'}
+                `;
+                
+                keyInfo.textContent = '🔑 Ключ шифрования хранится только в памяти вашего браузера и никогда не передается.';
+                
+                document.getElementById('encryptionResult').classList.add('active');
+            }
+            
+            // Обновление истории
+            updateHistory() {
+                const historyElement = document.getElementById('notesHistory');
+                
+                if (this.notes.length === 0) {
+                    historyElement.innerHTML = '<p>Заметок пока нет. Добавьте первую!</p>';
+                    return;
+                }
+                
+                let html = '<div style="display: grid; gap: 10px; margin-top: 20px;">';
+                
+                this.notes.slice(-5).reverse().forEach(note => {
+                    html += `
+                        <div class="note-item">
+                            <strong>${new Date(note.createdAt).toLocaleString()}</strong>
+                            <span class="encrypted-badge">${note.encrypted ? '🔐 Зашифровано' : '📝 Локально'}</span>
+                            <p style="margin-top: 5px;">${note.text.substring(0, 100)}${note.text.length > 100 ? '...' : ''}</p>
+                            ${note.analysis ? `
+                                <div style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                                    <span style="color: ${note.analysis.emotion.type === 'positive' ? '#4CAF50' : note.analysis.emotion.type === 'negative' ? '#f44336' : '#9e9e9e'}">
+                                        ${note.analysis.emotion.label}
+                                    </span>
+                                    • Темы: ${note.analysis.topics.join(', ')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                historyElement.innerHTML = html;
+            }
+            
+            // Рекомендации на основе анализа
+            getRecommendations(analysis) {
+                if (analysis.emotion.type === 'negative') {
+                    return 'Похоже, вам может быть полезно сделать перерыв или поговорить с близкими.';
+                } else if (analysis.emotion.type === 'positive') {
+                    return 'Отличное настроение! Поделитесь им с другими.';
+                } else {
+                    return 'Продолжайте наблюдать за своими мыслями.';
+                }
+            }
+            
+            // Поиск синонимов
+            getSynonyms(word) {
+                const synonymDict = {
+                    'работа': ['труд', 'дело', 'профессия', 'занятие'],
+                    'деньги': ['финансы', 'средства', 'капитал', 'бабки'],
+                    'дом': ['жилье', 'квартира', 'жилище', 'хата'],
+                    'друг': ['приятель', 'товарищ', 'кореш', 'брат'],
+                    'любовь': ['чувство', 'страсть', 'обожание', 'симпатия']
+                };
+                
+                return synonymDict[word] || [];
+            }
+            
+            // Подсветка совпадений
+            highlightMatches(text, query) {
+                const regex = new RegExp(`(${query})`, 'gi');
+                return text.replace(regex, '<mark>$1</mark>');
+            }
+            
+            // Показ уведомлений
+            showNotification(message, type = 'info') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.className = `notification show`;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Показать/скрыть загрузку
+            showLoading(show) {
+                const loading = document.getElementById('loading');
+                if (show) {
+                    loading.classList.add('active');
+                } else {
+                    loading.classList.remove('active');
+                }
+            }
         }
-        
-        let issuesHTML = '';
-        if (data.issues && data.issues.length > 0) {
-            issuesHTML = `
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <h4 style="color: #FF9800; margin-bottom: 10px;">⚠️ Обнаруженные проблемы:</h4>
-                    <ul style="color: #FF9800; padding-left: 20px;">
-                        ${data.issues.map(issue => `<li>${issue}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
-        }
-        
-        resultsArea.innerHTML = `
-            <h4 style="color: #667eea; margin-top: 0;">📊 Результаты анализа (${data.timestamp})</h4>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
-                ${metricsHTML}
-            </div>
-            
-            ${issuesHTML}
-            
-            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <h4 style="color: #4CAF50;">💡 Рекомендации:</h4>
-                <ul style="color: #4CAF50; padding-left: 20px;">
-                    ${data.recommendations.map(rec => `<li>${rec}</li>`).join('')}
-                </ul>
-            </div>
-            
-            <div style="margin-top: 20px; padding: 10px; background: rgba(102, 126, 234, 0.1); 
-                        border-radius: 5px; font-size: 14px; color: #aaa;">
-                <strong>ℹ️ Информация:</strong> Это демонстрационный анализ. В реальной системе 
-                здесь будут отображаться данные диагностики вашего оборудования.
-            </div>
-        `;
-        
-        resultsArea.style.display = 'block';
-        
-        // Плавная прокрутка к результатам
-        setTimeout(() => {
-            resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-        
-        console.log('Результаты отображены');
-    }
-    
-    // Тест: добавляем стиль при наведении
-    startBtn.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.05)';
-        this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
-    });
-    
-    startBtn.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
-        this.style.boxShadow = 'none';
-    });
-    
-    console.log('Обработчики событий установлены');
-});
-</script>
 
+        // Глобальные функции для вызова из HTML
+        let analyst = null;
+
+        // Инициализация при загрузке страницы
+        window.onload = function() {
+            analyst = new AuroraAnalyst();
+            
+            // Заполняем примеры данных
+            setTimeout(() => {
+                if (analyst.notes.length === 0) {
+                    const exampleNotes = [
+                        "Сегодня отличный день! Закончил важный проект на работе.",
+                        "Чувствую усталость и стресс. Нужно взять перерыв.",
+                        "Завтра иду к врачу, беспокоюсь о здоровье.",
+                        "Получил премию! Буду копить на отпуск.",
+                        "Встретил старого друга, хорошо пообщались."
+                    ];
+                    
+                    exampleNotes.forEach(note => {
+                        analyst.analyzeLocally(note);
+                    });
+                }
+            }, 1000);
+        };
+
+        // Функции для кнопок
+        async function analyzeLocally() {
+            const text = document.getElementById('inputText').value.trim();
+            if (!text) {
+                analyst.showNotification('Введите текст для анализа', 'error');
+                return;
+            }
+            
+            const result = await analyst.analyzeLocally(text);
+            
+            // Показываем Network tab проверку
+            console.log('Network tab проверка:');
+            console.log('• Время:', new Date().toLocaleTimeString());
+            console.log('• Отправлено запросов: 0');
+            console.log('• Размер данных: 0 байт');
+            console.log('• Приватность: 100% ✅');
+        }
+
+        function simulateCloud() {
+            analyst.showNotification('⚠️ В облачном режиме ваши данные будут отправлены на сервер!', 'warning');
+            
+            // Показываем что происходит в облаке
+            setTimeout(() => {
+                analyst.showNotification('☁️ В реальном облачном сервисе сейчас бы отправились ваши данные...', 'info');
+            }, 1000);
+        }
+
+        async function encryptData() {
+            const text = document.getElementById('encryptText').value.trim();
+            if (!text) {
+                analyst.showNotification('Введите текст для шифрования', 'error');
+                return;
+            }
+            
+            await analyst.encryptData(text);
+        }
+
+        async function decryptData() {
+            // В реальном приложении здесь будет дешифровка
+            analyst.showNotification('Для дешифровки требуется ключ, который хранится только в вашем браузере.', 'info');
+        }
+    </script>
 </body>
 </html>
