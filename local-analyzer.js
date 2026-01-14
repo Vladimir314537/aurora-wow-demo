@@ -369,9 +369,33 @@ function initLocalAnalyzerForAnalyst() {
     console.log('Локальный анализатор для analyst.html инициализирован');
 }
 
+// Автоматическая инициализация ТОЛЬКО если есть нужные элементы
+function checkAndInitAnalyzer() {
+    // Проверяем, находимся ли мы на странице analyst.html
+    const isAnalystPage = document.querySelector('.demo-section') !== null;
+    
+    if (isAnalystPage) {
+        // Для analyst.html - минимальная инициализация
+        console.log('✅ Локальный анализатор готов для analyst.html');
+        
+        // Инициализируем анализатор, но не добавляем лишние элементы
+        try {
+            const analyzer = new LocalAIAnalyzer();
+            window.auroraLocalAnalyzer = analyzer; // Делаем доступным глобально
+            console.log('🚀 Локальный AI готов к использованию');
+        } catch (error) {
+            console.error('❌ Ошибка инициализации анализатора:', error);
+        }
+    } else {
+        // Для других страниц - полная инициализация
+        console.log('🌐 Полная инициализация локального анализатора');
+        initLocalAnalyzerForAnalyst();
+    }
+}
+
 // Автоматическая инициализация при загрузке
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLocalAnalyzerForAnalyst);
+    document.addEventListener('DOMContentLoaded', checkAndInitAnalyzer);
 } else {
-    initLocalAnalyzerForAnalyst();
+    checkAndInitAnalyzer();
 }
