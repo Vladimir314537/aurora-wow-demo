@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURORA - Архитектура "Аналитик-Советник"</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- ПОДКЛЮЧАЕМ ЛОКАЛЬНЫЙ AI АНАЛИЗАТОР -->
+    <script src="local-analyzer.js"></script>
     <style>
         :root {
             --primary: #3b82f6;
@@ -208,7 +210,7 @@
             overflow: hidden;
             min-height: 300px;
             display: flex;
-            flex-direction: column;
+                flex-direction: column;
             justify-content: space-between;
         }
  
@@ -345,6 +347,16 @@
         .data-item.advice {
             background: rgba(59, 130, 246, 0.1);
             border-left: 3px solid var(--primary);
+        }
+
+        .data-item.privacy {
+            background: rgba(16, 185, 129, 0.15);
+            border-left: 3px solid var(--accent);
+        }
+
+        .data-item.real-analysis {
+            background: rgba(139, 92, 246, 0.15);
+            border-left: 3px solid var(--ai-color);
         }
  
         .arrow-container {
@@ -602,6 +614,17 @@
             background: rgba(59, 130, 246, 0.2);
             transform: translateY(-3px);
         }
+
+        .control-btn.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 2px solid #f59e0b;
+        }
+
+        .control-btn.warning:hover {
+            background: rgba(245, 158, 11, 0.2);
+            transform: translateY(-3px);
+        }
  
         .control-btn:disabled {
             opacity: 0.5;
@@ -691,7 +714,7 @@
             margin-bottom: 20px;
             background: linear-gradient(135deg, var(--primary), var(--ai-color));
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-color transparent;
         }
  
         .footer-tagline {
@@ -750,9 +773,25 @@
                 transform: translateY(0);
             }
         }
+
+        @keyframes pulseGreen {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            }
+            70% { 
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+            100% { 
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
  
         .fade-in {
             animation: fadeIn 0.5s ease forwards;
+        }
+
+        .pulse-green {
+            animation: pulseGreen 2s infinite;
         }
  
         /* ===== МАРКЕР ===== */
@@ -854,6 +893,11 @@
                 Уникальная трёхуровневая система, которая позволяет ИИ помогать вам, 
                 не видя ваших личных данных. Ваши мысли остаются локально.
             </p>
+
+            <div style="margin-top: 30px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                <i class="fas fa-microchip"></i> 
+                <strong>Теперь с реальным локальным AI:</strong> Нажмите "Локальный анализ" и проверьте Network tab → 0 запросов
+            </div>
         </div>
     </section>
  
@@ -887,7 +931,7 @@
                         </div>
                     </div>
                     
-                    <div style="margin-top: 15px; padding: 10px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; font-size: 12px;">
+                    <div class="data-item privacy pulse-green">
                         <i class="fas fa-lock"></i> 
                         <strong>100% приватно:</strong> Данные не покидают устройство
                     </div>
@@ -1018,6 +1062,11 @@
                             <div class="note-preview">Планы, покупки, встречи...</div>
                         </div>
                     </div>
+
+                    <div style="margin-top: 20px; padding: 15px; background: rgba(139, 92, 246, 0.1); border-radius: 10px; border-left: 4px solid var(--ai-color);">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Реальный локальный AI:</strong> Весь анализ выполняется в вашем браузере. Проверьте Network tab после нажатия "Локальный анализ".
+                    </div>
                 </div>
                 
                 <!-- Архитектура в демо -->
@@ -1035,13 +1084,13 @@
                                 <i class="fas fa-eye"></i>
                                 <span><strong>Заметка:</strong> "Начальник бесит, куча заданий одновременно..."</span>
                             </div>
-                            <div class="data-item pattern">
-                                <i class="fas fa-chart-line"></i>
-                                <span><strong>Паттерны:</strong> Конфликт на работе → Высокий стресс</span>
+                            <div class="data-item real-analysis">
+                                <i class="fas fa-microchip"></i>
+                                <span><strong>Реальный AI в браузере:</strong> Нажмите "Локальный анализ"</span>
                             </div>
                             <div class="data-item pattern">
-                                <i class="fas fa-brain"></i>
-                                <span><strong>Эмоции:</strong> Раздражение, фрустрация</span>
+                                <i class="fas fa-clock"></i>
+                                <span><strong>Network tab:</strong> 0 запросов к серверу</span>
                             </div>
                         </div>
                     </div>
@@ -1056,18 +1105,8 @@
                         </div>
                         <div class="demo-content" id="encryptContent">
                             <div class="data-item encrypted">
-                                <i class="fas fa-shield-alt"></i>
-                                <span style="font-family: monospace; font-size: 11px;">
-                                    U2FsdGVkX1+7F8kD5A2L9qPwM4nT6RvYcXzJ7KmN3HpQ=
-                                </span>
-                            </div>
-                            <div class="data-item encrypted">
-                                <i class="fas fa-code"></i>
-                                <span><strong>pattern_work_stress:</strong> 87%</span>
-                            </div>
-                            <div class="data-item encrypted">
-                                <i class="fas fa-code"></i>
-                                <span><strong>pattern_conflict:</strong> 92%</span>
+                                <i class="fas fa-lock"></i>
+                                <span>Ожидание локального анализа...</span>
                             </div>
                         </div>
                     </div>
@@ -1082,16 +1121,8 @@
                         </div>
                         <div class="demo-content" id="serverContent">
                             <div class="data-item advice">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>Рекомендация:</strong> Вечерние прогулки снижают стресс</span>
-                            </div>
-                            <div class="data-item advice">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>Совет:</strong> Планируйте сложные задачи на утро</span>
-                            </div>
-                            <div class="data-item advice">
-                                <i class="fas fa-check-circle"></i>
-                                <span><strong>Инсайт:</strong> Обнаружена связь работы с напряжением</span>
+                                <i class="fas fa-cloud"></i>
+                                <span>Ожидание зашифрованных паттернов...</span>
                             </div>
                         </div>
                     </div>
@@ -1107,10 +1138,21 @@
                         <i class="fas fa-cloud-upload-alt"></i>
                         Отправить ИИ
                     </button>
+                    <button class="control-btn warning" id="checkNetworkBtn">
+                        <i class="fas fa-network-wired"></i>
+                        Проверить Network
+                    </button>
                     <button class="control-btn secondary" id="resetBtn">
                         <i class="fas fa-redo"></i>
                         Сбросить
                     </button>
+                </div>
+
+                <div style="margin-top: 30px; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 10px; text-align: center;">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>Инструкция для проверки приватности:</strong> 
+                    1) Откройте DevTools (F12) → 2) Перейдите во вкладку Network → 
+                    3) Нажмите "Локальный анализ" → 4) Убедитесь, что 0 запросов отправлено
                 </div>
             </div>
         </div>
@@ -1173,7 +1215,7 @@
         
         <p class="footer-copyright">
             © 2024 Aurora AI. Архитектура "Аналитик-Советник". Все права защищены.<br>
-            ИИ помогает, не видя ваших данных.
+            ИИ помогает, не видя ваших данных. Реализовано с локальным AI-анализом.
         </p>
     </footer>
  
@@ -1240,7 +1282,7 @@
                     "pattern_stress_reduction: 86%"
                 ],
                 aiAdvice: [
-                    "✅ Рекомендация: Регулярные вечерние прогулки улучшают сон на 30%",
+                    "✅ Рекомендация: Регулярные вечерные прогулки улучшают сон на 30%",
                     "✅ Совет: Делайте это привычкой 3-4 раза в неделю",
                     "✅ Инсайт: Обнаружена связь вечерних прогулок со снижением тревожности",
                     "💡 Попробуйте: Осознанные прогулки — замечайте 3 новых детали"
@@ -1273,18 +1315,26 @@
         // ===== ПЕРЕМЕННЫЕ =====
         let currentNote = 'work';
         let isAnalyzed = false;
+        let localAnalyzer = null;
  
         // ===== ИНИЦИАЛИЗАЦИЯ =====
         document.addEventListener('DOMContentLoaded', function() {
             initializeDemo();
             setupEventListeners();
             
-            console.log('🚀 Демо архитектуры "Аналитик-Советник" загружено');
+            // Инициализируем локальный анализатор
+            try {
+                localAnalyzer = new LocalAIAnalyzer();
+                console.log('✅ Локальный AI анализатор загружен');
+            } catch (error) {
+                console.error('❌ Ошибка загрузки локального анализатора:', error);
+            }
+            
+            console.log('🚀 Демо архитектуры "Аналитик-Советник" загружено с реальным локальным AI');
         });
  
         // ===== ИНИЦИАЛИЗАЦИЯ ДЕМО =====
         function initializeDemo() {
-            // Устанавливаем первую заметку как активную
             updateNoteDisplay('work');
         }
  
@@ -1298,14 +1348,19 @@
                 });
             });
  
-            // Кнопка анализа
-            document.getElementById('analyzeBtn').addEventListener('click', function() {
-                performLocalAnalysis();
+            // Кнопка анализа - РЕАЛЬНЫЙ ЛОКАЛЬНЫЙ AI
+            document.getElementById('analyzeBtn').addEventListener('click', async function() {
+                await performRealLocalAnalysis();
             });
  
             // Кнопка отправки ИИ
             document.getElementById('sendToAiBtn').addEventListener('click', function() {
                 sendToAi();
+            });
+
+            // Кнопка проверки Network
+            document.getElementById('checkNetworkBtn').addEventListener('click', function() {
+                checkNetworkTab();
             });
  
             // Кнопка сброса
@@ -1316,7 +1371,6 @@
  
         // ===== ВЫБОР ЗАМЕТКИ =====
         function selectNote(noteType) {
-            // Обновляем активную карточку
             document.querySelectorAll('.note-card').forEach(card => {
                 card.classList.remove('active');
             });
@@ -1326,25 +1380,19 @@
                 selectedCard.classList.add('active');
             }
             
-            // Обновляем текущую заметку
             currentNote = noteType;
-            
-            // Сбрасываем состояние
             isAnalyzed = false;
+            
             document.getElementById('sendToAiBtn').disabled = true;
             document.getElementById('analyzeBtn').disabled = false;
             document.getElementById('analyzeBtn').innerHTML = '<i class="fas fa-brain"></i> Локальный анализ';
             
-            // Обновляем отображение
             updateNoteDisplay(noteType);
             
-            // Анимация
             selectedCard.style.animation = 'none';
             setTimeout(() => {
                 selectedCard.style.animation = 'fadeIn 0.5s ease';
             }, 10);
-            
-            console.log(`📝 Выбрана заметка: ${demoNotes[noteType].title}`);
         }
  
         // ===== ОБНОВЛЕНИЕ ОТОБРАЖЕНИЯ =====
@@ -1352,31 +1400,30 @@
             const note = demoNotes[noteType];
             if (!note) return;
             
-            // Обновляем локальный аналитик
             const localContent = document.getElementById('localContent');
             localContent.innerHTML = `
                 <div class="data-item personal">
                     <i class="fas fa-eye"></i>
                     <span><strong>Заметка:</strong> "${note.text.substring(0, 60)}..."</span>
                 </div>
+                <div class="data-item real-analysis">
+                    <i class="fas fa-microchip"></i>
+                    <span><strong>Реальный AI в браузере:</strong> Нажмите "Локальный анализ"</span>
+                </div>
                 <div class="data-item pattern">
-                    <i class="fas fa-hourglass-half"></i>
-                    <span>Выберите "Локальный анализ" для обработки</span>
+                    <i class="fas fa-clock"></i>
+                    <span><strong>Network tab:</strong> 0 запросов к серверу</span>
                 </div>
             `;
             
-            // Очищаем шифрование
-            const encryptContent = document.getElementById('encryptContent');
-            encryptContent.innerHTML = `
+            document.getElementById('encryptContent').innerHTML = `
                 <div class="data-item encrypted">
                     <i class="fas fa-lock"></i>
                     <span>Ожидание локального анализа...</span>
                 </div>
             `;
             
-            // Очищаем ИИ-советник
-            const serverContent = document.getElementById('serverContent');
-            serverContent.innerHTML = `
+            document.getElementById('serverContent').innerHTML = `
                 <div class="data-item advice">
                     <i class="fas fa-cloud"></i>
                     <span>Ожидание зашифрованных паттернов...</span>
@@ -1384,16 +1431,24 @@
             `;
             
             // Анимация обновления
-            [localContent, encryptContent, serverContent].forEach(el => {
-                el.style.animation = 'none';
-                setTimeout(() => {
-                    el.style.animation = 'fadeIn 0.5s ease';
-                }, 10);
+            ['localContent', 'encryptContent', 'serverContent'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.animation = 'none';
+                    setTimeout(() => {
+                        el.style.animation = 'fadeIn 0.5s ease';
+                    }, 10);
+                }
             });
         }
  
-        // ===== ЛОКАЛЬНЫЙ АНАЛИЗ =====
-        function performLocalAnalysis() {
+        // ===== РЕАЛЬНЫЙ ЛОКАЛЬНЫЙ АНАЛИЗ =====
+        async function performRealLocalAnalysis() {
+            if (!localAnalyzer) {
+                alert('❌ Локальный анализатор не загружен. Проверьте файл local-analyzer.js');
+                return;
+            }
+            
             const note = demoNotes[currentNote];
             if (!note) return;
             
@@ -1404,50 +1459,91 @@
             analyzeBtn.disabled = true;
             analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
             
-            // Показываем анимацию анализа
-            simulateAnalysis(note);
+            try {
+                // Выполняем реальный локальный анализ
+                const results = localAnalyzer.analyze(note.text);
+                
+                // Обновляем интерфейс с реальными результатами
+                updateLocalContentWithRealResults(results, note);
+                
+                // Включаем кнопку отправки ИИ
+                sendToAiBtn.disabled = false;
+                
+                isAnalyzed = true;
+                
+                // Показываем сообщение о приватности
+                showPrivacyAlert();
+                
+                console.log('✅ Реальный локальный анализ завершен:', results);
+                
+                // Анимируем переход к шифрованию
+                setTimeout(() => {
+                    updateEncryptionStep();
+                }, 500);
+                
+            } catch (error) {
+                console.error('❌ Ошибка локального анализа:', error);
+                showError('Ошибка анализа. Проверьте консоль для деталей.');
+            } finally {
+                // Восстанавливаем кнопку
+                analyzeBtn.disabled = false;
+                analyzeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Анализ завершен';
+            }
         }
  
-        function simulateAnalysis(note) {
+        function updateLocalContentWithRealResults(results, note) {
             const localContent = document.getElementById('localContent');
-            const steps = note.localAnalysis;
-            let currentStep = 0;
             
-            // Очищаем содержимое
-            localContent.innerHTML = '';
+            localContent.innerHTML = `
+                <div class="data-item personal">
+                    <i class="fas fa-eye"></i>
+                    <span><strong>Заметка:</strong> "${note.text.substring(0, 60)}..."</span>
+                </div>
+                <div class="data-item pattern">
+                    <i class="fas fa-smile"></i>
+                    <span><strong>Эмоция:</strong> ${results.emotion.type} (оценка: ${results.emotion.score})</span>
+                </div>
+                <div class="data-item pattern">
+                    <i class="fas fa-tags"></i>
+                    <span><strong>Темы:</strong> ${results.topics.join(', ')}</span>
+                </div>
+                <div class="data-item pattern">
+                    <i class="fas fa-key"></i>
+                    <span><strong>Ключевые слова:</strong> ${results.keywords.slice(0, 3).map(kw => kw.word).join(', ')}</span>
+                </div>
+                <div class="data-item pattern">
+                    <i class="fas fa-chart-bar"></i>
+                    <span><strong>Статистика:</strong> ${results.stats.words} слов, ${results.stats.sentences} предложений</span>
+                </div>
+            `;
             
-            // Пошаговая анимация анализа
-            const interval = setInterval(() => {
-                if (currentStep < steps.length) {
-                    const item = document.createElement('div');
-                    item.className = currentStep === 0 ? 'data-item personal' : 'data-item pattern';
-                    item.innerHTML = `
-                        <i class="fas fa-${currentStep === 0 ? 'eye' : 'chart-line'}"></i>
-                        <span>${steps[currentStep]}</span>
-                    `;
-                    item.style.animation = 'fadeIn 0.5s ease';
-                    localContent.appendChild(item);
-                    currentStep++;
-                } else {
-                    clearInterval(interval);
-                    
-                    // Включаем кнопку отправки ИИ
-                    const sendToAiBtn = document.getElementById('sendToAiBtn');
-                    sendToAiBtn.disabled = false;
-                    
-                    // Восстанавливаем кнопку анализа
-                    const analyzeBtn = document.getElementById('analyzeBtn');
-                    analyzeBtn.disabled = false;
-                    analyzeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Анализ завершен';
-                    
-                    isAnalyzed = true;
-                    
-                    // Показываем сообщение о шифровании
-                    updateEncryptionStep();
-                    
-                    console.log('✅ Локальный анализ завершен');
-                }
-            }, 600);
+            localContent.style.animation = 'none';
+            setTimeout(() => {
+                localContent.style.animation = 'fadeIn 0.5s ease';
+            }, 10);
+        }
+ 
+        function showPrivacyAlert() {
+            const localContent = document.getElementById('localContent');
+            const privacyBadge = document.createElement('div');
+            privacyBadge.className = 'data-item privacy';
+            privacyBadge.innerHTML = `
+                <i class="fas fa-shield-alt"></i>
+                <span><strong>Проверьте Network tab:</strong> 0 запросов к серверу! Весь анализ выполнен локально.</span>
+            `;
+            localContent.appendChild(privacyBadge);
+        }
+ 
+        function showError(message) {
+            const localContent = document.getElementById('localContent');
+            const errorBadge = document.createElement('div');
+            errorBadge.className = 'data-item personal';
+            errorBadge.style.background = 'rgba(220, 38, 38, 0.15)';
+            errorBadge.innerHTML = `
+                <i class="fas fa-exclamation-triangle"></i>
+                <span><strong>Ошибка:</strong> ${message}</span>
+            `;
+            localContent.appendChild(errorBadge);
         }
  
         // ===== ШИФРОВАНИЕ =====
@@ -1458,7 +1554,6 @@
             const encryptContent = document.getElementById('encryptContent');
             encryptContent.innerHTML = '';
             
-            // Анимация шифрования
             note.encryptedPatterns.forEach((pattern, index) => {
                 setTimeout(() => {
                     const item = document.createElement('div');
@@ -1470,12 +1565,9 @@
                     item.style.animation = 'fadeIn 0.5s ease';
                     encryptContent.appendChild(item);
                     
-                    // Прокрутка к новому элементу
                     item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, index * 400);
             });
-            
-            console.log('🔐 Паттерны зашифрованы');
         }
  
         // ===== ОТПРАВКА ИИ =====
@@ -1485,11 +1577,9 @@
             const note = demoNotes[currentNote];
             const sendToAiBtn = document.getElementById('sendToAiBtn');
             
-            // Блокируем кнопку
             sendToAiBtn.disabled = true;
             sendToAiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправляю...';
             
-            // Показываем анимацию отправки
             simulateAiProcessing(note);
         }
  
@@ -1498,10 +1588,8 @@
             const steps = note.aiAdvice;
             let currentStep = 0;
             
-            // Очищаем содержимое
             serverContent.innerHTML = '';
             
-            // Пошаговая анимация обработки ИИ
             const interval = setInterval(() => {
                 if (currentStep < steps.length) {
                     const item = document.createElement('div');
@@ -1514,32 +1602,24 @@
                     serverContent.appendChild(item);
                     currentStep++;
                     
-                    // Прокрутка к новому элементу
                     item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     clearInterval(interval);
                     
-                    // Восстанавливаем кнопку
                     const sendToAiBtn = document.getElementById('sendToAiBtn');
                     sendToAiBtn.disabled = false;
                     sendToAiBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Отправить ИИ';
                     
-                    // Показываем финальное сообщение
                     showFinalMessage();
-                    
-                    console.log('🤖 ИИ-обработка завершена');
                 }
             }, 700);
         }
  
-        // ===== ФИНАЛЬНОЕ СООБЩЕНИЕ =====
         function showFinalMessage() {
             setTimeout(() => {
                 const serverContent = document.getElementById('serverContent');
                 const message = document.createElement('div');
-                message.className = 'data-item advice';
-                message.style.background = 'rgba(16, 185, 129, 0.15)';
-                message.style.borderLeft = '3px solid var(--accent)';
+                message.className = 'data-item privacy';
                 message.innerHTML = `
                     <i class="fas fa-user-shield"></i>
                     <span><strong>Приватность сохранена:</strong> ИИ не видел ваш текст, только обезличенные паттерны</span>
@@ -1548,29 +1628,79 @@
                 serverContent.appendChild(message);
             }, 500);
         }
+
+        // ===== ПРОВЕРКА NETWORK TAB =====
+        function checkNetworkTab() {
+            const instructions = `
+📊 <strong>Как проверить приватность Aurora:</strong>
+
+1. <strong>Откройте DevTools</strong> → F12 или Правая кнопка → "Исследовать элемент"
+2. <strong>Перейдите во вкладку "Network"</strong> (Сеть)
+3. <strong>Нажмите кнопку "Локальный анализ"</strong> в демо выше
+4. <strong>Наблюдайте за вкладкой Network:</strong>
+   ✅ Должно быть <strong>0 запросов</strong> к внешним серверам
+   ✅ Весь анализ происходит в вашем браузере
+   ✅ Ваши данные <strong>никогда не покидают</strong> устройство
+
+<strong>Это доказательство:</strong> Aurora работает без отправки ваших мыслей в облако.
+`;
+            
+            alertWithHTML(instructions);
+        }
+
+        function alertWithHTML(html) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: var(--bg-secondary);
+                color: var(--text-primary);
+                padding: 30px;
+                border-radius: 15px;
+                border: 2px solid var(--ai-color);
+                z-index: 10000;
+                max-width: 90%;
+                width: 500px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+                max-height: 80vh;
+                overflow-y: auto;
+            `;
+            
+            alertDiv.innerHTML = `
+                <h3 style="margin-top: 0; color: var(--ai-color);">
+                    <i class="fas fa-network-wired"></i> Проверка приватности
+                </h3>
+                <div style="margin: 20px 0; line-height: 1.6;">${html}</div>
+                <button onclick="this.parentElement.remove()" 
+                        style="background: var(--ai-color); color: white; border: none; 
+                               padding: 10px 20px; border-radius: 8px; cursor: pointer; 
+                               font-weight: bold; width: 100%;">
+                    Понятно
+                </button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+        }
  
         // ===== СБРОС ДЕМО =====
         function resetDemo() {
-            // Сбрасываем состояние
             isAnalyzed = false;
             currentNote = 'work';
             
-            // Обновляем активную карточку
             document.querySelectorAll('.note-card').forEach(card => {
                 card.classList.remove('active');
             });
             document.querySelector('.note-card[data-note="work"]').classList.add('active');
             
-            // Сбрасываем кнопки
             document.getElementById('analyzeBtn').disabled = false;
             document.getElementById('analyzeBtn').innerHTML = '<i class="fas fa-brain"></i> Локальный анализ';
             document.getElementById('sendToAiBtn').disabled = true;
             document.getElementById('sendToAiBtn').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Отправить ИИ';
             
-            // Обновляем отображение
             updateNoteDisplay('work');
             
-            // Анимация сброса
             const cards = document.querySelectorAll('.demo-step');
             cards.forEach(card => {
                 card.style.animation = 'none';
@@ -1578,8 +1708,6 @@
                     card.style.animation = 'fadeIn 0.5s ease';
                 }, 10);
             });
-            
-            console.log('🔄 Демо сброшено');
         }
  
         // ===== АНИМАЦИИ ПРИ ПРОКРУТКЕ =====
@@ -1596,14 +1724,9 @@
             });
         }, observerOptions);
  
-        // Наблюдаем за элементами
         document.querySelectorAll('.arch-step, .privacy-card, .note-card').forEach(el => {
             observer.observe(el);
         });
     </script>
 </body>
 </html>
- 
-С уважением,
-Владимир Шишкин
-vans696@mail.ru
