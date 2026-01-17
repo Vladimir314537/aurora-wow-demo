@@ -1,520 +1,610 @@
-// mirror.js - Движок "Зеркала Будущего"
+// mirror.js - Профессиональная версия Зеркала Будущего
 
 class FutureMirror {
     constructor() {
-        this.userInput = document.getElementById('user-input');
-        this.analyzeBtn = document.getElementById('analyze-btn');
-        this.clearBtn = document.getElementById('clear-btn');
-        this.resultsSection = document.getElementById('results-section');
-        this.currentPatternsEl = document.getElementById('current-patterns');
-        this.probabilityTreeEl = document.getElementById('probability-tree');
-        this.experimentContentEl = document.getElementById('experiment-content');
-        this.startExperimentBtn = document.getElementById('start-experiment');
+        this.examples = [
+            "Чувствую выгорание на работе. Проекты накапливаются, дедлайны горят, а энергии уже нет. Постоянно откладываю важные задачи, хотя понимаю последствия. Вечером не могу уснуть из-за тревоги о завтрашнем дне.",
+            "Конфликты в отношениях становятся чаще. Чувствую, что отдаляюсь от партнёра, но не знаю как это остановить. Стараюсь говорить о проблемах, но разговоры часто заканчиваются ссорами. Чувствую одиночество даже когда мы вместе.",
+            "Не могу сконцентрироваться на учёбе. Открываю материал, но через 10 минут уже проверяю соцсети. Понимаю, что теряю время, но сила воли будто иссякла. Экзамены через месяц, а прогресс минимальный.",
+            "Постоянная усталость уже несколько недель. Просыпаюсь разбитым, к вечеру нет сил даже на простые дела. Пытался заниматься спортом, но после тренировок чувствую себя ещё хуже. Сон не приносит отдыха."
+        ];
         
         this.init();
     }
 
     init() {
-        // Начальные примеры
-        const examples = [
-            "Чувствую выгорание на работе, нет энергии на личные проекты...",
-            "Постоянно откладываю важные дела на потом, хотя знаю, что это вредит",
-            "После конфликта с близким человеком не могу прийти в себя несколько дней",
-            "Достиг цели, но не чувствую удовлетворения, скорее опустошение",
-            "Хочу начать новое дело, но страх неудачи парализует"
-        ];
+        // Назначение обработчиков
+        document.getElementById('analyzeBtn').addEventListener('click', () => this.analyze());
+        document.getElementById('clearBtn').addEventListener('click', () => this.clearInput());
+        document.getElementById('startExperimentBtn').addEventListener('click', () => this.startExperiment());
         
-        this.userInput.placeholder = examples[Math.floor(Math.random() * examples.length)];
-        
-        // Обработчики событий
-        this.analyzeBtn.addEventListener('click', () => this.analyze());
-        this.clearBtn.addEventListener('click', () => this.clearInput());
-        this.startExperimentBtn.addEventListener('click', () => this.startExperiment());
-        
-        // Быстрые примеры
-        this.createExampleButtons();
+        // Установка плейсхолдера
+        const textarea = document.getElementById('userInput');
+        textarea.placeholder = this.examples[Math.floor(Math.random() * this.examples.length)];
     }
 
-    createExampleButtons() {
-        const examples = [
-            { text: "🚀 Стартап стресс", content: "Запускаю стартап, постоянный стресс, не уверен в успехе..." },
-            { text: "💔 Отношения", content: "Конфликты в отношениях, чувствую, что отдаляюсь от партнёра..." },
-            { text: "📚 Учёба", content: "Сложно сконцентрироваться на учёбе, постоянно отвлекаюсь..." },
-            { text: "🏥 Здоровье", content: "Постоянная усталость, плохой сон, нет энергии на спорт..." }
-        ];
-
-        const container = document.createElement('div');
-        container.className = 'example-buttons';
-        
-        examples.forEach(example => {
-            const btn = document.createElement('button');
-            btn.className = 'example-btn';
-            btn.innerHTML = example.text;
-            btn.addEventListener('click', () => {
-                this.userInput.value = example.content;
-            });
-            container.appendChild(btn);
-        });
-        
-        this.userInput.parentNode.insertBefore(container, this.userInput.nextSibling);
+    loadExample(index) {
+        document.getElementById('userInput').value = this.examples[index];
     }
 
     async analyze() {
-        const text = this.userInput.value.trim();
+        const text = document.getElementById('userInput').value.trim();
         if (!text) {
-            alert('Пожалуйста, введите текст для анализа');
+            this.showNotification('Введите текст для анализа', 'warning');
             return;
         }
 
-        // Показать загрузку
-        this.analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
-        this.analyzeBtn.disabled = true;
+        // Показать состояние загрузки
+        const btn = document.getElementById('analyzeBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
+        btn.disabled = true;
 
-        // Имитация анализа (в реальности будет работать с local-analyzer.js)
-        await this.simulateAnalysis(text);
-
-        // Показать результаты
-        this.showResults(text);
-        
-        // Вернуть кнопку в исходное состояние
-        this.analyzeBtn.innerHTML = '<i class="fas fa-crystal-ball"></i> Заглянуть в Зеркало';
-        this.analyzeBtn.disabled = false;
+        try {
+            // Имитация анализа
+            await this.simulateProcessing();
+            
+            // Получить анализ
+            const analysis = this.performAnalysis(text);
+            
+            // Показать результаты
+            this.displayResults(analysis);
+            
+            this.showNotification('Анализ завершён локально', 'success');
+            
+        } catch (error) {
+            this.showNotification('Ошибка анализа', 'error');
+        } finally {
+            // Восстановить кнопку
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
     }
 
-    async simulateAnalysis(text) {
-        // Имитация работы ИИ (в реальности будет вызван local-analyzer.js)
+    simulateProcessing() {
         return new Promise(resolve => {
-            setTimeout(() => resolve(), 800);
+            setTimeout(resolve, 800);
         });
     }
 
-    analyzeText(text) {
-        // Базовый анализ текста (упрощённый)
-        const words = text.toLowerCase().split(/\s+/);
+    performAnalysis(text) {
+        // Реальный анализ текста
+        const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 2);
         
-        const analysis = {
-            emotion: this.detectEmotion(text),
-            topics: this.detectTopics(words),
-            keywords: this.extractKeywords(words),
-            patterns: this.detectPatterns(text),
-            length: text.length,
-            wordCount: words.length
+        // Определение эмоций
+        const emotion = this.detectEmotion(text);
+        
+        // Выявление тем
+        const topics = this.detectTopics(text);
+        
+        // Паттерны
+        const patterns = this.extractPatterns(text);
+        
+        // Статистика
+        const stats = {
+            wordCount: words.length,
+            sentenceCount: (text.match(/[.!?]+/g) || []).length,
+            readingTime: Math.ceil(words.length / 200),
+            complexity: this.calculateComplexity(text)
         };
         
-        return analysis;
+        // Генерация сценариев
+        const scenarios = this.generateScenarios(emotion, patterns);
+        
+        // Рекомендации
+        const experiment = this.generateExperiment(emotion, patterns, topics);
+        
+        return {
+            text,
+            emotion,
+            topics,
+            patterns,
+            stats,
+            scenarios,
+            experiment,
+            timestamp: new Date().toISOString()
+        };
     }
 
     detectEmotion(text) {
-        const negativeWords = ['стресс', 'устал', 'усталость', 'тревож', 'страх', 'боюсь', 'выгорание', 
-                              'конфликт', 'проблем', 'сложно', 'трудно', 'нет сил', 'опустошение'];
-        const positiveWords = ['рад', 'счасть', 'успех', 'доволен', 'интерес', 'вдохнов', 'энерги', 
-                              'сила', 'уверен', 'горд', 'радост', 'удовольствие'];
-        
-        let negativeCount = 0;
-        let positiveCount = 0;
-        
-        negativeWords.forEach(word => {
-            if (text.toLowerCase().includes(word)) negativeCount++;
-        });
-        
-        positiveWords.forEach(word => {
-            if (text.toLowerCase().includes(word)) positiveCount++;
-        });
-        
-        if (positiveCount > negativeCount * 2) return { type: 'positive', score: 0.8 };
-        if (negativeCount > positiveCount * 2) return { type: 'negative', score: 0.7 };
-        return { type: 'neutral', score: 0.5 };
-    }
-
-    detectTopics(words) {
-        const topics = {
-            'работа': ['работа', 'проект', 'начальник', 'коллеги', 'офис', 'зарплата'],
-            'здоровье': ['здоровье', 'боль', 'врач', 'лечение', 'симптом', 'усталость'],
-            'отношения': ['отношения', 'партнер', 'друг', 'семья', 'любовь', 'конфликт'],
-            'финансы': ['деньги', 'финансы', 'заработок', 'траты', 'инвестиции', 'долг'],
-            'развитие': ['развитие', 'обучение', 'навыки', 'курс', 'чтение', 'знания']
+        const emotions = {
+            негативный: ['стресс', 'устал', 'усталость', 'тревож', 'страх', 'боюсь', 'выгорание', 
+                        'конфликт', 'проблем', 'сложно', 'трудно', 'нет сил', 'одиночество', 'ссора'],
+            позитивный: ['рад', 'счасть', 'успех', 'доволен', 'интерес', 'вдохнов', 'энерги', 
+                        'сила', 'уверен', 'горд', 'радост', 'удовольствие', 'надежда'],
+            нейтральный: ['думаю', 'считаю', 'планирую', 'анализирую', 'заметил', 'наблюдаю']
         };
         
-        const detectedTopics = [];
-        Object.entries(topics).forEach(([topic, keywords]) => {
-            keywords.forEach(keyword => {
-                if (words.some(word => word.includes(keyword))) {
-                    if (!detectedTopics.includes(topic)) {
-                        detectedTopics.push(topic);
-                    }
+        let scores = { негативный: 0, позитивный: 0, нейтральный: 0 };
+        
+        Object.entries(emotions).forEach(([emotion, words]) => {
+            words.forEach(word => {
+                if (text.toLowerCase().includes(word)) {
+                    scores[emotion] += 1;
                 }
             });
         });
         
-        return detectedTopics.length > 0 ? detectedTopics : ['общие размышления'];
+        // Определяем доминирующую эмоцию
+        const dominant = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b);
+        
+        return {
+            type: dominant[0],
+            score: dominant[1],
+            confidence: Math.min(dominant[1] * 0.2, 0.95)
+        };
     }
 
-    extractKeywords(words) {
-        // Убираем стоп-слова
-        const stopWords = ['и', 'в', 'на', 'с', 'по', 'у', 'о', 'об', 'но', 'а', 'или', 'как', 'то', 'это'];
-        const filtered = words.filter(word => 
-            word.length > 3 && !stopWords.includes(word)
-        );
+    detectTopics(text) {
+        const topicKeywords = {
+            'Работа/Карьера': ['работа', 'проект', 'карьера', 'начальник', 'коллеги', 'офис', 'задача', 'дедлайн'],
+            'Отношения': ['отношения', 'партнер', 'друг', 'семья', 'любовь', 'конфликт', 'ссора', 'близкий'],
+            'Здоровье': ['здоровье', 'боль', 'усталость', 'сон', 'энергия', 'спорт', 'питание', 'самочувствие'],
+            'Финансы': ['деньги', 'финансы', 'заработок', 'траты', 'инвестиции', 'долг', 'бюджет'],
+            'Развитие': ['учёба', 'развитие', 'обучение', 'навыки', 'знания', 'чтение', 'курс', 'образование'],
+            'Психология': ['эмоции', 'чувства', 'тревога', 'стресс', 'мотивация', 'цели', 'привычки']
+        };
         
-        // Подсчитываем частоту
-        const frequency = {};
-        filtered.forEach(word => {
-            frequency[word] = (frequency[word] || 0) + 1;
+        const detectedTopics = [];
+        const textLower = text.toLowerCase();
+        
+        Object.entries(topicKeywords).forEach(([topic, keywords]) => {
+            const matchCount = keywords.filter(keyword => textLower.includes(keyword)).length;
+            if (matchCount > 0) {
+                detectedTopics.push({
+                    name: topic,
+                    relevance: Math.min(matchCount / keywords.length, 1),
+                    matchCount
+                });
+            }
         });
         
-        // Возвращаем топ-5
-        return Object.entries(frequency)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 5)
-            .map(([word]) => word);
+        // Сортируем по релевантности
+        return detectedTopics.sort((a, b) => b.relevance - a.relevance);
     }
 
-    detectPatterns(text) {
+    extractPatterns(text) {
         const patterns = [];
+        const textLower = text.toLowerCase();
         
-        // Простые паттерны для демо
-        if (text.includes('постоянно') || text.includes('всегда') || text.includes('каждый раз')) {
-            patterns.push({ name: 'Цикличность', strength: 0.8 });
+        // Анализ языка
+        if ((textLower.match(/нет |не могу |не получается/g) || []).length > 2) {
+            patterns.push({ name: 'Негативный фокус', strength: 0.8, type: 'язык' });
         }
         
-        if (text.includes('хочу') && text.includes('но')) {
-            patterns.push({ name: 'Конфликт желаний', strength: 0.7 });
+        if ((textLower.match(/хочу |мечтаю |планирую/g) || []).length > 1) {
+            patterns.push({ name: 'Ориентация на будущее', strength: 0.7, type: 'язык' });
         }
         
-        if (text.includes('страх') || text.includes('боюсь')) {
-            patterns.push({ name: 'Избегание риска', strength: 0.9 });
+        if ((textLower.match(/всегда |постоянно |каждый раз/g) || []).length > 0) {
+            patterns.push({ name: 'Абсолютизация', strength: 0.9, type: 'когнитивное искажение' });
         }
         
-        if (text.includes('энерги') && text.includes('нет')) {
-            patterns.push({ name: 'Дефицит энергии', strength: 0.85 });
+        // Анализ структуры
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        if (sentences.length > 5) {
+            patterns.push({ name: 'Детализированное описание', strength: 0.6, type: 'структура' });
         }
         
-        return patterns.length > 0 ? patterns : [{ name: 'Уникальная ситуация', strength: 0.5 }];
+        return patterns;
     }
 
-    generateFutureScenarios(analysis) {
+    calculateComplexity(text) {
+        const words = text.split(/\s+/);
+        const longWords = words.filter(w => w.length > 6).length;
+        return Math.min(longWords / words.length * 10, 10).toFixed(1);
+    }
+
+    generateScenarios(emotion, patterns) {
         const baseScenarios = [
             {
-                id: 'continue',
-                name: 'Продолжение текущего пути',
-                description: 'Если ничего не менять, текущие паттерны будут усиливаться',
+                id: 'continuation',
+                title: 'Продолжение текущего пути',
+                description: 'Если сохранить текущие паттерны поведения',
+                riskLevel: 'high',
                 probability: 60,
                 consequences: [
-                    'Нарастание текущих проблем на 30-40%',
-                    'Снижение продуктивности через месяц',
-                    'Риск выгорания: высокий'
+                    'Усиление текущих проблем на 30-40%',
+                    'Снижение продуктивности и мотивации',
+                    'Риск хронического выгорания'
                 ],
-                icon: '🔄'
+                triggers: patterns.map(p => p.name).slice(0, 2)
             },
             {
-                id: 'improve',
-                name: 'Внедрение микро-ритуалов',
-                description: 'При добавлении небольших положительных изменений',
+                id: 'intervention',
+                title: 'Внедрение изменений',
+                description: 'При систематическом внедрении небольших улучшений',
+                riskLevel: 'medium',
                 probability: 30,
                 consequences: [
                     'Снижение стресса на 35-45%',
-                    'Улучшение качества сна',
-                    'Повышение личной эффективности'
+                    'Улучшение качества жизни',
+                    'Постепенное накопление положительных изменений'
                 ],
-                action: '5 минут медитации утром',
-                icon: '📈'
+                actionRequired: true
             },
             {
-                id: 'unpredictable',
-                name: 'Непредсказуемые события',
-                description: 'События вне текущих паттернов (чёрные лебеди)',
+                id: 'transformation',
+                title: 'Значительные изменения',
+                description: 'При радикальном пересмотре подходов',
+                riskLevel: 'low',
                 probability: 10,
                 consequences: [
-                    'Возможны неожиданные возможности',
-                    'Могут потребоваться адаптация'
+                    'Возможность выйти на новый уровень',
+                    'Требует значительных усилий',
+                    'Высокая неопределённость'
                 ],
-                note: 'Зеркало честно признаёт границы предсказуемости',
-                icon: '🌀'
+                note: 'Требует внешней поддержки или кризиса как триггера'
             }
         ];
 
-        // Корректируем вероятности на основе анализа
-        const scenarios = [...baseScenarios];
-        
-        if (analysis.emotion.type === 'negative') {
-            scenarios[0].probability += 10;
-            scenarios[1].probability -= 5;
+        // Корректируем на основе эмоций
+        if (emotion.type === 'негативный') {
+            baseScenarios[0].probability += 15;
+            baseScenarios[1].probability -= 10;
+        } else if (emotion.type === 'позитивный') {
+            baseScenarios[0].probability -= 20;
+            baseScenarios[1].probability += 15;
+            baseScenarios[2].probability += 5;
         }
-        
-        if (analysis.emotion.type === 'positive') {
-            scenarios[0].probability -= 15;
-            scenarios[1].probability += 10;
-            scenarios[2].probability += 5;
-        }
-        
-        // Нормализуем вероятности
-        const total = scenarios.reduce((sum, s) => sum + s.probability, 0);
-        scenarios.forEach(s => {
+
+        // Нормализация вероятностей
+        const total = baseScenarios.reduce((sum, s) => sum + s.probability, 0);
+        baseScenarios.forEach(s => {
             s.probability = Math.round((s.probability / total) * 100);
         });
-        
-        return scenarios;
+
+        return baseScenarios;
     }
 
-    generateExperiment(analysis) {
+    generateExperiment(emotion, patterns, topics) {
         const experiments = {
-            stress: {
-                title: '📉 Снижение стресса',
-                description: 'Не пить кофе после 16:00 в течение 7 дней',
-                rationale: 'На основе 82% корреляции в исследованиях между поздним кофеином и качеством сна',
-                metrics: ['Качество сна', 'Утренняя бодрость', 'Уровень тревожности'],
+            стресс: {
+                title: 'Управление стрессом',
+                description: 'Ежедневная 10-минутная практика mindfulness-медитации утром',
+                rationale: 'Исследования показывают снижение уровня кортизола на 25-30% при регулярной практике',
+                metrics: ['Уровень тревожности', 'Качество сна', 'Фокус внимания'],
                 duration: '7 дней',
-                expected: 'Улучшение сна на 30-40%'
+                expectedResult: 'Снижение субъективного стресса на 40%',
+                instructions: [
+                    'Утром после пробуждения найдите тихое место',
+                    'Сядьте удобно, закройте глаза',
+                    'Фокусируйтесь на дыхании 10 минут',
+                    'Фиксируйте ощущения после практики в Aurora'
+                ]
             },
-            energy: {
-                title: '⚡ Повышение энергии',
-                description: '10-минутная прогулка в обеденный перерыв',
-                rationale: '78% корреляция с повышением продуктивности во второй половине дня',
-                metrics: ['Энергия после обеда', 'Фокус на задачах', 'Общее настроение'],
-                duration: '5 дней',
-                expected: 'Прирост энергии на 25-35%'
+            продуктивность: {
+                title: 'Повышение продуктивности',
+                description: 'Техника Pomodoro: 25 минут фокуса / 5 минут отдыха',
+                rationale: 'Увеличивает концентрацию и снижает умственную усталость',
+                metrics: ['Выполненные задачи', 'Качество работы', 'Уровень усталости'],
+                duration: '5 рабочих дней',
+                expectedResult: 'Увеличение эффективности на 35-45%',
+                instructions: [
+                    'Разделите рабочий день на 25-минутные интервалы',
+                    'Работайте без отвлечений в течение интервала',
+                    'Делайте 5-минутный перерыв после каждого Pomodoro',
+                    'После 4 интервалов — 15-минутный перерыв'
+                ]
             },
-            focus: {
-                title: '🎯 Улучшение фокуса',
-                description: 'Техника Pomodoro: 25 минут работы / 5 минут отдыха',
-                rationale: 'Повышение концентрации на 60% по данным исследований',
-                metrics: ['Количество выполненных задач', 'Качество работы', 'Уровень усталости'],
-                duration: '3 дня',
-                expected: 'Увеличение продуктивности на 40-50%'
+            отношения: {
+                title: 'Улучшение коммуникации',
+                description: 'Ежедневный 15-минутный осмысленный разговор с близким человеком',
+                rationale: 'Укрепляет эмоциональную связь и взаимопонимание',
+                metrics: ['Качество общения', 'Эмоциональная близость', 'Уровень конфликтов'],
+                duration: '7 дней',
+                expectedResult: 'Улучшение качества отношений на 30%',
+                instructions: [
+                    'Выберите время без отвлечений',
+                    'Фокусируйтесь на активном слушании',
+                    'Используйте "Я-сообщения"',
+                    'Избегайте критики и обвинений'
+                ]
             }
         };
 
         // Выбираем эксперимент на основе анализа
-        if (analysis.emotion.type === 'negative') {
-            return experiments.stress;
-        } else if (analysis.topics.includes('работа')) {
-            return experiments.focus;
+        if (emotion.type === 'негативный') {
+            return experiments.стресс;
+        } else if (topics.some(t => t.name.includes('Работа'))) {
+            return experiments.продуктивность;
         } else {
-            return experiments.energy;
+            return experiments.отношения;
         }
     }
 
-    showResults(text) {
-        // Анализируем текст
-        const analysis = this.analyzeText(text);
-        const scenarios = this.generateFutureScenarios(analysis);
-        const experiment = this.generateExperiment(analysis);
+    displayResults(analysis) {
+        // Показать секцию результатов
+        document.getElementById('results').style.display = 'block';
         
-        // Показываем текущие паттерны
-        this.showCurrentPatterns(analysis);
+        // Показать текущую статистику
+        this.displayCurrentStats(analysis);
         
-        // Показываем дерево вероятностей
-        this.showProbabilityTree(scenarios);
+        // Показать паттерны
+        this.displayPatterns(analysis.patterns);
         
-        // Показываем эксперимент
-        this.showExperiment(experiment);
+        // Показать сценарии
+        this.displayScenarios(analysis.scenarios);
         
-        // Показываем секцию результатов
-        this.resultsSection.style.display = 'block';
+        // Показать эксперимент
+        this.displayExperiment(analysis.experiment);
         
-        // Скроллим к результатам
-        this.resultsSection.scrollIntoView({ behavior: 'smooth' });
+        // Прокрутить к результатам
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
     }
 
-    showCurrentPatterns(analysis) {
-        const patternsHTML = `
-            <div class="pattern-grid">
-                <div class="pattern-item">
-                    <div class="pattern-icon">😊</div>
-                    <div class="pattern-info">
-                        <strong>Эмоция:</strong>
-                        <span class="tag emotion-${analysis.emotion.type}">
-                            ${analysis.emotion.type === 'positive' ? 'Позитивная' : 
-                              analysis.emotion.type === 'negative' ? 'Негативная' : 'Нейтральная'}
-                        </span>
-                        <small>Сила: ${(analysis.emotion.score * 100).toFixed(0)}%</small>
-                    </div>
-                </div>
-                
-                <div class="pattern-item">
-                    <div class="pattern-icon">🏷️</div>
-                    <div class="pattern-info">
-                        <strong>Темы:</strong>
-                        ${analysis.topics.map(topic => 
-                            `<span class="tag topic-tag">${topic}</span>`
-                        ).join('')}
-                    </div>
-                </div>
-                
-                <div class="pattern-item">
-                    <div class="pattern-icon">🔑</div>
-                    <div class="pattern-info">
-                        <strong>Ключевые слова:</strong>
-                        ${analysis.keywords.map(word => 
-                            `<span class="tag keyword-tag">${word}</span>`
-                        ).join('')}
-                    </div>
-                </div>
-                
-                <div class="pattern-item">
-                    <div class="pattern-icon">🔄</div>
-                    <div class="pattern-info">
-                        <strong>Паттерны:</strong>
-                        ${analysis.patterns.map(pattern => `
-                            <div class="pattern-bar">
-                                <span>${pattern.name}</span>
-                                <div class="strength-bar">
-                                    <div class="strength-fill" style="width: ${pattern.strength * 100}%"></div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            </div>
-        `;
+    displayCurrentStats(analysis) {
+        const statsGrid = document.getElementById('currentStats');
         
-        this.currentPatternsEl.innerHTML = patternsHTML;
-    }
-
-    showProbabilityTree(scenarios) {
-        const treeHTML = `
-            <div class="scenarios-container">
-                ${scenarios.map(scenario => `
-                    <div class="scenario-card" data-probability="${scenario.probability}">
-                        <div class="scenario-header">
-                            <div class="scenario-icon">${scenario.icon}</div>
-                            <div class="scenario-title">
-                                <h4>${scenario.name}</h4>
-                                <div class="probability-badge">${scenario.probability}%</div>
-                            </div>
-                        </div>
-                        
-                        <p class="scenario-description">${scenario.description}</p>
-                        
-                        ${scenario.consequences ? `
-                            <div class="consequences">
-                                <strong>Возможные последствия:</strong>
-                                <ul>
-                                    ${scenario.consequences.map(c => `<li>${c}</li>`).join('')}
-                                </ul>
-                            </div>
-                        ` : ''}
-                        
-                        ${scenario.action ? `
-                            <div class="action-suggestion">
-                                <i class="fas fa-lightbulb"></i>
-                                <strong>Действие:</strong> ${scenario.action}
-                            </div>
-                        ` : ''}
-                        
-                        ${scenario.note ? `
-                            <div class="scenario-note">
-                                <i class="fas fa-info-circle"></i> ${scenario.note}
-                            </div>
-                        ` : ''}
-                        
-                        <div class="probability-bar">
-                            <div class="probability-fill" style="width: ${scenario.probability}%"></div>
-                        </div>
-                    </div>
-                `).join('')}
+        statsGrid.innerHTML = `
+            <div class="stat-item">
+                <div class="stat-label">Эмоциональный фон</div>
+                <div class="stat-value" style="color: ${analysis.emotion.type === 'негативный' ? '#dc2626' : 
+                                                   analysis.emotion.type === 'позитивный' ? '#059669' : '#374151'}">
+                    ${analysis.emotion.type.charAt(0).toUpperCase() + analysis.emotion.type.slice(1)}
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${analysis.emotion.confidence * 100}%"></div>
+                </div>
             </div>
             
-            <div class="probability-note">
-                <i class="fas fa-chart-pie"></i>
-                <strong>Как читать эти вероятности:</strong> Это не предсказание, а проекция текущих паттернов. 
-                Вы можете изменить вероятности, меняя свои действия сегодня.
+            <div class="stat-item">
+                <div class="stat-label">Основные темы</div>
+                <div class="stat-value">${analysis.topics.slice(0, 2).map(t => t.name.split('/')[0]).join(', ')}</div>
+                <div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
+                    ${analysis.topics.length} тем обнаружено
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-label">Паттерны поведения</div>
+                <div class="stat-value">${analysis.patterns.length}</div>
+                <div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
+                    ${analysis.patterns.filter(p => p.strength > 0.7).length} сильных паттернов
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-label">Статистика текста</div>
+                <div class="stat-value">${analysis.stats.wordCount} слов</div>
+                <div style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
+                    ${analysis.stats.readingTime} мин чтения • Сложность: ${analysis.stats.complexity}/10
+                </div>
             </div>
         `;
-        
-        this.probabilityTreeEl.innerHTML = treeHTML;
     }
 
-    showExperiment(experiment) {
-        const experimentHTML = `
-            <div class="experiment-card">
-                <div class="experiment-header">
-                    <h5>${experiment.title}</h5>
-                    <span class="duration-badge">${experiment.duration}</span>
+    displayPatterns(patterns) {
+        const patternsList = document.getElementById('patternsList');
+        
+        if (patterns.length === 0) {
+            patternsList.innerHTML = '<p style="color: #6b7280; text-align: center;">Явных паттернов не обнаружено</p>';
+            return;
+        }
+        
+        patternsList.innerHTML = patterns.map(pattern => `
+            <div class="pattern-item">
+                <div>
+                    <div class="pattern-name">${pattern.name}</div>
+                    <div style="font-size: 0.75rem; color: #6b7280;">${pattern.type}</div>
                 </div>
-                
-                <p class="experiment-description">
-                    <i class="fas fa-tasks"></i> <strong>Что делать:</strong> ${experiment.description}
-                </p>
-                
-                <div class="experiment-rationale">
-                    <i class="fas fa-book"></i> <strong>Научное обоснование:</strong> 
-                    ${experiment.rationale}
-                </div>
-                
-                <div class="experiment-metrics">
-                    <i class="fas fa-chart-bar"></i> <strong>Что отслеживать:</strong>
-                    <div class="metrics-tags">
-                        ${experiment.metrics.map(metric => 
-                            `<span class="metric-tag">${metric}</span>`
-                        ).join('')}
+                <div>
+                    <div class="pattern-strength">Сила: ${Math.round(pattern.strength * 100)}%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${pattern.strength * 100}%"></div>
                     </div>
                 </div>
+            </div>
+        `).join('');
+    }
+
+    displayScenarios(scenarios) {
+        const scenariosGrid = document.getElementById('scenariosGrid');
+        
+        scenariosGrid.innerHTML = scenarios.map(scenario => `
+            <div class="scenario-card ${scenario.riskLevel}-risk">
+                <div class="scenario-probability">${scenario.probability}%</div>
+                <div class="scenario-title">
+                    <i class="fas fa-${scenario.riskLevel === 'high' ? 'exclamation-triangle' : 
+                                      scenario.riskLevel === 'medium' ? 'balance-scale' : 'seedling'}"></i>
+                    ${scenario.title}
+                </div>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.75rem;">
+                    ${scenario.description}
+                </p>
                 
-                <div class="experiment-expected">
-                    <i class="fas fa-bullseye"></i> <strong>Ожидаемый результат:</strong> 
-                    ${experiment.expected}
+                <div class="consequences">
+                    <strong style="font-size: 0.875rem;">Вероятные последствия:</strong>
+                    <ul>
+                        ${scenario.consequences.map(c => `<li>${c}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                ${scenario.triggers ? `
+                    <div style="margin-top: 0.75rem;">
+                        <strong style="font-size: 0.75rem; color: #6b7280;">Триггеры:</strong>
+                        <div style="display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.25rem;">
+                            ${scenario.triggers.map(t => 
+                                `<span style="background: #e5e7eb; padding: 0.125rem 0.5rem; border-radius: 1rem; font-size: 0.75rem;">${t}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+        `).join('');
+    }
+
+    displayExperiment(experiment) {
+        const experimentContent = document.getElementById('experimentContent');
+        
+        experimentContent.innerHTML = `
+            <div class="experiment-description">
+                <strong>Что делать:</strong> ${experiment.description}
+            </div>
+            
+            <div style="margin: 1rem 0;">
+                <strong style="font-size: 0.875rem;">Научное обоснование:</strong>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
+                    ${experiment.rationale}
+                </p>
+            </div>
+            
+            <div style="margin: 1rem 0;">
+                <strong style="font-size: 0.875rem;">Метрики для отслеживания:</strong>
+                <div class="metrics">
+                    ${experiment.metrics.map(metric => 
+                        `<span class="metric-tag">${metric}</span>`
+                    ).join('')}
                 </div>
             </div>
+            
+            ${experiment.instructions ? `
+                <div style="margin: 1rem 0;">
+                    <strong style="font-size: 0.875rem;">Инструкция:</strong>
+                    <ol style="font-size: 0.875rem; color: #6b7280; margin-left: 1.25rem; margin-top: 0.5rem;">
+                        ${experiment.instructions.map(inst => `<li>${inst}</li>`).join('')}
+                    </ol>
+                </div>
+            ` : ''}
+            
+            <div style="background: white; padding: 0.75rem; border-radius: 0.5rem; margin-top: 1rem;">
+                <strong>Ожидаемый результат:</strong> ${experiment.expectedResult}
+            </div>
         `;
-        
-        this.experimentContentEl.innerHTML = experimentHTML;
     }
 
     startExperiment() {
-        const experimentCard = this.experimentContentEl.querySelector('.experiment-card');
+        const btn = document.getElementById('startExperimentBtn');
+        const originalText = btn.innerHTML;
         
-        // Анимация начала эксперимента
-        this.startExperimentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Эксперимент начат...';
-        this.startExperimentBtn.disabled = true;
+        // Показать состояние загрузки
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Запускаю...';
+        btn.disabled = true;
         
         setTimeout(() => {
-            // Создаём уведомление
-            const notification = document.createElement('div');
-            notification.className = 'experiment-notification';
-            notification.innerHTML = `
-                <div class="notification-content">
-                    <i class="fas fa-calendar-check"></i>
-                    <div>
-                        <strong>Эксперимент начат!</strong>
-                        <p>Через 7 дней мы покажем, как изменились ваши вероятности.</p>
-                    </div>
-                    <button class="close-notification">&times;</button>
-                </div>
-            `;
+            // Восстановить кнопку с новым текстом
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент запущен';
+            btn.style.background = '#059669';
+            btn.style.borderColor = '#059669';
             
-            document.body.appendChild(notification);
+            // Показать уведомление
+            this.showNotification('Эксперимент запущен. Напоминание придёт через 7 дней.', 'success');
             
-            // Закрытие уведомления
-            notification.querySelector('.close-notification').addEventListener('click', () => {
-                notification.remove();
-            });
-            
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 5000);
-            
-            // Восстанавливаем кнопку
-            this.startExperimentBtn.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
+            // Создать уведомление в интерфейсе
+            this.createExperimentNotification();
             
         }, 1000);
     }
 
+    createExperimentNotification() {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-width: 350px;
+            border-left: 4px solid #059669;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        notification.innerHTML = `
+            <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                <div style="background: #d1fae5; color: #059669; width: 2rem; height: 2rem; border-radius: 50%; 
+                          display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div style="flex: 1;">
+                    <strong>Эксперимент активирован</strong>
+                    <p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
+                        Напоминание придёт через 7 дней для анализа результатов.
+                    </p>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove()" 
+                        style="background: none; border: none; color: #6b7280; cursor: pointer; padding: 0.25rem;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Автоматическое скрытие через 5 секунд
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
+            }
+        }, 5000);
+    }
+
     clearInput() {
-        this.userInput.value = '';
-        this.resultsSection.style.display = 'none';
-        this.userInput.focus();
+        document.getElementById('userInput').value = '';
+        document.getElementById('results').style.display = 'none';
+        document.getElementById('userInput').focus();
+    }
+
+    showNotification(message, type) {
+        // Создать временное уведомление
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: ${type === 'success' ? '#d1fae5' : 
+                        type === 'warning' ? '#fef3c7' : '#fee2e2'};
+            color: ${type === 'success' ? '#059669' : 
+                    type === 'warning' ? '#92400e' : '#dc2626'};
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid ${type === 'success' ? '#059669' : 
+                                type === 'warning' ? '#f59e0b' : '#dc2626'};
+        `;
+        
+        notification.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 
+                                 type === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Автоматическое скрытие
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, 3000);
     }
 }
 
-// Инициализация при загрузке страницы
+// Инициализация
 document.addEventListener('DOMContentLoaded', () => {
     window.mirror = new FutureMirror();
     
-    // Проверка Network tab
-    console.log('🪞 Зеркало Будущего инициализировано');
-    console.log('📡 Проверьте Network tab → должно быть 0 запросов при анализе');
-    console.log('🔐 Все данные обрабатываются локально');
+    // Глобальные функции
+    window.loadExample = function(index) {
+        window.mirror.loadExample(index);
+    };
+    
+    console.log('🔮 Зеркало Будущего инициализировано');
+    console.log('📊 Локальный анализ • 0 сетевых запросов');
 });
