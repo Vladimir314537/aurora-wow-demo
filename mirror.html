@@ -3,142 +3,635 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora 4.0 🪞 Зеркало Будущего</title>
+    <title>Aurora 4.0 | Зеркало Будущего</title>
     <link rel="stylesheet" href="mirror.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Инлайн стили для быстрого старта */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-700: #374151;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        
+        .logo .tagline {
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .privacy-badge {
+            background: linear-gradient(135deg, var(--success), #10b981);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-subtitle {
+            color: var(--gray-700);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.2s;
+            margin-bottom: 1rem;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--gray-200);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--gray-300);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-today {
+            background: #dbeafe;
+            color: var(--primary);
+        }
+        
+        .badge-future {
+            background: #ede9fe;
+            color: var(--secondary);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-item {
+            padding: 1rem;
+            background: var(--gray-100);
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-700);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .patterns-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .pattern-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--gray-100);
+            border-radius: 0.5rem;
+        }
+        
+        .pattern-name {
+            font-weight: 500;
+        }
+        
+        .pattern-strength {
+            font-size: 0.875rem;
+            color: var(--gray-700);
+        }
+        
+        .progress-bar {
+            height: 0.5rem;
+            background: var(--gray-200);
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-top: 0.25rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 1rem;
+        }
+        
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .scenario-card {
+            border: 1px solid var(--gray-200);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            position: relative;
+        }
+        
+        .scenario-card.high-risk {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .scenario-card.medium-risk {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .scenario-card.low-risk {
+            border-left: 4px solid var(--gray-300);
+        }
+        
+        .scenario-probability {
+            position: absolute;
+            top: -0.75rem;
+            right: 1rem;
+            background: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+            border: 2px solid currentColor;
+        }
+        
+        .scenario-card.high-risk .scenario-probability {
+            color: var(--danger);
+        }
+        
+        .scenario-card.medium-risk .scenario-probability {
+            color: var(--warning);
+        }
+        
+        .scenario-card.low-risk .scenario-probability {
+            color: var(--gray-700);
+        }
+        
+        .scenario-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .consequences {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .consequences ul {
+            margin-left: 1.25rem;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+        }
+        
+        .experiment-card {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 1px solid #fbbf24;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+        
+        .experiment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .experiment-duration {
+            background: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .experiment-description {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+        }
+        
+        .metric-tag {
+            background: white;
+            padding: 0.375rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            border: 1px solid #fbbf24;
+        }
+        
+        .privacy-check {
+            background: #f0fdf4;
+            border: 1px solid #10b981;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .privacy-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 0.5rem;
+        }
+        
+        .status-item.success {
+            color: #065f46;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: white;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        /* Примеры */
+        .examples {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+        
+        .example-btn {
+            background: #e0e7ff;
+            border: 1px solid #c7d2fe;
+            color: var(--primary);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .example-btn:hover {
+            background: #c7d2fe;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .scenarios-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <!-- ШАПКА -->
         <header class="header">
             <div class="logo">
-                <h1><i class="fas fa-crystal-ball"></i> Aurora 4.0</h1>
-                <p class="subtitle">🪞 Зеркало Будущего</p>
+                <h1>Aurora 4.0</h1>
+                <div>
+                    <div class="tagline">Приватный цифровой дневник с ИИ</div>
+                    <div class="tagline" style="color: var(--secondary); font-weight: 600;">Зеркало Будущего</div>
+                </div>
             </div>
             <div class="privacy-badge">
                 <i class="fas fa-shield-alt"></i>
-                <span>100% Локально • 0 запросов в Network</span>
+                <span>100% локально • 0 запросов</span>
             </div>
         </header>
 
         <!-- ОСНОВНОЙ КОНТЕНТ -->
         <main class="main-content">
-            <!-- БЛОК ВВОДА -->
+            <!-- ВВОД ДАННЫХ -->
             <section class="input-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-edit"></i> Загляните в Зеркало</h2>
-                    <p class="section-description">
-                        Опишите вашу текущую ситуацию. Зеркало покажет вероятные сценарии развития событий на основе ваших паттернов.
-                    </p>
+                <h2 class="section-title">
+                    <i class="fas fa-crystal-ball"></i>
+                    Загляните в Зеркало Будущего
+                </h2>
+                <p class="section-subtitle">
+                    Опишите вашу текущую ситуацию. Aurora проанализирует паттерны и покажет вероятные сценарии развития событий на месяц вперёд.
+                </p>
+                
+                <textarea id="userInput" placeholder="Например: Чувствую выгорание на работе, нет энергии на личные проекты, постоянно откладываю важные дела..."></textarea>
+                
+                <!-- Быстрые примеры -->
+                <div class="examples">
+                    <button class="example-btn" onclick="loadExample(0)">💼 Рабочий стресс</button>
+                    <button class="example-btn" onclick="loadExample(1)">❤️ Отношения</button>
+                    <button class="example-btn" onclick="loadExample(2)">📚 Учёба</button>
+                    <button class="example-btn" onclick="loadExample(3)">🏥 Здоровье</button>
                 </div>
                 
-                <div class="input-container">
-                    <textarea id="user-input" placeholder="Например: Чувствую выгорание на работе, нет энергии на проекты..."></textarea>
-                    <div class="input-actions">
-                        <button id="analyze-btn" class="btn-primary">
-                            <i class="fas fa-crystal-ball"></i> Заглянуть в Зеркало
-                        </button>
-                        <button id="clear-btn" class="btn-secondary">
-                            <i class="fas fa-broom"></i> Очистить
-                        </button>
-                    </div>
+                <div class="btn-group">
+                    <button id="analyzeBtn" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                        Анализировать локально
+                    </button>
+                    <button id="clearBtn" class="btn btn-secondary">
+                        <i class="fas fa-times"></i>
+                        Очистить
+                    </button>
                 </div>
             </section>
 
-            <!-- АРХИТЕКТУРА ЗЕРКАЛА -->
-            <section class="architecture-section">
-                <h2><i class="fas fa-layer-group"></i> Как работает Зеркало Будущего</h2>
-                <div class="architecture-steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h3>🔍 Локальный Анализ</h3>
-                        <p>Ваш текст анализируется <strong>только на вашем устройстве</strong>. Проверьте Network tab → 0 запросов.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h3>🌐 Сравнение с Наукой</h3>
-                        <p>Система сопоставляет ваши паттерны с анонимными данными из 10,000+ научных исследований.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3>🎯 Вероятностные Сценарии</h3>
-                        <p>Показывает не предсказание, а <strong>спектр вероятностей</strong> с вашими текущими паттернами.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <h3>🔧 Инструменты Изменения</h3>
-                        <p>Предлагает конкретные эксперименты для сдвига вероятностей в вашу пользу.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- РЕЗУЛЬТАТЫ -->
-            <section class="results-section" id="results-section" style="display: none;">
-                <h2><i class="fas fa-chart-line"></i> Отражение в Зеркале</h2>
-                
-                <!-- ТЕКУЩЕЕ ОТРАЖЕНИЕ -->
-                <div class="result-card current-reflection">
-                    <div class="card-header">
-                        <h3><i class="fas fa-user-circle"></i> Ваше текущее отражение</h3>
-                        <span class="badge">СЕГОДНЯ</span>
-                    </div>
-                    <div id="current-patterns" class="card-content">
-                        <!-- Сюда вставляются паттерны -->
-                    </div>
-                </div>
-
-                <!-- ПРОЕКЦИЯ БУДУЩЕГО -->
-                <div class="result-card future-projection">
-                    <div class="card-header">
-                        <h3><i class="fas fa-project-diagram"></i> Проекция на месяц вперёд</h3>
-                        <span class="badge future">БУДУЩЕЕ</span>
-                    </div>
-                    <div class="projection-container">
-                        <div class="probability-tree" id="probability-tree">
-                            <!-- Дерево вероятностей -->
+            <!-- РЕЗУЛЬТАТЫ (скрыты изначально) -->
+            <div id="results" style="display: none;">
+                <!-- ТЕКУЩИЙ АНАЛИЗ -->
+                <section class="current-analysis">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-user-circle"></i>
+                                Ваши текущие паттерны
+                            </h3>
+                            <span class="badge badge-today">СЕГОДНЯ</span>
                         </div>
                         
-                        <div class="experiment-suggestion">
-                            <h4><i class="fas fa-flask"></i> Эксперимент на неделю</h4>
-                            <div id="experiment-content"></div>
-                            <button id="start-experiment" class="btn-experiment">
-                                <i class="fas fa-play-circle"></i> Начать 7-дневный эксперимент
+                        <div class="stats-grid" id="currentStats">
+                            <!-- Заполняется JavaScript -->
+                        </div>
+                        
+                        <div class="patterns-list" id="patternsList">
+                            <!-- Заполняется JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ПРОЕКЦИЯ БУДУЩЕГО -->
+                <section class="future-projection">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-project-diagram"></i>
+                                Проекция на 30 дней
+                            </h3>
+                            <span class="badge badge-future">ВЕРОЯТНОСТИ</span>
+                        </div>
+                        
+                        <div class="scenarios-grid" id="scenariosGrid">
+                            <!-- Заполняется JavaScript -->
+                        </div>
+                        
+                        <div class="projection-note">
+                            <p style="color: var(--gray-700); font-size: 0.875rem; text-align: center;">
+                                <i class="fas fa-info-circle"></i>
+                                Это не предсказания, а вероятностные сценарии на основе ваших текущих паттернов. 
+                                Вы можете изменить вероятности, меняя свои действия сегодня.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ЭКСПЕРИМЕНТ -->
+                <section class="experiment-section">
+                    <div class="experiment-card">
+                        <div class="experiment-header">
+                            <h4 class="card-title">
+                                <i class="fas fa-flask"></i>
+                                Эксперимент на неделю
+                            </h4>
+                            <span class="experiment-duration">7 дней</span>
+                        </div>
+                        
+                        <div id="experimentContent">
+                            <!-- Заполняется JavaScript -->
+                        </div>
+                        
+                        <div class="btn-group" style="justify-content: center; margin-top: 1.5rem;">
+                            <button id="startExperimentBtn" class="btn btn-primary" style="background: #f59e0b; border-color: #f59e0b;">
+                                <i class="fas fa-play-circle"></i>
+                                Начать эксперимент
                             </button>
                         </div>
                     </div>
-                </div>
+                </section>
 
                 <!-- ПРОВЕРКА ПРИВАТНОСТИ -->
-                <div class="privacy-check">
-                    <h4><i class="fas fa-shield-check"></i> Проверка приватности</h4>
-                    <div class="privacy-status">
-                        <div class="status-item success">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Данные остались на устройстве</span>
+                <section class="privacy-section">
+                    <div class="privacy-check">
+                        <h4 class="card-title">
+                            <i class="fas fa-shield-check"></i>
+                            Проверка приватности
+                        </h4>
+                        
+                        <div class="privacy-status">
+                            <div class="status-item success">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Данные обработаны локально</span>
+                            </div>
+                            <div class="status-item success">
+                                <i class="fas fa-check-circle"></i>
+                                <span>0 сетевых запросов</span>
+                            </div>
+                            <div class="status-item success">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Исходный текст не покидал устройство</span>
+                            </div>
                         </div>
-                        <div class="status-item success">
-                            <i class="fas fa-check-circle"></i>
-                            <span>0 запросов в Network tab</span>
-                        </div>
-                        <div class="status-item success">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Исходный текст не покидал браузер</span>
-                        </div>
+                        
+                        <p style="color: #065f46; font-size: 0.875rem; margin-top: 1rem;">
+                            <i class="fas fa-terminal"></i>
+                            Для проверки: откройте DevTools (F12) → вкладка Network → выполните анализ
+                        </p>
                     </div>
-                    <p class="privacy-note">
-                        <i class="fas fa-info-circle"></i>
-                        Откройте Developer Tools (F12) → вкладка Network → убедитесь, что нет запросов при анализе.
-                    </p>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
 
         <!-- ФУТЕР -->
         <footer class="footer">
-            <p>🛡️ <strong>Aurora 4.0</strong> — Приватный цифровой дневник с ИИ, который принадлежит только вам.</p>
-            <p class="footer-note">
-                Не предсказание — проектирование будущего. 
-                <a href="index.html">← Вернуться на главную</a>
+            <p>Aurora 4.0 — Приватный цифровой дневник с ИИ. Ваши мысли остаются вашими.</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="analyst.html"><i class="fas fa-arrow-left"></i> Вернуться к аналитику</a>
+                • 
+                <a href="index.html"><i class="fas fa-home"></i> На главную</a>
             </p>
         </footer>
     </div>
