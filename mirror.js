@@ -1,228 +1,520 @@
-// mirror.js - ГАРАНТИРОВАННО РАБОЧИЙ КОД
-console.log('🔧 Digital Twin начинает загрузку...');
+// mirror.js - Движок "Зеркала Будущего"
 
-// Функция для переключения шагов
-function showStep(stepNumber) {
-    console.log('Переключаем на шаг', stepNumber);
-    
-    // Скрываем все шаги
-    const steps = document.querySelectorAll('.step');
-    steps.forEach(step => {
-        step.style.display = 'none';
-    });
-    
-    // Показываем нужный шаг
-    const targetStep = document.getElementById('step' + stepNumber);
-    if (targetStep) {
-        targetStep.style.display = 'block';
-        console.log('✅ Шаг', stepNumber, 'показан');
-    } else {
-        console.error('❌ Шаг', stepNumber, 'не найден');
+class FutureMirror {
+    constructor() {
+        this.userInput = document.getElementById('user-input');
+        this.analyzeBtn = document.getElementById('analyze-btn');
+        this.clearBtn = document.getElementById('clear-btn');
+        this.resultsSection = document.getElementById('results-section');
+        this.currentPatternsEl = document.getElementById('current-patterns');
+        this.probabilityTreeEl = document.getElementById('probability-tree');
+        this.experimentContentEl = document.getElementById('experiment-content');
+        this.startExperimentBtn = document.getElementById('start-experiment');
+        
+        this.init();
     }
-}
 
-// Функция для быстрого заполнения заметок
-function fillQuickNote(noteText) {
-    const inputs = [
-        document.getElementById('note1'),
-        document.getElementById('note2'), 
-        document.getElementById('note3')
-    ];
-    
-    for (let input of inputs) {
-        if (input && !input.value.trim()) {
-            input.value = noteText;
-            console.log('📝 Заполнено поле:', noteText);
-            break;
+    init() {
+        // Начальные примеры
+        const examples = [
+            "Чувствую выгорание на работе, нет энергии на личные проекты...",
+            "Постоянно откладываю важные дела на потом, хотя знаю, что это вредит",
+            "После конфликта с близким человеком не могу прийти в себя несколько дней",
+            "Достиг цели, но не чувствую удовлетворения, скорее опустошение",
+            "Хочу начать новое дело, но страх неудачи парализует"
+        ];
+        
+        this.userInput.placeholder = examples[Math.floor(Math.random() * examples.length)];
+        
+        // Обработчики событий
+        this.analyzeBtn.addEventListener('click', () => this.analyze());
+        this.clearBtn.addEventListener('click', () => this.clearInput());
+        this.startExperimentBtn.addEventListener('click', () => this.startExperiment());
+        
+        // Быстрые примеры
+        this.createExampleButtons();
+    }
+
+    createExampleButtons() {
+        const examples = [
+            { text: "🚀 Стартап стресс", content: "Запускаю стартап, постоянный стресс, не уверен в успехе..." },
+            { text: "💔 Отношения", content: "Конфликты в отношениях, чувствую, что отдаляюсь от партнёра..." },
+            { text: "📚 Учёба", content: "Сложно сконцентрироваться на учёбе, постоянно отвлекаюсь..." },
+            { text: "🏥 Здоровье", content: "Постоянная усталость, плохой сон, нет энергии на спорт..." }
+        ];
+
+        const container = document.createElement('div');
+        container.className = 'example-buttons';
+        
+        examples.forEach(example => {
+            const btn = document.createElement('button');
+            btn.className = 'example-btn';
+            btn.innerHTML = example.text;
+            btn.addEventListener('click', () => {
+                this.userInput.value = example.content;
+            });
+            container.appendChild(btn);
+        });
+        
+        this.userInput.parentNode.insertBefore(container, this.userInput.nextSibling);
+    }
+
+    async analyze() {
+        const text = this.userInput.value.trim();
+        if (!text) {
+            alert('Пожалуйста, введите текст для анализа');
+            return;
         }
-    }
-}
 
-// Главная функция инициализации
-function initDigitalTwin() {
-    console.log('🚀 Инициализация Digital Twin...');
-    
-    // 1. Показываем первый шаг
-    showStep(1);
-    
-    // 2. Обработчик для кнопки "Далее: Анализ"
-    const nextStep1Btn = document.getElementById('nextStep1');
-    if (nextStep1Btn) {
-        console.log('✅ Найдена кнопка nextStep1');
-        nextStep1Btn.onclick = function() {
-            console.log('🎯 Нажата кнопка "Далее: Анализ"');
-            
-            // Переключаем на шаг 2
-            showStep(2);
-            
-            // Запускаем анимацию прогресса
-            const progressBars = document.querySelectorAll('.progress-fill');
-            if (progressBars.length >= 3) {
-                console.log('🎬 Запускаем анимацию прогресса...');
-                
-                // Первая полоса
-                setTimeout(() => {
-                    progressBars[0].style.width = '100%';
-                    console.log('📊 Прогресс 1: 100%');
-                }, 500);
-                
-                // Вторая полоса
-                setTimeout(() => {
-                    progressBars[1].style.width = '100%';
-                    console.log('📊 Прогресс 2: 100%');
-                }, 1500);
-                
-                // Третья полоса
-                setTimeout(() => {
-                    progressBars[2].style.width = '100%';
-                    console.log('📊 Прогресс 3: 100%');
-                }, 2500);
-                
-                // Показываем кнопку через 4 секунды
-                setTimeout(() => {
-                    const nextStep2Btn = document.getElementById('nextStep2');
-                    if (nextStep2Btn) {
-                        nextStep2Btn.style.display = 'block';
-                        console.log('✅ Кнопка "Показать результаты" показана');
+        // Показать загрузку
+        this.analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
+        this.analyzeBtn.disabled = true;
+
+        // Имитация анализа (в реальности будет работать с local-analyzer.js)
+        await this.simulateAnalysis(text);
+
+        // Показать результаты
+        this.showResults(text);
+        
+        // Вернуть кнопку в исходное состояние
+        this.analyzeBtn.innerHTML = '<i class="fas fa-crystal-ball"></i> Заглянуть в Зеркало';
+        this.analyzeBtn.disabled = false;
+    }
+
+    async simulateAnalysis(text) {
+        // Имитация работы ИИ (в реальности будет вызван local-analyzer.js)
+        return new Promise(resolve => {
+            setTimeout(() => resolve(), 800);
+        });
+    }
+
+    analyzeText(text) {
+        // Базовый анализ текста (упрощённый)
+        const words = text.toLowerCase().split(/\s+/);
+        
+        const analysis = {
+            emotion: this.detectEmotion(text),
+            topics: this.detectTopics(words),
+            keywords: this.extractKeywords(words),
+            patterns: this.detectPatterns(text),
+            length: text.length,
+            wordCount: words.length
+        };
+        
+        return analysis;
+    }
+
+    detectEmotion(text) {
+        const negativeWords = ['стресс', 'устал', 'усталость', 'тревож', 'страх', 'боюсь', 'выгорание', 
+                              'конфликт', 'проблем', 'сложно', 'трудно', 'нет сил', 'опустошение'];
+        const positiveWords = ['рад', 'счасть', 'успех', 'доволен', 'интерес', 'вдохнов', 'энерги', 
+                              'сила', 'уверен', 'горд', 'радост', 'удовольствие'];
+        
+        let negativeCount = 0;
+        let positiveCount = 0;
+        
+        negativeWords.forEach(word => {
+            if (text.toLowerCase().includes(word)) negativeCount++;
+        });
+        
+        positiveWords.forEach(word => {
+            if (text.toLowerCase().includes(word)) positiveCount++;
+        });
+        
+        if (positiveCount > negativeCount * 2) return { type: 'positive', score: 0.8 };
+        if (negativeCount > positiveCount * 2) return { type: 'negative', score: 0.7 };
+        return { type: 'neutral', score: 0.5 };
+    }
+
+    detectTopics(words) {
+        const topics = {
+            'работа': ['работа', 'проект', 'начальник', 'коллеги', 'офис', 'зарплата'],
+            'здоровье': ['здоровье', 'боль', 'врач', 'лечение', 'симптом', 'усталость'],
+            'отношения': ['отношения', 'партнер', 'друг', 'семья', 'любовь', 'конфликт'],
+            'финансы': ['деньги', 'финансы', 'заработок', 'траты', 'инвестиции', 'долг'],
+            'развитие': ['развитие', 'обучение', 'навыки', 'курс', 'чтение', 'знания']
+        };
+        
+        const detectedTopics = [];
+        Object.entries(topics).forEach(([topic, keywords]) => {
+            keywords.forEach(keyword => {
+                if (words.some(word => word.includes(keyword))) {
+                    if (!detectedTopics.includes(topic)) {
+                        detectedTopics.push(topic);
                     }
-                }, 4000);
+                }
+            });
+        });
+        
+        return detectedTopics.length > 0 ? detectedTopics : ['общие размышления'];
+    }
+
+    extractKeywords(words) {
+        // Убираем стоп-слова
+        const stopWords = ['и', 'в', 'на', 'с', 'по', 'у', 'о', 'об', 'но', 'а', 'или', 'как', 'то', 'это'];
+        const filtered = words.filter(word => 
+            word.length > 3 && !stopWords.includes(word)
+        );
+        
+        // Подсчитываем частоту
+        const frequency = {};
+        filtered.forEach(word => {
+            frequency[word] = (frequency[word] || 0) + 1;
+        });
+        
+        // Возвращаем топ-5
+        return Object.entries(frequency)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([word]) => word);
+    }
+
+    detectPatterns(text) {
+        const patterns = [];
+        
+        // Простые паттерны для демо
+        if (text.includes('постоянно') || text.includes('всегда') || text.includes('каждый раз')) {
+            patterns.push({ name: 'Цикличность', strength: 0.8 });
+        }
+        
+        if (text.includes('хочу') && text.includes('но')) {
+            patterns.push({ name: 'Конфликт желаний', strength: 0.7 });
+        }
+        
+        if (text.includes('страх') || text.includes('боюсь')) {
+            patterns.push({ name: 'Избегание риска', strength: 0.9 });
+        }
+        
+        if (text.includes('энерги') && text.includes('нет')) {
+            patterns.push({ name: 'Дефицит энергии', strength: 0.85 });
+        }
+        
+        return patterns.length > 0 ? patterns : [{ name: 'Уникальная ситуация', strength: 0.5 }];
+    }
+
+    generateFutureScenarios(analysis) {
+        const baseScenarios = [
+            {
+                id: 'continue',
+                name: 'Продолжение текущего пути',
+                description: 'Если ничего не менять, текущие паттерны будут усиливаться',
+                probability: 60,
+                consequences: [
+                    'Нарастание текущих проблем на 30-40%',
+                    'Снижение продуктивности через месяц',
+                    'Риск выгорания: высокий'
+                ],
+                icon: '🔄'
+            },
+            {
+                id: 'improve',
+                name: 'Внедрение микро-ритуалов',
+                description: 'При добавлении небольших положительных изменений',
+                probability: 30,
+                consequences: [
+                    'Снижение стресса на 35-45%',
+                    'Улучшение качества сна',
+                    'Повышение личной эффективности'
+                ],
+                action: '5 минут медитации утром',
+                icon: '📈'
+            },
+            {
+                id: 'unpredictable',
+                name: 'Непредсказуемые события',
+                description: 'События вне текущих паттернов (чёрные лебеди)',
+                probability: 10,
+                consequences: [
+                    'Возможны неожиданные возможности',
+                    'Могут потребоваться адаптация'
+                ],
+                note: 'Зеркало честно признаёт границы предсказуемости',
+                icon: '🌀'
+            }
+        ];
+
+        // Корректируем вероятности на основе анализа
+        const scenarios = [...baseScenarios];
+        
+        if (analysis.emotion.type === 'negative') {
+            scenarios[0].probability += 10;
+            scenarios[1].probability -= 5;
+        }
+        
+        if (analysis.emotion.type === 'positive') {
+            scenarios[0].probability -= 15;
+            scenarios[1].probability += 10;
+            scenarios[2].probability += 5;
+        }
+        
+        // Нормализуем вероятности
+        const total = scenarios.reduce((sum, s) => sum + s.probability, 0);
+        scenarios.forEach(s => {
+            s.probability = Math.round((s.probability / total) * 100);
+        });
+        
+        return scenarios;
+    }
+
+    generateExperiment(analysis) {
+        const experiments = {
+            stress: {
+                title: '📉 Снижение стресса',
+                description: 'Не пить кофе после 16:00 в течение 7 дней',
+                rationale: 'На основе 82% корреляции в исследованиях между поздним кофеином и качеством сна',
+                metrics: ['Качество сна', 'Утренняя бодрость', 'Уровень тревожности'],
+                duration: '7 дней',
+                expected: 'Улучшение сна на 30-40%'
+            },
+            energy: {
+                title: '⚡ Повышение энергии',
+                description: '10-минутная прогулка в обеденный перерыв',
+                rationale: '78% корреляция с повышением продуктивности во второй половине дня',
+                metrics: ['Энергия после обеда', 'Фокус на задачах', 'Общее настроение'],
+                duration: '5 дней',
+                expected: 'Прирост энергии на 25-35%'
+            },
+            focus: {
+                title: '🎯 Улучшение фокуса',
+                description: 'Техника Pomodoro: 25 минут работы / 5 минут отдыха',
+                rationale: 'Повышение концентрации на 60% по данным исследований',
+                metrics: ['Количество выполненных задач', 'Качество работы', 'Уровень усталости'],
+                duration: '3 дня',
+                expected: 'Увеличение продуктивности на 40-50%'
             }
         };
-    } else {
-        console.error('❌ Кнопка nextStep1 не найдена!');
-    }
-    
-    // 3. Обработчик для кнопки "Показать результаты"
-    const nextStep2Btn = document.getElementById('nextStep2');
-    if (nextStep2Btn) {
-        console.log('✅ Найдена кнопка nextStep2');
-        nextStep2Btn.onclick = function() {
-            console.log('🎯 Нажата кнопка "Показать результаты"');
-            showStep(3);
-            updateResults();
-        };
-    }
-    
-    // 4. Заполняем результаты
-    function updateResults() {
-        console.log('📊 Обновляем результаты...');
-        
-        // Простой анализ заметок
-        const note1 = document.getElementById('note1')?.value || '';
-        const note2 = document.getElementById('note2')?.value || '';
-        const note3 = document.getElementById('note3')?.value || '';
-        
-        // Определяем профиль
-        let profile = '⚙️ Практик';
-        let description = 'Вы фокусируетесь на действиях и результатах';
-        
-        const allNotes = (note1 + note2 + note3).toLowerCase();
-        
-        if (allNotes.includes('анализ') || allNotes.includes('решение')) {
-            profile = '📊 Аналитик';
-            description = 'Вы тщательно анализируете информацию перед действиями';
+
+        // Выбираем эксперимент на основе анализа
+        if (analysis.emotion.type === 'negative') {
+            return experiments.stress;
+        } else if (analysis.topics.includes('работа')) {
+            return experiments.focus;
+        } else {
+            return experiments.energy;
         }
+    }
+
+    showResults(text) {
+        // Анализируем текст
+        const analysis = this.analyzeText(text);
+        const scenarios = this.generateFutureScenarios(analysis);
+        const experiment = this.generateExperiment(analysis);
         
-        if (allNotes.includes('идея') || allNotes.includes('новый')) {
-            profile = '🎨 Креативщик';
-            description = 'Вы генерируете новые идеи и подходы';
-        }
+        // Показываем текущие паттерны
+        this.showCurrentPatterns(analysis);
         
-        // Обновляем интерфейс
-        const profileEl = document.getElementById('thinkingProfile');
-        const descEl = document.getElementById('profileDesc');
-        const strengthEl = document.getElementById('strengthText');
-        const improveEl = document.getElementById('improvementText');
-        const recommendEl = document.getElementById('recommendationText');
-        const planEl = document.getElementById('actionPlan');
+        // Показываем дерево вероятностей
+        this.showProbabilityTree(scenarios);
         
-        if (profileEl) profileEl.textContent = profile;
-        if (descEl) descEl.textContent = description;
-        if (strengthEl) strengthEl.textContent = 'Вы хорошо ставите конкретные цели';
-        if (improveEl) improveEl.textContent = 'Можно больше экспериментировать с новыми подходами';
-        if (recommendEl) recommendEl.textContent = 'Запланируйте 3 конкретных действия на неделю';
+        // Показываем эксперимент
+        this.showExperiment(experiment);
         
-        // План действий
-        if (planEl) {
-            planEl.innerHTML = '';
-            const planItems = [
-                'Запишите 3 главные цели на неделю',
-                'Ежедневно отмечайте выполненные задачи',
-                'Проведите анализ результатов в воскресенье'
-            ];
+        // Показываем секцию результатов
+        this.resultsSection.style.display = 'block';
+        
+        // Скроллим к результатам
+        this.resultsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    showCurrentPatterns(analysis) {
+        const patternsHTML = `
+            <div class="pattern-grid">
+                <div class="pattern-item">
+                    <div class="pattern-icon">😊</div>
+                    <div class="pattern-info">
+                        <strong>Эмоция:</strong>
+                        <span class="tag emotion-${analysis.emotion.type}">
+                            ${analysis.emotion.type === 'positive' ? 'Позитивная' : 
+                              analysis.emotion.type === 'negative' ? 'Негативная' : 'Нейтральная'}
+                        </span>
+                        <small>Сила: ${(analysis.emotion.score * 100).toFixed(0)}%</small>
+                    </div>
+                </div>
+                
+                <div class="pattern-item">
+                    <div class="pattern-icon">🏷️</div>
+                    <div class="pattern-info">
+                        <strong>Темы:</strong>
+                        ${analysis.topics.map(topic => 
+                            `<span class="tag topic-tag">${topic}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                <div class="pattern-item">
+                    <div class="pattern-icon">🔑</div>
+                    <div class="pattern-info">
+                        <strong>Ключевые слова:</strong>
+                        ${analysis.keywords.map(word => 
+                            `<span class="tag keyword-tag">${word}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                <div class="pattern-item">
+                    <div class="pattern-icon">🔄</div>
+                    <div class="pattern-info">
+                        <strong>Паттерны:</strong>
+                        ${analysis.patterns.map(pattern => `
+                            <div class="pattern-bar">
+                                <span>${pattern.name}</span>
+                                <div class="strength-bar">
+                                    <div class="strength-fill" style="width: ${pattern.strength * 100}%"></div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        this.currentPatternsEl.innerHTML = patternsHTML;
+    }
+
+    showProbabilityTree(scenarios) {
+        const treeHTML = `
+            <div class="scenarios-container">
+                ${scenarios.map(scenario => `
+                    <div class="scenario-card" data-probability="${scenario.probability}">
+                        <div class="scenario-header">
+                            <div class="scenario-icon">${scenario.icon}</div>
+                            <div class="scenario-title">
+                                <h4>${scenario.name}</h4>
+                                <div class="probability-badge">${scenario.probability}%</div>
+                            </div>
+                        </div>
+                        
+                        <p class="scenario-description">${scenario.description}</p>
+                        
+                        ${scenario.consequences ? `
+                            <div class="consequences">
+                                <strong>Возможные последствия:</strong>
+                                <ul>
+                                    ${scenario.consequences.map(c => `<li>${c}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        
+                        ${scenario.action ? `
+                            <div class="action-suggestion">
+                                <i class="fas fa-lightbulb"></i>
+                                <strong>Действие:</strong> ${scenario.action}
+                            </div>
+                        ` : ''}
+                        
+                        ${scenario.note ? `
+                            <div class="scenario-note">
+                                <i class="fas fa-info-circle"></i> ${scenario.note}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="probability-bar">
+                            <div class="probability-fill" style="width: ${scenario.probability}%"></div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
             
-            planItems.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item;
-                planEl.appendChild(li);
+            <div class="probability-note">
+                <i class="fas fa-chart-pie"></i>
+                <strong>Как читать эти вероятности:</strong> Это не предсказание, а проекция текущих паттернов. 
+                Вы можете изменить вероятности, меняя свои действия сегодня.
+            </div>
+        `;
+        
+        this.probabilityTreeEl.innerHTML = treeHTML;
+    }
+
+    showExperiment(experiment) {
+        const experimentHTML = `
+            <div class="experiment-card">
+                <div class="experiment-header">
+                    <h5>${experiment.title}</h5>
+                    <span class="duration-badge">${experiment.duration}</span>
+                </div>
+                
+                <p class="experiment-description">
+                    <i class="fas fa-tasks"></i> <strong>Что делать:</strong> ${experiment.description}
+                </p>
+                
+                <div class="experiment-rationale">
+                    <i class="fas fa-book"></i> <strong>Научное обоснование:</strong> 
+                    ${experiment.rationale}
+                </div>
+                
+                <div class="experiment-metrics">
+                    <i class="fas fa-chart-bar"></i> <strong>Что отслеживать:</strong>
+                    <div class="metrics-tags">
+                        ${experiment.metrics.map(metric => 
+                            `<span class="metric-tag">${metric}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                <div class="experiment-expected">
+                    <i class="fas fa-bullseye"></i> <strong>Ожидаемый результат:</strong> 
+                    ${experiment.expected}
+                </div>
+            </div>
+        `;
+        
+        this.experimentContentEl.innerHTML = experimentHTML;
+    }
+
+    startExperiment() {
+        const experimentCard = this.experimentContentEl.querySelector('.experiment-card');
+        
+        // Анимация начала эксперимента
+        this.startExperimentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Эксперимент начат...';
+        this.startExperimentBtn.disabled = true;
+        
+        setTimeout(() => {
+            // Создаём уведомление
+            const notification = document.createElement('div');
+            notification.className = 'experiment-notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>
+                        <strong>Эксперимент начат!</strong>
+                        <p>Через 7 дней мы покажем, как изменились ваши вероятности.</p>
+                    </div>
+                    <button class="close-notification">&times;</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Закрытие уведомления
+            notification.querySelector('.close-notification').addEventListener('click', () => {
+                notification.remove();
             });
-        }
-        
-        console.log('✅ Результаты обновлены');
-    }
-    
-    // 5. Обработчик "Начать заново"
-    const restartBtn = document.getElementById('restartBtn');
-    if (restartBtn) {
-        restartBtn.onclick = function() {
-            console.log('🔄 Начинаем заново');
             
-            // Очищаем поля ввода
-            ['note1', 'note2', 'note3'].forEach(id => {
-                const input = document.getElementById(id);
-                if (input) input.value = '';
-            });
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
             
-            // Сбрасываем прогресс
-            document.querySelectorAll('.progress-fill').forEach(bar => {
-                bar.style.width = '0%';
-            });
+            // Восстанавливаем кнопку
+            this.startExperimentBtn.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
             
-            // Скрываем кнопку шага 2
-            if (nextStep2Btn) nextStep2Btn.style.display = 'none';
-            
-            // Возвращаемся к шагу 1
-            showStep(1);
-        };
+        }, 1000);
     }
-    
-    // 6. Обработчик "Скачать отчет"
-    const exportBtn = document.getElementById('exportBtn');
-    if (exportBtn) {
-        exportBtn.onclick = function() {
-            alert('📄 Отчет скачан! (демо-функция)');
-            console.log('📥 Пользователь скачал отчет');
-        };
+
+    clearInput() {
+        this.userInput.value = '';
+        this.resultsSection.style.display = 'none';
+        this.userInput.focus();
     }
-    
-    // 7. Обработчик "Вернуться в Aurora"
-    const backBtn = document.getElementById('backToAurora');
-    if (backBtn) {
-        backBtn.onclick = function() {
-            console.log('🏠 Возвращаемся в Aurora');
-            window.location.href = 'index.html';
-        };
-    }
-    
-    // 8. Быстрые заметки
-    document.querySelectorAll('.quick-btn').forEach(btn => {
-        btn.onclick = function() {
-            const note = this.getAttribute('data-note');
-            console.log('⚡ Быстрая заметка:', note);
-            fillQuickNote(note);
-        };
-    });
-    
-    console.log('✅ Digital Twin полностью инициализирован!');
-    console.log('👉 Введите заметки и нажмите "Далее: Анализ"');
 }
 
-// Запускаем когда страница загрузится
-window.addEventListener('DOMContentLoaded', initDigitalTwin);
-
-// Альтернативный запуск
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDigitalTwin);
-} else {
-    initDigitalTwin();
-}
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    window.mirror = new FutureMirror();
+    
+    // Проверка Network tab
+    console.log('🪞 Зеркало Будущего инициализировано');
+    console.log('📡 Проверьте Network tab → должно быть 0 запросов при анализе');
+    console.log('🔐 Все данные обрабатываются локально');
+});
