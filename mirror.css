@@ -432,21 +432,28 @@ body {
 }
 
 .quick-tag {
-    padding: 6px 12px;
+    padding: 8px 16px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-md);
     color: var(--color-text-secondary);
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .quick-tag:hover {
     background: rgba(99, 102, 241, 0.1);
     border-color: var(--color-accent);
     color: var(--color-accent-light);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+}
+
+.quick-tag i {
+    font-size: 12px;
 }
 
 .analyze-btn {
@@ -936,6 +943,10 @@ body {
     color: var(--color-text);
 }
 
+.timeline-desc {
+    flex: 1;
+}
+
 /* ===== EXPERIMENT ===== */
 .experiment-header {
     display: flex;
@@ -998,18 +1009,6 @@ body {
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 4px;
-}
-
-.red-scenario .metric-value {
-    color: var(--color-danger);
-}
-
-.orange-scenario .metric-value {
-    color: var(--color-warning);
-}
-
-.blue-scenario .metric-value {
-    color: var(--color-secondary);
 }
 
 .metric-label {
@@ -1247,6 +1246,11 @@ body {
     }
     
     .quick-tags {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .quick-tag {
         justify-content: center;
     }
     
