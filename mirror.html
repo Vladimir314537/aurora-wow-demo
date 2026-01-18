@@ -8,6 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
+    
+    <style>
+        /* Дополнительные стили */
+        .detailed-recommendations {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            animation: slideIn 0.5s ease;
+        }
+        
+        .experiment-steps {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            border-left: 3px solid #6366f1;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
     <div class="aurora-background">
@@ -18,7 +43,6 @@
     </div>
 
     <div class="app-container">
-        <!-- Header -->
         <header class="app-header">
             <div class="header-left">
                 <div class="logo">
@@ -40,14 +64,13 @@
                 <button class="icon-button" id="help-btn" title="Помощь">
                     <i class="fas fa-question-circle"></i>
                 </button>
-                <button class="avatar-button">
+                <button class="avatar-button" id="avatar-btn">
                     <div class="avatar">Г</div>
                 </button>
             </div>
         </header>
 
         <main class="main-content">
-            <!-- Left Panel - Input & Analysis -->
             <div class="left-panel">
                 <div class="input-section glass-card">
                     <div class="section-header">
@@ -60,25 +83,44 @@
                     
                     <div class="input-container">
                         <div class="input-header">
-                            <label for="thought-input">Опишите вашу ситуацию, мысль или эмоцию</label>
+                            <label for="thought-input">Ваши заметки и размышления</label>
                             <div class="input-stats">
-                                <span id="char-count">0</span> / 2000
+                                <span id="char-count">542</span> / 2000
                             </div>
                         </div>
+                        
                         <textarea 
                             id="thought-input" 
-                            placeholder="Например: Чувствую постоянный стресс на работе, начальник требует всё больше, а энергии уже нет..."
-                            rows="6"
-                        ></textarea>
+                            rows="8"
+                        >Чувствую постоянный стресс на работе уже несколько месяцев. Начальник ставит нереалистичные дедлайны и требует всё больше отчётов, при этом не даёт достаточно ресурсов и поддержки. 
+
+Коллеги постоянно спорят из-за распределения обязанностей, атмосфера в коллективе напряжённая. За последний месяц я работал сверхурочно почти каждый день, включая выходные, но чувствую, что мои усилия не ценятся.
+
+Начались проблемы со сном: просыпаюсь в 3-4 часа ночи с мыслями о незавершённых задачах и не могу уснуть. Энергии на хобби и семью почти не осталось, стал раздражительным, дома срываюсь на близких.
+
+Физически ощущаю постоянную усталость, хотя сплю по 7-8 часов. Интерес ко всему пропал, даже то, что раньше приносило удовольствие, теперь кажется бессмысленным.</textarea>
                         
-                        <div class="input-actions">
-                            <div class="quick-tags">
-                                <span class="tag-label">Быстрые темы:</span>
-                                <button class="quick-tag" data-text="Стресс и выгорание на работе">Работа</button>
-                                <button class="quick-tag" data-text="Конфликты в отношениях с близкими">Отношения</button>
-                                <button class="quick-tag" data-text="Тревога и беспокойство о будущем">Тревога</button>
-                                <button class="quick-tag" data-text="Поиск смысла и мотивации">Мотивация</button>
-                            </div>
+                        <div class="quick-tags" style="margin-top: 15px;">
+                            <span class="tag-label">Готовые заметки:</span>
+                            <button class="quick-tag" data-note="work">
+                                <i class="fas fa-briefcase"></i>
+                                Рабочий стресс
+                            </button>
+                            <button class="quick-tag" data-note="relationships">
+                                <i class="fas fa-heart"></i>
+                                Отношения
+                            </button>
+                            <button class="quick-tag" data-note="anxiety">
+                                <i class="fas fa-wind"></i>
+                                Тревога
+                            </button>
+                            <button class="quick-tag" data-note="motivation">
+                                <i class="fas fa-bullseye"></i>
+                                Мотивация
+                            </button>
+                        </div>
+                        
+                        <div class="input-actions" style="margin-top: 20px;">
                             <button class="analyze-btn" id="analyze-btn">
                                 <i class="fas fa-search"></i>
                                 <span>Анализировать локально</span>
@@ -93,7 +135,9 @@
                     </div>
                 </div>
 
-                <!-- Pattern Analysis Results -->
+                <!-- Блок рекомендаций будет добавляться сюда -->
+                <div id="recommendations-container"></div>
+
                 <div class="results-section glass-card" id="results-section" style="display: none;">
                     <div class="section-header">
                         <h2><i class="fas fa-chart-network"></i> Выявленные паттерны</h2>
@@ -104,7 +148,6 @@
                     
                     <div class="results-content">
                         <div class="results-grid">
-                            <!-- Emotional Spectrum -->
                             <div class="result-card">
                                 <div class="result-header">
                                     <i class="fas fa-heartbeat"></i>
@@ -123,11 +166,9 @@
                                 <div class="emotion-tags" id="emotion-tags">
                                     <span class="emotion-tag negative">Тревога</span>
                                     <span class="emotion-tag negative">Усталость</span>
-                                    <span class="emotion-tag neutral">Нейтральность</span>
                                 </div>
                             </div>
                             
-                            <!-- Cognitive Patterns -->
                             <div class="result-card">
                                 <div class="result-header">
                                     <i class="fas fa-project-diagram"></i>
@@ -142,14 +183,9 @@
                                         <span class="pattern-name">Негативный фокус</span>
                                         <div class="pattern-intensity medium">Средняя</div>
                                     </div>
-                                    <div class="pattern-item">
-                                        <span class="pattern-name">Катастрофизация</span>
-                                        <div class="pattern-intensity low">Низкая</div>
-                                    </div>
                                 </div>
                             </div>
                             
-                            <!-- Topics -->
                             <div class="result-card full-width">
                                 <div class="result-header">
                                     <i class="fas fa-tags"></i>
@@ -157,9 +193,8 @@
                                 </div>
                                 <div class="topics-container" id="topics-container">
                                     <span class="topic-tag primary">Работа / Карьера</span>
-                                    <span class="topic-tag secondary">Психология</span>
-                                    <span class="topic-tag secondary">Энергия</span>
-                                    <span class="topic-tag tertiary">Отношения</span>
+                                    <span class="topic-tag secondary">Эмоциональное выгорание</span>
+                                    <span class="topic-tag tertiary">Сон и энергия</span>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +202,6 @@
                 </div>
             </div>
 
-            <!-- Right Panel - Mirror of Future -->
             <div class="right-panel">
                 <div class="mirror-section glass-card">
                     <div class="section-header mirror-header">
@@ -190,9 +224,7 @@
                             <p>На основе ваших паттернов система проецирует вероятные сценарии развития ситуации. Это не предсказание, а проектирование вероятностей.</p>
                         </div>
                         
-                        <!-- Scenarios -->
                         <div class="scenarios-container">
-                            <!-- Red Scenario -->
                             <div class="scenario-card red-scenario">
                                 <div class="scenario-header">
                                     <div class="scenario-marker">
@@ -205,19 +237,18 @@
                                     </div>
                                 </div>
                                 <div class="scenario-description">
-                                    <p>При сохранении текущих паттернов: усиление выгорания, снижение продуктивности на 40%, риск развития депрессивных симптомов.</p>
+                                    <p id="scenario-red">При сохранении текущих паттернов: усиление выгорания, снижение продуктивности на 40%, риск развития депрессивных симптомов.</p>
                                 </div>
                                 <div class="scenario-timeline">
                                     <div class="timeline-title">Критические точки:</div>
                                     <ul class="timeline-points">
-                                        <li><span class="timeline-day">День 7-10:</span> Пик эмоционального истощения</li>
-                                        <li><span class="timeline-day">День 15-20:</span> Возможные конфликты на работе</li>
-                                        <li><span class="timeline-day">День 25-30:</span> Значительное снижение мотивации</li>
+                                        <li><span class="timeline-day">День 7-10:</span> <span class="timeline-desc">Пик эмоционального истощения</span></li>
+                                        <li><span class="timeline-day">День 15-20:</span> <span class="timeline-desc">Возможные конфликты на работе</span></li>
+                                        <li><span class="timeline-day">День 25-30:</span> <span class="timeline-desc">Значительное снижение мотивации</span></li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <!-- Orange Scenario -->
                             <div class="scenario-card orange-scenario">
                                 <div class="scenario-header">
                                     <div class="scenario-marker">
@@ -230,19 +261,18 @@
                                     </div>
                                 </div>
                                 <div class="scenario-description">
-                                    <p>При внедрении практик саморегуляции: улучшение состояния на 40%, восстановление энергии, развитие стрессоустойчивости.</p>
+                                    <p id="scenario-orange">При внедрении практик саморегуляции: улучшение состояния на 40%, восстановление энергии, развитие стрессоустойчивости.</p>
                                 </div>
                                 <div class="scenario-timeline">
                                     <div class="timeline-title">Точки улучшения:</div>
                                     <ul class="timeline-points">
-                                        <li><span class="timeline-day">День 3-5:</span> Первые признаки снижения тревоги</li>
-                                        <li><span class="timeline-day">День 10-15:</span> Стабилизация эмоционального фона</li>
-                                        <li><span class="timeline-day">День 20-30:</span> Устойчивое улучшение состояния</li>
+                                        <li><span class="timeline-day">День 3-5:</span> <span class="timeline-desc">Первые признаки снижения тревоги</span></li>
+                                        <li><span class="timeline-day">День 10-15:</span> <span class="timeline-desc">Стабилизация эмоционального фона</span></li>
+                                        <li><span class="timeline-day">День 20-30:</span> <span class="timeline-desc">Устойчивое улучшение состояния</span></li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <!-- Blue Scenario -->
                             <div class="scenario-card blue-scenario">
                                 <div class="scenario-header">
                                     <div class="scenario-marker">
@@ -255,20 +285,19 @@
                                     </div>
                                 </div>
                                 <div class="scenario-description">
-                                    <p>При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, переход на новый уровень.</p>
+                                    <p id="scenario-blue">При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, переход на новый уровень.</p>
                                 </div>
                                 <div class="scenario-timeline">
                                     <div class="timeline-title">Моменты прорыва:</div>
                                     <ul class="timeline-points">
-                                        <li><span class="timeline-day">День 5-7:</span> Осознание необходимости изменений</li>
-                                        <li><span class="timeline-day">День 12-18:</span> Исследование новых возможностей</li>
-                                        <li><span class="timeline-day">День 25-30:</span> Конкретные шаги к изменениям</li>
+                                        <li><span class="timeline-day">День 5-7:</span> <span class="timeline-desc">Осознание необходимости изменений</span></li>
+                                        <li><span class="timeline-day">День 12-18:</span> <span class="timeline-desc">Исследование новых возможностей</span></li>
+                                        <li><span class="timeline-day">День 25-30:</span> <span class="timeline-desc">Конкретные шаги к изменениям</span></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Experiment -->
                         <div class="experiment-section glass-card accent">
                             <div class="experiment-header">
                                 <i class="fas fa-flask"></i>
@@ -281,9 +310,9 @@
                             <div class="experiment-content">
                                 <div class="experiment-title" id="experiment-title">10-минутная медитация утром + цифровой детокс вечером</div>
                                 <div class="experiment-description">
-                                    <p>Этот эксперимент напрямую влияет на вероятность сценариев: уменьшает красный путь на 15%, увеличивает оранжевый на 10%.</p>
+                                    <p id="experiment-description">Этот эксперимент напрямую влияет на вероятность сценариев: уменьшает красный путь на 15%, увеличивает оранжевый на 10%.</p>
                                 </div>
-                                <div class="experiment-metrics">
+                                <div class="experiment-metrics" id="experiment-metrics">
                                     <div class="metric">
                                         <div class="metric-value">-35%</div>
                                         <div class="metric-label">Стресса</div>
@@ -297,6 +326,7 @@
                                         <div class="metric-label">Продуктивности</div>
                                     </div>
                                 </div>
+                                <div id="experiment-steps-container"></div>
                                 <div class="experiment-actions">
                                     <button class="btn-primary" id="start-experiment">
                                         <i class="fas fa-play-circle"></i>
@@ -312,7 +342,6 @@
                     </div>
                 </div>
                 
-                <!-- Verification Panel -->
                 <div class="verification-panel glass-card">
                     <div class="verification-header">
                         <i class="fas fa-shield-check"></i>
@@ -375,62 +404,807 @@
         </footer>
     </div>
 
-    <!-- Scripts -->
+    <!-- Подключаем JavaScript -->
     <script src="local-analyzer.js"></script>
-    <script src="mirror.js"></script>
     
+    <!-- ВСТРОЕННЫЙ JavaScript для полной работоспособности -->
     <script>
-        // Инициализация анимаций фона
-        document.addEventListener('DOMContentLoaded', function() {
-            initBackgroundEffects();
-            initEventListeners();
-        });
-   <script>
-// Минимальный инлайн-скрипт для немедленной работы
-(function() {
-    console.log('Aurora Mirror - инлайн инициализация');
-    
-    // Принудительно показываем, что страница загружена
+    // ===== ГЛОБАЛЬНЫЕ ДАННЫЕ =====
+    const NOTES_DATABASE = {
+        work: `Чувствую постоянный стресс на работе. Начальник требует выполнять всё больше задач в сжатые сроки, но не даёт достаточно ресурсов. Коллеги постоянно спорят из-за распределения обязанностей. 
+
+За последний месяц я работал сверхурочно почти каждый день, но чувствую, что мои усилия не ценятся. Начались проблемы со сном, просыпаюсь по ночам с мыслями о незавершённых задачах. 
+
+Энергии на хобби и семью почти не осталось. Утром тяжело вставать, весь день чувствую усталость и раздражительность. Кажется, что застрял на одном месте без перспектив роста.`,
+
+        relationships: `Постоянные конфликты с партнёром из-за мелочей. Кажется, мы перестали понимать друг друга. Вчера опять поссорились из-за невымытой посуды, хотя проблема явно глубже. 
+
+Чувствую эмоциональное отдаление, стало тяжело делиться своими переживаниями. Раньше мы могли говорить часами, а сейчас вечера проходят в молчании перед телевизором. 
+
+Иногда ловлю себя на мысли, что не знаю, о чём с ним/с ней поговорить. Физическая близость стала редкой и формальной. Чувствую одиночество, даже когда мы вместе.`,
+
+        anxiety: `Постоянное чувство тревоги без видимой причины. Просыпаюсь утром с тяжёлым предчувствием, как будто что-то должно пойти не так. Мысли скачут от одной проблемы к другой: финансы, здоровье родителей, карьера. 
+
+Вечером не могу уснуть, прокручиваю в голове все возможные негативные сценарии. Физически ощущаю напряжение в груди и плечах. Пытался медитировать, но не помогает - мысли всё равно возвращаются. 
+
+Стал избегать социальных ситуаций, потому что тревожно общаться с людьми. Даже простые бытовые дела кажутся сложными и overwhelming.`,
+
+        motivation: `Потерял интерес ко всему, что раньше приносило радость. Хобби, спорт, встречи с друзьями - всё кажется бессмысленным. На работе выполняю задачи механически, без энтузиазма. 
+
+Цели, которые ставил в начале года, теперь кажутся недостижимыми и неважными. Дни проходят одинаково серо. Пытаюсь себя мотивировать, читаю книги по саморазвитию, но эффекта хватает максимум на день. 
+
+Чувствую, что застрял в рутине. Нет энергии пробовать что-то новое. Да даже простые решения даются с трудом. Кажется, что жизнь проходит мимо.`
+    };
+
+    const RECOMMENDATIONS = {
+        work: [
+            'Установите чёткие границы рабочего времени. После 18:00 отключайте рабочие уведомления',
+            'Обсудите с руководителем реалистичные сроки выполнения задач',
+            'Практикуйте технику Pomodoro: 25 минут работы, 5 минут отдыха',
+            'Раз в неделю проводите анализ достижений, а не только проблем',
+            'Делегируйте задачи, которые могут выполнить другие'
+        ],
+        
+        relationships: [
+            'Выделите 30 минут в день для разговора без телефонов и отвлечений',
+            'Практикуйте активное слушание: повторяйте слова партнёра своими словами',
+            'Раз в неделю планируйте совместное занятие, которое нравится обоим',
+            'Выражайте благодарность за маленькие вещи каждый день',
+            'Обратитесь к семейному психологу для нескольких сессий'
+        ],
+        
+        anxiety: [
+            'Ведите дневник тревог: записывайте что, когда и насколько сильно тревожит',
+            'Практикуйте дыхание 4-7-8: вдох на 4, задержка на 7, выдох на 8',
+            'Ограничьте потребление новостей 20 минутами в день',
+            'Создайте "ритуал беспокойства" - выделите 15 минут вечером специально для тревожных мыслей',
+            'Регулярная физическая активность (минимум 30 минут ходьбы в день)'
+        ],
+        
+        motivation: [
+            'Разбейте большие цели на микро-шаги по 5-10 минут',
+            'Ведите дневник успехов, записывая даже маленькие достижения',
+            'Экспериментируйте с новыми видами деятельности раз в две недели',
+            'Найдите напарника для взаимной поддержки в достижении целей',
+            'Обратитесь к психологу для исключения депрессии'
+        ]
+    };
+
+    const SCENARIOS = {
+        work: {
+            red: 'При сохранении текущих паттернов: усиление выгорания на 60%, снижение продуктивности на 40%, риск профессионального истощения и конфликтов с коллегами.',
+            orange: 'При внедрении практик саморегуляции: улучшение состояния на 50%, восстановление энергии, развитие стрессоустойчивости, повышение продуктивности на 20%.',
+            blue: 'При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, качественный скачок в развитии, возможен переход на удалённую работу.'
+        },
+        
+        relationships: {
+            red: 'Эскалация конфликтов, накопление обид, эмоциональное отдаление, риск разрыва отношений до 70%. Возможны длительные периоды молчания.',
+            orange: 'Улучшение коммуникации на 60%, понимание потребностей друг друга, укрепление эмоциональной связи, снижение конфликтов на 50%.',
+            blue: 'Глубокое переосмысление отношений, переход на новый уровень близости, совместный рост, создание новых общих целей и мечтаний.'
+        },
+        
+        anxiety: {
+            red: 'Усиление негативных симптомов, возможное развитие панических атак, снижение качества жизни, социальная изоляция, риск депрессии.',
+            orange: 'Стабилизация состояния, развитие навыков саморегуляции, снижение тревоги на 50%, улучшение сна, восстановление социальной активности.',
+            blue: 'Глубинная трансформация, преодоление ограничивающих убеждений, развитие эмоциональной устойчивости, качественное изменение жизни.'
+        },
+        
+        motivation: {
+            red: 'Усиление апатии, полная потеря интереса к деятельности, риск развития депрессии, профессиональная стагнация, социальное отдаление.',
+            orange: 'Постепенное возвращение интереса к жизни, формирование новых привычек, постановка реалистичных целей, улучшение самочувствия на 40%.',
+            blue: 'Нахождение новых смыслов и целей, радикальное изменение подхода к жизни, реализация отложенных мечтаний, качественный прорыв во всех сферах.'
+        }
+    };
+
+    const EXPERIMENTS = {
+        work: {
+            title: 'Ежедневный ритуал завершения рабочего дня + цифровой детокс',
+            description: 'Этот эксперимент поможет установить чёткие границы между работой и личной жизнью, снизит уровень стресса на 45% и повысит утреннюю продуктивность на 30%.',
+            steps: [
+                '17:45 - Поставьте таймер на 15 минут для завершения задач',
+                '18:00 - Составьте список из 3 главных задач на завтра',
+                '18:15 - Отправьте итоговое письмо руководителю (если нужно)',
+                '18:30 - Полностью отключите рабочие уведомления',
+                '19:00-21:00 - Цифровой детокс: никаких экранов'
+            ],
+            metrics: [
+                { value: '-45%', label: 'Рабочего стресса' },
+                { value: '+3ч', label: 'Качественного отдыха' },
+                { value: '+30%', label: 'Утренней продуктивности' }
+            ]
+        },
+        
+        relationships: {
+            title: 'Ежевечерний 30-минутный разговор без отвлечений',
+            description: 'Регулярное качественное общение укрепит эмоциональную связь на 50%, улучшит взаимопонимание и снизит количество конфликтов на 60%.',
+            steps: [
+                'Выберите время с 20:00 до 21:00 каждый день',
+                'Отложите телефоны в другую комнату',
+                'Сядьте друг напротив друга, установите таймер',
+                'Говорите по очереди: 5 минут один, 5 минут другой',
+                'Используйте "Я-сообщения": "Я чувствую...", "Мне важно..."'
+            ],
+            metrics: [
+                { value: '-60%', label: 'Конфликтов' },
+                { value: '+50%', label: 'Эмоциональной близости' },
+                { value: '+40%', label: 'Взаимопонимания' }
+            ]
+        },
+        
+        anxiety: {
+            title: 'Утренняя медитация + вечерний дневник тревог',
+            description: 'Систематическая работа с тревожными мыслями поможет снизить общий уровень тревоги на 55% и улучшить качество сна на 40%.',
+            steps: [
+                'Утро (после пробуждения): 10 минут медитации на дыхание',
+                'День: 3 паузы по 1 минуте для проверки состояния',
+                '18:00: 15 минут на запись всех тревог в специальный дневник',
+                '21:00: техника дыхания 4-7-8 (4 цикла)',
+                'Перед сном: прогрессивная мышечная релаксация'
+            ],
+            metrics: [
+                { value: '-55%', label: 'Уровня тревоги' },
+                { value: '+2ч', label: 'Качественного сна' },
+                { value: '+35%', label: 'Эмоционального контроля' }
+            ]
+        },
+        
+        motivation: {
+            title: 'Микро-цели + дневник успехов',
+            description: 'Постепенное возвращение мотивации через маленькие достижения повысит уровень энергии на 40% и восстановит интерес к деятельности.',
+            steps: [
+                'Каждое утро ставьте 3 микро-цели на день (по 5-10 минут каждая)',
+                'Вечером записывайте в дневник все выполненные задачи',
+                'Раз в неделю анализируйте прогресс и хвалите себя',
+                'Награждайте себя за выполнение недельного плана',
+                'Найдите "партнёра по подотчётности" для взаимной поддержки'
+            ],
+            metrics: [
+                { value: '+40%', label: 'Уровня энергии' },
+                { value: '+50%', label: 'Выполненных задач' },
+                { value: '+35%', label: 'Удовлетворения' }
+            ]
+        }
+    };
+
+    // ===== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM готов!');
-        
-        // Простейшая проверка - при клике в любое место покажем сообщение
-        document.body.addEventListener('click', function(e) {
-            console.log('Клик по:', e.target.tagName, e.target.className);
-        });
+        console.log('🚀 Aurora Mirror 4.0 загружена!');
+        initializeApp();
     });
-    
-    // Альтернатива - запуск когда всё загружено
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-    
-    function init() {
-        console.log('Страница полностью загружена!');
+
+    function initializeApp() {
+        console.log('Инициализация приложения...');
         
-        // Немедленно покажем рабочую кнопку
-        const testBtn = document.createElement('button');
-        testBtn.textContent = 'ТЕСТ: Нажми меня!';
-        testBtn.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #ef4444;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            z-index: 10000;
-            cursor: pointer;
-        `;
-        testBtn.onclick = function() {
-            alert('JavaScript работает! Кнопки должны работать тоже.');
-        };
-        document.body.appendChild(testBtn);
+        // 1. Счётчик символов
+        const textInput = document.getElementById('thought-input');
+        if (textInput) {
+            updateCharCount();
+            textInput.addEventListener('input', updateCharCount);
+        }
+        
+        // 2. Кнопка анализа
+        const analyzeBtn = document.getElementById('analyze-btn');
+        if (analyzeBtn) {
+            analyzeBtn.addEventListener('click', performAnalysis);
+        }
+        
+        // 3. Быстрые заметки
+        document.querySelectorAll('.quick-tag').forEach(button => {
+            button.addEventListener('click', function() {
+                const noteType = this.getAttribute('data-note');
+                const noteText = NOTES_DATABASE[noteType];
+                
+                if (noteText && textInput) {
+                    textInput.value = noteText;
+                    updateCharCount();
+                    textInput.focus();
+                    
+                    showNotification(`Загружена заметка: "${this.textContent}"`, 'info');
+                    
+                    // Автоматически запускаем анализ через 1 секунду
+                    setTimeout(() => {
+                        if (analyzeBtn) analyzeBtn.click();
+                    }, 1000);
+                }
+            });
+        });
+        
+        // 4. Переключение результатов
+        const toggleBtn = document.getElementById('toggle-results');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function() {
+                const results = document.getElementById('results-section');
+                const icon = this.querySelector('i');
+                
+                if (results.style.display === 'none' || !results.style.display) {
+                    results.style.display = 'block';
+                    if (icon) icon.className = 'fas fa-chevron-up';
+                } else {
+                    results.style.display = 'none';
+                    if (icon) icon.className = 'fas fa-chevron-down';
+                }
+            });
+        }
+        
+        // 5. Начать эксперимент
+        const startExpBtn = document.getElementById('start-experiment');
+        if (startExpBtn) {
+            startExpBtn.addEventListener('click', function() {
+                const experimentTitle = document.getElementById('experiment-title').textContent;
+                this.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
+                this.classList.remove('btn-primary');
+                this.classList.add('btn-secondary');
+                this.disabled = true;
+                
+                showNotification('🎯 Эксперимент запущен! Вы получите уведомления о прогрессе.', 'success');
+            });
+        }
+        
+        // 6. Проверить приватность
+        const verifyBtn = document.getElementById('verify-privacy');
+        if (verifyBtn) {
+            verifyBtn.addEventListener('click', function() {
+                showNotification('🔒 Проверка приватности: Откройте DevTools (F12) → вкладка Network → убедитесь в 0 запросов!', 'info');
+            });
+        }
+        
+        // 7. Селектор времени
+        const timeframeSelect = document.getElementById('timeframe-select');
+        if (timeframeSelect) {
+            timeframeSelect.addEventListener('change', function() {
+                const days = this.value;
+                updateTimeline(days);
+                showNotification(`Таймлайн обновлён на ${days} дней`, 'info');
+            });
+        }
+        
+        // 8. Настройки
+        document.getElementById('settings-btn')?.addEventListener('click', () => {
+            showNotification('Настройки будут доступны в следующем обновлении', 'info');
+        });
+        
+        // 9. Помощь
+        document.getElementById('help-btn')?.addEventListener('click', () => {
+            showNotification('Помощь: 1) Введите заметку 2) Нажмите "Анализировать" 3) Смотрите рекомендации', 'info');
+        });
+        
+        // 10. Настроить эксперимент
+        document.getElementById('customize-experiment')?.addEventListener('click', () => {
+            showNotification('Настройка эксперимента: выберите удобное время и продолжительность', 'info');
+        });
+        
+        console.log('✅ Приложение инициализировано');
     }
-})();
-</script>
+
+    // ===== ОСНОВНЫЕ ФУНКЦИИ =====
+    function updateCharCount() {
+        const textInput = document.getElementById('thought-input');
+        const count = textInput ? textInput.value.length : 0;
+        const counter = document.getElementById('char-count');
+        
+        if (counter) {
+            counter.textContent = count;
+            
+            // Цветовая индикация
+            if (count < 100) {
+                counter.style.color = '#ef4444';
+            } else if (count < 300) {
+                counter.style.color = '#f59e0b';
+            } else {
+                counter.style.color = '#10b981';
+            }
+        }
+    }
+
+    function performAnalysis() {
+        console.log('Запуск анализа...');
+        const textInput = document.getElementById('thought-input');
+        const text = textInput ? textInput.value.trim() : '';
+        
+        if (text.length < 30) {
+            showNotification('Введите не менее 30 символов для анализа', 'warning');
+            return;
+        }
+        
+        // Показываем загрузку
+        const analyzeBtn = document.getElementById('analyze-btn');
+        if (analyzeBtn) {
+            const originalHTML = analyzeBtn.innerHTML;
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
+            analyzeBtn.disabled = true;
+            
+            // Определяем тему заметки
+            const topic = detectTopic(text);
+            console.log('Определена тема:', topic);
+            
+            // Имитация анализа
+            setTimeout(() => {
+                try {
+                    // Обновляем результаты
+                    updateAnalysisResults(topic, text);
+                    
+                    // Обновляем сценарии
+                    updateScenarios(topic);
+                    
+                    // Обновляем эксперимент
+                    updateExperiment(topic);
+                    
+                    // Показываем рекомендации
+                    showRecommendations(topic);
+                    
+                    // Показываем результаты
+                    const resultsSection = document.getElementById('results-section');
+                    if (resultsSection) {
+                        resultsSection.style.display = 'block';
+                        const toggleBtn = document.getElementById('toggle-results');
+                        if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+                    }
+                    
+                    showNotification(`✅ Анализ завершён! Тема: ${getTopicName(topic)}. См. рекомендации ниже.`, 'success');
+                    
+                } catch (error) {
+                    console.error('Ошибка анализа:', error);
+                    showNotification('Ошибка при анализе', 'error');
+                } finally {
+                    // Восстанавливаем кнопку
+                    analyzeBtn.innerHTML = originalHTML;
+                    analyzeBtn.disabled = false;
+                }
+            }, 1500);
+        }
+    }
+
+    function detectTopic(text) {
+        const textLower = text.toLowerCase();
+        
+        if (textLower.includes('работ') || textLower.includes('начальник') || 
+            textLower.includes('коллег') || textLower.includes('карьер') || 
+            textLower.includes('офис') || textLower.includes('зарплат')) {
+            return 'work';
+        }
+        
+        if (textLower.includes('отношен') || textLower.includes('партнёр') || 
+            textLower.includes('муж') || textLower.includes('жена') || 
+            textLower.includes('семь') || textLower.includes('любов') || 
+            textLower.includes('конфликт') || textLower.includes('ссор')) {
+            return 'relationships';
+        }
+        
+        if (textLower.includes('тревог') || textLower.includes('страх') || 
+            textLower.includes('беспокойств') || textLower.includes('паник') || 
+            textLower.includes('нерв') || textLower.includes('опасен')) {
+            return 'anxiety';
+        }
+        
+        if (textLower.includes('мотивац') || textLower.includes('цел') || 
+            textLower.includes('мечт') || textLower.includes('интерес') || 
+            textLower.includes('апати') || textLower.includes('лень') || 
+            textLower.includes('устал') || textLower.includes('выгоран')) {
+            return 'motivation';
+        }
+        
+        return 'work'; // По умолчанию
+    }
+
+    function getTopicName(topic) {
+        const names = {
+            'work': 'Работа и карьера',
+            'relationships': 'Отношения',
+            'anxiety': 'Тревога и стресс',
+            'motivation': 'Мотивация и цели'
+        };
+        return names[topic] || 'Общая тема';
+    }
+
+    function updateAnalysisResults(topic, text) {
+        // Анализируем эмоциональный тон
+        const emotionValue = analyzeEmotion(text);
+        
+        // Обновляем эмоциональный спектр
+        const emotionFill = document.getElementById('emotion-fill');
+        const emotionDisplay = document.getElementById('emotion-value');
+        
+        if (emotionFill) {
+            emotionFill.style.width = emotionValue + '%';
+            emotionFill.style.transition = 'width 1s ease';
+        }
+        
+        if (emotionDisplay) {
+            emotionDisplay.textContent = emotionValue + '%';
+            // Цветовая индикация
+            if (emotionValue > 70) {
+                emotionDisplay.style.color = '#ef4444';
+            } else if (emotionValue > 40) {
+                emotionDisplay.style.color = '#f59e0b';
+            } else {
+                emotionDisplay.style.color = '#10b981';
+            }
+        }
+        
+        // Обновляем эмоциональные теги
+        const emotionTags = document.getElementById('emotion-tags');
+        if (emotionTags) {
+            emotionTags.innerHTML = '';
+            
+            if (emotionValue > 70) {
+                emotionTags.innerHTML += '<span class="emotion-tag negative">Тревога</span>';
+                emotionTags.innerHTML += '<span class="emotion-tag negative">Усталость</span>';
+                emotionTags.innerHTML += '<span class="emotion-tag negative">Напряжение</span>';
+            } else if (emotionValue > 40) {
+                emotionTags.innerHTML += '<span class="emotion-tag neutral">Неопределённость</span>';
+                emotionTags.innerHTML += '<span class="emotion-tag neutral">Смешанные чувства</span>';
+            } else {
+                emotionTags.innerHTML += '<span class="emotion-tag positive">Баланс</span>';
+                emotionTags.innerHTML += '<span class="emotion-tag positive">Спокойствие</span>';
+            }
+        }
+        
+        // Обновляем когнитивные искажения
+        const patterns = detectPatterns(text);
+        const patternsList = document.getElementById('patterns-list');
+        if (patternsList) {
+            patternsList.innerHTML = '';
+            
+            patterns.forEach(pattern => {
+                patternsList.innerHTML += `
+                    <div class="pattern-item">
+                        <span class="pattern-name">${pattern.name}</span>
+                        <div class="pattern-intensity ${pattern.intensity}">
+                            ${pattern.intensity === 'high' ? 'Высокая' : 
+                              pattern.intensity === 'medium' ? 'Средняя' : 'Низкая'}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Обновляем темы
+        const topicsContainer = document.getElementById('topics-container');
+        if (topicsContainer) {
+            topicsContainer.innerHTML = '';
+            
+            const themes = getThemes(topic);
+            themes.forEach((theme, index) => {
+                const type = index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary';
+                topicsContainer.innerHTML += `<span class="topic-tag ${type}">${theme}</span>`;
+            });
+        }
+    }
+
+    function analyzeEmotion(text) {
+        const negativeWords = [
+            'стресс', 'усталость', 'тревог', 'беспокойств', 'выгорание', 'конфликт',
+            'проблем', 'сложн', 'тяжел', 'плох', 'грустн', 'один', 'страх', 'боюсь',
+            'нерв', 'раздражает', 'злость', 'гнев', 'обид', 'боль', 'ужас'
+        ];
+        
+        const positiveWords = [
+            'радость', 'счастье', 'успех', 'легк', 'хорош', 'отличн', 'прекрасн',
+            'доволен', 'интересн', 'мотивац', 'энерг', 'сил', 'надежд', 'мечт'
+        ];
+        
+        const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+        let negativeCount = 0;
+        let positiveCount = 0;
+        
+        words.forEach(word => {
+            if (negativeWords.some(nw => word.includes(nw))) negativeCount++;
+            if (positiveWords.some(pw => word.includes(pw))) positiveCount++;
+        });
+        
+        const totalRelevant = negativeCount + positiveCount;
+        
+        if (totalRelevant === 0) return 50;
+        
+        // Рассчитываем процент негатива
+        const negativePercent = Math.round((negativeCount / totalRelevant) * 100);
+        
+        // Корректируем в зависимости от длины текста
+        let result = negativePercent;
+        if (words.length > 200) result = Math.min(95, result + 10);
+        
+        return Math.min(95, Math.max(5, result));
+    }
+
+    function detectPatterns(text) {
+        const patterns = [];
+        const textLower = text.toLowerCase();
+        
+        // Абсолютизация
+        if (textLower.match(/всегд|никогда|все|ничего|полностью|абсолютно|каждый раз/)) {
+            patterns.push({name: 'Абсолютизация', intensity: 'high'});
+        }
+        
+        // Катастрофизация
+        if (textLower.match(/катастроф|ужасн|кошмарн|конец|погиб|смерт/)) {
+            patterns.push({name: 'Катастрофизация', intensity: 'high'});
+        }
+        
+        // Долженствование
+        const shouldWords = ['должен', 'обязан', 'надо', 'нужно', 'необходимо', 'следует'];
+        const shouldCount = shouldWords.filter(w => textLower.includes(w)).length;
+        if (shouldCount > 1) {
+            patterns.push({name: 'Долженствование', intensity: 'medium'});
+        }
+        
+        // Негативный фокус
+        if (textLower.match(/проблем|сложн|трудн|невозможн|никуда|тупик/)) {
+            patterns.push({name: 'Негативный фокус', intensity: 'medium'});
+        }
+        
+        // Если паттернов мало, добавляем общие
+        if (patterns.length < 2) {
+            patterns.push({name: 'Эмоциональное мышление', intensity: 'low'});
+            patterns.push({name: 'Чтение мыслей', intensity: 'low'});
+        }
+        
+        return patterns.slice(0, 3); // Максимум 3 паттерна
+    }
+
+    function getThemes(topic) {
+        const themes = {
+            'work': ['Работа / Карьера', 'Профессиональный стресс', 'Баланс работы и жизни', 'Карьерный рост'],
+            'relationships': ['Личные отношения', 'Коммуникация', 'Эмоциональная связь', 'Конфликты'],
+            'anxiety': ['Тревожность', 'Эмоциональная регуляция', 'Стресс-менеджмент', 'Психогигиена'],
+            'motivation': ['Мотивация', 'Целеполагание', 'Личностный рост', 'Самодисциплина']
+        };
+        return themes[topic] || ['Общая рефлексия', 'Эмоциональное состояние'];
+    }
+
+    function updateScenarios(topic) {
+        const scenarios = SCENARIOS[topic] || SCENARIOS.work;
+        
+        // Обновляем описания сценариев
+        document.getElementById('scenario-red').textContent = scenarios.red;
+        document.getElementById('scenario-orange').textContent = scenarios.orange;
+        document.getElementById('scenario-blue').textContent = scenarios.blue;
+        
+        // Обновляем вероятности на основе темы
+        let redProb, orangeProb, blueProb;
+        
+        if (topic === 'work') {
+            redProb = 75;
+            orangeProb = 20;
+            blueProb = 5;
+        } else if (topic === 'relationships') {
+            redProb = 65;
+            orangeProb = 25;
+            blueProb = 10;
+        } else if (topic === 'anxiety') {
+            redProb = 70;
+            orangeProb = 20;
+            blueProb = 10;
+        } else {
+            redProb = 60;
+            orangeProb = 30;
+            blueProb = 10;
+        }
+        
+        // Обновляем вероятности
+        document.querySelectorAll('.probability-value')[0].textContent = redProb + '%';
+        document.querySelectorAll('.probability-value')[1].textContent = orangeProb + '%';
+        document.querySelectorAll('.probability-value')[2].textContent = blueProb + '%';
+    }
+
+    function updateTimeline(days) {
+        const timelineData = {
+            7: {
+                red: ['День 2-3: Пик эмоциональной нагрузки', 'День 4-5: Возможные срывы', 'День 6-7: Накопление усталости'],
+                orange: ['День 2-3: Первые изменения', 'День 4-5: Закрепление привычек', 'День 6-7: Улучшение состояния'],
+                blue: ['День 2-3: Осознание перемен', 'День 4-5: Исследование', 'День 6-7: Планирование']
+            },
+            30: {
+                red: ['Неделя 1: Усиление симптомов', 'Неделя 2-3: Стабилизация', 'Неделя 4: Риск обострения'],
+                orange: ['Неделя 1: Формирование привычек', 'Неделя 2-3: Устойчивые изменения', 'Неделя 4: Интеграция'],
+                blue: ['Неделя 1: Глубокое осмысление', 'Неделя 2-3: Активные действия', 'Неделя 4: Качественные изменения']
+            },
+            90: {
+                red: ['Месяц 1: Хронизация', 'Месяц 2: Снижение качества', 'Месяц 3: Последствия'],
+                orange: ['Месяц 1: Прогресс', 'Месяц 2: Улучшения', 'Месяц 3: Новая норма'],
+                blue: ['Месяц 1: Трансформация', 'Месяц 2: Изменения', 'Месяц 3: Новый уровень']
+            }
+        };
+        
+        const data = timelineData[days] || timelineData[30];
+        
+        // Обновляем все сценарии
+        document.querySelectorAll('.scenario-card').forEach((scenario, index) => {
+            const points = scenario.querySelectorAll('.timeline-desc');
+            const scenarioType = index === 0 ? 'red' : index === 1 ? 'orange' : 'blue';
+            const scenarioData = data[scenarioType];
+            
+            points.forEach((point, pointIndex) => {
+                if (scenarioData && scenarioData[pointIndex]) {
+                    point.textContent = scenarioData[pointIndex].split(': ')[1];
+                }
+            });
+        });
+    }
+
+    function updateExperiment(topic) {
+        const experiment = EXPERIMENTS[topic] || EXPERIMENTS.work;
+        
+        // Обновляем заголовок и описание
+        document.getElementById('experiment-title').textContent = experiment.title;
+        document.getElementById('experiment-description').textContent = experiment.description;
+        
+        // Обновляем метрики
+        const metricsContainer = document.getElementById('experiment-metrics');
+        if (metricsContainer) {
+            metricsContainer.innerHTML = '';
+            
+            experiment.metrics.forEach(metric => {
+                metricsContainer.innerHTML += `
+                    <div class="metric">
+                        <div class="metric-value">${metric.value}</div>
+                        <div class="metric-label">${metric.label}</div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Добавляем шаги
+        const stepsContainer = document.getElementById('experiment-steps-container');
+        if (stepsContainer) {
+            stepsContainer.innerHTML = `
+                <div class="experiment-steps">
+                    <div style="font-weight: 600; margin-bottom: 10px; color: #818cf8;">📋 Пошаговый план:</div>
+                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                        ${experiment.steps.map(step => `<li style="margin-bottom: 8px;">${step}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+    }
+
+    function showRecommendations(topic) {
+        const recommendations = RECOMMENDATIONS[topic] || RECOMMENDATIONS.work;
+        
+        // Создаём контейнер для рекомендаций
+        let recContainer = document.getElementById('recommendations-container');
+        if (!recContainer) {
+            recContainer = document.createElement('div');
+            recContainer.id = 'recommendations-container';
+            recContainer.className = 'detailed-recommendations';
+            
+            // Добавляем в левую панель
+            const leftPanel = document.querySelector('.left-panel');
+            if (leftPanel) {
+                leftPanel.insertBefore(recContainer, leftPanel.querySelector('.results-section'));
+            }
+        }
+        
+        recContainer.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <i class="fas fa-lightbulb" style="color: #f59e0b; font-size: 20px;"></i>
+                <h3 style="margin: 0; color: #f8fafc; font-size: 18px;">Конкретные шаги для улучшения</h3>
+            </div>
+            <p style="color: #cbd5e1; margin-bottom: 15px; line-height: 1.5;">
+                Чтобы сместить вероятность в сторону позитивных сценариев, регулярно применяйте эти практики:
+            </p>
+            <div style="display: grid; gap: 12px;">
+                ${recommendations.map((rec, index) => `
+                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; 
+                               background: rgba(255,255,255,0.05); border-radius: 8px;">
+                        <div style="background: rgba(99, 102, 241, 0.2); color: #818cf8; 
+                                   width: 24px; height: 24px; border-radius: 50%; 
+                                   display: flex; align-items: center; justify-content: center; 
+                                   font-size: 12px; flex-shrink: 0;">
+                            ${index + 1}
+                        </div>
+                        <div style="color: #e2e8f0; line-height: 1.4;">${rec}</div>
+                    </div>
+                `).join('')}
+            </div>
+            <div style="margin-top: 15px; padding: 12px; background: rgba(16, 185, 129, 0.1); 
+                       border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2);">
+                <div style="display: flex; align-items: center; gap: 10px; color: #34d399;">
+                    <i class="fas fa-clock"></i>
+                    <span style="font-weight: 600;">Рекомендуемая частота:</span>
+                </div>
+                <div style="color: #a7f3d0; margin-top: 5px; font-size: 14px;">
+                    Выполняйте минимум 3 рекомендации ежедневно в течение 30 дней для устойчивого эффекта
+                </div>
+            </div>
+        `;
+        
+        // Прокручиваем к рекомендациям
+        setTimeout(() => {
+            recContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 500);
+    }
+
+    function showNotification(message, type = 'info') {
+        // Удаляем старые уведомления
+        document.querySelectorAll('.aurora-notification').forEach(el => el.remove());
+        
+        const notification = document.createElement('div');
+        notification.className = `aurora-notification`;
+        
+        const icons = {
+            'success': 'fa-check-circle',
+            'error': 'fa-exclamation-circle',
+            'warning': 'fa-exclamation-triangle',
+            'info': 'fa-info-circle'
+        };
+        
+        const colors = {
+            'success': '#10b981',
+            'error': '#ef4444',
+            'warning': '#f59e0b',
+            'info': '#6366f1'
+        };
+        
+        notification.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="fas ${icons[type] || 'fa-info-circle'}" 
+                   style="font-size: 18px; color: ${colors[type] || '#6366f1'}"></i>
+                <div style="flex: 1; font-size: 14px; line-height: 1.4;">${message}</div>
+                <button class="notification-close" style="background: none; border: none; 
+                        color: rgba(255,255,255,0.5); cursor: pointer; font-size: 16px;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.95);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.3s ease forwards;
+            border: 1px solid ${colors[type] || '#6366f1'}40;
+            backdrop-filter: blur(10px);
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Кнопка закрытия
+        notification.querySelector('.notification-close').addEventListener('click', () => {
+            notification.style.animation = 'slideOut 0.3s ease forwards';
+            setTimeout(() => notification.remove(), 300);
+        });
+        
+        // Автоматическое закрытие
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 5000);
+        
+        // Добавляем стили анимации
+        if (!document.querySelector('#notification-animations')) {
+            const style = document.createElement('style');
+            style.id = 'notification-animations';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+
+    // Автоматически запускаем анализ при загрузке
+    setTimeout(() => {
+        const analyzeBtn = document.getElementById('analyze-btn');
+        if (analyzeBtn) {
+            analyzeBtn.click();
+        }
+    }, 1000);
+    </script>
 </body>
 </html>
