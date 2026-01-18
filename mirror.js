@@ -1,142 +1,244 @@
 // Основной файл JavaScript для Зеркала Будущего
+let isAnalyzing = false;
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Инициализация всех функций
-    initEventListeners();
-    initLocalAnalyzer();
-    initBackgroundEffects();
+    console.log('Aurora Mirror 4.0 загружен');
+    
+    // Инициализация только один раз
+    initApplication();
 });
 
-// ===== ИНИЦИАЛИЗАЦИЯ =====
-function initEventListeners() {
-    // Анализ текста
-    const analyzeBtn = document.getElementById('analyze-btn');
-    const thoughtInput = document.getElementById('thought-input');
+function initApplication() {
+    console.log('Инициализация приложения...');
     
-    analyzeBtn.addEventListener('click', () => {
-        const text = thoughtInput.value.trim();
-        if (text.length < 10) {
-            showNotification('Пожалуйста, введите больше текста для анализа (минимум 10 символов)', 'warning');
-            return;
-        }
-        performAnalysis(text);
-    });
-    
-    // Быстрые темы
-    document.querySelectorAll('.quick-tag').forEach(tag => {
-        tag.addEventListener('click', () => {
-            thoughtInput.value = tag.getAttribute('data-text');
-            updateCharCount();
-            thoughtInput.focus();
-        });
-    });
-    
-    // Счётчик символов
-    thoughtInput.addEventListener('input', updateCharCount);
-    
-    // Переключение секций
-    const toggleResults = document.getElementById('toggle-results');
-    const resultsSection = document.getElementById('results-section');
-    
-    toggleResults.addEventListener('click', () => {
-        const isVisible = resultsSection.style.display !== 'none';
-        resultsSection.style.display = isVisible ? 'none' : 'block';
-        toggleResults.innerHTML = isVisible ? 
-            '<i class="fas fa-chevron-down"></i>' : 
-            '<i class="fas fa-chevron-up"></i>';
-    });
-    
-    // Начало эксперимента
-    const startExperimentBtn = document.getElementById('start-experiment');
-    startExperimentBtn.addEventListener('click', () => {
-        startExperiment();
-    });
-    
-    // Настройка эксперимента
-    const customizeExperimentBtn = document.getElementById('customize-experiment');
-    customizeExperimentBtn.addEventListener('click', () => {
-        customizeExperiment();
-    });
-    
-    // Проверка приватности
-    const verifyPrivacyBtn = document.getElementById('verify-privacy');
-    verifyPrivacyBtn.addEventListener('click', () => {
-        verifyPrivacy();
-    });
-    
-    // Изменение временного промежутка
-    const timeframeSelect = document.getElementById('timeframe-select');
-    timeframeSelect.addEventListener('change', (e) => {
-        updateTimeline(parseInt(e.target.value));
-    });
-}
-
-function initLocalAnalyzer() {
-    // Проверка наличия локального анализатора
-    if (typeof window.LocalAnalyzer === 'undefined') {
-        console.warn('LocalAnalyzer не загружен. Проверьте подключение local-analyzer.js');
-    } else {
-        console.log('LocalAnalyzer готов к работе');
-    }
-}
-
-function initBackgroundEffects() {
-    // Создание частиц для фона
+    // Инициализация фона
     createParticles();
+    
+    // Инициализация слушателей событий
+    initEventListeners();
+    
+    // Инициализация анализатора
+    initLocalAnalyzer();
     
     // Плавное появление интерфейса
     setTimeout(() => {
         document.querySelector('.app-container').style.opacity = '1';
         document.querySelector('.app-container').style.transform = 'translateY(0)';
     }, 100);
+    
+    // Фокус на поле ввода
+    setTimeout(() => {
+        const input = document.getElementById('thought-input');
+        if (input) {
+            input.focus();
+            input.addEventListener('input', updateCharCount);
+            updateCharCount(); // Обновляем счётчик при загрузке
+        }
+    }, 500);
+}
+
+// ===== ИНИЦИАЛИЗАЦИЯ СЛУШАТЕЛЕЙ СОБЫТИЙ =====
+function initEventListeners() {
+    console.log('Инициализация слушателей событий...');
+    
+    // Анализ текста
+    const analyzeBtn = document.getElementById('analyze-btn');
+    if (analyzeBtn) {
+        console.log('Кнопка анализа найдена');
+        analyzeBtn.addEventListener('click', handleAnalyzeClick);
+    } else {
+        console.error('Кнопка анализа не найдена!');
+    }
+    
+    // Быстрые темы
+    document.querySelectorAll('.quick-tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+            const text = this.getAttribute('data-text');
+            const input = document.getElementById('thought-input');
+            if (input) {
+                input.value = text;
+                updateCharCount();
+                input.focus();
+                
+                // Показываем уведомление
+                showNotification(`Тема "${this.textContent}" добавлена`, 'info');
+            }
+        });
+    });
+    
+    // Переключение секций
+    const toggleResults = document.getElementById('toggle-results');
+    if (toggleResults) {
+        toggleResults.addEventListener('click', toggleResultsSection);
+    }
+    
+    // Начало эксперимента
+    const startExperimentBtn = document.getElementById('start-experiment');
+    if (startExperimentBtn) {
+        startExperimentBtn.addEventListener('click', startExperiment);
+    }
+    
+    // Настройка эксперимента
+    const customizeExperimentBtn = document.getElementById('customize-experiment');
+    if (customizeExperimentBtn) {
+        customizeExperimentBtn.addEventListener('click', customizeExperiment);
+    }
+    
+    // Проверка приватности
+    const verifyPrivacyBtn = document.getElementById('verify-privacy');
+    if (verifyPrivacyBtn) {
+        verifyPrivacyBtn.addEventListener('click', verifyPrivacy);
+    }
+    
+    // Изменение временного промежутка
+    const timeframeSelect = document.getElementById('timeframe-select');
+    if (timeframeSelect) {
+        timeframeSelect.addEventListener('change', function(e) {
+            updateTimeline(parseInt(e.target.value));
+        });
+    }
+    
+    // Настройки
+    const settingsBtn = document.getElementById('settings-btn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', () => {
+            showNotification('Настройки будут доступны в следующем обновлении', 'info');
+        });
+    }
+    
+    // Помощь
+    const helpBtn = document.getElementById('help-btn');
+    if (helpBtn) {
+        helpBtn.addEventListener('click', () => {
+            showNotification('Откройте DevTools (F12) → Network tab → убедитесь в 0 запросов', 'info');
+        });
+    }
+    
+    // Аватар
+    const avatarBtn = document.querySelector('.avatar-button');
+    if (avatarBtn) {
+        avatarBtn.addEventListener('click', () => {
+            showNotification('Профиль пользователя (функция в разработке)', 'info');
+        });
+    }
+}
+
+function initLocalAnalyzer() {
+    // Проверка наличия локального анализатора
+    if (typeof window.LocalAnalyzer === 'undefined') {
+        console.warn('LocalAnalyzer не загружен. Будет использован упрощённый анализ.');
+        window.LocalAnalyzer = {
+            analyze: function(text) {
+                return analyzeTextLocally(text);
+            }
+        };
+    } else {
+        console.log('LocalAnalyzer готов к работе');
+    }
+}
+
+// ===== ОБРАБОТЧИКИ СОБЫТИЙ =====
+function handleAnalyzeClick() {
+    if (isAnalyzing) {
+        showNotification('Анализ уже выполняется...', 'warning');
+        return;
+    }
+    
+    const text = document.getElementById('thought-input').value.trim();
+    if (text.length < 10) {
+        showNotification('Пожалуйста, введите больше текста для анализа (минимум 10 символов)', 'warning');
+        return;
+    }
+    
+    performAnalysis(text);
+}
+
+function toggleResultsSection() {
+    const resultsSection = document.getElementById('results-section');
+    const toggleIcon = this.querySelector('i');
+    
+    if (resultsSection.style.display === 'none' || !resultsSection.style.display) {
+        resultsSection.style.display = 'block';
+        toggleIcon.className = 'fas fa-chevron-up';
+        
+        // Плавное появление
+        resultsSection.style.opacity = '0';
+        resultsSection.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+            resultsSection.style.opacity = '1';
+            resultsSection.style.transform = 'translateY(0)';
+            resultsSection.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        }, 10);
+    } else {
+        resultsSection.style.opacity = '0';
+        resultsSection.style.transform = 'translateY(-10px)';
+        
+        setTimeout(() => {
+            resultsSection.style.display = 'none';
+            toggleIcon.className = 'fas fa-chevron-down';
+        }, 300);
+    }
 }
 
 // ===== ОСНОВНЫЕ ФУНКЦИИ =====
 function performAnalysis(text) {
+    console.log('Запуск анализа текста...');
+    isAnalyzing = true;
+    
     // Показываем индикатор загрузки
     const analyzeBtn = document.getElementById('analyze-btn');
     const originalHTML = analyzeBtn.innerHTML;
-    analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Анализирую...</span>';
+    analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Анализирую локально...</span>';
     analyzeBtn.disabled = true;
     
     // Показываем секцию с результатами
     const resultsSection = document.getElementById('results-section');
     resultsSection.style.display = 'block';
-    document.getElementById('toggle-results').innerHTML = '<i class="fas fa-chevron-up"></i>';
+    resultsSection.style.opacity = '1';
     
-    // Симуляция анализа (в реальности здесь будет вызов LocalAnalyzer)
+    const toggleBtn = document.getElementById('toggle-results');
+    if (toggleBtn) {
+        toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    }
+    
+    // Имитация анализа с задержкой
     setTimeout(() => {
-        // Пример анализа (в реальном приложении здесь будет вызов LocalAnalyzer.analyze(text))
-        const mockAnalysis = analyzeTextLocally(text);
-        
-        // Обновляем интерфейс с результатами
-        updateAnalysisResults(mockAnalysis);
-        
-        // Обновляем сценарии на основе анализа
-        updateScenarios(mockAnalysis);
-        
-        // Генерируем эксперимент
-        generateExperiment(mockAnalysis);
-        
-        // Восстанавливаем кнопку
-        analyzeBtn.innerHTML = originalHTML;
-        analyzeBtn.disabled = false;
-        
-        // Показываем уведомление
-        showNotification('Анализ завершён локально! Проверьте Network tab → 0 запросов', 'success');
-        
-        // Анимация результатов
-        animateResults();
-        
-    }, 1500); // Имитация времени анализа
+        try {
+            // Используем LocalAnalyzer или упрощённый анализ
+            const analysis = typeof window.LocalAnalyzer !== 'undefined' 
+                ? window.LocalAnalyzer.analyze(text)
+                : analyzeTextLocally(text);
+            
+            console.log('Анализ завершён:', analysis);
+            
+            // Обновляем интерфейс
+            updateAnalysisResults(analysis);
+            updateScenarios(analysis);
+            generateExperiment(analysis);
+            
+            // Анимация результатов
+            animateResults();
+            
+            showNotification('✅ Анализ завершён локально! Проверьте Network tab → 0 запросов', 'success');
+            
+        } catch (error) {
+            console.error('Ошибка анализа:', error);
+            showNotification('Ошибка при анализе. Попробуйте ещё раз.', 'error');
+        } finally {
+            // Восстанавливаем кнопку
+            analyzeBtn.innerHTML = originalHTML;
+            analyzeBtn.disabled = false;
+            isAnalyzing = false;
+        }
+    }, 1500);
 }
 
 function analyzeTextLocally(text) {
-    // Упрощённый локальный анализ (в реальности будет сложнее)
-    const words = text.toLowerCase().split(/\s+/);
+    console.log('Локальный анализ текста:', text.substring(0, 50) + '...');
     
-    // Определяем эмоциональный тон
-    const negativeWords = ['стресс', 'усталость', 'тревог', 'беспокойств', 'выгорание', 'конфликт', 'проблем', 'сложн', 'тяжел'];
-    const positiveWords = ['радость', 'счастье', 'успех', 'легк', 'хорош', 'отличн', 'прекрасн'];
+    const words = text.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+    const negativeWords = ['стресс', 'усталость', 'тревог', 'беспокойств', 'выгорание', 'конфликт', 'проблем', 'сложн', 'тяжел', 'плох', 'грустн', 'один', 'страх'];
+    const positiveWords = ['радость', 'счастье', 'успех', 'легк', 'хорош', 'отличн', 'прекрасн', 'доволен', 'интересн', 'мотивац', 'энерг', 'сил'];
     
     let negativeCount = 0;
     let positiveCount = 0;
@@ -152,81 +254,114 @@ function analyzeTextLocally(text) {
     
     // Определяем темы
     const themes = [];
-    if (text.match(/работ|карьер|начальник|коллег|проект|задач/i)) themes.push('Работа / Карьера');
-    if (text.match(/отношен|партнёр|семь|друг|близк/i)) themes.push('Отношения');
-    if (text.match(/тревог|стресс|эмоци|чувств|психолог/i)) themes.push('Психология');
-    if (text.match(/энерг|сил|усталост|сон|здоров/i)) themes.push('Энергия');
+    if (text.match(/работ|карьер|начальник|коллег|проект|задач|офис|должност|зарплат/i)) themes.push('Работа / Карьера');
+    if (text.match(/отношен|партнёр|семь|друг|близк|любов|семей|общен/i)) themes.push('Отношения');
+    if (text.match(/тревог|стресс|эмоци|чувств|психолог|депресс|настроен/i)) themes.push('Психология');
+    if (text.match(/энерг|сил|усталост|сон|здоров|отдых|бодр|утомлен/i)) themes.push('Энергия');
+    if (text.match/(деньг|финанс|бюджет|заработ|трат|экономи)/i)) themes.push('Финансы');
+    if (text.match/(цел|мечт|планы|будущ|развит|рост)/i)) themes.push('Развитие');
+    
+    // Уникальные темы
+    const uniqueThemes = [...new Set(themes)];
     
     // Определяем когнитивные искажения
     const patterns = [];
-    if (text.match(/всегд|никогда|все|ничего|полностью/i)) patterns.push({name: 'Абсолютизация', intensity: 'high'});
-    if (text.match(/проблем|сложн|трудн|невозможн/i)) patterns.push({name: 'Негативный фокус', intensity: 'medium'});
-    if (text.match(/катастроф|ужасн|кошмарн/i)) patterns.push({name: 'Катастрофизация', intensity: 'low'});
+    if (text.match(/всегд|никогда|все|ничего|полностью|абсолютно|каждый раз/i)) {
+        patterns.push({name: 'Абсолютизация', intensity: 'high'});
+    }
+    if (text.match(/проблем|сложн|трудн|невозможн|никуда|тупик/i)) {
+        patterns.push({name: 'Негативный фокус', intensity: 'medium'});
+    }
+    if (text.match(/катастроф|ужасн|кошмарн|конец|погиб|смерт/i)) {
+        patterns.push({name: 'Катастрофизация', intensity: 'low'});
+    }
+    if (text.match(/должен|обязан|надо|нужно|необходимо/i)) {
+        patterns.push({name: 'Долженствование', intensity: 'medium'});
+    }
+    
+    // Если паттернов мало, добавляем базовые
+    if (patterns.length < 2) {
+        patterns.push({name: 'Эмоциональное мышление', intensity: 'low'});
+        patterns.push({name: 'Чтение мыслей', intensity: 'low'});
+    }
     
     return {
         emotion: emotionValue,
-        themes: themes,
+        themes: uniqueThemes,
         patterns: patterns,
         wordCount: words.length,
-        negativeRatio: negativeCount / words.length,
-        mainTheme: themes[0] || 'Общее'
+        negativeRatio: negativeCount / Math.max(words.length, 1),
+        mainTheme: uniqueThemes[0] || 'Общее',
+        timestamp: new Date().toISOString()
     };
 }
 
 function updateAnalysisResults(analysis) {
-    // Обновляем эмоциональный спектр
-    document.getElementById('emotion-fill').style.width = analysis.emotion + '%';
-    document.getElementById('emotion-value').textContent = analysis.emotion + '%';
+    console.log('Обновление результатов анализа...');
     
-    // Обновляем эмоциональные теги
+    // Эмоциональный спектр
+    const emotionFill = document.getElementById('emotion-fill');
+    const emotionValue = document.getElementById('emotion-value');
+    
+    if (emotionFill) {
+        emotionFill.style.width = analysis.emotion + '%';
+        emotionFill.style.transition = 'width 1s ease';
+    }
+    
+    if (emotionValue) {
+        emotionValue.textContent = analysis.emotion + '%';
+    }
+    
+    // Эмоциональные теги
     const emotionTags = document.getElementById('emotion-tags');
-    emotionTags.innerHTML = '';
-    
-    if (analysis.emotion > 70) {
-        emotionTags.innerHTML += '<span class="emotion-tag negative">Тревога</span>';
-        emotionTags.innerHTML += '<span class="emotion-tag negative">Усталость</span>';
-    } else if (analysis.emotion > 40) {
-        emotionTags.innerHTML += '<span class="emotion-tag neutral">Нейтральность</span>';
-        emotionTags.innerHTML += '<span class="emotion-tag neutral">Смешанные чувства</span>';
-    } else {
-        emotionTags.innerHTML += '<span class="emotion-tag positive">Спокойствие</span>';
-        emotionTags.innerHTML += '<span class="emotion-tag positive">Баланс</span>';
+    if (emotionTags) {
+        emotionTags.innerHTML = '';
+        
+        if (analysis.emotion > 70) {
+            emotionTags.innerHTML += '<span class="emotion-tag negative">Тревога</span>';
+            emotionTags.innerHTML += '<span class="emotion-tag negative">Усталость</span>';
+            if (analysis.emotion > 85) {
+                emotionTags.innerHTML += '<span class="emotion-tag negative">Выгорание</span>';
+            }
+        } else if (analysis.emotion > 40) {
+            emotionTags.innerHTML += '<span class="emotion-tag neutral">Нейтральность</span>';
+            emotionTags.innerHTML += '<span class="emotion-tag neutral">Смешанные чувства</span>';
+        } else {
+            emotionTags.innerHTML += '<span class="emotion-tag positive">Спокойствие</span>';
+            emotionTags.innerHTML += '<span class="emotion-tag positive">Баланс</span>';
+        }
     }
     
-    // Обновляем когнитивные искажения
+    // Когнитивные искажения
     const patternsList = document.getElementById('patterns-list');
-    patternsList.innerHTML = '';
-    
-    analysis.patterns.forEach(pattern => {
-        patternsList.innerHTML += `
-            <div class="pattern-item">
-                <span class="pattern-name">${pattern.name}</span>
-                <div class="pattern-intensity ${pattern.intensity}">${getIntensityText(pattern.intensity)}</div>
-            </div>
-        `;
-    });
-    
-    // Добавляем общие паттерны, если их мало
-    if (analysis.patterns.length < 2) {
-        patternsList.innerHTML += `
-            <div class="pattern-item">
-                <span class="pattern-name">Эмоциональное мышление</span>
-                <div class="pattern-intensity low">Низкая</div>
-            </div>
-        `;
+    if (patternsList) {
+        patternsList.innerHTML = '';
+        
+        analysis.patterns.slice(0, 3).forEach(pattern => {
+            patternsList.innerHTML += `
+                <div class="pattern-item">
+                    <span class="pattern-name">${pattern.name}</span>
+                    <div class="pattern-intensity ${pattern.intensity}">
+                        ${getIntensityText(pattern.intensity)}
+                    </div>
+                </div>
+            `;
+        });
     }
     
-    // Обновляем темы
+    // Темы
     const topicsContainer = document.getElementById('topics-container');
-    topicsContainer.innerHTML = '';
-    
-    analysis.themes.forEach((theme, index) => {
-        const type = index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary';
-        topicsContainer.innerHTML += `<span class="topic-tag ${type}">${theme}</span>`;
-    });
-    
-    if (analysis.themes.length === 0) {
-        topicsContainer.innerHTML = '<span class="topic-tag tertiary">Общая рефлексия</span>';
+    if (topicsContainer) {
+        topicsContainer.innerHTML = '';
+        
+        analysis.themes.slice(0, 4).forEach((theme, index) => {
+            const type = index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary';
+            topicsContainer.innerHTML += `<span class="topic-tag ${type}">${theme}</span>`;
+        });
+        
+        if (analysis.themes.length === 0) {
+            topicsContainer.innerHTML = '<span class="topic-tag tertiary">Общая рефлексия</span>';
+        }
     }
 }
 
@@ -234,35 +369,64 @@ function getIntensityText(intensity) {
     const map = {
         'high': 'Высокая',
         'medium': 'Средняя', 
-        'low': 'Низкая'
+        'low': 'Низкая',
+        'very-high': 'Очень высокая'
     };
     return map[intensity] || intensity;
 }
 
 function updateScenarios(analysis) {
-    // На основе анализа корректируем вероятности сценариев
-    const redProb = Math.min(95, Math.max(50, analysis.emotion + 10));
-    const orangeProb = Math.min(40, Math.max(10, 100 - redProb - 5));
-    const blueProb = Math.max(1, 100 - redProb - orangeProb);
+    console.log('Обновление сценариев...');
+    
+    // Рассчитываем вероятности на основе анализа
+    let redProb, orangeProb, blueProb;
+    
+    if (analysis.emotion > 70) {
+        redProb = Math.min(90, Math.max(60, analysis.emotion + 5));
+        orangeProb = Math.min(35, Math.max(15, 100 - redProb - 3));
+        blueProb = Math.max(2, 100 - redProb - orangeProb);
+    } else if (analysis.emotion > 40) {
+        redProb = Math.min(70, Math.max(40, analysis.emotion));
+        orangeProb = Math.min(45, Math.max(25, 100 - redProb - 5));
+        blueProb = Math.max(5, 100 - redProb - orangeProb);
+    } else {
+        redProb = Math.min(50, Math.max(20, analysis.emotion + 10));
+        orangeProb = Math.min(60, Math.max(30, 100 - redProb - 10));
+        blueProb = Math.max(10, 100 - redProb - orangeProb);
+    }
     
     // Обновляем вероятности
-    document.querySelectorAll('.probability-value')[0].textContent = redProb + '%';
-    document.querySelectorAll('.probability-value')[1].textContent = orangeProb + '%';
-    document.querySelectorAll('.probability-value')[2].textContent = blueProb + '%';
+    const probabilityValues = document.querySelectorAll('.probability-value');
+    if (probabilityValues.length >= 3) {
+        probabilityValues[0].textContent = Math.round(redProb) + '%';
+        probabilityValues[1].textContent = Math.round(orangeProb) + '%';
+        probabilityValues[2].textContent = Math.round(blueProb) + '%';
+        
+        // Анимация изменения
+        probabilityValues.forEach((el, i) => {
+            el.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                el.style.transform = 'scale(1)';
+                el.style.transition = 'transform 0.3s ease';
+            }, 300);
+        });
+    }
     
-    // Обновляем описания на основе темы
-    const mainTheme = analysis.mainTheme;
-    const descriptions = getScenarioDescriptions(mainTheme, analysis);
+    // Обновляем описания
+    const descriptions = getScenarioDescriptions(analysis.mainTheme, analysis);
+    const scenarioDescriptions = document.querySelectorAll('.scenario-description p');
     
-    document.querySelectorAll('.scenario-description p')[0].textContent = descriptions.red;
-    document.querySelectorAll('.scenario-description p')[1].textContent = descriptions.orange;
-    document.querySelectorAll('.scenario-description p')[2].textContent = descriptions.blue;
+    if (scenarioDescriptions.length >= 3) {
+        scenarioDescriptions[0].textContent = descriptions.red;
+        scenarioDescriptions[1].textContent = descriptions.orange;
+        scenarioDescriptions[2].textContent = descriptions.blue;
+    }
 }
 
 function getScenarioDescriptions(theme, analysis) {
     const scenarios = {
         'Работа / Карьера': {
-            red: `При сохранении текущих паттернов: усиление выгорания на ${analysis.emotion}%, снижение продуктивности, риск профессионального истощения.`,
+            red: `При сохранении текущих паттернов: усиление выгорания на ${analysis.emotion}%, снижение продуктивности на 40%, риск профессионального истощения.`,
             orange: `При внедрении практик саморегуляции: улучшение состояния на ${100 - analysis.emotion}%, восстановление энергии, развитие стрессоустойчивости.`,
             blue: `При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, качественный скачок в развитии.`
         },
@@ -278,7 +442,7 @@ function getScenarioDescriptions(theme, analysis) {
         },
         'default': {
             red: `При сохранении текущих паттернов: усиление негативных тенденций, снижение качества жизни на ${analysis.emotion}%.`,
-            orange: `При внедрении практик саморегуляции: улучшение состояния на ${Math.round((100 - analysis.emotion) / 2)}%, развитие resilience.`,
+            orange: `При внедрении практик саморегуляции: улучшение состояния на ${Math.round((100 - analysis.emotion) / 2)}%, развитие устойчивости.`,
             blue: 'При трансформации подхода: качественный прорыв, переход на новый уровень осознанности и жизни.'
         }
     };
@@ -287,6 +451,8 @@ function getScenarioDescriptions(theme, analysis) {
 }
 
 function generateExperiment(analysis) {
+    console.log('Генерация эксперимента...');
+    
     const theme = analysis.mainTheme;
     const experiments = {
         'Работа / Карьера': {
@@ -308,12 +474,21 @@ function generateExperiment(analysis) {
             ]
         },
         'Психология': {
-            title: 'Дневник благодарности + дыхательные практики',
-            description: 'Переключает фокус с проблем на возможности, снижает тревожность, повышает осознанность.',
+            title: 'Дневник благодарности + дыхательные практики 3 раза в день',
+            description: 'Переключает фокус с проблем на возможности, снижает тревожность на 45%, повышает осознанность.',
             metrics: [
                 { value: '-45%', label: 'Тревожности' },
                 { value: '+50%', label: 'Осознанности' },
                 { value: '+30%', label: 'Спокойствия' }
+            ]
+        },
+        'Финансы': {
+            title: 'Ежедневный учёт расходов + недельное планирование бюджета',
+            description: 'Повышает финансовую осознанность, снижает импульсивные траты, увеличивает сбережения.',
+            metrics: [
+                { value: '-30%', label: 'Импульсивных трат' },
+                { value: '+25%', label: 'Контроля' },
+                { value: '+15%', label: 'Сбережений' }
             ]
         },
         'default': {
@@ -329,46 +504,71 @@ function generateExperiment(analysis) {
     
     const experiment = experiments[theme] || experiments.default;
     
-    document.getElementById('experiment-title').textContent = experiment.title;
-    document.querySelector('.experiment-description p').textContent = experiment.description;
+    const experimentTitle = document.getElementById('experiment-title');
+    const experimentDescription = document.querySelector('.experiment-description p');
     
+    if (experimentTitle) {
+        experimentTitle.textContent = experiment.title;
+    }
+    
+    if (experimentDescription) {
+        experimentDescription.textContent = experiment.description;
+    }
+    
+    // Обновляем метрики
     const metricsContainer = document.querySelector('.experiment-metrics');
-    metricsContainer.innerHTML = '';
-    
-    experiment.metrics.forEach(metric => {
-        metricsContainer.innerHTML += `
-            <div class="metric">
-                <div class="metric-value">${metric.value}</div>
-                <div class="metric-label">${metric.label}</div>
-            </div>
-        `;
-    });
+    if (metricsContainer) {
+        metricsContainer.innerHTML = '';
+        
+        experiment.metrics.forEach(metric => {
+            metricsContainer.innerHTML += `
+                <div class="metric">
+                    <div class="metric-value">${metric.value}</div>
+                    <div class="metric-label">${metric.label}</div>
+                </div>
+            `;
+        });
+    }
 }
 
 function startExperiment() {
-    showNotification('Эксперимент запущен! Вы получите уведомления о прогрессе.', 'success');
+    console.log('Запуск эксперимента...');
     
-    // Анимация кнопки
     const btn = document.getElementById('start-experiment');
-    btn.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
-    btn.classList.remove('btn-primary');
-    btn.classList.add('btn-secondary');
+    if (!btn) return;
+    
+    // Сохраняем оригинальный текст
+    const originalText = btn.innerHTML;
+    
+    // Показываем анимацию запуска
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Запускаю...';
     btn.disabled = true;
     
-    // Планируем напоминание
     setTimeout(() => {
-        if (confirm('Напоминание: как проходит ваш эксперимент? Хотите добавить заметку?')) {
-            document.getElementById('thought-input').focus();
-        }
-    }, 30000); // 30 секунд для демо (в реальности будет 24 часа)
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-secondary');
+        
+        showNotification('🎯 Эксперимент запущен! Вы получите уведомления о прогрессе.', 'success');
+        
+        // Планируем напоминание (для демо - 10 секунд)
+        setTimeout(() => {
+            if (confirm('Напоминание: как проходит ваш эксперимент? Хотите добавить заметку?')) {
+                document.getElementById('thought-input').focus();
+                document.getElementById('thought-input').value = 'День 1 эксперимента: ';
+                updateCharCount();
+            }
+        }, 10000);
+        
+    }, 1000);
 }
 
 function customizeExperiment() {
-    showNotification('Функция настройки эксперимента будет доступна в следующем обновлении!', 'info');
+    showNotification('⚙️ Функция настройки эксперимента будет доступна в следующем обновлении Aurora 4.1', 'info');
 }
 
 function verifyPrivacy() {
-    showNotification('Откройте DevTools (F12) → вкладка Network → убедитесь в 0 запросов при анализе!', 'info');
+    console.log('Проверка приватности...');
     
     // Подсветка элементов проверки
     const steps = document.querySelectorAll('.verification-step');
@@ -376,6 +576,7 @@ function verifyPrivacy() {
         setTimeout(() => {
             step.style.transform = 'scale(1.05)';
             step.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)';
+            step.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
             
             setTimeout(() => {
                 step.style.transform = '';
@@ -383,10 +584,13 @@ function verifyPrivacy() {
             }, 500);
         }, index * 300);
     });
+    
+    showNotification('🔒 Проверка приватности: Откройте DevTools (F12) → вкладка Network → убедитесь в 0 запросов при анализе!', 'info');
 }
 
 function updateTimeline(days) {
-    const scenarios = document.querySelectorAll('.scenario-card');
+    console.log('Обновление таймлайна на', days, 'дней');
+    
     const dayLabels = {
         7: ['День 2-3', 'День 4-5', 'День 6-7'],
         30: ['День 7-10', 'День 15-20', 'День 25-30'],
@@ -395,30 +599,45 @@ function updateTimeline(days) {
     
     const labels = dayLabels[days] || dayLabels[30];
     
-    scenarios.forEach((scenario, scenarioIndex) => {
+    // Обновляем все сценарии
+    document.querySelectorAll('.scenario-card').forEach((scenario, scenarioIndex) => {
         const points = scenario.querySelectorAll('.timeline-day');
         points.forEach((point, pointIndex) => {
-            point.textContent = labels[pointIndex] + ':';
+            if (point && labels[pointIndex]) {
+                point.textContent = labels[pointIndex] + ':';
+                
+                // Анимация изменения
+                point.style.color = 'var(--color-accent)';
+                setTimeout(() => {
+                    point.style.color = '';
+                    point.style.transition = 'color 0.5s ease';
+                }, 500);
+            }
         });
     });
     
-    showNotification(`Таймлайн обновлён на ${days} дней`, 'info');
+    showNotification(`📅 Таймлайн обновлён на ${days} дней`, 'info');
 }
 
 // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
 function updateCharCount() {
     const input = document.getElementById('thought-input');
-    const count = input.value.length;
-    document.getElementById('char-count').textContent = count;
+    if (!input) return;
     
-    // Изменение цвета при приближении к лимиту
+    const count = input.value.length;
     const countElement = document.getElementById('char-count');
-    if (count > 1800) {
-        countElement.style.color = 'var(--color-danger)';
-    } else if (count > 1500) {
-        countElement.style.color = 'var(--color-warning)';
-    } else {
-        countElement.style.color = 'var(--color-text)';
+    
+    if (countElement) {
+        countElement.textContent = count;
+        
+        // Изменение цвета при приближении к лимиту
+        if (count > 1800) {
+            countElement.style.color = 'var(--color-danger)';
+        } else if (count > 1500) {
+            countElement.style.color = 'var(--color-warning)';
+        } else {
+            countElement.style.color = 'var(--color-text)';
+        }
     }
 }
 
@@ -426,9 +645,8 @@ function animateResults() {
     const results = document.querySelectorAll('.result-card, .scenario-card');
     results.forEach((result, index) => {
         result.style.animation = 'none';
-        setTimeout(() => {
-            result.style.animation = `slideIn 0.5s ease forwards ${index * 0.1}s`;
-        }, 10);
+        void result.offsetWidth; // Trigger reflow
+        result.style.animation = `slideIn 0.5s ease forwards ${index * 0.1}s`;
     });
 }
 
@@ -436,47 +654,53 @@ function createParticles() {
     const container = document.querySelector('.particles-container');
     if (!container) return;
     
-    // Очищаем существующие частицы
     container.innerHTML = '';
     
-    // Создаем 20 частиц
-    for (let i = 0; i < 20; i++) {
+    // Создаем частицы
+    for (let i = 0; i < 25; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         
-        // Случайные свойства
         const size = Math.random() * 3 + 1;
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 5;
+        const duration = Math.random() * 25 + 15;
+        const delay = Math.random() * 10;
         
-        // Стили
         particle.style.cssText = `
             position: absolute;
             width: ${size}px;
             height: ${size}px;
-            background: rgba(99, 102, 241, ${Math.random() * 0.5 + 0.2});
+            background: rgba(99, 102, 241, ${Math.random() * 0.4 + 0.1});
             border-radius: 50%;
             left: ${posX}%;
             top: ${posY}%;
-            animation: floatParticle ${duration}s ease-in-out infinite;
-            animation-delay: ${delay}s;
+            animation: floatParticle ${duration}s ease-in-out infinite ${delay}s;
             filter: blur(${size / 2}px);
+            z-index: -1;
         `;
         
         container.appendChild(particle);
     }
     
-    // Добавляем стили для анимации частиц
-    if (!document.querySelector('#particle-styles')) {
+    // Добавляем стили анимации
+    if (!document.querySelector('#particle-animation')) {
         const style = document.createElement('style');
-        style.id = 'particle-styles';
+        style.id = 'particle-animation';
         style.textContent = `
             @keyframes floatParticle {
-                0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-                33% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 30 - 15}px) scale(1.2); opacity: 0.7; }
-                66% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 30 - 15}px) scale(0.8); opacity: 0.5; }
+                0%, 100% { 
+                    transform: translate(0, 0) scale(1); 
+                    opacity: ${Math.random() * 0.3 + 0.1}; 
+                }
+                33% { 
+                    transform: translate(${Math.random() * 60 - 30}px, ${Math.random() * 40 - 20}px) scale(1.3); 
+                    opacity: ${Math.random() * 0.6 + 0.3}; 
+                }
+                66% { 
+                    transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * 60 - 30}px) scale(0.8); 
+                    opacity: ${Math.random() * 0.4 + 0.2}; 
+                }
             }
         `;
         document.head.appendChild(style);
@@ -484,15 +708,25 @@ function createParticles() {
 }
 
 function showNotification(message, type = 'info') {
+    // Удаляем старые уведомления
+    document.querySelectorAll('.aurora-notification').forEach(el => el.remove());
+    
     // Создаём уведомление
     const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
+    notification.className = `aurora-notification notification-${type}`;
+    
+    const icon = getNotificationIcon(type);
+    const color = getNotificationColor(type);
+    const borderColor = getNotificationBorderColor(type);
+    
     notification.innerHTML = `
-        <div class="notification-content">
-            <i class="fas fa-${getNotificationIcon(type)}"></i>
-            <span>${message}</span>
+        <div class="notification-icon">
+            <i class="fas ${icon}"></i>
         </div>
-        <button class="notification-close"><i class="fas fa-times"></i></button>
+        <div class="notification-message">${message}</div>
+        <button class="notification-close">
+            <i class="fas fa-times"></i>
+        </button>
     `;
     
     // Стили
@@ -500,103 +734,173 @@ function showNotification(message, type = 'info') {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${getNotificationColor(type)};
+        background: ${color};
         color: white;
         padding: 16px 20px;
         border-radius: var(--radius-md);
         display: flex;
         align-items: center;
-        justify-content: space-between;
         gap: 12px;
         min-width: 300px;
         max-width: 400px;
-        z-index: 1000;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        animation: slideInRight 0.3s ease forwards;
-        border-left: 4px solid ${getNotificationBorderColor(type)};
+        z-index: 9999;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        animation: notificationSlideIn 0.3s ease forwards;
+        border-left: 4px solid ${borderColor};
+        backdrop-filter: blur(10px);
     `;
     
+    // Стили для внутренних элементов
+    const style = document.createElement('style');
+    style.textContent = `
+        .notification-icon {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .notification-message {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .notification-close {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        @keyframes notificationSlideIn {
+            from { 
+                transform: translateX(100%); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+        }
+        
+        @keyframes notificationSlideOut {
+            from { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+            to { 
+                transform: translateX(100%); 
+                opacity: 0; 
+            }
+        }
+    `;
+    
+    document.head.appendChild(style);
     document.body.appendChild(notification);
     
     // Кнопка закрытия
-    notification.querySelector('.notification-close').addEventListener('click', () => {
-        notification.style.animation = 'slideOutRight 0.3s ease forwards';
-        setTimeout(() => notification.remove(), 300);
+    const closeBtn = notification.querySelector('.notification-close');
+    closeBtn.addEventListener('click', () => {
+        notification.style.animation = 'notificationSlideOut 0.3s ease forwards';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 300);
     });
     
     // Автоматическое закрытие
     setTimeout(() => {
         if (notification.parentNode) {
-            notification.style.animation = 'slideOutRight 0.3s ease forwards';
+            notification.style.animation = 'notificationSlideOut 0.3s ease forwards';
             setTimeout(() => notification.remove(), 300);
         }
     }, 5000);
-    
-    // Добавляем стили анимации, если их нет
-    if (!document.querySelector('#notification-styles')) {
-        const style = document.createElement('style');
-        style.id = 'notification-styles';
-        style.textContent = `
-            @keyframes slideInRight {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOutRight {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
 }
 
 function getNotificationIcon(type) {
     const icons = {
-        'success': 'check-circle',
-        'error': 'exclamation-circle',
-        'warning': 'exclamation-triangle',
-        'info': 'info-circle'
+        'success': 'fa-check-circle',
+        'error': 'fa-exclamation-circle',
+        'warning': 'fa-exclamation-triangle',
+        'info': 'fa-info-circle'
     };
-    return icons[type] || 'info-circle';
+    return icons[type] || 'fa-info-circle';
 }
 
 function getNotificationColor(type) {
     const colors = {
-        'success': 'rgba(16, 185, 129, 0.9)',
-        'error': 'rgba(239, 68, 68, 0.9)',
-        'warning': 'rgba(245, 158, 11, 0.9)',
-        'info': 'rgba(99, 102, 241, 0.9)'
+        'success': 'rgba(16, 185, 129, 0.85)',
+        'error': 'rgba(239, 68, 68, 0.85)',
+        'warning': 'rgba(245, 158, 11, 0.85)',
+        'info': 'rgba(99, 102, 241, 0.85)'
     };
-    return colors[type] || 'rgba(99, 102, 241, 0.9)';
+    return colors[type] || 'rgba(99, 102, 241, 0.85)';
 }
 
 function getNotificationBorderColor(type) {
     const colors = {
-        'success': 'var(--color-success)',
-        'error': 'var(--color-danger)',
-        'warning': 'var(--color-warning)',
-        'info': 'var(--color-accent)'
+        'success': '#10b981',
+        'error': '#ef4444',
+        'warning': '#f59e0b',
+        'info': '#6366f1'
     };
-    return colors[type] || 'var(--color-accent)';
+    return colors[type] || '#6366f1';
 }
 
 // ===== ГЛОБАЛЬНЫЙ ЭКСПОРТ =====
 window.AuroraMirror = {
+    version: '4.0',
     analyze: performAnalysis,
     startExperiment: startExperiment,
     verifyPrivacy: verifyPrivacy,
-    updateTimeline: updateTimeline
+    updateTimeline: updateTimeline,
+    
+    // Вспомогательные методы
+    getAnalysis: function() {
+        const text = document.getElementById('thought-input').value;
+        return analyzeTextLocally(text);
+    },
+    
+    resetExperiment: function() {
+        const btn = document.getElementById('start-experiment');
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-play-circle"></i> Начать эксперимент';
+            btn.classList.remove('btn-secondary');
+            btn.classList.add('btn-primary');
+            btn.disabled = false;
+            showNotification('Эксперимент сброшен', 'info');
+        }
+    },
+    
+    exportAnalysis: function() {
+        const analysis = this.getAnalysis();
+        const dataStr = JSON.stringify(analysis, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        
+        const exportFileDefaultName = `aurora-analysis-${new Date().toISOString().slice(0,10)}.json`;
+        
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+        
+        showNotification('Анализ экспортирован в JSON', 'success');
+    }
 };
 
-// Инициализация при загрузке
-window.onload = function() {
-    // Устанавливаем начальные стили для плавного появления
-    document.querySelector('.app-container').style.opacity = '0';
-    document.querySelector('.app-container').style.transform = 'translateY(20px)';
-    document.querySelector('.app-container').style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    
-    // Фокус на поле ввода
-    setTimeout(() => {
-        document.getElementById('thought-input').focus();
-    }, 1000);
-};
+// Отладочная информация
+console.log('Aurora Mirror 4.0 инициализирован');
+console.log('Доступные методы:', Object.keys(window.AuroraMirror));
