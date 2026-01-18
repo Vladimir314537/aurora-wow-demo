@@ -385,6 +385,52 @@
             initBackgroundEffects();
             initEventListeners();
         });
-    </script>
+   <script>
+// Минимальный инлайн-скрипт для немедленной работы
+(function() {
+    console.log('Aurora Mirror - инлайн инициализация');
+    
+    // Принудительно показываем, что страница загружена
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM готов!');
+        
+        // Простейшая проверка - при клике в любое место покажем сообщение
+        document.body.addEventListener('click', function(e) {
+            console.log('Клик по:', e.target.tagName, e.target.className);
+        });
+    });
+    
+    // Альтернатива - запуск когда всё загружено
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+    function init() {
+        console.log('Страница полностью загружена!');
+        
+        // Немедленно покажем рабочую кнопку
+        const testBtn = document.createElement('button');
+        testBtn.textContent = 'ТЕСТ: Нажми меня!';
+        testBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            z-index: 10000;
+            cursor: pointer;
+        `;
+        testBtn.onclick = function() {
+            alert('JavaScript работает! Кнопки должны работать тоже.');
+        };
+        document.body.appendChild(testBtn);
+    }
+})();
+</script>
 </body>
 </html>
