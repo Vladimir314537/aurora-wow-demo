@@ -74,15 +74,15 @@
         .progress-bar { height: 0.5rem; background: var(--gray-200); border-radius: 1rem; overflow: hidden; margin-top: 0.25rem; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 1rem; }
         
-        /* Scenarios */
+        /* Scenarios - НОВЫЙ СТИЛЬ */
         .scenarios-container { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
         .sphere-section { background: var(--gray-100); border-radius: 0.75rem; padding: 1.5rem; border-left: 4px solid; }
         .sphere-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 1.125rem; font-weight: 600; }
-        .scenarios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+        .scenarios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1rem; }
         
         .scenario-card {
-            border: 1px solid var(--gray-200); border-radius: 0.75rem; padding: 1.25rem; position: relative;
-            overflow: hidden; transition: all 0.3s ease;
+            border: 1px solid var(--gray-200); border-radius: 0.75rem; padding: 1.5rem; position: relative;
+            overflow: hidden; transition: all 0.3s ease; min-height: 400px;
         }
         .scenario-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .scenario-card.high-risk { border-left: 4px solid var(--danger); background: linear-gradient(to bottom, white, #fef2f2); }
@@ -94,6 +94,28 @@
             border-radius: 1rem; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid; font-size: 0.875rem;
         }
         .scenario-title { font-weight: 600; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        
+        /* Timeline */
+        .timeline { margin: 1rem 0; position: relative; padding-left: 20px; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--gray-300); }
+        .timeline-item { position: relative; margin-bottom: 1rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -23px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); }
+        .timeline-item.high-risk::before { background: var(--danger); }
+        .timeline-item.medium-risk::before { background: var(--warning); }
+        .timeline-item.low-risk::before { background: var(--success); }
+        
+        /* Consequences */
+        .consequences { margin: 1rem 0; padding: 1rem; background: rgba(0,0,0,0.03); border-radius: 0.5rem; }
+        .consequences-title { font-weight: 600; margin-bottom: 0.5rem; color: var(--danger); }
+        .consequences-title.positive { color: var(--success); }
+        
+        /* Actions */
+        .actions { margin: 1rem 0; padding: 1rem; background: rgba(37, 99, 235, 0.05); border-radius: 0.5rem; }
+        .actions-title { font-weight: 600; margin-bottom: 0.5rem; color: var(--primary); }
+        
+        /* Branches */
+        .branch { margin: 0.75rem 0; padding-left: 1rem; border-left: 2px solid var(--gray-300); }
+        .branch-title { font-weight: 600; font-size: 0.875rem; color: var(--gray-700); margin-bottom: 0.25rem; }
         
         /* Experiment */
         .experiment-card { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 1px solid #fbbf24; border-radius: 0.75rem; padding: 1.5rem; }
@@ -123,9 +145,12 @@
         
         @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
+        /* Улучшенная адаптивность */
         @media (max-width: 768px) {
             .header { flex-direction: column; gap: 1rem; text-align: center; }
-            .scenarios-grid, .stats-grid, .btn-group { flex-direction: column; }
+            .scenarios-grid { grid-template-columns: 1fr; }
+            .btn-group, .examples { flex-wrap: wrap; }
+            .scenario-card { min-height: auto; }
         }
     </style>
 </head>
@@ -148,7 +173,7 @@
         <main class="main-content">
             <section class="input-section">
                 <h2 class="section-title"><i class="fas fa-crystal-ball"></i>Загляните в Зеркало Будущего</h2>
-                <p class="section-subtitle">Опишите вашу ситуацию. Aurora проанализирует паттерны и покажет вероятные сценарии на месяц вперёд.</p>
+                <p class="section-subtitle">Опишите вашу ситуацию. Aurora проанализирует паттерны и покажет детальные сценарии на 30 дней вперёд.</p>
                 
                 <textarea id="userInput" placeholder="Например: Чувствую выгорание на работе, нет энергии на личные проекты..."></textarea>
                 
@@ -180,8 +205,8 @@
                 <section class="future-projection">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-project-diagram"></i>Проекция на 30 дней</h3>
-                            <span class="badge badge-future">ВЕРОЯТНОСТИ</span>
+                            <h3 class="card-title"><i class="fas fa-project-diagram"></i>Детальная проекция на 30 дней</h3>
+                            <span class="badge badge-future">ВЕТВИ БУДУЩЕГО</span>
                         </div>
                         <div id="scenariosContainer" class="scenarios-container"></div>
                     </div>
@@ -206,7 +231,7 @@
     </div>
 
     <script>
-        // 🎯 РАБОЧЕЕ ЗЕРКАЛО БУДУЩЕГО - УПРОЩЕННАЯ ВЕРСИЯ
+        // 🎯 ЗЕРКАЛО БУДУЩЕГО - РАСШИРЕННАЯ ВЕРСИЯ С ДЕТАЛЬНЫМИ ПРОГНОЗАМИ
         
         class FutureMirror {
             constructor() {
@@ -231,22 +256,15 @@
                     return;
                 }
 
-                // Показываем загрузку
                 const btn = document.getElementById('analyzeBtn');
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
                 btn.disabled = true;
 
                 try {
-                    // Имитация обработки
                     await new Promise(resolve => setTimeout(resolve, 600));
-                    
-                    // Анализируем текст
                     const analysis = this.analyzeText(text);
-                    
-                    // Показываем результаты
                     this.showResults(analysis);
                     this.notify('Анализ завершён локально', 'success');
-                    
                 } catch (error) {
                     this.notify('Ошибка анализа', 'error');
                 } finally {
@@ -267,35 +285,35 @@
                 // 3. Извлекаем паттерны
                 const patterns = this.getPatterns(textLower);
                 
-                // 4. Генерируем сценарии для релевантных сфер
+                // 4. Генерируем ДЕТАЛЬНЫЕ сценарии
                 const scenarios = {};
                 relevantSpheres.forEach(sphere => {
-                    scenarios[sphere.id] = this.generateSphereScenarios(sphere, emotion);
+                    scenarios[sphere.id] = this.generateDetailedScenarios(sphere, emotion);
                 });
                 
                 // 5. Создаем эксперимент
-                const experiment = this.createExperiment(relevantSpheres[0], emotion);
+                const experiment = this.createDetailedExperiment(relevantSpheres[0], emotion);
                 
                 return { emotion, patterns, scenarios, experiment };
             }
 
             getEmotion(text) {
-                const negative = ['стресс', 'устал', 'выгорание', 'конфликт', 'проблем', 'тревож', 'страх', 'ссора'];
-                const positive = ['рад', 'счасть', 'успех', 'интерес', 'энерги', 'уверен', 'надежда'];
+                const negative = ['стресс', 'устал', 'выгорание', 'конфликт', 'проблем', 'тревож', 'страх', 'ссора', 'депрессия', 'беспокойство'];
+                const positive = ['рад', 'счасть', 'успех', 'интерес', 'энерги', 'уверен', 'надежда', 'оптимизм', 'радость'];
                 
                 let neg = negative.filter(word => text.includes(word)).length;
                 let pos = positive.filter(word => text.includes(word)).length;
                 
-                if (neg > pos) return { type: 'негативный', score: Math.min(neg * 15, 100) };
-                if (pos > neg) return { type: 'позитивный', score: Math.min(pos * 15, 100) };
+                if (neg > pos) return { type: 'негативный', score: Math.min(neg * 12, 100) };
+                if (pos > neg) return { type: 'позитивный', score: Math.min(pos * 12, 100) };
                 return { type: 'нейтральный', score: 50 };
             }
 
             getRelevantSpheres(text) {
                 const sphereKeywords = {
-                    work: ['работа', 'карьера', 'начальник', 'проект', 'дедлайн', 'офис', 'коллеги', 'задача'],
-                    relationships: ['отношения', 'партнер', 'семья', 'любовь', 'конфликт', 'ссора', 'общение', 'друг'],
-                    health: ['здоровье', 'усталость', 'сон', 'энергия', 'спорт', 'питание', 'боль', 'самочувствие']
+                    work: ['работа', 'карьера', 'начальник', 'проект', 'дедлайн', 'офис', 'коллеги', 'задача', 'зарплата', 'бизнес'],
+                    relationships: ['отношения', 'партнер', 'семья', 'любовь', 'конфликт', 'ссора', 'общение', 'друг', 'муж', 'жена', 'дети'],
+                    health: ['здоровье', 'усталость', 'сон', 'энергия', 'спорт', 'питание', 'боль', 'самочувствие', 'болезнь', 'врач']
                 };
                 
                 const relevant = [];
@@ -303,11 +321,10 @@
                     const keywords = sphereKeywords[sphere.id] || [];
                     const matches = keywords.filter(word => text.includes(word)).length;
                     if (matches > 0) {
-                        relevant.push({ ...sphere, relevance: matches * 10 });
+                        relevant.push({ ...sphere, relevance: matches * 15 });
                     }
                 });
                 
-                // Если ничего не найдено, берем первую сферу
                 return relevant.length > 0 ? relevant.slice(0, 2) : [this.spheres[0]];
             }
 
@@ -315,41 +332,31 @@
                 const patterns = [];
                 
                 if ((text.match(/\b(всегда|никогда|всё|ничего)\b/g) || []).length > 0) {
-                    patterns.push({ name: 'Абсолютизация', strength: 85 });
+                    patterns.push({ name: 'Абсолютизация', strength: 85, desc: 'Склонность к крайним формулировкам' });
                 }
                 if ((text.match(/\b(не могу|невозможно|не получается)\b/g) || []).length > 0) {
-                    patterns.push({ name: 'Ограничивающие убеждения', strength: 90 });
+                    patterns.push({ name: 'Ограничивающие убеждения', strength: 90, desc: 'Вера в невозможность изменений' });
                 }
                 if ((text.match(/\b(должен|надо|нужно|обязан)\b/g) || []).length > 0) {
-                    patterns.push({ name: 'Давление долга', strength: 75 });
+                    patterns.push({ name: 'Давление долга', strength: 75, desc: 'Чрезмерное чувство ответственности' });
                 }
-                if ((text.match(/\?/g) || []).length > 1) {
-                    patterns.push({ name: 'Поиск ответов', strength: 60 });
+                if ((text.match(/\b(хочу|мечтаю|буду)\b/g) || []).length > 1) {
+                    patterns.push({ name: 'Ориентация на будущее', strength: 60, desc: 'Фокус на желаниях и планах' });
                 }
                 
-                return patterns.length > 0 ? patterns : [{ name: 'Уникальный случай', strength: 50 }];
+                return patterns.length > 0 ? patterns : [{ name: 'Уникальный случай', strength: 50, desc: 'Требует индивидуального подхода' }];
             }
 
-            generateSphereScenarios(sphere, emotion) {
-                // Базовые вероятности
-                let continuation = 60;
-                let intervention = 30;
-                let transformation = 10;
-                
-                // Корректируем на основе эмоции
-                if (emotion.type === 'негативный') {
-                    continuation += 15;
-                    intervention -= 10;
-                    transformation -= 5;
-                } else if (emotion.type === 'позитивный') {
-                    continuation -= 20;
-                    intervention += 15;
-                    transformation += 5;
-                }
+            generateDetailedScenarios(sphere, emotion) {
+                // Базовые вероятности с учетом эмоции
+                let continuation = emotion.type === 'негативный' ? 70 : emotion.type === 'позитивный' ? 40 : 60;
+                let intervention = emotion.type === 'негативный' ? 25 : emotion.type === 'позитивный' ? 45 : 30;
+                let transformation = emotion.type === 'негативный' ? 5 : emotion.type === 'позитивный' ? 15 : 10;
                 
                 // Корректируем на основе сферы
                 if (sphere.id === 'health') continuation += 10;
-                if (sphere.id === 'work' && emotion.type === 'негативный') continuation += 10;
+                if (sphere.id === 'work' && emotion.type === 'негативный') continuation += 15;
+                if (sphere.id === 'relationships') intervention += 10;
                 
                 // Нормализуем
                 const total = continuation + intervention + transformation;
@@ -357,105 +364,306 @@
                 intervention = Math.round((intervention / total) * 100);
                 transformation = Math.round((transformation / total) * 100);
                 
-                // Определяем риск
-                const getRisk = (prob) => prob > 70 ? 'high' : prob > 40 ? 'medium' : 'low';
-                
-                // Создаем сценарии
+                // Создаем детальные сценарии с "ветвями"
                 return [
-                    {
-                        title: this.getScenarioTitle(sphere.id, 'continuation'),
-                        description: this.getScenarioDesc(sphere.id, 'continuation'),
-                        probability: continuation,
-                        risk: getRisk(continuation)
-                    },
-                    {
-                        title: this.getScenarioTitle(sphere.id, 'intervention'),
-                        description: this.getScenarioDesc(sphere.id, 'intervention'),
-                        probability: intervention,
-                        risk: getRisk(intervention)
-                    },
-                    {
-                        title: this.getScenarioTitle(sphere.id, 'transformation'),
-                        description: this.getScenarioDesc(sphere.id, 'transformation'),
-                        probability: transformation,
-                        risk: getRisk(transformation)
-                    }
+                    this.createContinuationScenario(sphere, emotion, continuation),
+                    this.createInterventionScenario(sphere, emotion, intervention),
+                    this.createTransformationScenario(sphere, emotion, transformation)
                 ];
             }
 
-            getScenarioTitle(sphereId, type) {
-                const titles = {
+            createContinuationScenario(sphere, emotion, probability) {
+                const scenarios = {
                     work: {
-                        continuation: 'Усиление выгорания',
-                        intervention: 'Баланс работы и жизни',
-                        transformation: 'Карьерный прорыв'
+                        title: '⚠️ Продолжение выгорания',
+                        risk: 'high',
+                        timeline: [
+                            { days: '7 дней', event: 'Усиление усталости, снижение продуктивности на 30%' },
+                            { days: '14 дней', event: 'Частые ошибки, конфликты с коллегами' },
+                            { days: '30 дней', event: 'Риск профессионального кризиса, возможен больничный' }
+                        ],
+                        consequences: [
+                            'Хроническая усталость и раздражительность',
+                            'Потеря интереса к работе и профессиональному росту',
+                            'Ухудшение отношений в коллективе',
+                            'Финансовые риски из-за снижения эффективности'
+                        ],
+                        actions: [
+                            '⚠️ НЕ игнорируйте первые признаки усталости',
+                            '⚠️ НЕ отказывайтесь от помощи коллег',
+                            '⚠️ НЕ заливайте проблемы кофе и энергетиками'
+                        ],
+                        branches: [
+                            { title: 'Если игнорировать симптомы:', events: ['К 20 дню: потеря мотивации', 'К 30 дню: риск депрессии'] },
+                            { title: 'Если продолжать переработки:', events: ['К 15 дню: проблемы со сном', 'К 25 дню: физическое истощение'] }
+                        ]
                     },
                     relationships: {
-                        continuation: 'Эскалация конфликтов',
-                        intervention: 'Улучшение коммуникации',
-                        transformation: 'Глубокие отношения'
+                        title: '⚠️ Эскалация конфликтов',
+                        risk: 'high',
+                        timeline: [
+                            { days: '7 дней', event: 'Учащение ссор, рост взаимных претензий' },
+                            { days: '14 дней', event: 'Эмоциональное отдаление, недопонимание' },
+                            { days: '30 дней', event: 'Риск серьезного кризиса или разрыва' }
+                        ],
+                        consequences: [
+                            'Постоянное напряжение в общении',
+                            'Накопление обид и недоверия',
+                            'Эмоциональное истощение обоих партнеров',
+                            'Влияние на другие сферы жизни'
+                        ],
+                        actions: [
+                            '⚠️ НЕ избегайте разговоров о проблемах',
+                            '⚠️ НЕ используйте обвинительный тон',
+                            '⚠️ НЕ сравнивайте с другими отношениями'
+                        ],
+                        branches: [
+                            { title: 'Если продолжать критиковать:', events: ['К 20 дню: полное отчуждение', 'К 30 дню: прекращение общения'] },
+                            { title: 'Если не искать компромиссы:', events: ['К 15 дню: усиление конфликтов', 'К 25 дню: разрыв отношений'] }
+                        ]
                     },
                     health: {
-                        continuation: 'Ухудшение самочувствия',
-                        intervention: 'Восстановление энергии',
-                        transformation: 'Оптимальное здоровье'
+                        title: '⚠️ Ухудшение здоровья',
+                        risk: 'high',
+                        timeline: [
+                            { days: '7 дней', event: 'Нарастание симптомов, снижение энергии' },
+                            { days: '14 дней', event: 'Частые простуды, обострение хронических проблем' },
+                            { days: '30 дней', event: 'Риск серьезных заболеваний, необходимость лечения' }
+                        ],
+                        consequences: [
+                            'Стойкое снижение качества жизни',
+                            'Ограничение активности и возможностей',
+                            'Финансовые затраты на лечение',
+                            'Влияние на работу и отношения'
+                        ],
+                        actions: [
+                            '⚠️ НЕ откладывайте визит к врачу',
+                            '⚠️ НЕ занимайтесь самолечением',
+                            '⚠️ НЕ игнорируйте тревожные симптомы'
+                        ],
+                        branches: [
+                            { title: 'Если не обращаться к врачу:', events: ['К 20 дню: ухудшение состояния', 'К 30 дню: осложнения'] },
+                            { title: 'Если продолжать вредные привычки:', events: ['К 15 дню: прогрессирование болезни', 'К 25 дню: кризисное состояние'] }
+                        ]
                     }
                 };
-                return titles[sphereId]?.[type] || 'Сценарий';
+                
+                return {
+                    ...scenarios[sphere.id],
+                    probability: probability,
+                    type: 'continuation'
+                };
             }
 
-            getScenarioDesc(sphereId, type) {
-                const descs = {
+            createInterventionScenario(sphere, emotion, probability) {
+                const scenarios = {
                     work: {
-                        continuation: 'При сохранении текущих рабочих привычек',
-                        intervention: 'При внедрении системных изменений',
-                        transformation: 'При радикальном пересмотре карьерного пути'
+                        title: '🔄 Управляемые изменения',
+                        risk: 'medium',
+                        timeline: [
+                            { days: '7 дней', event: 'Начало внедрения новых привычек, первые шаги к балансу' },
+                            { days: '14 дней', event: 'Стабилизация состояния, улучшение фокуса на 20%' },
+                            { days: '30 дней', event: 'Устойчивое улучшение, снижение стресса на 40%' }
+                        ],
+                        consequences: [
+                            'Постепенное восстановление энергии и мотивации',
+                            'Улучшение отношений в коллективе',
+                            'Повышение профессиональной эффективности',
+                            'Баланс между работой и личной жизнью'
+                        ],
+                        actions: [
+                            '✅ Установите чёткие границы рабочего времени',
+                            '✅ Начинайте день с планирования приоритетов',
+                            '✅ Делайте регулярные перерывы каждые 90 минут',
+                            '✅ Осваивайте техники тайм-менеджмента'
+                        ],
+                        branches: [
+                            { title: 'При регулярных перерывах:', events: ['К 20 дню: +30% продуктивности', 'К 30 дню: устойчивый баланс'] },
+                            { title: 'При делегировании задач:', events: ['К 15 дню: снижение нагрузки', 'К 25 дню: фокус на важном'] }
+                        ]
                     },
                     relationships: {
-                        continuation: 'Без изменений в моделях общения',
-                        intervention: 'При освоении конструктивного общения',
-                        transformation: 'При глубокой работе над отношениями'
+                        title: '🔄 Улучшение коммуникации',
+                        risk: 'medium',
+                        timeline: [
+                            { days: '7 дней', event: 'Первые конструктивные разговоры, уменьшение конфликтов' },
+                            { days: '14 дней', event: 'Рост взаимопонимания, улучшение атмосферы' },
+                            { days: '30 дней', event: 'Стабильные улучшения, восстановление близости' }
+                        ],
+                        consequences: [
+                            'Уменьшение частоты и интенсивности конфликтов',
+                            'Улучшение эмоционального климата в отношениях',
+                            'Восстановление доверия и взаимопонимания',
+                            'Позитивное влияние на самочувствие'
+                        ],
+                        actions: [
+                            '✅ Выделяйте 15 минут в день для качественного общения',
+                            '✅ Практикуйте активное слушание без перебиваний',
+                            '✅ Используйте "Я-сообщения" вместо обвинений',
+                            '✅ Регулярно выражайте благодарность партнеру'
+                        ],
+                        branches: [
+                            { title: 'При регулярных check-in:', events: ['К 20 дню: глубокое понимание', 'К 30 дню: прочная связь'] },
+                            { title: 'При совместных ритуалах:', events: ['К 15 дню: усиление близости', 'К 25 дню: стабильная гармония'] }
+                        ]
                     },
                     health: {
-                        continuation: 'Без изменений образа жизни',
-                        intervention: 'При последовательных улучшениях',
-                        transformation: 'При комплексном подходе к здоровью'
+                        title: '🔄 Восстановление энергии',
+                        risk: 'medium',
+                        timeline: [
+                            { days: '7 дней', event: 'Первые улучшения сна, небольшой прирост энергии' },
+                            { days: '14 дней', event: 'Стабилизация состояния, улучшение самочувствия на 30%' },
+                            { days: '30 дней', event: 'Устойчивое восстановление, нормализация показателей' }
+                        ],
+                        consequences: [
+                            'Постепенное повышение уровня энергии',
+                            'Улучшение качества сна и восстановления',
+                            'Укрепление иммунитета и сопротивляемости',
+                            'Положительное влияние на настроение и продуктивность'
+                        ],
+                        actions: [
+                            '✅ Установите регулярный режим сна (подъём и отбой в одно время)',
+                            '✅ Ежедневно 20-30 минут умеренной физической активности',
+                            '✅ Следите за водным балансом (1.5-2л воды в день)',
+                            '✅ Внедряйте практики управления стрессом'
+                        ],
+                        branches: [
+                            { title: 'При регулярном сне:', events: ['К 20 дню: +50% энергии', 'К 30 дню: полноценное восстановление'] },
+                            { title: 'При ежедневных прогулках:', events: ['К 15 дню: улучшение настроения', 'К 25 дню: устойчивая бодрость'] }
+                        ]
                     }
                 };
-                return descs[sphereId]?.[type] || 'Описание сценария';
+                
+                return {
+                    ...scenarios[sphere.id],
+                    probability: probability,
+                    type: 'intervention'
+                };
             }
 
-            createExperiment(sphere, emotion) {
+            createTransformationScenario(sphere, emotion, probability) {
+                const scenarios = {
+                    work: {
+                        title: '🚀 Карьерный прорыв',
+                        risk: 'low',
+                        timeline: [
+                            { days: '7 дней', event: 'Кризис как точка роста, поиск новых подходов' },
+                            { days: '14 дней', event: 'Эксперименты с разными стратегиями, первые прорывы' },
+                            { days: '30 дней', event: 'Фундаментальные изменения, качественный скачок' }
+                        ],
+                        consequences: [
+                            'Радикальное улучшение рабочей ситуации',
+                            'Открытие новых карьерных возможностей',
+                            'Глубокое удовлетворение профессиональной деятельностью',
+                            'Значительный рост дохода и статуса'
+                        ],
+                        actions: [
+                            '🎯 Радикально пересмотрите свои профессиональные цели',
+                            '🎯 Ищите ментора или коуча для поддержки',
+                            '🎯 Экспериментируйте с новыми подходами к работе',
+                            '🎯 Инвестируйте в обучение и развитие навыков'
+                        ],
+                        branches: [
+                            { title: 'При найме коуча:', events: ['К 20 дню: ясное видение пути', 'К 30 дню: значительный прогресс'] },
+                            { title: 'При смене подхода:', events: ['К 15 дню: новые возможности', 'К 25 дню: качественный скачок'] }
+                        ]
+                    },
+                    relationships: {
+                        title: '🚀 Глубокие отношения',
+                        risk: 'low',
+                        timeline: [
+                            { days: '7 дней', event: 'Глубокий разговор о ценностях и потребностях' },
+                            { days: '14 дней', event: 'Внедрение новых моделей взаимодействия' },
+                            { days: '30 дней', event: 'Качественное преобразование отношений' }
+                        ],
+                        consequences: [
+                            'Глубокая эмоциональная близость и понимание',
+                            'Устойчивая гармония и взаимная поддержка',
+                            'Отношения как источник сил и вдохновения',
+                            'Позитивное влияние на все сферы жизни'
+                        ],
+                        actions: [
+                            '🎯 Пройдите совместную терапию или коучинг',
+                            '🎯 Создайте общее видение будущего отношений',
+                            '🎯 Регулярно практикуйте глубокие, искренние разговоры',
+                            '🎯 Инвестируйте время и ресурсы в развитие отношений'
+                        ],
+                        branches: [
+                            { title: 'При совместной терапии:', events: ['К 20 дню: глубокая трансформация', 'К 30 дню: новая гармония'] },
+                            { title: 'При создании ритуалов:', events: ['К 15 дню: укрепление связи', 'К 25 дню: прочный союз'] }
+                        ]
+                    },
+                    health: {
+                        title: '🚀 Оптимальное здоровье',
+                        risk: 'low',
+                        timeline: [
+                            { days: '7 дней', event: 'Консультация специалистов, комплексная диагностика' },
+                            { days: '14 дней', event: 'Начало комплексной программы оздоровления' },
+                            { days: '30 дней', event: 'Значительные улучшения, устойчивые результаты' }
+                        ],
+                        consequences: [
+                            'Оптимальный уровень энергии и жизненных сил',
+                            'Высокое качество жизни и самочувствия',
+                            'Устойчивость к стрессам и заболеваниям',
+                            'Позитивное влияние на все сферы жизни'
+                        ],
+                        actions: [
+                            '🎯 Пройдите комплексное медицинское обследование',
+                            '🎯 Разработайте индивидуальную программу оздоровления',
+                            '🎯 Работайте с профильными специалистами',
+                            '🎯 Сделайте здоровье приоритетом инвестиций'
+                        ],
+                        branches: [
+                            { title: 'При работе с нутрициологом:', events: ['К 20 дню: улучшение показателей', 'К 30 дню: оптимальное состояние'] },
+                            { title: 'При комплексном подходе:', events: ['К 15 дню: значительный прогресс', 'К 25 дню: устойчивое здоровье'] }
+                        ]
+                    }
+                };
+                
+                return {
+                    ...scenarios[sphere.id],
+                    probability: probability,
+                    type: 'transformation'
+                };
+            }
+
+            createDetailedExperiment(sphere, emotion) {
                 const experiments = {
                     work: {
-                        title: '💼 Управление рабочим стрессом',
-                        description: '10 минут утренней медитации + чёткие границы рабочего времени',
+                        title: '💼 Эксперимент: Управление энергией',
+                        description: 'Следите за своими энергетическими циклами в течение недели',
                         steps: [
-                            'Утром 10 минут дыхательных упражнений',
-                            'Установите точное время окончания работы',
-                            'После работы не проверяйте рабочую почту',
-                            'Записывайте 3 благодарности вечером'
-                        ]
+                            'Каждые 2 часа в течение дня оценивайте уровень энергии (1-10)',
+                            'Записывайте, что повышает, а что снижает вашу энергию',
+                            'Экспериментируйте с разными техниками восстановления',
+                            'В конце недели проанализируйте паттерны и создайте план'
+                        ],
+                        metrics: ['Энергия утром', 'Продуктивность днём', 'Восстановление вечером'],
+                        expected: 'Понимание своих энергетических паттернов и создание оптимального графика'
                     },
                     relationships: {
-                        title: '❤️ Улучшение коммуникации',
-                        description: '15 минут качественного разговора в день',
+                        title: '❤️ Эксперимент: Активное слушание',
+                        description: 'Практикуйте активное слушание в каждом разговоре',
                         steps: [
-                            '15 минут разговора без телефона',
-                            'Практикуйте активное слушание',
-                            'Говорите о чувствах, не обвиняйте',
-                            'Записывайте позитивные моменты'
-                        ]
+                            'Перед ответом сделайте паузу 3 секунды',
+                            'Повторяйте ключевые мысли собеседника своими словами',
+                            'Задавайте уточняющие вопросы вместо предположений',
+                            'Фокусируйтесь на понимании, а не на ответе'
+                        ],
+                        metrics: ['Качество понимания', 'Количество конфликтов', 'Уровень близости'],
+                        expected: 'Улучшение взаимопонимания и снижение конфликтов на 40%'
                     },
                     health: {
-                        title: '🏥 Восстановление энергии',
-                        description: '20-минутная прогулка + ранний отход ко сну',
+                        title: '🏥 Эксперимент: Циклы сна',
+                        description: 'Отслеживайте и оптимизируйте свой сон',
                         steps: [
-                            'Ежедневная 20-минутная прогулка',
-                            'Отход ко сну до 23:00',
-                            'За час до сна без экранов',
-                            'Отслеживайте уровень энергии'
-                        ]
+                            'Ложитесь спать в одно время (±15 минут)',
+                            'За 1 час до сна - никаких экранов',
+                            'Утром оценивайте качество сна и уровень энергии',
+                            'Экспериментируйте с длительностью сна (7-9 часов)'
+                        ],
+                        metrics: ['Качество сна', 'Время засыпания', 'Энергия утром'],
+                        expected: 'Оптимизация режима сна и увеличение энергии на 30%'
                     }
                 };
                 
@@ -465,7 +673,7 @@
             showResults(analysis) {
                 document.getElementById('results').style.display = 'block';
                 
-                // 1. Показываем эмоцию и паттерны
+                // Показываем эмоцию
                 const emotionColor = analysis.emotion.type === 'негативный' ? '#dc2626' : 
                                   analysis.emotion.type === 'позитивный' ? '#059669' : '#374151';
                 
@@ -484,7 +692,7 @@
                     </div>
                     
                     <div class="stat-item">
-                        <div class="stat-label">Обнаруженные паттерны</div>
+                        <div class="stat-label">Ключевые паттерны</div>
                         <div class="stat-value">${analysis.patterns.length}</div>
                         <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">
                             ${analysis.patterns.map(p => p.name).join(', ')}
@@ -492,37 +700,47 @@
                     </div>
                     
                     <div class="stat-item">
-                        <div class="stat-label">Анализ завершён</div>
+                        <div class="stat-label">Глубина анализа</div>
+                        <div class="stat-value">Детальный</div>
+                        <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">
+                            Ветви будущего на 30 дней
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-label">Приватность</div>
                         <div class="stat-value">100% локально</div>
                         <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">
-                            Проверьте Network tab → 0 запросов
+                            Network tab → 0 запросов
                         </div>
                     </div>
                 `;
                 
-                // 2. Показываем паттерны
+                // Показываем паттерны с описанием
                 const patternsHTML = analysis.patterns.map(p => `
                     <div class="pattern-item">
-                        <div class="pattern-name">${p.name}</div>
+                        <div>
+                            <div class="pattern-name">${p.name}</div>
+                            <div style="font-size: 0.75rem; color: #6b7280;">${p.desc}</div>
+                        </div>
                         <div>
                             <div class="pattern-strength">${p.strength}%</div>
                             <div class="progress-bar"><div class="progress-fill" style="width: ${p.strength}%"></div></div>
                         </div>
                     </div>
                 `).join('');
-                document.getElementById('patternsList').innerHTML = patternsHTML || '<p style="color: #6b7280; text-align: center;">Паттерны не обнаружены</p>';
+                document.getElementById('patternsList').innerHTML = patternsHTML;
                 
-                // 3. Показываем сценарии
-                this.showScenarios(analysis.scenarios);
+                // Показываем детальные сценарии
+                this.showDetailedScenarios(analysis.scenarios);
                 
-                // 4. Показываем эксперимент
-                this.showExperiment(analysis.experiment);
+                // Показываем эксперимент
+                this.showDetailedExperiment(analysis.experiment);
                 
-                // Прокручиваем к результатам
                 document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
             }
 
-            showScenarios(scenarios) {
+            showDetailedScenarios(scenarios) {
                 const container = document.getElementById('scenariosContainer');
                 let html = '';
                 
@@ -533,11 +751,14 @@
                         <div class="sphere-section" style="border-left-color: ${sphere.color};">
                             <div class="sphere-title">
                                 ${sphere.icon} ${sphere.name}
+                                <span style="font-size: 0.875rem; color: #6b7280; margin-left: auto;">
+                                    Прогноз на 30 дней
+                                </span>
                             </div>
                             <div class="scenarios-grid">
                     `;
                     
-                    sphereScenarios.forEach((scenario, index) => {
+                    sphereScenarios.forEach(scenario => {
                         const riskColors = {
                             high: { border: '#dc2626', bg: '#fef2f2', text: '#dc2626' },
                             medium: { border: '#d97706', bg: '#fffbeb', text: '#d97706' },
@@ -545,7 +766,7 @@
                         };
                         
                         const color = riskColors[scenario.risk] || riskColors.medium;
-                        const icons = ['🔴', '🟡', '🟢'];
+                        const icons = { 'continuation': '⚠️', 'intervention': '🔄', 'transformation': '🚀' };
                         
                         html += `
                             <div class="scenario-card ${scenario.risk}-risk" style="border-left-color: ${color.border}; background: ${color.bg};">
@@ -553,15 +774,61 @@
                                     ${scenario.probability}%
                                 </div>
                                 <div class="scenario-title">
-                                    ${icons[index]} ${scenario.title}
+                                    ${icons[scenario.type]} ${scenario.title}
                                 </div>
-                                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.75rem;">
-                                    ${scenario.description}
-                                </p>
-                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem;">
-                                    <span style="color: #6b7280;">Риск:</span>
-                                    <span style="color: ${color.text}; font-weight: 600;">
-                                        ${scenario.risk === 'high' ? 'ВЫСОКИЙ' : scenario.risk === 'medium' ? 'СРЕДНИЙ' : 'НИЗКИЙ'}
+                                
+                                <!-- Таймлайн -->
+                                <div class="timeline">
+                                    ${scenario.timeline.map(item => `
+                                        <div class="timeline-item ${scenario.risk}">
+                                            <div style="font-weight: 600; font-size: 0.875rem;">${item.days}:</div>
+                                            <div style="font-size: 0.875rem; color: #6b7280;">${item.event}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                
+                                <!-- Последствия -->
+                                ${scenario.consequences ? `
+                                    <div class="consequences">
+                                        <div class="consequences-title ${scenario.type === 'continuation' ? '' : 'positive'}">
+                                            ${scenario.type === 'continuation' ? '❌ Последствия:' : '✅ Результаты:'}
+                                        </div>
+                                        <ul style="font-size: 0.875rem; color: #6b7280; margin-left: 1rem;">
+                                            ${scenario.consequences.map(c => `<li>${c}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                ` : ''}
+                                
+                                <!-- Действия -->
+                                ${scenario.actions ? `
+                                    <div class="actions">
+                                        <div class="actions-title">${scenario.type === 'continuation' ? '🚫 Чего избегать:' : '✅ Что делать:'}</div>
+                                        <ul style="font-size: 0.875rem; color: #6b7280; margin-left: 1rem;">
+                                            ${scenario.actions.map(a => `<li>${a}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                ` : ''}
+                                
+                                <!-- Ветви развития -->
+                                ${scenario.branches ? `
+                                    <div style="margin-top: 1rem;">
+                                        <div style="font-weight: 600; font-size: 0.875rem; color: #374151; margin-bottom: 0.5rem;">
+                                            🌳 Ветви развития:
+                                        </div>
+                                        ${scenario.branches.map(branch => `
+                                            <div class="branch">
+                                                <div class="branch-title">${branch.title}</div>
+                                                <ul style="font-size: 0.875rem; color: #6b7280; margin-left: 1rem;">
+                                                    ${branch.events.map(e => `<li>${e}</li>`).join('')}
+                                                </ul>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                                
+                                <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.1); text-align: center;">
+                                    <span style="font-size: 0.875rem; color: #6b7280;">
+                                        Вероятность: <strong style="color: ${color.text};">${scenario.probability}%</strong>
                                     </span>
                                 </div>
                             </div>
@@ -574,25 +841,34 @@
                 container.innerHTML = html;
             }
 
-            showExperiment(experiment) {
+            showDetailedExperiment(experiment) {
                 document.getElementById('experimentContent').innerHTML = `
                     <div class="experiment-description">
                         <strong>Что делать:</strong> ${experiment.description}
                     </div>
+                    
                     <div style="margin: 1rem 0;">
-                        <strong style="font-size: 0.875rem;">Шаги:</strong>
+                        <strong style="font-size: 0.875rem;">Шаги эксперимента:</strong>
                         <ol style="font-size: 0.875rem; color: #6b7280; margin-left: 1.25rem; margin-top: 0.5rem;">
                             ${experiment.steps.map(step => `<li style="margin-bottom: 0.25rem;">${step}</li>`).join('')}
                         </ol>
                     </div>
+                    
+                    <div style="margin: 1rem 0;">
+                        <strong style="font-size: 0.875rem;">Метрики для отслеживания:</strong>
+                        <div class="metrics">
+                            ${experiment.metrics.map(metric => `<span class="metric-tag">${metric}</span>`).join('')}
+                        </div>
+                    </div>
+                    
                     <div style="background: white; padding: 0.75rem; border-radius: 0.5rem; margin-top: 1rem;">
-                        <strong>Ожидаемый результат:</strong> Улучшение состояния через 7 дней
+                        <strong>Ожидаемый результат:</strong> ${experiment.expected}
                     </div>
                 `;
             }
 
             startExperiment() {
-                this.notify('Эксперимент запущен! Следите за прогрессом в Aurora.', 'success');
+                this.notify('Эксперимент запущен! Отслеживайте прогресс в Aurora.', 'success');
                 const btn = document.getElementById('startExperimentBtn');
                 btn.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
                 btn.style.background = '#059669';
@@ -621,18 +897,17 @@
         // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
             window.mirror = new FutureMirror();
-            console.log('🎯 Зеркало Будущего готово к работе');
-            console.log('🔐 Все данные обрабатываются локально');
-            console.log('📡 Network tab → 0 запросов при анализе');
+            console.log('🎯 Зеркало Будущего с детальными прогнозами готово');
+            console.log('🌳 Теперь с "ветвями дерева" на 30 дней вперед');
         });
 
         // Примеры текста
         window.loadExample = function(index) {
             const examples = [
-                "Рабочий стресс, постоянное давление, выгорание. Начальник требует больше, чем я могу сделать. Чувствую, что нет энергии даже на простые задачи.",
-                "Конфликты с партнером становятся частыми. Не понимаем друг друга, постоянно ссоримся из-за мелочей. Хочется наладить отношения, но не знаю как.",
-                "Не могу сосредоточиться на учёбе, постоянно откладываю. Экзамены скоро, а я ничего не делаю. Чувствую вину и тревогу.",
-                "Постоянная усталость, нет энергии. Просыпаюсь разбитым, к вечеру нет сил. Сон не приносит отдыха."
+                "Рабочий стресс достиг предела. Проекты горят, начальник требует невозможного, а я чувствую полное выгорание. Нет сил даже на базовые задачи, постоянно откладываю важное. Коллеги раздражают, хочется все бросить.",
+                "Отношения с партнером трещат по швам. Постоянные ссоры из-за мелочей, не понимаем друг друга. Чувствую отдаление, но не знаю как остановить этот процесс. Разговоры только усугубляют ситуацию.",
+                "Учёба превратилась в мучение. Не могу сосредоточиться, постоянно прокрастинирую. Экзамены через месяц, а я даже не начал готовиться. Чувство тревоги и вины не даёт покоя.",
+                "Здоровье ухудшается с каждым днём. Постоянная усталость, сон не приносит отдыха. Просыпаюсь разбитым, к вечеру нет сил даже на простые дела. Спорт только усиливает утомление."
             ];
             document.getElementById('userInput').value = examples[index];
         };
