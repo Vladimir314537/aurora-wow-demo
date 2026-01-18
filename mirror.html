@@ -3,914 +3,388 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora 4.0 | Зеркало Будущего</title>
+    <title>Aurora 4.0 — Зеркало Будущего</title>
+    <link rel="stylesheet" href="mirror.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        :root {
-            --primary: #2563eb; --primary-dark: #1d4ed8; --secondary: #7c3aed; --success: #059669; 
-            --warning: #d97706; --danger: #dc2626; --dark: #1f2937; --light: #f9fafb;
-            --gray-100: #f3f4f6; --gray-200: #e5e7eb; --gray-300: #d1d5db; --gray-700: #374151;
-            --shadow: 0 1px 3px rgba(0,0,0,0.1); --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
-        }
-        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: var(--dark); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-        
-        /* Header */
-        .header {
-            background: white; border-radius: 1rem; padding: 1.5rem 2rem; margin-bottom: 2rem;
-            box-shadow: var(--shadow-lg); display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { display: flex; align-items: center; gap: 1rem; }
-        .logo h1 { color: var(--primary); font-size: 1.75rem; font-weight: 700; }
-        .logo .tagline { color: var(--gray-700); font-size: 0.9rem; opacity: 0.8; }
-        .privacy-badge {
-            background: linear-gradient(135deg, var(--success), #10b981); color: white; padding: 0.5rem 1.25rem;
-            border-radius: 2rem; font-size: 0.875rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;
-        }
-        
-        /* Main Content */
-        .main-content { background: white; border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg); }
-        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
-        .section-subtitle { color: var(--gray-700); margin-bottom: 1.5rem; line-height: 1.6; }
-        
-        /* Input */
-        textarea {
-            width: 100%; min-height: 120px; padding: 1rem; border: 2px solid var(--gray-200); border-radius: 0.75rem;
-            font-size: 1rem; resize: vertical; transition: all 0.2s; margin-bottom: 1rem;
-        }
-        textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        
-        /* Buttons */
-        .btn {
-            padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer;
-            transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
-        }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
-        .btn-secondary { background: white; color: var(--dark); border: 2px solid var(--gray-200); }
-        .btn-secondary:hover { border-color: var(--gray-300); }
-        .btn-group { display: flex; gap: 0.75rem; margin-top: 1rem; }
-        
-        /* Cards */
-        .card { background: white; border: 1px solid var(--gray-200); border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--gray-200); }
-        .card-title { font-size: 1.125rem; font-weight: 600; color: var(--dark); display: flex; align-items: center; gap: 0.5rem; }
-        .badge { padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600; }
-        .badge-today { background: #dbeafe; color: var(--primary); }
-        .badge-future { background: #ede9fe; color: var(--secondary); }
-        
-        /* Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
-        .stat-item { padding: 1rem; background: var(--gray-100); border-radius: 0.5rem; border-left: 4px solid var(--primary); }
-        .stat-label { font-size: 0.875rem; color: var(--gray-700); margin-bottom: 0.25rem; }
-        .stat-value { font-size: 1.25rem; font-weight: 700; color: var(--dark); }
-        
-        /* Patterns */
-        .patterns-list { display: flex; flex-direction: column; gap: 0.75rem; }
-        .pattern-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--gray-100); border-radius: 0.5rem; }
-        .pattern-name { font-weight: 500; }
-        .pattern-strength { font-size: 0.875rem; color: var(--gray-700); }
-        .progress-bar { height: 0.5rem; background: var(--gray-200); border-radius: 1rem; overflow: hidden; margin-top: 0.25rem; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 1rem; }
-        
-        /* Scenarios - НОВЫЙ СТИЛЬ */
-        .scenarios-container { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
-        .sphere-section { background: var(--gray-100); border-radius: 0.75rem; padding: 1.5rem; border-left: 4px solid; }
-        .sphere-title { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-size: 1.125rem; font-weight: 600; }
-        .scenarios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1rem; }
-        
-        .scenario-card {
-            border: 1px solid var(--gray-200); border-radius: 0.75rem; padding: 1.5rem; position: relative;
-            overflow: hidden; transition: all 0.3s ease; min-height: 400px;
-        }
-        .scenario-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .scenario-card.high-risk { border-left: 4px solid var(--danger); background: linear-gradient(to bottom, white, #fef2f2); }
-        .scenario-card.medium-risk { border-left: 4px solid var(--warning); background: linear-gradient(to bottom, white, #fffbeb); }
-        .scenario-card.low-risk { border-left: 4px solid var(--gray-300); background: linear-gradient(to bottom, white, #f8fafc); }
-        
-        .scenario-probability {
-            position: absolute; top: -0.75rem; right: 1rem; background: white; padding: 0.375rem 0.875rem;
-            border-radius: 1rem; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid; font-size: 0.875rem;
-        }
-        .scenario-title { font-weight: 600; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
-        
-        /* Timeline */
-        .timeline { margin: 1rem 0; position: relative; padding-left: 20px; }
-        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--gray-300); }
-        .timeline-item { position: relative; margin-bottom: 1rem; }
-        .timeline-item::before { content: ''; position: absolute; left: -23px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--primary); }
-        .timeline-item.high-risk::before { background: var(--danger); }
-        .timeline-item.medium-risk::before { background: var(--warning); }
-        .timeline-item.low-risk::before { background: var(--success); }
-        
-        /* Consequences */
-        .consequences { margin: 1rem 0; padding: 1rem; background: rgba(0,0,0,0.03); border-radius: 0.5rem; }
-        .consequences-title { font-weight: 600; margin-bottom: 0.5rem; color: var(--danger); }
-        .consequences-title.positive { color: var(--success); }
-        
-        /* Actions */
-        .actions { margin: 1rem 0; padding: 1rem; background: rgba(37, 99, 235, 0.05); border-radius: 0.5rem; }
-        .actions-title { font-weight: 600; margin-bottom: 0.5rem; color: var(--primary); }
-        
-        /* Branches */
-        .branch { margin: 0.75rem 0; padding-left: 1rem; border-left: 2px solid var(--gray-300); }
-        .branch-title { font-weight: 600; font-size: 0.875rem; color: var(--gray-700); margin-bottom: 0.25rem; }
-        
-        /* Experiment */
-        .experiment-card { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 1px solid #fbbf24; border-radius: 0.75rem; padding: 1.5rem; }
-        .experiment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .experiment-duration { background: #f59e0b; color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600; }
-        .experiment-description { background: rgba(255, 255, 255, 0.7); padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; }
-        .metrics { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0; }
-        .metric-tag { background: white; padding: 0.375rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; border: 1px solid #fbbf24; }
-        
-        /* Examples */
-        .examples { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
-        .example-btn {
-            background: #e0e7ff; border: 1px solid #c7d2fe; color: var(--primary); padding: 0.375rem 0.75rem;
-            border-radius: 0.5rem; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;
-        }
-        .example-btn:hover { background: #c7d2fe; }
-        
-        /* Notifications */
-        .notification {
-            position: fixed; top: 1rem; right: 1rem; background: white; border-radius: 0.75rem; padding: 1rem 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 1000; animation: slideIn 0.3s ease;
-            border-left: 4px solid; max-width: 350px;
-        }
-        .notification.success { background: #d1fae5; color: #065f46; border-left-color: #10b981; }
-        .notification.warning { background: #fef3c7; color: #92400e; border-left-color: #f59e0b; }
-        .notification.error { background: #fee2e2; color: #dc2626; border-left-color: #ef4444; }
-        
-        @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        /* Улучшенная адаптивность */
-        @media (max-width: 768px) {
-            .header { flex-direction: column; gap: 1rem; text-align: center; }
-            .scenarios-grid { grid-template-columns: 1fr; }
-            .btn-group, .examples { flex-wrap: wrap; }
-            .scenario-card { min-height: auto; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">
-                <h1>Aurora 4.0</h1>
-                <div>
-                    <div class="tagline">Приватный цифровой дневник с ИИ</div>
-                    <div class="tagline" style="color: var(--secondary); font-weight: 600;">Зеркало Будущего</div>
+    <div class="aurora-background">
+        <div class="star-field"></div>
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="particles-container"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo">
+                    <div class="logo-icon">🌌</div>
+                    <div class="logo-text">
+                        <span class="logo-title">Aurora</span>
+                        <span class="logo-subtitle">Зеркало Будущего 4.0</span>
+                    </div>
+                </div>
+                <div class="privacy-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Локальный анализ · 0 запросов</span>
                 </div>
             </div>
-            <div class="privacy-badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>100% локально • 0 запросов</span>
+            <div class="header-right">
+                <button class="icon-button" id="settings-btn" title="Настройки">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="icon-button" id="help-btn" title="Помощь">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <button class="avatar-button">
+                    <div class="avatar">Г</div>
+                </button>
             </div>
         </header>
 
         <main class="main-content">
-            <section class="input-section">
-                <h2 class="section-title"><i class="fas fa-crystal-ball"></i>Загляните в Зеркало Будущего</h2>
-                <p class="section-subtitle">Опишите вашу ситуацию. Aurora проанализирует паттерны и покажет детальные сценарии на 30 дней вперёд.</p>
-                
-                <textarea id="userInput" placeholder="Например: Чувствую выгорание на работе, нет энергии на личные проекты..."></textarea>
-                
-                <div class="examples">
-                    <button class="example-btn" onclick="loadExample(0)">💼 Рабочий стресс</button>
-                    <button class="example-btn" onclick="loadExample(1)">❤️ Отношения</button>
-                    <button class="example-btn" onclick="loadExample(2)">📚 Учёба</button>
-                    <button class="example-btn" onclick="loadExample(3)">🏥 Здоровье</button>
-                </div>
-                
-                <div class="btn-group">
-                    <button id="analyzeBtn" class="btn btn-primary"><i class="fas fa-search"></i>Анализировать локально</button>
-                    <button id="clearBtn" class="btn btn-secondary"><i class="fas fa-times"></i>Очистить</button>
-                </div>
-            </section>
-
-            <div id="results" style="display: none;">
-                <section class="current-analysis">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-user-circle"></i>Ваши текущие паттерны</h3>
-                            <span class="badge badge-today">СЕГОДНЯ</span>
+            <!-- Left Panel - Input & Analysis -->
+            <div class="left-panel">
+                <div class="input-section glass-card">
+                    <div class="section-header">
+                        <h2><i class="fas fa-brain"></i> Анализ паттернов мышления</h2>
+                        <div class="status-indicator active">
+                            <div class="status-dot"></div>
+                            <span>Локальный AI активен</span>
                         </div>
-                        <div class="stats-grid" id="currentStats"></div>
-                        <div class="patterns-list" id="patternsList"></div>
                     </div>
-                </section>
-
-                <section class="future-projection">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-project-diagram"></i>Детальная проекция на 30 дней</h3>
-                            <span class="badge badge-future">ВЕТВИ БУДУЩЕГО</span>
+                    
+                    <div class="input-container">
+                        <div class="input-header">
+                            <label for="thought-input">Опишите вашу ситуацию, мысль или эмоцию</label>
+                            <div class="input-stats">
+                                <span id="char-count">0</span> / 2000
+                            </div>
                         </div>
-                        <div id="scenariosContainer" class="scenarios-container"></div>
-                    </div>
-                </section>
-
-                <section class="experiment-section">
-                    <div class="experiment-card">
-                        <div class="experiment-header">
-                            <h4 class="card-title"><i class="fas fa-flask"></i>Эксперимент на неделю</h4>
-                            <span class="experiment-duration">7 дней</span>
-                        </div>
-                        <div id="experimentContent"></div>
-                        <div class="btn-group" style="justify-content: center; margin-top: 1.5rem;">
-                            <button id="startExperimentBtn" class="btn btn-primary" style="background: #f59e0b; border-color: #f59e0b;">
-                                <i class="fas fa-play-circle"></i>Начать эксперимент
+                        <textarea 
+                            id="thought-input" 
+                            placeholder="Например: Чувствую постоянный стресс на работе, начальник требует всё больше, а энергии уже нет..."
+                            rows="6"
+                        ></textarea>
+                        
+                        <div class="input-actions">
+                            <div class="quick-tags">
+                                <span class="tag-label">Быстрые темы:</span>
+                                <button class="quick-tag" data-text="Стресс и выгорание на работе">Работа</button>
+                                <button class="quick-tag" data-text="Конфликты в отношениях с близкими">Отношения</button>
+                                <button class="quick-tag" data-text="Тревога и беспокойство о будущем">Тревога</button>
+                                <button class="quick-tag" data-text="Поиск смысла и мотивации">Мотивация</button>
+                            </div>
+                            <button class="analyze-btn" id="analyze-btn">
+                                <i class="fas fa-search"></i>
+                                <span>Анализировать локально</span>
+                                <div class="btn-pulse"></div>
                             </button>
                         </div>
                     </div>
-                </section>
+                    
+                    <div class="privacy-notice">
+                        <i class="fas fa-lock"></i>
+                        <span>Весь анализ выполняется на вашем устройстве. Данные никогда его не покидают.</span>
+                    </div>
+                </div>
+
+                <!-- Pattern Analysis Results -->
+                <div class="results-section glass-card" id="results-section" style="display: none;">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-network"></i> Выявленные паттерны</h2>
+                        <button class="section-toggle" id="toggle-results">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="results-content">
+                        <div class="results-grid">
+                            <!-- Emotional Spectrum -->
+                            <div class="result-card">
+                                <div class="result-header">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <h3>Эмоциональный спектр</h3>
+                                </div>
+                                <div class="emotional-meter">
+                                    <div class="emotion-scale">
+                                        <span class="emotion-label">Негативный</span>
+                                        <div class="emotion-bar">
+                                            <div class="emotion-fill" id="emotion-fill" style="width: 85%;"></div>
+                                        </div>
+                                        <span class="emotion-label">Позитивный</span>
+                                    </div>
+                                    <div class="emotion-value" id="emotion-value">85%</div>
+                                </div>
+                                <div class="emotion-tags" id="emotion-tags">
+                                    <span class="emotion-tag negative">Тревога</span>
+                                    <span class="emotion-tag negative">Усталость</span>
+                                    <span class="emotion-tag neutral">Нейтральность</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Cognitive Patterns -->
+                            <div class="result-card">
+                                <div class="result-header">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <h3>Когнитивные искажения</h3>
+                                </div>
+                                <div class="patterns-list" id="patterns-list">
+                                    <div class="pattern-item">
+                                        <span class="pattern-name">Абсолютизация</span>
+                                        <div class="pattern-intensity high">Высокая</div>
+                                    </div>
+                                    <div class="pattern-item">
+                                        <span class="pattern-name">Негативный фокус</span>
+                                        <div class="pattern-intensity medium">Средняя</div>
+                                    </div>
+                                    <div class="pattern-item">
+                                        <span class="pattern-name">Катастрофизация</span>
+                                        <div class="pattern-intensity low">Низкая</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Topics -->
+                            <div class="result-card full-width">
+                                <div class="result-header">
+                                    <i class="fas fa-tags"></i>
+                                    <h3>Ключевые темы</h3>
+                                </div>
+                                <div class="topics-container" id="topics-container">
+                                    <span class="topic-tag primary">Работа / Карьера</span>
+                                    <span class="topic-tag secondary">Психология</span>
+                                    <span class="topic-tag secondary">Энергия</span>
+                                    <span class="topic-tag tertiary">Отношения</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Mirror of Future -->
+            <div class="right-panel">
+                <div class="mirror-section glass-card">
+                    <div class="section-header mirror-header">
+                        <div class="mirror-title">
+                            <i class="fas fa-crystal-ball"></i>
+                            <h2>Зеркало Будущего</h2>
+                        </div>
+                        <div class="timeframe-selector">
+                            <span>Проекция на</span>
+                            <select id="timeframe-select">
+                                <option value="7">7 дней</option>
+                                <option value="30" selected>30 дней</option>
+                                <option value="90">90 дней</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mirror-content">
+                        <div class="mirror-intro">
+                            <p>На основе ваших паттернов система проецирует вероятные сценарии развития ситуации. Это не предсказание, а проектирование вероятностей.</p>
+                        </div>
+                        
+                        <!-- Scenarios -->
+                        <div class="scenarios-container">
+                            <!-- Red Scenario -->
+                            <div class="scenario-card red-scenario">
+                                <div class="scenario-header">
+                                    <div class="scenario-marker">
+                                        <div class="scenario-dot red-dot"></div>
+                                        <h3>Путь продолжения</h3>
+                                    </div>
+                                    <div class="scenario-probability">
+                                        <span class="probability-value">75%</span>
+                                        <span class="probability-label">Вероятность</span>
+                                    </div>
+                                </div>
+                                <div class="scenario-description">
+                                    <p>При сохранении текущих паттернов: усиление выгорания, снижение продуктивности на 40%, риск развития депрессивных симптомов.</p>
+                                </div>
+                                <div class="scenario-timeline">
+                                    <div class="timeline-title">Критические точки:</div>
+                                    <ul class="timeline-points">
+                                        <li><span class="timeline-day">День 7-10:</span> Пик эмоционального истощения</li>
+                                        <li><span class="timeline-day">День 15-20:</span> Возможные конфликты на работе</li>
+                                        <li><span class="timeline-day">День 25-30:</span> Значительное снижение мотивации</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Orange Scenario -->
+                            <div class="scenario-card orange-scenario">
+                                <div class="scenario-header">
+                                    <div class="scenario-marker">
+                                        <div class="scenario-dot orange-dot"></div>
+                                        <h3>Управляемые изменения</h3>
+                                    </div>
+                                    <div class="scenario-probability">
+                                        <span class="probability-value">20%</span>
+                                        <span class="probability-label">Вероятность</span>
+                                    </div>
+                                </div>
+                                <div class="scenario-description">
+                                    <p>При внедрении практик саморегуляции: улучшение состояния на 40%, восстановление энергии, развитие стрессоустойчивости.</p>
+                                </div>
+                                <div class="scenario-timeline">
+                                    <div class="timeline-title">Точки улучшения:</div>
+                                    <ul class="timeline-points">
+                                        <li><span class="timeline-day">День 3-5:</span> Первые признаки снижения тревоги</li>
+                                        <li><span class="timeline-day">День 10-15:</span> Стабилизация эмоционального фона</li>
+                                        <li><span class="timeline-day">День 20-30:</span> Устойчивое улучшение состояния</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Blue Scenario -->
+                            <div class="scenario-card blue-scenario">
+                                <div class="scenario-header">
+                                    <div class="scenario-marker">
+                                        <div class="scenario-dot blue-dot"></div>
+                                        <h3>Качественный прорыв</h3>
+                                    </div>
+                                    <div class="scenario-probability">
+                                        <span class="probability-value">5%</span>
+                                        <span class="probability-label">Вероятность</span>
+                                    </div>
+                                </div>
+                                <div class="scenario-description">
+                                    <p>При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, переход на новый уровень.</p>
+                                </div>
+                                <div class="scenario-timeline">
+                                    <div class="timeline-title">Моменты прорыва:</div>
+                                    <ul class="timeline-points">
+                                        <li><span class="timeline-day">День 5-7:</span> Осознание необходимости изменений</li>
+                                        <li><span class="timeline-day">День 12-18:</span> Исследование новых возможностей</li>
+                                        <li><span class="timeline-day">День 25-30:</span> Конкретные шаги к изменениям</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Experiment -->
+                        <div class="experiment-section glass-card accent">
+                            <div class="experiment-header">
+                                <i class="fas fa-flask"></i>
+                                <h3>Эксперимент на неделю</h3>
+                                <div class="experiment-duration">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>7 дней</span>
+                                </div>
+                            </div>
+                            <div class="experiment-content">
+                                <div class="experiment-title" id="experiment-title">10-минутная медитация утром + цифровой детокс вечером</div>
+                                <div class="experiment-description">
+                                    <p>Этот эксперимент напрямую влияет на вероятность сценариев: уменьшает красный путь на 15%, увеличивает оранжевый на 10%.</p>
+                                </div>
+                                <div class="experiment-metrics">
+                                    <div class="metric">
+                                        <div class="metric-value">-35%</div>
+                                        <div class="metric-label">Стресса</div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-value">+2ч</div>
+                                        <div class="metric-label">Качественного сна</div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-value">+20%</div>
+                                        <div class="metric-label">Продуктивности</div>
+                                    </div>
+                                </div>
+                                <div class="experiment-actions">
+                                    <button class="btn-primary" id="start-experiment">
+                                        <i class="fas fa-play-circle"></i>
+                                        Начать эксперимент
+                                    </button>
+                                    <button class="btn-secondary" id="customize-experiment">
+                                        <i class="fas fa-sliders-h"></i>
+                                        Настроить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Verification Panel -->
+                <div class="verification-panel glass-card">
+                    <div class="verification-header">
+                        <i class="fas fa-shield-check"></i>
+                        <h3>Проверка приватности</h3>
+                    </div>
+                    <div class="verification-content">
+                        <p>Откройте DevTools (F12) → вкладка Network → выполните анализ</p>
+                        <div class="verification-steps">
+                            <div class="verification-step verified">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-title">Локальный анализ</div>
+                                    <div class="step-desc">0 сетевых запросов</div>
+                                </div>
+                            </div>
+                            <div class="verification-step verified">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-title">Шифрование AES-256</div>
+                                    <div class="step-desc">Ключи на устройстве</div>
+                                </div>
+                            </div>
+                            <div class="verification-step verified">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-title">"Слепой" AI-советник</div>
+                                    <div class="step-desc">Работает с зашифрованными данными</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-outline" id="verify-privacy">
+                            <i class="fas fa-terminal"></i>
+                            Проверить сейчас
+                        </button>
+                    </div>
+                </div>
             </div>
         </main>
+
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <span class="footer-logo">Aurora 4.0</span>
+                    <span class="footer-divider">•</span>
+                    <span class="footer-text">Приватный цифровой дневник с ИИ</span>
+                </div>
+                <div class="footer-right">
+                    <span class="footer-text">Локальный AI активен</span>
+                    <span class="status-indicator small active">
+                        <div class="status-dot"></div>
+                    </span>
+                </div>
+            </div>
+        </footer>
     </div>
 
+    <!-- Scripts -->
+    <script src="local-analyzer.js"></script>
+    <script src="mirror.js"></script>
+    
     <script>
-        // 🎯 ЗЕРКАЛО БУДУЩЕГО - РАСШИРЕННАЯ ВЕРСИЯ С ДЕТАЛЬНЫМИ ПРОГНОЗАМИ
-        
-        class FutureMirror {
-            constructor() {
-                this.spheres = [
-                    { id: 'work', name: 'Работа', icon: '💼', color: '#2563eb' },
-                    { id: 'relationships', name: 'Отношения', icon: '❤️', color: '#dc2626' },
-                    { id: 'health', name: 'Здоровье', icon: '🏥', color: '#059669' }
-                ];
-                this.init();
-            }
-
-            init() {
-                document.getElementById('analyzeBtn').addEventListener('click', () => this.analyze());
-                document.getElementById('clearBtn').addEventListener('click', () => this.clear());
-                document.getElementById('startExperimentBtn').addEventListener('click', () => this.startExperiment());
-            }
-
-            async analyze() {
-                const text = document.getElementById('userInput').value.trim();
-                if (!text) {
-                    this.notify('Введите текст для анализа', 'warning');
-                    return;
-                }
-
-                const btn = document.getElementById('analyzeBtn');
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
-                btn.disabled = true;
-
-                try {
-                    await new Promise(resolve => setTimeout(resolve, 600));
-                    const analysis = this.analyzeText(text);
-                    this.showResults(analysis);
-                    this.notify('Анализ завершён локально', 'success');
-                } catch (error) {
-                    this.notify('Ошибка анализа', 'error');
-                } finally {
-                    btn.innerHTML = '<i class="fas fa-search"></i>Анализировать локально';
-                    btn.disabled = false;
-                }
-            }
-
-            analyzeText(text) {
-                const textLower = text.toLowerCase();
-                
-                // 1. Определяем эмоцию
-                const emotion = this.getEmotion(textLower);
-                
-                // 2. Определяем какие сферы затронуты
-                const relevantSpheres = this.getRelevantSpheres(textLower);
-                
-                // 3. Извлекаем паттерны
-                const patterns = this.getPatterns(textLower);
-                
-                // 4. Генерируем ДЕТАЛЬНЫЕ сценарии
-                const scenarios = {};
-                relevantSpheres.forEach(sphere => {
-                    scenarios[sphere.id] = this.generateDetailedScenarios(sphere, emotion);
-                });
-                
-                // 5. Создаем эксперимент
-                const experiment = this.createDetailedExperiment(relevantSpheres[0], emotion);
-                
-                return { emotion, patterns, scenarios, experiment };
-            }
-
-            getEmotion(text) {
-                const negative = ['стресс', 'устал', 'выгорание', 'конфликт', 'проблем', 'тревож', 'страх', 'ссора', 'депрессия', 'беспокойство'];
-                const positive = ['рад', 'счасть', 'успех', 'интерес', 'энерги', 'уверен', 'надежда', 'оптимизм', 'радость'];
-                
-                let neg = negative.filter(word => text.includes(word)).length;
-                let pos = positive.filter(word => text.includes(word)).length;
-                
-                if (neg > pos) return { type: 'негативный', score: Math.min(neg * 12, 100) };
-                if (pos > neg) return { type: 'позитивный', score: Math.min(pos * 12, 100) };
-                return { type: 'нейтральный', score: 50 };
-            }
-
-            getRelevantSpheres(text) {
-                const sphereKeywords = {
-                    work: ['работа', 'карьера', 'начальник', 'проект', 'дедлайн', 'офис', 'коллеги', 'задача', 'зарплата', 'бизнес'],
-                    relationships: ['отношения', 'партнер', 'семья', 'любовь', 'конфликт', 'ссора', 'общение', 'друг', 'муж', 'жена', 'дети'],
-                    health: ['здоровье', 'усталость', 'сон', 'энергия', 'спорт', 'питание', 'боль', 'самочувствие', 'болезнь', 'врач']
-                };
-                
-                const relevant = [];
-                this.spheres.forEach(sphere => {
-                    const keywords = sphereKeywords[sphere.id] || [];
-                    const matches = keywords.filter(word => text.includes(word)).length;
-                    if (matches > 0) {
-                        relevant.push({ ...sphere, relevance: matches * 15 });
-                    }
-                });
-                
-                return relevant.length > 0 ? relevant.slice(0, 2) : [this.spheres[0]];
-            }
-
-            getPatterns(text) {
-                const patterns = [];
-                
-                if ((text.match(/\b(всегда|никогда|всё|ничего)\b/g) || []).length > 0) {
-                    patterns.push({ name: 'Абсолютизация', strength: 85, desc: 'Склонность к крайним формулировкам' });
-                }
-                if ((text.match(/\b(не могу|невозможно|не получается)\b/g) || []).length > 0) {
-                    patterns.push({ name: 'Ограничивающие убеждения', strength: 90, desc: 'Вера в невозможность изменений' });
-                }
-                if ((text.match(/\b(должен|надо|нужно|обязан)\b/g) || []).length > 0) {
-                    patterns.push({ name: 'Давление долга', strength: 75, desc: 'Чрезмерное чувство ответственности' });
-                }
-                if ((text.match(/\b(хочу|мечтаю|буду)\b/g) || []).length > 1) {
-                    patterns.push({ name: 'Ориентация на будущее', strength: 60, desc: 'Фокус на желаниях и планах' });
-                }
-                
-                return patterns.length > 0 ? patterns : [{ name: 'Уникальный случай', strength: 50, desc: 'Требует индивидуального подхода' }];
-            }
-
-            generateDetailedScenarios(sphere, emotion) {
-                // Базовые вероятности с учетом эмоции
-                let continuation = emotion.type === 'негативный' ? 70 : emotion.type === 'позитивный' ? 40 : 60;
-                let intervention = emotion.type === 'негативный' ? 25 : emotion.type === 'позитивный' ? 45 : 30;
-                let transformation = emotion.type === 'негативный' ? 5 : emotion.type === 'позитивный' ? 15 : 10;
-                
-                // Корректируем на основе сферы
-                if (sphere.id === 'health') continuation += 10;
-                if (sphere.id === 'work' && emotion.type === 'негативный') continuation += 15;
-                if (sphere.id === 'relationships') intervention += 10;
-                
-                // Нормализуем
-                const total = continuation + intervention + transformation;
-                continuation = Math.round((continuation / total) * 100);
-                intervention = Math.round((intervention / total) * 100);
-                transformation = Math.round((transformation / total) * 100);
-                
-                // Создаем детальные сценарии с "ветвями"
-                return [
-                    this.createContinuationScenario(sphere, emotion, continuation),
-                    this.createInterventionScenario(sphere, emotion, intervention),
-                    this.createTransformationScenario(sphere, emotion, transformation)
-                ];
-            }
-
-            createContinuationScenario(sphere, emotion, probability) {
-                const scenarios = {
-                    work: {
-                        title: '⚠️ Продолжение выгорания',
-                        risk: 'high',
-                        timeline: [
-                            { days: '7 дней', event: 'Усиление усталости, снижение продуктивности на 30%' },
-                            { days: '14 дней', event: 'Частые ошибки, конфликты с коллегами' },
-                            { days: '30 дней', event: 'Риск профессионального кризиса, возможен больничный' }
-                        ],
-                        consequences: [
-                            'Хроническая усталость и раздражительность',
-                            'Потеря интереса к работе и профессиональному росту',
-                            'Ухудшение отношений в коллективе',
-                            'Финансовые риски из-за снижения эффективности'
-                        ],
-                        actions: [
-                            '⚠️ НЕ игнорируйте первые признаки усталости',
-                            '⚠️ НЕ отказывайтесь от помощи коллег',
-                            '⚠️ НЕ заливайте проблемы кофе и энергетиками'
-                        ],
-                        branches: [
-                            { title: 'Если игнорировать симптомы:', events: ['К 20 дню: потеря мотивации', 'К 30 дню: риск депрессии'] },
-                            { title: 'Если продолжать переработки:', events: ['К 15 дню: проблемы со сном', 'К 25 дню: физическое истощение'] }
-                        ]
-                    },
-                    relationships: {
-                        title: '⚠️ Эскалация конфликтов',
-                        risk: 'high',
-                        timeline: [
-                            { days: '7 дней', event: 'Учащение ссор, рост взаимных претензий' },
-                            { days: '14 дней', event: 'Эмоциональное отдаление, недопонимание' },
-                            { days: '30 дней', event: 'Риск серьезного кризиса или разрыва' }
-                        ],
-                        consequences: [
-                            'Постоянное напряжение в общении',
-                            'Накопление обид и недоверия',
-                            'Эмоциональное истощение обоих партнеров',
-                            'Влияние на другие сферы жизни'
-                        ],
-                        actions: [
-                            '⚠️ НЕ избегайте разговоров о проблемах',
-                            '⚠️ НЕ используйте обвинительный тон',
-                            '⚠️ НЕ сравнивайте с другими отношениями'
-                        ],
-                        branches: [
-                            { title: 'Если продолжать критиковать:', events: ['К 20 дню: полное отчуждение', 'К 30 дню: прекращение общения'] },
-                            { title: 'Если не искать компромиссы:', events: ['К 15 дню: усиление конфликтов', 'К 25 дню: разрыв отношений'] }
-                        ]
-                    },
-                    health: {
-                        title: '⚠️ Ухудшение здоровья',
-                        risk: 'high',
-                        timeline: [
-                            { days: '7 дней', event: 'Нарастание симптомов, снижение энергии' },
-                            { days: '14 дней', event: 'Частые простуды, обострение хронических проблем' },
-                            { days: '30 дней', event: 'Риск серьезных заболеваний, необходимость лечения' }
-                        ],
-                        consequences: [
-                            'Стойкое снижение качества жизни',
-                            'Ограничение активности и возможностей',
-                            'Финансовые затраты на лечение',
-                            'Влияние на работу и отношения'
-                        ],
-                        actions: [
-                            '⚠️ НЕ откладывайте визит к врачу',
-                            '⚠️ НЕ занимайтесь самолечением',
-                            '⚠️ НЕ игнорируйте тревожные симптомы'
-                        ],
-                        branches: [
-                            { title: 'Если не обращаться к врачу:', events: ['К 20 дню: ухудшение состояния', 'К 30 дню: осложнения'] },
-                            { title: 'Если продолжать вредные привычки:', events: ['К 15 дню: прогрессирование болезни', 'К 25 дню: кризисное состояние'] }
-                        ]
-                    }
-                };
-                
-                return {
-                    ...scenarios[sphere.id],
-                    probability: probability,
-                    type: 'continuation'
-                };
-            }
-
-            createInterventionScenario(sphere, emotion, probability) {
-                const scenarios = {
-                    work: {
-                        title: '🔄 Управляемые изменения',
-                        risk: 'medium',
-                        timeline: [
-                            { days: '7 дней', event: 'Начало внедрения новых привычек, первые шаги к балансу' },
-                            { days: '14 дней', event: 'Стабилизация состояния, улучшение фокуса на 20%' },
-                            { days: '30 дней', event: 'Устойчивое улучшение, снижение стресса на 40%' }
-                        ],
-                        consequences: [
-                            'Постепенное восстановление энергии и мотивации',
-                            'Улучшение отношений в коллективе',
-                            'Повышение профессиональной эффективности',
-                            'Баланс между работой и личной жизнью'
-                        ],
-                        actions: [
-                            '✅ Установите чёткие границы рабочего времени',
-                            '✅ Начинайте день с планирования приоритетов',
-                            '✅ Делайте регулярные перерывы каждые 90 минут',
-                            '✅ Осваивайте техники тайм-менеджмента'
-                        ],
-                        branches: [
-                            { title: 'При регулярных перерывах:', events: ['К 20 дню: +30% продуктивности', 'К 30 дню: устойчивый баланс'] },
-                            { title: 'При делегировании задач:', events: ['К 15 дню: снижение нагрузки', 'К 25 дню: фокус на важном'] }
-                        ]
-                    },
-                    relationships: {
-                        title: '🔄 Улучшение коммуникации',
-                        risk: 'medium',
-                        timeline: [
-                            { days: '7 дней', event: 'Первые конструктивные разговоры, уменьшение конфликтов' },
-                            { days: '14 дней', event: 'Рост взаимопонимания, улучшение атмосферы' },
-                            { days: '30 дней', event: 'Стабильные улучшения, восстановление близости' }
-                        ],
-                        consequences: [
-                            'Уменьшение частоты и интенсивности конфликтов',
-                            'Улучшение эмоционального климата в отношениях',
-                            'Восстановление доверия и взаимопонимания',
-                            'Позитивное влияние на самочувствие'
-                        ],
-                        actions: [
-                            '✅ Выделяйте 15 минут в день для качественного общения',
-                            '✅ Практикуйте активное слушание без перебиваний',
-                            '✅ Используйте "Я-сообщения" вместо обвинений',
-                            '✅ Регулярно выражайте благодарность партнеру'
-                        ],
-                        branches: [
-                            { title: 'При регулярных check-in:', events: ['К 20 дню: глубокое понимание', 'К 30 дню: прочная связь'] },
-                            { title: 'При совместных ритуалах:', events: ['К 15 дню: усиление близости', 'К 25 дню: стабильная гармония'] }
-                        ]
-                    },
-                    health: {
-                        title: '🔄 Восстановление энергии',
-                        risk: 'medium',
-                        timeline: [
-                            { days: '7 дней', event: 'Первые улучшения сна, небольшой прирост энергии' },
-                            { days: '14 дней', event: 'Стабилизация состояния, улучшение самочувствия на 30%' },
-                            { days: '30 дней', event: 'Устойчивое восстановление, нормализация показателей' }
-                        ],
-                        consequences: [
-                            'Постепенное повышение уровня энергии',
-                            'Улучшение качества сна и восстановления',
-                            'Укрепление иммунитета и сопротивляемости',
-                            'Положительное влияние на настроение и продуктивность'
-                        ],
-                        actions: [
-                            '✅ Установите регулярный режим сна (подъём и отбой в одно время)',
-                            '✅ Ежедневно 20-30 минут умеренной физической активности',
-                            '✅ Следите за водным балансом (1.5-2л воды в день)',
-                            '✅ Внедряйте практики управления стрессом'
-                        ],
-                        branches: [
-                            { title: 'При регулярном сне:', events: ['К 20 дню: +50% энергии', 'К 30 дню: полноценное восстановление'] },
-                            { title: 'При ежедневных прогулках:', events: ['К 15 дню: улучшение настроения', 'К 25 дню: устойчивая бодрость'] }
-                        ]
-                    }
-                };
-                
-                return {
-                    ...scenarios[sphere.id],
-                    probability: probability,
-                    type: 'intervention'
-                };
-            }
-
-            createTransformationScenario(sphere, emotion, probability) {
-                const scenarios = {
-                    work: {
-                        title: '🚀 Карьерный прорыв',
-                        risk: 'low',
-                        timeline: [
-                            { days: '7 дней', event: 'Кризис как точка роста, поиск новых подходов' },
-                            { days: '14 дней', event: 'Эксперименты с разными стратегиями, первые прорывы' },
-                            { days: '30 дней', event: 'Фундаментальные изменения, качественный скачок' }
-                        ],
-                        consequences: [
-                            'Радикальное улучшение рабочей ситуации',
-                            'Открытие новых карьерных возможностей',
-                            'Глубокое удовлетворение профессиональной деятельностью',
-                            'Значительный рост дохода и статуса'
-                        ],
-                        actions: [
-                            '🎯 Радикально пересмотрите свои профессиональные цели',
-                            '🎯 Ищите ментора или коуча для поддержки',
-                            '🎯 Экспериментируйте с новыми подходами к работе',
-                            '🎯 Инвестируйте в обучение и развитие навыков'
-                        ],
-                        branches: [
-                            { title: 'При найме коуча:', events: ['К 20 дню: ясное видение пути', 'К 30 дню: значительный прогресс'] },
-                            { title: 'При смене подхода:', events: ['К 15 дню: новые возможности', 'К 25 дню: качественный скачок'] }
-                        ]
-                    },
-                    relationships: {
-                        title: '🚀 Глубокие отношения',
-                        risk: 'low',
-                        timeline: [
-                            { days: '7 дней', event: 'Глубокий разговор о ценностях и потребностях' },
-                            { days: '14 дней', event: 'Внедрение новых моделей взаимодействия' },
-                            { days: '30 дней', event: 'Качественное преобразование отношений' }
-                        ],
-                        consequences: [
-                            'Глубокая эмоциональная близость и понимание',
-                            'Устойчивая гармония и взаимная поддержка',
-                            'Отношения как источник сил и вдохновения',
-                            'Позитивное влияние на все сферы жизни'
-                        ],
-                        actions: [
-                            '🎯 Пройдите совместную терапию или коучинг',
-                            '🎯 Создайте общее видение будущего отношений',
-                            '🎯 Регулярно практикуйте глубокие, искренние разговоры',
-                            '🎯 Инвестируйте время и ресурсы в развитие отношений'
-                        ],
-                        branches: [
-                            { title: 'При совместной терапии:', events: ['К 20 дню: глубокая трансформация', 'К 30 дню: новая гармония'] },
-                            { title: 'При создании ритуалов:', events: ['К 15 дню: укрепление связи', 'К 25 дню: прочный союз'] }
-                        ]
-                    },
-                    health: {
-                        title: '🚀 Оптимальное здоровье',
-                        risk: 'low',
-                        timeline: [
-                            { days: '7 дней', event: 'Консультация специалистов, комплексная диагностика' },
-                            { days: '14 дней', event: 'Начало комплексной программы оздоровления' },
-                            { days: '30 дней', event: 'Значительные улучшения, устойчивые результаты' }
-                        ],
-                        consequences: [
-                            'Оптимальный уровень энергии и жизненных сил',
-                            'Высокое качество жизни и самочувствия',
-                            'Устойчивость к стрессам и заболеваниям',
-                            'Позитивное влияние на все сферы жизни'
-                        ],
-                        actions: [
-                            '🎯 Пройдите комплексное медицинское обследование',
-                            '🎯 Разработайте индивидуальную программу оздоровления',
-                            '🎯 Работайте с профильными специалистами',
-                            '🎯 Сделайте здоровье приоритетом инвестиций'
-                        ],
-                        branches: [
-                            { title: 'При работе с нутрициологом:', events: ['К 20 дню: улучшение показателей', 'К 30 дню: оптимальное состояние'] },
-                            { title: 'При комплексном подходе:', events: ['К 15 дню: значительный прогресс', 'К 25 дню: устойчивое здоровье'] }
-                        ]
-                    }
-                };
-                
-                return {
-                    ...scenarios[sphere.id],
-                    probability: probability,
-                    type: 'transformation'
-                };
-            }
-
-            createDetailedExperiment(sphere, emotion) {
-                const experiments = {
-                    work: {
-                        title: '💼 Эксперимент: Управление энергией',
-                        description: 'Следите за своими энергетическими циклами в течение недели',
-                        steps: [
-                            'Каждые 2 часа в течение дня оценивайте уровень энергии (1-10)',
-                            'Записывайте, что повышает, а что снижает вашу энергию',
-                            'Экспериментируйте с разными техниками восстановления',
-                            'В конце недели проанализируйте паттерны и создайте план'
-                        ],
-                        metrics: ['Энергия утром', 'Продуктивность днём', 'Восстановление вечером'],
-                        expected: 'Понимание своих энергетических паттернов и создание оптимального графика'
-                    },
-                    relationships: {
-                        title: '❤️ Эксперимент: Активное слушание',
-                        description: 'Практикуйте активное слушание в каждом разговоре',
-                        steps: [
-                            'Перед ответом сделайте паузу 3 секунды',
-                            'Повторяйте ключевые мысли собеседника своими словами',
-                            'Задавайте уточняющие вопросы вместо предположений',
-                            'Фокусируйтесь на понимании, а не на ответе'
-                        ],
-                        metrics: ['Качество понимания', 'Количество конфликтов', 'Уровень близости'],
-                        expected: 'Улучшение взаимопонимания и снижение конфликтов на 40%'
-                    },
-                    health: {
-                        title: '🏥 Эксперимент: Циклы сна',
-                        description: 'Отслеживайте и оптимизируйте свой сон',
-                        steps: [
-                            'Ложитесь спать в одно время (±15 минут)',
-                            'За 1 час до сна - никаких экранов',
-                            'Утром оценивайте качество сна и уровень энергии',
-                            'Экспериментируйте с длительностью сна (7-9 часов)'
-                        ],
-                        metrics: ['Качество сна', 'Время засыпания', 'Энергия утром'],
-                        expected: 'Оптимизация режима сна и увеличение энергии на 30%'
-                    }
-                };
-                
-                return experiments[sphere.id] || experiments.work;
-            }
-
-            showResults(analysis) {
-                document.getElementById('results').style.display = 'block';
-                
-                // Показываем эмоцию
-                const emotionColor = analysis.emotion.type === 'негативный' ? '#dc2626' : 
-                                  analysis.emotion.type === 'позитивный' ? '#059669' : '#374151';
-                
-                document.getElementById('currentStats').innerHTML = `
-                    <div class="stat-item">
-                        <div class="stat-label">Эмоциональный фон</div>
-                        <div class="stat-value" style="color: ${emotionColor}">
-                            ${analysis.emotion.type.charAt(0).toUpperCase() + analysis.emotion.type.slice(1)}
-                        </div>
-                        <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">
-                            Интенсивность: ${analysis.emotion.score}%
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${analysis.emotion.score}%; background: ${emotionColor}"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-label">Ключевые паттерны</div>
-                        <div class="stat-value">${analysis.patterns.length}</div>
-                        <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">
-                            ${analysis.patterns.map(p => p.name).join(', ')}
-                        </div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-label">Глубина анализа</div>
-                        <div class="stat-value">Детальный</div>
-                        <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">
-                            Ветви будущего на 30 дней
-                        </div>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <div class="stat-label">Приватность</div>
-                        <div class="stat-value">100% локально</div>
-                        <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">
-                            Network tab → 0 запросов
-                        </div>
-                    </div>
-                `;
-                
-                // Показываем паттерны с описанием
-                const patternsHTML = analysis.patterns.map(p => `
-                    <div class="pattern-item">
-                        <div>
-                            <div class="pattern-name">${p.name}</div>
-                            <div style="font-size: 0.75rem; color: #6b7280;">${p.desc}</div>
-                        </div>
-                        <div>
-                            <div class="pattern-strength">${p.strength}%</div>
-                            <div class="progress-bar"><div class="progress-fill" style="width: ${p.strength}%"></div></div>
-                        </div>
-                    </div>
-                `).join('');
-                document.getElementById('patternsList').innerHTML = patternsHTML;
-                
-                // Показываем детальные сценарии
-                this.showDetailedScenarios(analysis.scenarios);
-                
-                // Показываем эксперимент
-                this.showDetailedExperiment(analysis.experiment);
-                
-                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-            }
-
-            showDetailedScenarios(scenarios) {
-                const container = document.getElementById('scenariosContainer');
-                let html = '';
-                
-                Object.entries(scenarios).forEach(([sphereId, sphereScenarios]) => {
-                    const sphere = this.spheres.find(s => s.id === sphereId) || this.spheres[0];
-                    
-                    html += `
-                        <div class="sphere-section" style="border-left-color: ${sphere.color};">
-                            <div class="sphere-title">
-                                ${sphere.icon} ${sphere.name}
-                                <span style="font-size: 0.875rem; color: #6b7280; margin-left: auto;">
-                                    Прогноз на 30 дней
-                                </span>
-                            </div>
-                            <div class="scenarios-grid">
-                    `;
-                    
-                    sphereScenarios.forEach(scenario => {
-                        const riskColors = {
-                            high: { border: '#dc2626', bg: '#fef2f2', text: '#dc2626' },
-                            medium: { border: '#d97706', bg: '#fffbeb', text: '#d97706' },
-                            low: { border: '#374151', bg: '#f8fafc', text: '#374151' }
-                        };
-                        
-                        const color = riskColors[scenario.risk] || riskColors.medium;
-                        const icons = { 'continuation': '⚠️', 'intervention': '🔄', 'transformation': '🚀' };
-                        
-                        html += `
-                            <div class="scenario-card ${scenario.risk}-risk" style="border-left-color: ${color.border}; background: ${color.bg};">
-                                <div class="scenario-probability" style="border-color: ${color.border}; color: ${color.text};">
-                                    ${scenario.probability}%
-                                </div>
-                                <div class="scenario-title">
-                                    ${icons[scenario.type]} ${scenario.title}
-                                </div>
-                                
-                                <!-- Таймлайн -->
-                                <div class="timeline">
-                                    ${scenario.timeline.map(item => `
-                                        <div class="timeline-item ${scenario.risk}">
-                                            <div style="font-weight: 600; font-size: 0.875rem;">${item.days}:</div>
-                                            <div style="font-size: 0.875rem; color: #6b7280;">${item.event}</div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                                
-                                <!-- Последствия -->
-                                ${scenario.consequences ? `
-                                    <div class="consequences">
-                                        <div class="consequences-title ${scenario.type === 'continuation' ? '' : 'positive'}">
-                                            ${scenario.type === 'continuation' ? '❌ Последствия:' : '✅ Результаты:'}
-                                        </div>
-                                        <ul style="font-size: 0.875rem; color: #6b7280; margin-left: 1rem;">
-                                            ${scenario.consequences.map(c => `<li>${c}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                ` : ''}
-                                
-                                <!-- Действия -->
-                                ${scenario.actions ? `
-                                    <div class="actions">
-                                        <div class="actions-title">${scenario.type === 'continuation' ? '🚫 Чего избегать:' : '✅ Что делать:'}</div>
-                                        <ul style="font-size: 0.875rem; color: #6b7280; margin-left: 1rem;">
-                                            ${scenario.actions.map(a => `<li>${a}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                ` : ''}
-                                
-                                <!-- Ветви развития -->
-                                ${scenario.branches ? `
-                                    <div style="margin-top: 1rem;">
-                                        <div style="font-weight: 600; font-size: 0.875rem; color: #374151; margin-bottom: 0.5rem;">
-                                            🌳 Ветви развития:
-                                        </div>
-                                        ${scenario.branches.map(branch => `
-                                            <div class="branch">
-                                                <div class="branch-title">${branch.title}</div>
-                                                <ul style="font-size: 0.875rem; color: #6b7280; margin-left: 1rem;">
-                                                    ${branch.events.map(e => `<li>${e}</li>`).join('')}
-                                                </ul>
-                                            </div>
-                                        `).join('')}
-                                    </div>
-                                ` : ''}
-                                
-                                <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.1); text-align: center;">
-                                    <span style="font-size: 0.875rem; color: #6b7280;">
-                                        Вероятность: <strong style="color: ${color.text};">${scenario.probability}%</strong>
-                                    </span>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    html += `</div></div>`;
-                });
-                
-                container.innerHTML = html;
-            }
-
-            showDetailedExperiment(experiment) {
-                document.getElementById('experimentContent').innerHTML = `
-                    <div class="experiment-description">
-                        <strong>Что делать:</strong> ${experiment.description}
-                    </div>
-                    
-                    <div style="margin: 1rem 0;">
-                        <strong style="font-size: 0.875rem;">Шаги эксперимента:</strong>
-                        <ol style="font-size: 0.875rem; color: #6b7280; margin-left: 1.25rem; margin-top: 0.5rem;">
-                            ${experiment.steps.map(step => `<li style="margin-bottom: 0.25rem;">${step}</li>`).join('')}
-                        </ol>
-                    </div>
-                    
-                    <div style="margin: 1rem 0;">
-                        <strong style="font-size: 0.875rem;">Метрики для отслеживания:</strong>
-                        <div class="metrics">
-                            ${experiment.metrics.map(metric => `<span class="metric-tag">${metric}</span>`).join('')}
-                        </div>
-                    </div>
-                    
-                    <div style="background: white; padding: 0.75rem; border-radius: 0.5rem; margin-top: 1rem;">
-                        <strong>Ожидаемый результат:</strong> ${experiment.expected}
-                    </div>
-                `;
-            }
-
-            startExperiment() {
-                this.notify('Эксперимент запущен! Отслеживайте прогресс в Aurora.', 'success');
-                const btn = document.getElementById('startExperimentBtn');
-                btn.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
-                btn.style.background = '#059669';
-                btn.disabled = true;
-            }
-
-            clear() {
-                document.getElementById('userInput').value = '';
-                document.getElementById('results').style.display = 'none';
-            }
-
-            notify(message, type) {
-                const notification = document.createElement('div');
-                notification.className = `notification ${type}`;
-                notification.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                        <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i>
-                        <span>${message}</span>
-                    </div>
-                `;
-                document.body.appendChild(notification);
-                setTimeout(() => notification.remove(), 3000);
-            }
-        }
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            window.mirror = new FutureMirror();
-            console.log('🎯 Зеркало Будущего с детальными прогнозами готово');
-            console.log('🌳 Теперь с "ветвями дерева" на 30 дней вперед');
+        // Инициализация анимаций фона
+        document.addEventListener('DOMContentLoaded', function() {
+            initBackgroundEffects();
+            initEventListeners();
         });
-
-        // Примеры текста
-        window.loadExample = function(index) {
-            const examples = [
-                "Рабочий стресс достиг предела. Проекты горят, начальник требует невозможного, а я чувствую полное выгорание. Нет сил даже на базовые задачи, постоянно откладываю важное. Коллеги раздражают, хочется все бросить.",
-                "Отношения с партнером трещат по швам. Постоянные ссоры из-за мелочей, не понимаем друг друга. Чувствую отдаление, но не знаю как остановить этот процесс. Разговоры только усугубляют ситуацию.",
-                "Учёба превратилась в мучение. Не могу сосредоточиться, постоянно прокрастинирую. Экзамены через месяц, а я даже не начал готовиться. Чувство тревоги и вины не даёт покоя.",
-                "Здоровье ухудшается с каждым днём. Постоянная усталость, сон не приносит отдыха. Просыпаюсь разбитым, к вечеру нет сил даже на простые дела. Спорт только усиливает утомление."
-            ];
-            document.getElementById('userInput').value = examples[index];
-        };
     </script>
 </body>
 </html>
