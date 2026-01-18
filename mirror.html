@@ -32,6 +32,11 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* Скрыть рекомендации по умолчанию */
+        #recommendations-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -237,14 +242,14 @@
                                     </div>
                                 </div>
                                 <div class="scenario-description">
-                                    <p id="scenario-red">Загрузка сценария...</p>
+                                    <p id="scenario-red">При сохранении текущих паттернов: усиление выгорания, снижение продуктивности на 40%, риск развития депрессивных симптомов.</p>
                                 </div>
                                 <div class="scenario-timeline">
                                     <div class="timeline-title" id="timeline-title-red">Критические точки:</div>
                                     <ul class="timeline-points">
-                                        <li><span class="timeline-day">День 7-10:</span> <span class="timeline-desc" id="timeline-red-1">Загрузка...</span></li>
-                                        <li><span class="timeline-day">День 15-20:</span> <span class="timeline-desc" id="timeline-red-2">Загрузка...</span></li>
-                                        <li><span class="timeline-day">День 25-30:</span> <span class="timeline-desc" id="timeline-red-3">Загрузка...</span></li>
+                                        <li><span class="timeline-day">День 7-10:</span> <span class="timeline-desc" id="timeline-red-1">Пик эмоционального истощения</span></li>
+                                        <li><span class="timeline-day">День 15-20:</span> <span class="timeline-desc" id="timeline-red-2">Возможные конфликты на работе</span></li>
+                                        <li><span class="timeline-day">День 25-30:</span> <span class="timeline-desc" id="timeline-red-3">Значительное снижение мотивации</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -261,14 +266,14 @@
                                     </div>
                                 </div>
                                 <div class="scenario-description">
-                                    <p id="scenario-orange">Загрузка сценария...</p>
+                                    <p id="scenario-orange">При внедрении практик саморегуляции: улучшение состояния на 40%, восстановление энергии, развитие стрессоустойчивости.</p>
                                 </div>
                                 <div class="scenario-timeline">
                                     <div class="timeline-title" id="timeline-title-orange">Точки улучшения:</div>
                                     <ul class="timeline-points">
-                                        <li><span class="timeline-day">День 3-5:</span> <span class="timeline-desc" id="timeline-orange-1">Загрузка...</span></li>
-                                        <li><span class="timeline-day">День 10-15:</span> <span class="timeline-desc" id="timeline-orange-2">Загрузка...</span></li>
-                                        <li><span class="timeline-day">День 20-30:</span> <span class="timeline-desc" id="timeline-orange-3">Загрузка...</span></li>
+                                        <li><span class="timeline-day">День 3-5:</span> <span class="timeline-desc" id="timeline-orange-1">Первые признаки снижения тревоги</span></li>
+                                        <li><span class="timeline-day">День 10-15:</span> <span class="timeline-desc" id="timeline-orange-2">Стабилизация эмоционального фона</span></li>
+                                        <li><span class="timeline-day">День 20-30:</span> <span class="timeline-desc" id="timeline-orange-3">Устойчивое улучшение состояния</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -285,14 +290,14 @@
                                     </div>
                                 </div>
                                 <div class="scenario-description">
-                                    <p id="scenario-blue">Загрузка сценария...</p>
+                                    <p id="scenario-blue">При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, переход на новый уровень.</p>
                                 </div>
                                 <div class="scenario-timeline">
                                     <div class="timeline-title" id="timeline-title-blue">Моменты прорыва:</div>
                                     <ul class="timeline-points">
-                                        <li><span class="timeline-day">День 5-7:</span> <span class="timeline-desc" id="timeline-blue-1">Загрузка...</span></li>
-                                        <li><span class="timeline-day">День 12-18:</span> <span class="timeline-desc" id="timeline-blue-2">Загрузка...</span></li>
-                                        <li><span class="timeline-day">День 25-30:</span> <span class="timeline-desc" id="timeline-blue-3">Загрузка...</span></li>
+                                        <li><span class="timeline-day">День 5-7:</span> <span class="timeline-desc" id="timeline-blue-1">Осознание необходимости изменений</span></li>
+                                        <li><span class="timeline-day">День 12-18:</span> <span class="timeline-desc" id="timeline-blue-2">Исследование новых возможностей</span></li>
+                                        <li><span class="timeline-day">День 25-30:</span> <span class="timeline-desc" id="timeline-blue-3">Конкретные шаги к изменениям</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -308,12 +313,23 @@
                                 </div>
                             </div>
                             <div class="experiment-content">
-                                <div class="experiment-title" id="experiment-title">Загрузка эксперимента...</div>
+                                <div class="experiment-title" id="experiment-title">10-минутная медитация утром + цифровой детокс вечером</div>
                                 <div class="experiment-description">
-                                    <p id="experiment-description">После анализа здесь появится персонализированный эксперимент</p>
+                                    <p id="experiment-description">Этот эксперимент напрямую влияет на вероятность сценариев: уменьшает красный путь на 15%, увеличивает оранжевый на 10%.</p>
                                 </div>
                                 <div class="experiment-metrics" id="experiment-metrics">
-                                    <!-- Заполнится JavaScript -->
+                                    <div class="metric">
+                                        <div class="metric-value">-35%</div>
+                                        <div class="metric-label">Стресса</div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-value">+2ч</div>
+                                        <div class="metric-label">Качественного сна</div>
+                                    </div>
+                                    <div class="metric">
+                                        <div class="metric-value">+20%</div>
+                                        <div class="metric-label">Продуктивности</div>
+                                    </div>
                                 </div>
                                 <div id="experiment-steps-container"></div>
                                 <div class="experiment-actions">
@@ -635,6 +651,8 @@
         initializeApp();
     });
 
+    let currentTopic = 'work'; // Текущая выбранная тема
+
     function initializeApp() {
         console.log('Инициализация приложения...');
         
@@ -648,10 +666,13 @@
         // 2. Кнопка анализа
         const analyzeBtn = document.getElementById('analyze-btn');
         if (analyzeBtn) {
-            analyzeBtn.addEventListener('click', performAnalysis);
+            analyzeBtn.addEventListener('click', function() {
+                console.log('Ручной запуск анализа');
+                performAnalysis();
+            });
         }
         
-        // 3. Быстрые заметки
+        // 3. Быстрые заметки - ТОЛЬКО загружают текст, НЕ запускают анализ
         document.querySelectorAll('.quick-tag').forEach(button => {
             button.addEventListener('click', function() {
                 const noteType = this.getAttribute('data-note');
@@ -662,12 +683,12 @@
                     updateCharCount();
                     textInput.focus();
                     
+                    currentTopic = noteType; // Сохраняем выбранную тему
+                    
                     showNotification(`Загружена заметка: "${this.textContent}"`, 'info');
                     
-                    // Автоматически запускаем анализ через 1 секунду
-                    setTimeout(() => {
-                        if (analyzeBtn) analyzeBtn.click();
-                    }, 1000);
+                    // НЕ запускаем анализ автоматически!
+                    // Пользователь сам должен нажать кнопку "Анализировать"
                 }
             });
         });
@@ -737,6 +758,14 @@
         });
         
         console.log('✅ Приложение инициализировано');
+        
+        // Убираем автоматический запуск анализа при загрузке
+        // setTimeout(() => {
+        //     const analyzeBtn = document.getElementById('analyze-btn');
+        //     if (analyzeBtn) {
+        //         analyzeBtn.click();
+        //     }
+        // }, 1000);
     }
 
     // ===== ОСНОВНЫЕ ФУНКЦИИ =====
@@ -779,6 +808,7 @@
             // Определяем тему заметки
             const topic = detectTopic(text);
             console.log('Определена тема:', topic);
+            currentTopic = topic; // Сохраняем тему для использования в других функциях
             
             // Имитация анализа
             setTimeout(() => {
@@ -801,6 +831,15 @@
                         resultsSection.style.display = 'block';
                         const toggleBtn = document.getElementById('toggle-results');
                         if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+                        
+                        // Плавная прокрутка к результатам (но не слишком далеко)
+                        setTimeout(() => {
+                            resultsSection.scrollIntoView({ 
+                                behavior: 'smooth', 
+                                block: 'start',
+                                inline: 'nearest'
+                            });
+                        }, 300);
                     }
                     
                     showNotification(`✅ Анализ завершён! Тема: ${getTopicName(topic)}. См. рекомендации ниже.`, 'success');
@@ -846,7 +885,7 @@
             return 'motivation';
         }
         
-        return 'work'; // По умолчанию
+        return currentTopic || 'work'; // Используем текущую тему или work по умолчанию
     }
 
     function getTopicName(topic) {
@@ -1016,6 +1055,8 @@
 
     // ===== ОБНОВЛЁННЫЕ ФУНКЦИИ ДЛЯ СЦЕНАРИЕВ =====
     function updateFullScenarios(topic) {
+        console.log('Обновление сценариев для темы:', topic);
+        
         // 1. Обновляем описания сценариев
         const scenarios = SCENARIOS[topic] || SCENARIOS.work;
         document.getElementById('scenario-red').textContent = scenarios.red;
@@ -1105,37 +1146,43 @@
     }
 
     function updateTimelineForTopic(topic, days) {
+        console.log('Обновление таймлайна для темы:', topic, 'дней:', days);
+        
         const timeline = TIMELINE_DATA[topic] || TIMELINE_DATA.work;
         const data = timeline[days] || timeline[30];
         
-        if (!data) return;
+        if (!data) {
+            console.error('Нет данных для таймлайна:', topic, days);
+            return;
+        }
+        
+        console.log('Данные таймлайна:', data);
         
         // Обновляем красный сценарий
         if (data.red && data.red.length >= 3) {
-            document.getElementById('timeline-red-1').textContent = data.red[0].split(': ')[1];
-            document.getElementById('timeline-red-2').textContent = data.red[1].split(': ')[1];
-            document.getElementById('timeline-red-3').textContent = data.red[2].split(': ')[1];
+            document.getElementById('timeline-red-1').textContent = data.red[0].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-red-2').textContent = data.red[1].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-red-3').textContent = data.red[2].split(': ')[1] || 'Загрузка...';
         }
         
         // Обновляем оранжевый сценарий
         if (data.orange && data.orange.length >= 3) {
-            document.getElementById('timeline-orange-1').textContent = data.orange[0].split(': ')[1];
-            document.getElementById('timeline-orange-2').textContent = data.orange[1].split(': ')[1];
-            document.getElementById('timeline-orange-3').textContent = data.orange[2].split(': ')[1];
+            document.getElementById('timeline-orange-1').textContent = data.orange[0].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-orange-2').textContent = data.orange[1].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-orange-3').textContent = data.orange[2].split(': ')[1] || 'Загрузка...';
         }
         
         // Обновляем синий сценарий
         if (data.blue && data.blue.length >= 3) {
-            document.getElementById('timeline-blue-1').textContent = data.blue[0].split(': ')[1];
-            document.getElementById('timeline-blue-2').textContent = data.blue[1].split(': ')[1];
-            document.getElementById('timeline-blue-3').textContent = data.blue[2].split(': ')[1];
+            document.getElementById('timeline-blue-1').textContent = data.blue[0].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-blue-2').textContent = data.blue[1].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-blue-3').textContent = data.blue[2].split(': ')[1] || 'Загрузка...';
         }
+        
+        console.log('Таймлайн обновлён для темы:', topic);
     }
 
     function updateTimelineForCurrentTopic(days) {
-        const textInput = document.getElementById('thought-input');
-        const text = textInput ? textInput.value.trim() : '';
-        const currentTopic = detectTopic(text);
         updateTimelineForTopic(currentTopic, days);
     }
 
@@ -1226,10 +1273,17 @@
             </div>
         `;
         
-        // Прокручиваем к рекомендациям
+        // Показываем рекомендации
+        recContainer.style.display = 'block';
+        
+        // Прокручиваем к рекомендациям (мягко)
         setTimeout(() => {
-            recContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 500);
+            recContainer.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start',
+                inline: 'nearest'
+            });
+        }, 300);
     }
 
     function showNotification(message, type = 'info') {
@@ -1310,18 +1364,11 @@
                 @keyframes slideOut {
                     from { transform: translateX(0); opacity: 1; }
                     to { transform: translateX(100%); opacity: 0; }
+                }
             `;
             document.head.appendChild(style);
         }
     }
-
-    // Автоматически запускаем анализ при загрузке
-    setTimeout(() => {
-        const analyzeBtn = document.getElementById('analyze-btn');
-        if (analyzeBtn) {
-            analyzeBtn.click();
-        }
-    }, 1000);
     </script>
 </body>
 </html>
