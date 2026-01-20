@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0">
     
     <title>Aurora 4.0 — Зеркало Будущего</title>
-    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v3">
+    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v4">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
@@ -398,7 +398,7 @@
                     <span class="footer-divider">•</span>
                     <span class="footer-text">Приватный цифровой дневник с ИИ</span>
                     <span class="footer-divider">•</span>
-                    <span class="footer-text" id="version-info">v2024-01-20-v3</span>
+                    <span class="footer-text" id="version-info">v2024-01-20-v4</span>
                 </div>
                 <div class="footer-right">
                     <span class="footer-text">Локальный AI активен</span>
@@ -411,12 +411,12 @@
     </div>
 
     <!-- ПОДКЛЮЧАЕМ JavaScript С ВЕРСИЕЙ -->
-    <script src="local-analyzer.js?v=2024-01-20-v3"></script>
+    <script src="local-analyzer.js?v=2024-01-20-v4"></script>
     
     <!-- ВСТРОЕННЫЙ JavaScript С ИСПРАВЛЕНИЯМИ -->
     <script>
     // ===== ВЕРСИЯ И АНТИКЭШ СИСТЕМА =====
-    console.log('🚀 AURORA MIRROR v2024-01-20-v3');
+    console.log('🚀 AURORA MIRROR v2024-01-20-v4');
     console.log('Загружено: ' + new Date().toISOString());
     console.log('URL: ' + window.location.href);
     
@@ -600,7 +600,7 @@
 
     // ===== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Aurora Mirror v2024-01-20-v3 инициализируется');
+        console.log('🚀 Aurora Mirror v2024-01-20-v4 инициализируется');
         initializeApp();
     });
 
@@ -631,12 +631,12 @@
         const analyzeBtn = document.getElementById('analyze-btn');
         if (analyzeBtn) {
             analyzeBtn.addEventListener('click', function() {
-                console.log('Анализ запущен');
+                console.log('Анализ запущен по кнопке');
                 performAnalysis();
             });
         }
         
-        // 4. Быстрые заметки - СРАЗУ обновляем сценарии
+        // 4. Быстрые заметки - ТОЛЬКО загружаем текст, НЕ анализируем
         document.querySelectorAll('.quick-tag').forEach(button => {
             button.addEventListener('click', function() {
                 const noteType = this.getAttribute('data-note');
@@ -647,11 +647,15 @@
                     updateCharCount();
                     textInput.focus();
                     
+                    // Сохраняем тему, но НЕ запускаем анализ
                     currentTopic = noteType;
                     
-                    // СРАЗУ обновляем сценарии
-                    updateAllScenarios(noteType);
                     showNotification(`Загружена заметка: "${this.textContent}"`, 'info');
+                    
+                    // Предложение проанализировать
+                    setTimeout(() => {
+                        showNotification('Текст загружен! Теперь нажмите "Анализировать локально"', 'info');
+                    }, 500);
                 }
             });
         });
@@ -664,12 +668,7 @@
         
         console.log('✅ Приложение инициализировано');
         
-        // Автотест через 1 секунду
-        setTimeout(() => {
-            console.log('=== АВТОТЕСТ: Проверка обновления сценариев ===');
-            updateAllScenarios('relationships');
-            showNotification('Автотест: сценарии обновлены на "Отношения"', 'info');
-        }, 1000);
+        // УБРАН автотест - теперь анализ только по кнопке
     }
 
     function updateCharCount() {
@@ -713,7 +712,7 @@
             
             setTimeout(() => {
                 try {
-                    // 1. Обновляем ВСЁ
+                    // 1. Обновляем ВСЁ только после нажатия кнопки
                     updateAllScenarios(topic);
                     
                     // 2. Обновляем таймлайн
