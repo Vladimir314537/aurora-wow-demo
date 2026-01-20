@@ -1,246 +1,265 @@
-// ===== ГЛОБАЛЬНЫЕ ДАННЫЕ =====
-const SCENARIOS = {
-    work: {
-        red: 'РАБОТА: При сохранении текущих паттернов: усиление выгорания на 60%, снижение продуктивности на 40%, риск профессионального истощения.',
-        orange: 'РАБОТА: При внедрении практик саморегуляции: улучшение состояния на 50%, восстановление энергии, развитие стрессоустойчивости.',
-        blue: 'РАБОТА: При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, качественный скачок.'
-    },
+// ===== ДИАГНОСТИЧЕСКИЙ СКРИПТ =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔍 ДИАГНОСТИКА AURORA MIRROR');
     
-    relationships: {
-        red: 'ОТНОШЕНИЯ: Эскалация конфликтов, накопление обид, эмоциональное отдаление, риск разрыва отношений до 70%.',
-        orange: 'ОТНОШЕНИЯ: Улучшение коммуникации на 60%, понимание потребностей друг друга, укрепление эмоциональной связи.',
-        blue: 'ОТНОШЕНИЯ: Глубокое переосмысление отношений, переход на новый уровень близости, совместный рост.'
-    },
+    // 1. Создаем диагностическую панель
+    createDiagnosticPanel();
     
-    anxiety: {
-        red: 'ТРЕВОГА: Усиление негативных симптомов, возможное развитие панических атак, снижение качества жизни, социальная изоляция.',
-        orange: 'ТРЕВОГА: Стабилизация состояния, развитие навыков саморегуляции, снижение тревоги на 50%, улучшение сна.',
-        blue: 'ТРЕВОГА: Глубинная трансформация, преодоление ограничивающих убеждений, развитие эмоциональной устойчивости.'
-    },
+    // 2. Тестируем элементы
+    testElements();
     
-    motivation: {
-        red: 'МОТИВАЦИЯ: Усиление апатии, полная потеря интереса к деятельности, риск развития депрессии, профессиональная стагнация.',
-        orange: 'МОТИВАЦИЯ: Постепенное возвращение интереса к жизни, формирование новых привычек, постановка реалистичных целей.',
-        blue: 'МОТИВАЦИЯ: Нахождение новых смыслов и целей, радикальное изменение подхода к жизни, реализация отложенных мечтаний.'
+    // 3. Добавляем тестовые кнопки
+    addTestButtons();
+});
+
+function createDiagnosticPanel() {
+    const panel = document.createElement('div');
+    panel.id = 'diagnostic-panel';
+    panel.style.cssText = `
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.9);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        z-index: 10000;
+        font-family: monospace;
+        font-size: 12px;
+        max-width: 400px;
+        border: 2px solid #ff0000;
+    `;
+    
+    panel.innerHTML = `
+        <h3 style="margin: 0 0 10px 0; color: #ff4444;">🔍 ДИАГНОСТИКА</h3>
+        <div id="diag-status">Загружаюсь...</div>
+        <div style="margin-top: 10px;">
+            <button onclick="runTest('work')" style="background: #ef4444; color: white; border: none; padding: 5px 10px; margin: 2px; border-radius: 4px;">Тест: Работа</button>
+            <button onclick="runTest('relationships')" style="background: #f59e0b; color: white; border: none; padding: 5px 10px; margin: 2px; border-radius: 4px;">Тест: Отношения</button>
+            <button onclick="runTest('anxiety')" style="background: #10b981; color: white; border: none; padding: 5px 10px; margin: 2px; border-radius: 4px;">Тест: Тревога</button>
+            <button onclick="runTest('motivation')" style="background: #6366f1; color: white; border: none; padding: 5px 10px; margin: 2px; border-radius: 4px;">Тест: Мотивация</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <button onclick="forceRedraw()" style="background: #8b5cf6; color: white; border: none; padding: 5px 10px; margin: 2px; border-radius: 4px;">Принудительный ререндер</button>
+            <button onclick="showAllElements()" style="background: #ec4899; color: white; border: none; padding: 5px 10px; margin: 2px; border-radius: 4px;">Показать все элементы</button>
+        </div>
+        <div id="diag-output" style="margin-top: 10px; max-height: 200px; overflow-y: auto; background: rgba(255,255,255,0.1); padding: 5px; border-radius: 4px;"></div>
+    `;
+    
+    document.body.appendChild(panel);
+}
+
+function logToPanel(message) {
+    const output = document.getElementById('diag-output');
+    if (output) {
+        const div = document.createElement('div');
+        div.textContent = '> ' + message;
+        output.appendChild(div);
+        output.scrollTop = output.scrollHeight;
+    }
+    console.log(message);
+}
+
+function testElements() {
+    logToPanel('=== ТЕСТ ЭЛЕМЕНТОВ ===');
+    
+    // Ищем ВСЕ элементы со сценариями
+    const scenarioElements = [];
+    
+    // Способ 1: По ID
+    const ids = ['scenario-red', 'scenario-orange', 'scenario-blue'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            scenarioElements.push({type: 'id', id, element: el});
+            logToPanel(`✅ Найден по ID "${id}": "${el.textContent.substring(0, 50)}..."`);
+        } else {
+            logToPanel(`❌ Не найден по ID "${id}"`);
+        }
+    });
+    
+    // Способ 2: По классу
+    const byClass = document.querySelectorAll('.scenario-description p');
+    byClass.forEach((el, i) => {
+        scenarioElements.push({type: 'class', index: i, element: el});
+        logToPanel(`✅ Найден по классу [${i}]: "${el.textContent.substring(0, 50)}..."`);
+    });
+    
+    // Способ 3: По тексту
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(el => {
+        if (el.textContent && el.textContent.includes('При сохранении текущих паттернов')) {
+            scenarioElements.push({type: 'text', element: el});
+            logToPanel(`✅ Найден по тексту: "${el.textContent.substring(0, 50)}..."`);
+        }
+    });
+    
+    logToPanel(`Всего найдено элементов: ${scenarioElements.length}`);
+    
+    // Сохраняем для использования
+    window.scenarioElements = scenarioElements;
+}
+
+function addTestButtons() {
+    // Добавляем кнопки к существующим quick-tag
+    document.querySelectorAll('.quick-tag').forEach(button => {
+        const noteType = button.getAttribute('data-note');
+        
+        const testBtn = document.createElement('button');
+        testBtn.textContent = 'ТЕСТ';
+        testBtn.style.cssText = `
+            margin-left: 5px;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+            cursor: pointer;
+        `;
+        testBtn.onclick = (e) => {
+            e.stopPropagation();
+            runTest(noteType);
+        };
+        
+        button.parentNode.insertBefore(testBtn, button.nextSibling);
+    });
+}
+
+// === ТЕСТОВЫЕ ФУНКЦИИ ===
+window.runTest = function(topic) {
+    logToPanel(`\n=== ТЕСТ: ${topic} ===`);
+    
+    const scenarios = {
+        work: {
+            red: '🔥 РАБОТА-КРАСНЫЙ: Усиление выгорания, конфликты с коллегами',
+            orange: '🟠 РАБОТА-ОРАНЖЕВЫЙ: Улучшение состояния, восстановление энергии',
+            blue: '🔵 РАБОТА-СИНИЙ: Переосмысление карьеры, новые возможности'
+        },
+        relationships: {
+            red: '❤️ ОТНОШЕНИЯ-КРАСНЫЙ: Эскалация конфликтов, риск разрыва',
+            orange: '🧡 ОТНОШЕНИЯ-ОРАНЖЕВЫЙ: Улучшение коммуникации, близость',
+            blue: '💙 ОТНОШЕНИЯ-СИНИЙ: Новый уровень отношений, совместный рост'
+        },
+        anxiety: {
+            red: '😰 ТРЕВОГА-КРАСНЫЙ: Панические атаки, социальная изоляция',
+            orange: '😌 ТРЕВОГА-ОРАНЖЕВЫЙ: Снижение тревоги, улучшение сна',
+            blue: '😊 ТРЕВОГА-СИНИЙ: Свобода от тревоги, трансформация'
+        },
+        motivation: {
+            red: '😞 МОТИВАЦИЯ-КРАСНЫЙ: Апатия, потеря интереса',
+            orange: '😃 МОТИВАЦИЯ-ОРАНЖЕВЫЙ: Возвращение интереса, новые цели',
+            blue: '🚀 МОТИВАЦИЯ-СИНИЙ: Радикальные изменения, реализация мечтаний'
+        }
+    };
+    
+    const data = scenarios[topic] || scenarios.work;
+    
+    // Способ 1: Прямое обновление найденных элементов
+    if (window.scenarioElements && window.scenarioElements.length >= 3) {
+        logToPanel('Обновляю через найденные элементы...');
+        
+        window.scenarioElements[0].element.textContent = data.red;
+        window.scenarioElements[1].element.textContent = data.orange;
+        window.scenarioElements[2].element.textContent = data.blue;
+        
+        // Визуальный эффект
+        window.scenarioElements.forEach(item => {
+            item.element.style.backgroundColor = 'rgba(255,255,0,0.3)';
+            setTimeout(() => item.element.style.backgroundColor = '', 1000);
+        });
+    }
+    
+    // Способ 2: Создаем новые элементы ВМЕСТО старых
+    const container = document.querySelector('.scenarios-container');
+    if (container) {
+        logToPanel('Создаю новые элементы...');
+        
+        // Находим старые элементы
+        const oldCards = container.querySelectorAll('.scenario-card');
+        
+        oldCards.forEach((card, index) => {
+            const newCard = card.cloneNode(true);
+            const textEl = newCard.querySelector('.scenario-description p');
+            
+            if (textEl) {
+                if (index === 0) textEl.textContent = data.red;
+                if (index === 1) textEl.textContent = data.orange;
+                if (index === 2) textEl.textContent = data.blue;
+                
+                textEl.style.color = '#ff0';
+                textEl.style.fontWeight = 'bold';
+            }
+            
+            // Заменяем старый элемент новым
+            container.replaceChild(newCard, card);
+        });
+    }
+    
+    // Способ 3: Изменяем весь HTML
+    setTimeout(() => {
+        if (container) {
+            logToPanel('Принудительно изменяю HTML...');
+            
+            // Сохраняем старый HTML
+            const oldHTML = container.innerHTML;
+            
+            // Изменяем напрямую
+            container.innerHTML = container.innerHTML
+                .replace(/При сохранении текущих паттернов/g, data.red)
+                .replace(/При внедрении практик саморегуляции/g, data.orange)
+                .replace(/При трансформации подхода/g, data.blue);
+            
+            // Если не изменилось - показываем предупреждение
+            if (container.innerHTML === oldHTML) {
+                logToPanel('⚠️ HTML НЕ ИЗМЕНИЛСЯ! Текст не найден для замены');
+            }
+        }
+    }, 100);
+    
+    // Обновляем статус
+    document.getElementById('diag-status').textContent = `Тема: ${topic} | ${new Date().toLocaleTimeString()}`;
+};
+
+window.forceRedraw = function() {
+    logToPanel('Принудительный ререндер...');
+    
+    // Заставляем браузер перерисовать элементы
+    const elements = document.querySelectorAll('.scenario-card');
+    elements.forEach(el => {
+        el.style.display = 'none';
+        void el.offsetHeight; // Принудительная перерисовка
+        el.style.display = '';
+    });
+    
+    // Другой способ
+    document.body.style.zoom = '1.001';
+    setTimeout(() => document.body.style.zoom = '1', 50);
+};
+
+window.showAllElements = function() {
+    logToPanel('=== ВСЕ ЭЛЕМЕНТЫ НА СТРАНИЦЕ ===');
+    
+    // Находим контейнер сценариев
+    const container = document.querySelector('.scenarios-container');
+    if (container) {
+        logToPanel('HTML контейнера:');
+        logToPanel(container.innerHTML.substring(0, 500) + '...');
+        
+        // Показываем все дочерние элементы
+        const allChildren = container.querySelectorAll('*');
+        logToPanel(`Всего дочерних элементов: ${allChildren.length}`);
+        
+        allChildren.forEach((el, i) => {
+            if (el.tagName === 'P' || el.classList.contains('scenario-description')) {
+                logToPanel(`${i}. ${el.tagName} ${el.className}: "${el.textContent.substring(0, 100)}"`);
+            }
+        });
     }
 };
 
-// ===== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ =====
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Aurora Mirror 4.0 загружена!');
-    
-    // 1. ПРЯМО СЕЙЧАС проверим все элементы
-    console.log('=== ПРОВЕРКА ВСЕХ ЭЛЕМЕНТОВ ДОМ ===');
-    
-    // Найдем ВСЕ элементы с текстом
-    const allPElements = document.querySelectorAll('p');
-    console.log('Всего <p> элементов:', allPElements.length);
-    
-    // Выведем ВСЕ элементы сценариев
-    allPElements.forEach((p, index) => {
-        const text = p.textContent.substring(0, 80);
-        console.log(`Элемент ${index}: "${text}..."`);
-    });
-    
-    // Найдем конкретно элементы сценариев
-    const scenarioDivs = document.querySelectorAll('.scenario-description');
-    console.log('Элементы .scenario-description:', scenarioDivs.length);
-    
-    scenarioDivs.forEach((div, index) => {
-        console.log(`Сценарий ${index}:`, div.innerHTML);
-    });
-    
-    // 2. Кнопка анализа
-    const analyzeBtn = document.getElementById('analyze-btn');
-    if (analyzeBtn) {
-        analyzeBtn.addEventListener('click', function() {
-            console.log('\n=== НАЖАТА КНОПКА АНАЛИЗА ===');
-            
-            // Выбираем случайную тему для теста
-            const topics = ['work', 'relationships', 'anxiety', 'motivation'];
-            const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-            
-            console.log('Выбрана тема:', randomTopic);
-            
-            // 1. Обновляем результаты сценариев ПРЯМЫМ ОБРАЗОМ
-            updateScenariosDirectly(randomTopic);
-            
-            // 2. Показываем уведомление
-            showNotification(`Тема изменена на: ${randomTopic}`, 'success');
-        });
-    }
-    
-    // 3. Быстрые заметки
-    document.querySelectorAll('.quick-tag').forEach(button => {
-        button.addEventListener('click', function() {
-            const noteType = this.getAttribute('data-note');
-            console.log('Выбрана заметка:', noteType);
-            
-            // Обновляем сценарии сразу
-            updateScenariosDirectly(noteType);
-            
-            showNotification(`Загружена заметка: "${this.textContent}"`, 'info');
-        });
-    });
-});
-
-// ===== СИЛОВОЕ ОБНОВЛЕНИЕ =====
-function updateScenariosDirectly(topic) {
-    console.log(`\n=== ОБНОВЛЕНИЕ СЦЕНАРИЕВ ДЛЯ ТЕМЫ: ${topic} ===`);
-    
-    const scenarios = SCENARIOS[topic] || SCENARIOS.work;
-    
-    // СПОСОБ 1: Прямое обновление через innerHTML всего контейнера
-    const scenarioContainer = document.querySelector('.scenarios-container');
-    if (scenarioContainer) {
-        console.log('Найден .scenarios-container');
-        
-        // СОЗДАЕМ НОВЫЙ HTML С НОВЫМИ СЦЕНАРИЯМИ
-        const newHTML = `
-            <div class="scenario-card red-scenario">
-                <div class="scenario-header">
-                    <div class="scenario-marker">
-                        <div class="scenario-dot red-dot"></div>
-                        <h3>Путь продолжения</h3>
-                    </div>
-                    <div class="scenario-probability">
-                        <span class="probability-value">${topic === 'work' ? '75%' : '65%'}</span>
-                        <span class="probability-label">Вероятность</span>
-                    </div>
-                </div>
-                <div class="scenario-description">
-                    <p><strong>[${topic.toUpperCase()}]</strong> ${scenarios.red}</p>
-                </div>
-            </div>
-            
-            <div class="scenario-card orange-scenario">
-                <div class="scenario-header">
-                    <div class="scenario-marker">
-                        <div class="scenario-dot orange-dot"></div>
-                        <h3>Управляемые изменения</h3>
-                    </div>
-                    <div class="scenario-probability">
-                        <span class="probability-value">${topic === 'work' ? '20%' : '25%'}</span>
-                        <span class="probability-label">Вероятность</span>
-                    </div>
-                </div>
-                <div class="scenario-description">
-                    <p><strong>[${topic.toUpperCase()}]</strong> ${scenarios.orange}</p>
-                </div>
-            </div>
-            
-            <div class="scenario-card blue-scenario">
-                <div class="scenario-header">
-                    <div class="scenario-marker">
-                        <div class="scenario-dot blue-dot"></div>
-                        <h3>Качественный прорыв</h3>
-                    </div>
-                    <div class="scenario-probability">
-                        <span class="probability-value">${topic === 'work' ? '5%' : '10%'}</span>
-                        <span class="probability-label">Вероятность</span>
-                    </div>
-                </div>
-                <div class="scenario-description">
-                    <p><strong>[${topic.toUpperCase()}]</strong> ${scenarios.blue}</p>
-                </div>
-            </div>
-        `;
-        
-        // ЗАМЕНЯЕМ ВЕСЬ КОНТЕЙНЕР
-        scenarioContainer.innerHTML = newHTML;
-        console.log('✅ Весь контейнер сценариев заменен!');
-        
-        // Добавляем визуальный эффект
-        scenarioContainer.style.border = '2px solid #00ff00';
-        setTimeout(() => scenarioContainer.style.border = '', 1000);
-        
-    } else {
-        console.error('❌ Не найден .scenarios-container!');
-        
-        // СПОСОБ 2: Ищем по всему документу
-        console.log('Ищу элементы по тексту...');
-        const allElements = document.querySelectorAll('*');
-        
-        allElements.forEach(el => {
-            if (el.textContent && el.textContent.includes('При сохранении текущих паттернов')) {
-                console.log('Найден элемент с текстом сценария:', el);
-                el.textContent = `[${topic}] ${scenarios.red}`;
-                el.style.backgroundColor = '#ff000020';
-            }
-        });
-    }
-}
-
-// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `aurora-notification`;
-    
-    notification.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <i class="fas fa-info-circle" style="font-size: 18px; color: #6366f1"></i>
-            <div style="flex: 1; font-size: 14px; line-height: 1.4;">${message}</div>
-        </div>
-    `;
-    
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: rgba(15, 23, 42, 0.95);
-        color: white;
-        padding: 16px 20px;
-        border-radius: 12px;
-        min-width: 300px;
-        max-width: 400px;
-        z-index: 9999;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        animation: slideIn 0.3s ease forwards;
-        border: 1px solid #6366f140;
-        backdrop-filter: blur(10px);
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease forwards';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-    
-    // Добавляем стили анимации
-    if (!document.querySelector('#notification-animations')) {
-        const style = document.createElement('style');
-        style.id = 'notification-animations';
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-}
-
-// ===== ТЕСТ ПРИ ЗАГРУЗКЕ =====
-// Запускаем тест сразу после загрузки
+// Автотест через 2 секунды
 setTimeout(() => {
-    console.log('\n=== ТЕСТ ПРИ ЗАГРУЗКЕ: ОБНОВЛЯЕМ НА ОТНОШЕНИЯ ===');
-    updateScenariosDirectly('relationships');
-    
-    // Проверяем через 2 секунды
-    setTimeout(() => {
-        console.log('\n=== ПРОВЕРКА ЧТО ИЗМЕНИЛОСЬ ===');
-        const allText = document.querySelector('.scenarios-container')?.textContent || '';
-        console.log('Текущий текст сценариев:', allText.substring(0, 200));
-        
-        if (allText.includes('ОТНОШЕНИЯ')) {
-            console.log('✅ ТЕСТ ПРОЙДЕН: Текст изменился!');
-        } else {
-            console.error('❌ ТЕСТ НЕ ПРОЙДЕН: Текст не изменился!');
-        }
-    }, 2000);
-}, 500);
+    logToPanel('=== АВТОТЕСТ ЧЕРЕЗ 2 СЕКУНДЫ ===');
+    runTest('relationships');
+}, 2000);
