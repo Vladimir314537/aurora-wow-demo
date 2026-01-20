@@ -732,7 +732,7 @@
             });
         }
         
-        // 7. Селектор времени - обновлённый обработчик
+        // 7. Селектор времени
         const timeframeSelect = document.getElementById('timeframe-select');
         if (timeframeSelect) {
             timeframeSelect.addEventListener('change', function() {
@@ -758,14 +758,6 @@
         });
         
         console.log('✅ Приложение инициализировано');
-        
-        // Убираем автоматический запуск анализа при загрузке
-        // setTimeout(() => {
-        //     const analyzeBtn = document.getElementById('analyze-btn');
-        //     if (analyzeBtn) {
-        //         analyzeBtn.click();
-        //     }
-        // }, 1000);
     }
 
     // ===== ОСНОВНЫЕ ФУНКЦИИ =====
@@ -816,8 +808,11 @@
                     // Обновляем результаты
                     updateAnalysisResults(topic, text);
                     
-                    // Обновляем сценарии (ВСЁ ВМЕСТЕ: описания + вероятности + таймлайн)
-                    updateFullScenarios(topic);
+                    // Обновляем сценарии
+                    updateScenarios(topic);
+                    
+                    // Обновляем таймлайн
+                    updateTimelineForTopic(topic);
                     
                     // Обновляем эксперимент
                     updateExperiment(topic);
@@ -831,15 +826,6 @@
                         resultsSection.style.display = 'block';
                         const toggleBtn = document.getElementById('toggle-results');
                         if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
-                        
-                        // Плавная прокрутка к результатам (но не слишком далеко)
-                        setTimeout(() => {
-                            resultsSection.scrollIntoView({ 
-                                behavior: 'smooth', 
-                                block: 'start',
-                                inline: 'nearest'
-                            });
-                        }, 300);
                     }
                     
                     showNotification(`✅ Анализ завершён! Тема: ${getTopicName(topic)}. См. рекомендации ниже.`, 'success');
@@ -1053,26 +1039,21 @@
         return themes[topic] || ['Общая рефлексия', 'Эмоциональное состояние'];
     }
 
-    // ===== ОБНОВЛЁННЫЕ ФУНКЦИИ ДЛЯ СЦЕНАРИЕВ =====
-    function updateFullScenarios(topic) {
+    // ===== ФУНКЦИИ ДЛЯ СЦЕНАРИЕВ =====
+    function updateScenarios(topic) {
         console.log('Обновление сценариев для темы:', topic);
         
-        // 1. Обновляем описания сценариев
+        // Обновляем описания сценариев
         const scenarios = SCENARIOS[topic] || SCENARIOS.work;
         document.getElementById('scenario-red').textContent = scenarios.red;
         document.getElementById('scenario-orange').textContent = scenarios.orange;
         document.getElementById('scenario-blue').textContent = scenarios.blue;
         
-        // 2. Обновляем вероятности
+        // Обновляем вероятности
         updateScenarioProbabilities(topic);
         
-        // 3. Обновляем заголовки таймлайнов
+        // Обновляем заголовки таймлайнов
         updateTimelineTitles(topic);
-        
-        // 4. Обновляем таймлайн на текущее значение
-        const timeframeSelect = document.getElementById('timeframe-select');
-        const days = timeframeSelect ? parseInt(timeframeSelect.value) : 30;
-        updateTimelineForTopic(topic, days);
     }
 
     function updateScenarioProbabilities(topic) {
@@ -1145,7 +1126,10 @@
         document.getElementById('timeline-title-blue').textContent = titles.blue;
     }
 
-    function updateTimelineForTopic(topic, days) {
+    function updateTimelineForTopic(topic) {
+        const timeframeSelect = document.getElementById('timeframe-select');
+        const days = timeframeSelect ? parseInt(timeframeSelect.value) : 30;
+        
         console.log('Обновление таймлайна для темы:', topic, 'дней:', days);
         
         const timeline = TIMELINE_DATA[topic] || TIMELINE_DATA.work;
@@ -1155,8 +1139,6 @@
             console.error('Нет данных для таймлайна:', topic, days);
             return;
         }
-        
-        console.log('Данные таймлайна:', data);
         
         // Обновляем красный сценарий
         if (data.red && data.red.length >= 3) {
@@ -1178,12 +1160,10 @@
             document.getElementById('timeline-blue-2').textContent = data.blue[1].split(': ')[1] || 'Загрузка...';
             document.getElementById('timeline-blue-3').textContent = data.blue[2].split(': ')[1] || 'Загрузка...';
         }
-        
-        console.log('Таймлайн обновлён для темы:', topic);
     }
 
     function updateTimelineForCurrentTopic(days) {
-        updateTimelineForTopic(currentTopic, days);
+        updateTimelineForTopic(currentTopic);
     }
 
     function updateExperiment(topic) {
@@ -1275,15 +1255,6 @@
         
         // Показываем рекомендации
         recContainer.style.display = 'block';
-        
-        // Прокручиваем к рекомендациям (мягко)
-        setTimeout(() => {
-            recContainer.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start',
-                inline: 'nearest'
-            });
-        }, 300);
     }
 
     function showNotification(message, type = 'info') {
