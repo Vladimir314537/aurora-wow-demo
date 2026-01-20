@@ -516,7 +516,7 @@
             90: {
                 red: ['Месяц 1: Хроническая усталость', 'Месяц 2: Проблемы со здоровьем', 'Месяц 3: Профессиональный кризис'],
                 orange: ['Месяц 1: Устойчивые изменения', 'Месяц 2: Карьерный рост', 'Месяц 3: Новая должность'],
-                blue: ['Месяц 1: Смена работы', 'Месяц 2: Адаптация на новом месте', 'Месяц 3: Реализация потенциала']
+                blue: ['Месяц 1: Смена работы', 'Месец 2: Адаптация на новом месте', 'Месяц 3: Реализация потенциала']
             }
         },
         
@@ -686,9 +686,6 @@
                     currentTopic = noteType; // Сохраняем выбранную тему
                     
                     showNotification(`Загружена заметка: "${this.textContent}"`, 'info');
-                    
-                    // НЕ запускаем анализ автоматически!
-                    // Пользователь сам должен нажать кнопку "Анализировать"
                 }
             });
         });
@@ -769,7 +766,6 @@
         if (counter) {
             counter.textContent = count;
             
-            // Цветовая индикация
             if (count < 100) {
                 counter.style.color = '#ef4444';
             } else if (count < 300) {
@@ -800,27 +796,27 @@
             // Определяем тему заметки
             const topic = detectTopic(text);
             console.log('Определена тема:', topic);
-            currentTopic = topic; // Сохраняем тему для использования в других функциях
+            currentTopic = topic; // Сохраняем тему
             
             // Имитация анализа
             setTimeout(() => {
                 try {
-                    // Обновляем результаты
+                    // 1. Обновляем результаты анализа
                     updateAnalysisResults(topic, text);
                     
-                    // Обновляем сценарии
-                    updateScenarios(topic);
+                    // 2. ОБНОВЛЯЕМ ВСЕ СЦЕНАРИИ - ВАЖНО!
+                    updateAllScenarios(topic);
                     
-                    // Обновляем таймлайн
+                    // 3. Обновляем таймлайн
                     updateTimelineForTopic(topic);
                     
-                    // Обновляем эксперимент
+                    // 4. Обновляем эксперимент
                     updateExperiment(topic);
                     
-                    // Показываем рекомендации
+                    // 5. Показываем рекомендации
                     showRecommendations(topic);
                     
-                    // Показываем результаты
+                    // 6. Показываем результаты
                     const resultsSection = document.getElementById('results-section');
                     if (resultsSection) {
                         resultsSection.style.display = 'block';
@@ -871,7 +867,7 @@
             return 'motivation';
         }
         
-        return currentTopic || 'work'; // Используем текущую тему или work по умолчанию
+        return currentTopic || 'work';
     }
 
     function getTopicName(topic) {
@@ -885,7 +881,6 @@
     }
 
     function updateAnalysisResults(topic, text) {
-        // Анализируем эмоциональный тон
         const emotionValue = analyzeEmotion(text);
         
         // Обновляем эмоциональный спектр
@@ -899,7 +894,6 @@
         
         if (emotionDisplay) {
             emotionDisplay.textContent = emotionValue + '%';
-            // Цветовая индикация
             if (emotionValue > 70) {
                 emotionDisplay.style.color = '#ef4444';
             } else if (emotionValue > 40) {
@@ -984,10 +978,8 @@
         
         if (totalRelevant === 0) return 50;
         
-        // Рассчитываем процент негатива
         const negativePercent = Math.round((negativeCount / totalRelevant) * 100);
         
-        // Корректируем в зависимости от длины текста
         let result = negativePercent;
         if (words.length > 200) result = Math.min(95, result + 10);
         
@@ -998,35 +990,30 @@
         const patterns = [];
         const textLower = text.toLowerCase();
         
-        // Абсолютизация
         if (textLower.match(/всегд|никогда|все|ничего|полностью|абсолютно|каждый раз/)) {
             patterns.push({name: 'Абсолютизация', intensity: 'high'});
         }
         
-        // Катастрофизация
         if (textLower.match(/катастроф|ужасн|кошмарн|конец|погиб|смерт/)) {
             patterns.push({name: 'Катастрофизация', intensity: 'high'});
         }
         
-        // Долженствование
         const shouldWords = ['должен', 'обязан', 'надо', 'нужно', 'необходимо', 'следует'];
         const shouldCount = shouldWords.filter(w => textLower.includes(w)).length;
         if (shouldCount > 1) {
             patterns.push({name: 'Долженствование', intensity: 'medium'});
         }
         
-        // Негативный фокус
         if (textLower.match(/проблем|сложн|трудн|невозможн|никуда|тупик/)) {
             patterns.push({name: 'Негативный фокус', intensity: 'medium'});
         }
         
-        // Если паттернов мало, добавляем общие
         if (patterns.length < 2) {
             patterns.push({name: 'Эмоциональное мышление', intensity: 'low'});
             patterns.push({name: 'Чтение мыслей', intensity: 'low'});
         }
         
-        return patterns.slice(0, 3); // Максимум 3 паттерна
+        return patterns.slice(0, 3);
     }
 
     function getThemes(topic) {
@@ -1039,21 +1026,38 @@
         return themes[topic] || ['Общая рефлексия', 'Эмоциональное состояние'];
     }
 
-    // ===== ФУНКЦИИ ДЛЯ СЦЕНАРИЕВ =====
-    function updateScenarios(topic) {
-        console.log('Обновление сценариев для темы:', topic);
+    // ===== ФУНКЦИИ ДЛЯ СЦЕНАРИЕВ - ИСПРАВЛЕННЫЕ =====
+    function updateAllScenarios(topic) {
+        console.log('ОБНОВЛЕНИЕ ВСЕХ СЦЕНАРИЕВ для темы:', topic);
         
-        // Обновляем описания сценариев
+        // 1. Обновляем описания сценариев
         const scenarios = SCENARIOS[topic] || SCENARIOS.work;
-        document.getElementById('scenario-red').textContent = scenarios.red;
-        document.getElementById('scenario-orange').textContent = scenarios.orange;
-        document.getElementById('scenario-blue').textContent = scenarios.blue;
         
-        // Обновляем вероятности
+        // Проверяем и обновляем элементы
+        const redEl = document.getElementById('scenario-red');
+        const orangeEl = document.getElementById('scenario-orange');
+        const blueEl = document.getElementById('scenario-blue');
+        
+        if (redEl) {
+            redEl.textContent = scenarios.red;
+            console.log('Обновлён красный сценарий:', scenarios.red);
+        }
+        if (orangeEl) {
+            orangeEl.textContent = scenarios.orange;
+            console.log('Обновлён оранжевый сценарий:', scenarios.orange);
+        }
+        if (blueEl) {
+            blueEl.textContent = scenarios.blue;
+            console.log('Обновлён синий сценарий:', scenarios.blue);
+        }
+        
+        // 2. Обновляем вероятности
         updateScenarioProbabilities(topic);
         
-        // Обновляем заголовки таймлайнов
+        // 3. Обновляем заголовки таймлайнов
         updateTimelineTitles(topic);
+        
+        console.log('✅ Все сценарии обновлены для темы:', topic);
     }
 
     function updateScenarioProbabilities(topic) {
@@ -1142,24 +1146,26 @@
         
         // Обновляем красный сценарий
         if (data.red && data.red.length >= 3) {
-            document.getElementById('timeline-red-1').textContent = data.red[0].split(': ')[1] || 'Загрузка...';
-            document.getElementById('timeline-red-2').textContent = data.red[1].split(': ')[1] || 'Загрузка...';
-            document.getElementById('timeline-red-3').textContent = data.red[2].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-red-1').textContent = data.red[0].split(': ')[1] || data.red[0];
+            document.getElementById('timeline-red-2').textContent = data.red[1].split(': ')[1] || data.red[1];
+            document.getElementById('timeline-red-3').textContent = data.red[2].split(': ')[1] || data.red[2];
         }
         
         // Обновляем оранжевый сценарий
         if (data.orange && data.orange.length >= 3) {
-            document.getElementById('timeline-orange-1').textContent = data.orange[0].split(': ')[1] || 'Загрузка...';
-            document.getElementById('timeline-orange-2').textContent = data.orange[1].split(': ')[1] || 'Загрузка...';
-            document.getElementById('timeline-orange-3').textContent = data.orange[2].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-orange-1').textContent = data.orange[0].split(': ')[1] || data.orange[0];
+            document.getElementById('timeline-orange-2').textContent = data.orange[1].split(': ')[1] || data.orange[1];
+            document.getElementById('timeline-orange-3').textContent = data.orange[2].split(': ')[1] || data.orange[2];
         }
         
         // Обновляем синий сценарий
         if (data.blue && data.blue.length >= 3) {
-            document.getElementById('timeline-blue-1').textContent = data.blue[0].split(': ')[1] || 'Загрузка...';
-            document.getElementById('timeline-blue-2').textContent = data.blue[1].split(': ')[1] || 'Загрузка...';
-            document.getElementById('timeline-blue-3').textContent = data.blue[2].split(': ')[1] || 'Загрузка...';
+            document.getElementById('timeline-blue-1').textContent = data.blue[0].split(': ')[1] || data.blue[0];
+            document.getElementById('timeline-blue-2').textContent = data.blue[1].split(': ')[1] || data.blue[1];
+            document.getElementById('timeline-blue-3').textContent = data.blue[2].split(': ')[1] || data.blue[2];
         }
+        
+        console.log('✅ Таймлайн обновлён для темы:', topic);
     }
 
     function updateTimelineForCurrentTopic(days) {
