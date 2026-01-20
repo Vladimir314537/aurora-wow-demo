@@ -37,6 +37,16 @@
         #recommendations-container {
             display: none;
         }
+        
+        /* Добавим подсветку для отладки */
+        .debug-highlight {
+            animation: highlight 2s ease;
+        }
+        
+        @keyframes highlight {
+            0% { background-color: rgba(255, 255, 0, 0.3); }
+            100% { background-color: transparent; }
+        }
     </style>
 </head>
 <body>
@@ -516,7 +526,7 @@
             90: {
                 red: ['Месяц 1: Хроническая усталость', 'Месяц 2: Проблемы со здоровьем', 'Месяц 3: Профессиональный кризис'],
                 orange: ['Месяц 1: Устойчивые изменения', 'Месяц 2: Карьерный рост', 'Месяц 3: Новая должность'],
-                blue: ['Месяц 1: Смена работы', 'Месец 2: Адаптация на новом месте', 'Месяц 3: Реализация потенциала']
+                blue: ['Месяц 1: Смена работы', 'Месяц 2: Адаптация на новом месте', 'Месяц 3: Реализация потенциала']
             }
         },
         
@@ -754,6 +764,27 @@
             showNotification('Настройка эксперимента: выберите удобное время и продолжительность', 'info');
         });
         
+        // Проверка элементов при загрузке
+        setTimeout(() => {
+            console.log('=== ПРОВЕРКА ЭЛЕМЕНТОВ ПРИ ЗАГРУЗКЕ ===');
+            console.log('scenario-red:', document.getElementById('scenario-red'));
+            console.log('scenario-orange:', document.getElementById('scenario-orange'));
+            console.log('scenario-blue:', document.getElementById('scenario-blue'));
+            
+            // Тест обновления сценариев
+            if (document.getElementById('scenario-red')) {
+                console.log('✅ Элементы найдены, тестируем обновление...');
+                // Тестовое обновление
+                const testScenario = SCENARIOS.relationships;
+                document.getElementById('scenario-red').textContent = 'ТЕСТ: ' + testScenario.red.substring(0, 50) + '...';
+                document.getElementById('scenario-orange').textContent = 'ТЕСТ: ' + testScenario.orange.substring(0, 50) + '...';
+                document.getElementById('scenario-blue').textContent = 'ТЕСТ: ' + testScenario.blue.substring(0, 50) + '...';
+                console.log('✅ Тестовое обновление выполнено');
+            } else {
+                console.error('❌ Элементы не найдены! Проверьте HTML');
+            }
+        }, 1000);
+        
         console.log('✅ Приложение инициализировано');
     }
 
@@ -804,8 +835,8 @@
                     // 1. Обновляем результаты анализа
                     updateAnalysisResults(topic, text);
                     
-                    // 2. ОБНОВЛЯЕМ ВСЕ СЦЕНАРИИ - ВАЖНО!
-                    updateAllScenarios(topic);
+                    // 2. ОБНОВЛЯЕМ СЦЕНАРИИ - теперь с визуальным подтверждением
+                    updateScenariosWithVisualFeedback(topic);
                     
                     // 3. Обновляем таймлайн
                     updateTimelineForTopic(topic);
@@ -1026,38 +1057,53 @@
         return themes[topic] || ['Общая рефлексия', 'Эмоциональное состояние'];
     }
 
-    // ===== ФУНКЦИИ ДЛЯ СЦЕНАРИЕВ - ИСПРАВЛЕННЫЕ =====
-    function updateAllScenarios(topic) {
-        console.log('ОБНОВЛЕНИЕ ВСЕХ СЦЕНАРИЕВ для темы:', topic);
+    // ===== ФУНКЦИИ ДЛЯ СЦЕНАРИЕВ - С ВИЗУАЛЬНЫМ ПОДТВЕРЖДЕНИЕМ =====
+    function updateScenariosWithVisualFeedback(topic) {
+        console.log('=== ОБНОВЛЕНИЕ СЦЕНАРИЕВ С ВИЗУАЛЬНЫМ ПОДТВЕРЖДЕНИЕМ ===');
+        console.log('Тема:', topic);
         
-        // 1. Обновляем описания сценариев
         const scenarios = SCENARIOS[topic] || SCENARIOS.work;
         
-        // Проверяем и обновляем элементы
+        // Находим элементы
         const redEl = document.getElementById('scenario-red');
         const orangeEl = document.getElementById('scenario-orange');
         const blueEl = document.getElementById('scenario-blue');
         
+        console.log('Найденные элементы:', {
+            redEl: redEl ? 'ДА' : 'НЕТ',
+            orangeEl: orangeEl ? 'ДА' : 'НЕТ',
+            blueEl: blueEl ? 'ДА' : 'НЕТ'
+        });
+        
+        // Обновляем с визуальной анимацией
         if (redEl) {
+            console.log('Обновляю красный сценарий:', scenarios.red.substring(0, 80) + '...');
             redEl.textContent = scenarios.red;
-            console.log('Обновлён красный сценарий:', scenarios.red);
-        }
-        if (orangeEl) {
-            orangeEl.textContent = scenarios.orange;
-            console.log('Обновлён оранжевый сценарий:', scenarios.orange);
-        }
-        if (blueEl) {
-            blueEl.textContent = scenarios.blue;
-            console.log('Обновлён синий сценарий:', scenarios.blue);
+            redEl.classList.add('debug-highlight');
+            setTimeout(() => redEl.classList.remove('debug-highlight'), 2000);
         }
         
-        // 2. Обновляем вероятности
+        if (orangeEl) {
+            console.log('Обновляю оранжевый сценарий:', scenarios.orange.substring(0, 80) + '...');
+            orangeEl.textContent = scenarios.orange;
+            orangeEl.classList.add('debug-highlight');
+            setTimeout(() => orangeEl.classList.remove('debug-highlight'), 2000);
+        }
+        
+        if (blueEl) {
+            console.log('Обновляю синий сценарий:', scenarios.blue.substring(0, 80) + '...');
+            blueEl.textContent = scenarios.blue;
+            blueEl.classList.add('debug-highlight');
+            setTimeout(() => blueEl.classList.remove('debug-highlight'), 2000);
+        }
+        
+        // Обновляем вероятности
         updateScenarioProbabilities(topic);
         
-        // 3. Обновляем заголовки таймлайнов
+        // Обновляем заголовки таймлайнов
         updateTimelineTitles(topic);
         
-        console.log('✅ Все сценарии обновлены для темы:', topic);
+        console.log('✅ Сценарии обновлены с визуальной анимацией');
     }
 
     function updateScenarioProbabilities(topic) {
@@ -1090,12 +1136,20 @@
                 blueProb = 10;
         }
         
-        // Обновляем вероятности
+        console.log('Обновление вероятностей:', {redProb, orangeProb, blueProb});
+        
+        // Обновляем вероятности с анимацией
         const probabilityElements = document.querySelectorAll('.probability-value');
         if (probabilityElements.length >= 3) {
             probabilityElements[0].textContent = redProb + '%';
             probabilityElements[1].textContent = orangeProb + '%';
             probabilityElements[2].textContent = blueProb + '%';
+            
+            // Анимация
+            probabilityElements.forEach(el => {
+                el.classList.add('debug-highlight');
+                setTimeout(() => el.classList.remove('debug-highlight'), 1000);
+            });
         }
     }
 
