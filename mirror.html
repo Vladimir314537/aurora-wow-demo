@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0">
     
     <title>Aurora 4.0 — Зеркало Будущего</title>
-    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v4">
+    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v5">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
@@ -398,7 +398,7 @@
                     <span class="footer-divider">•</span>
                     <span class="footer-text">Приватный цифровой дневник с ИИ</span>
                     <span class="footer-divider">•</span>
-                    <span class="footer-text" id="version-info">v2024-01-20-v4</span>
+                    <span class="footer-text" id="version-info">v2024-01-20-v5</span>
                 </div>
                 <div class="footer-right">
                     <span class="footer-text">Локальный AI активен</span>
@@ -411,12 +411,12 @@
     </div>
 
     <!-- ПОДКЛЮЧАЕМ JavaScript С ВЕРСИЕЙ -->
-    <script src="local-analyzer.js?v=2024-01-20-v4"></script>
+    <script src="local-analyzer.js?v=2024-01-20-v5"></script>
     
     <!-- ВСТРОЕННЫЙ JavaScript С ИСПРАВЛЕНИЯМИ -->
     <script>
     // ===== ВЕРСИЯ И АНТИКЭШ СИСТЕМА =====
-    console.log('🚀 AURORA MIRROR v2024-01-20-v4');
+    console.log('🚀 AURORA MIRROR v2024-01-20-v5');
     console.log('Загружено: ' + new Date().toISOString());
     console.log('URL: ' + window.location.href);
     
@@ -489,6 +489,11 @@
                 red: ['Неделя 1: Усиление выгорания', 'Неделя 2-3: Снижение продуктивности на 40%', 'Неделя 4: Риск увольнения'],
                 orange: ['Неделя 1: Формирование новых привычек', 'Неделя 2-3: Улучшение работы на 30%', 'Неделя 4: Стабильный прогресс'],
                 blue: ['Неделя 1: Переосмысление карьеры', 'Неделя 2-3: Активный поиск возможностей', 'Неделя 4: Конкретные предложения']
+            },
+            90: {
+                red: ['Месяц 1: Полное выгорание', 'Месяц 2: Профессиональный кризис', 'Месяц 3: Вынужденная смена работы'],
+                orange: ['Месяц 1: Стабилизация состояния', 'Месяц 2: Развитие навыков', 'Месяц 3: Карьерный рост'],
+                blue: ['Месяц 1: Обучение новым навыкам', 'Месяц 2: Поиск новой работы', 'Месяц 3: Работа мечты']
             }
         },
         
@@ -502,6 +507,11 @@
                 red: ['Неделя 1: Накопление обид', 'Неделя 2-3: Холодная война', 'Неделя 4: Принятие решения о расставании'],
                 orange: ['Неделя 1: Регулярное качественное общение', 'Неделя 2-3: Укрепление доверия', 'Неделя 4: Гармоничные отношения'],
                 blue: ['Неделя 1: Парная терапия', 'Неделя 2-3: Глубокие трансформации', 'Неделя 4: Отношения мечты']
+            },
+            90: {
+                red: ['Месяц 1: Окончательный разрыв', 'Месяц 2: Период одиночества', 'Месяц 3: Начало новых поисков'],
+                orange: ['Месяц 1: Укрепление связи', 'Месяц 2: Совместное развитие', 'Месяц 3: Глубокое счастье'],
+                blue: ['Месяц 1: Трансформация отношений', 'Месяц 2: Совместные проекты', 'Месяц 3: Идеальный союз']
             }
         },
         
@@ -515,6 +525,11 @@
                 red: ['Неделя 1: Усиление симптомов', 'Неделя 2-3: Агорафобия', 'Неделя 4: Клиническая депрессия'],
                 orange: ['Неделя 1: Стабильная практика', 'Неделя 2-3: Возвращение к социальной жизни', 'Неделя 4: Контроль над тревогой'],
                 blue: ['Неделя 1: Глубокая терапия', 'Неделя 2-3: Трансформация мышления', 'Неделя 4: Свобода от тревоги']
+            },
+            90: {
+                red: ['Месяц 1: Хроническое состояние', 'Месяц 2: Потеря работы', 'Месяц 3: Госпитализация'],
+                orange: ['Месяц 1: Устойчивое улучшение', 'Месяц 2: Возвращение к нормальной жизни', 'Месяц 3: Полное выздоровление'],
+                blue: ['Месяц 1: Глубокая трансформация', 'Месяц 2: Помощь другим', 'Месяц 3: Психологическое благополучие']
             }
         },
         
@@ -528,6 +543,11 @@
                 red: ['Неделя 1: Профессиональная стагнация', 'Неделя 2-3: Социальная изоляция', 'Неделя 4: Потеря смысла'],
                 orange: ['Неделя 1: Регулярные действия', 'Неделя 2-3: Видимый прогресс', 'Неделя 4: Устойчивая мотивация'],
                 blue: ['Неделя 1: Обретение смысла', 'Неделя 2-3: Радикальные изменения', 'Неделя 4: Новая жизнь']
+            },
+            90: {
+                red: ['Месяц 1: Глубокая депрессия', 'Месяц 2: Потеря социальных связей', 'Месяц 3: Полная изоляция'],
+                orange: ['Месяц 1: Построение привычек', 'Месяц 2: Достижение целей', 'Месяц 3: Устойчивый успех'],
+                blue: ['Месяц 1: Нахождение призвания', 'Месяц 2: Реализация мечты', 'Месяц 3: Изменение жизни']
             }
         }
     };
@@ -600,7 +620,7 @@
 
     // ===== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Aurora Mirror v2024-01-20-v4 инициализируется');
+        console.log('🚀 Aurora Mirror v2024-01-20-v5 инициализируется');
         initializeApp();
     });
 
@@ -666,6 +686,14 @@
         document.getElementById('verify-privacy')?.addEventListener('click', verifyPrivacy);
         document.getElementById('timeframe-select')?.addEventListener('change', updateTimeline);
         
+        // 6. Проверка данных
+        console.log('TIMELINE_DATA проверка:', {
+            work: Object.keys(TIMELINE_DATA.work),
+            relationships: Object.keys(TIMELINE_DATA.relationships),
+            anxiety: Object.keys(TIMELINE_DATA.anxiety),
+            motivation: Object.keys(TIMELINE_DATA.motivation)
+        });
+        
         console.log('✅ Приложение инициализировано');
         
         // УБРАН автотест - теперь анализ только по кнопке
@@ -715,7 +743,7 @@
                     // 1. Обновляем ВСЁ только после нажатия кнопки
                     updateAllScenarios(topic);
                     
-                    // 2. Обновляем таймлайн
+                    // 2. Обновляем таймлайн (использует текущий выбор периода)
                     updateTimelineForTopic(topic);
                     
                     // 3. Обновляем эксперимент
@@ -840,26 +868,48 @@
         const timeframeSelect = document.getElementById('timeframe-select');
         const days = timeframeSelect ? parseInt(timeframeSelect.value) : 30;
         
+        console.log(`Обновление таймлайна: тема=${topic}, дней=${days}`);
+        
         const timeline = TIMELINE_DATA[topic] || TIMELINE_DATA.work;
         const data = timeline[days] || timeline[30];
         
+        console.log('Найденные данные для таймлайна:', data);
+        
         if (data) {
-            if (data.red) {
+            if (data.red && data.red.length >= 3) {
                 document.getElementById('timeline-red-1').textContent = data.red[0];
                 document.getElementById('timeline-red-2').textContent = data.red[1];
                 document.getElementById('timeline-red-3').textContent = data.red[2];
+                console.log('Обновлён красный таймлайн:', data.red);
             }
-            if (data.orange) {
+            if (data.orange && data.orange.length >= 3) {
                 document.getElementById('timeline-orange-1').textContent = data.orange[0];
                 document.getElementById('timeline-orange-2').textContent = data.orange[1];
                 document.getElementById('timeline-orange-3').textContent = data.orange[2];
+                console.log('Обновлён оранжевый таймлайн:', data.orange);
             }
-            if (data.blue) {
+            if (data.blue && data.blue.length >= 3) {
                 document.getElementById('timeline-blue-1').textContent = data.blue[0];
                 document.getElementById('timeline-blue-2').textContent = data.blue[1];
                 document.getElementById('timeline-blue-3').textContent = data.blue[2];
+                console.log('Обновлён синий таймлайн:', data.blue);
             }
+        } else {
+            console.error('Нет данных для таймлайна:', {topic, days});
         }
+    }
+
+    function updateTimeline() {
+        const timeframeSelect = document.getElementById('timeframe-select');
+        const days = parseInt(timeframeSelect.value);
+        
+        // Обновляем таймлайн для текущей темы
+        updateTimelineForTopic(currentTopic);
+        
+        // Также обновляем заголовки таймлайна
+        updateTimelineTitles(currentTopic);
+        
+        showNotification(`Проекция обновлена на ${days} дней`, 'info');
     }
 
     function updateExperiment(topic) {
@@ -944,13 +994,6 @@
 
     function verifyPrivacy() {
         showNotification('🔒 Проверка приватности: Откройте DevTools (F12) → Network → 0 запросов!', 'info');
-    }
-
-    function updateTimeline() {
-        const timeframeSelect = document.getElementById('timeframe-select');
-        const days = parseInt(timeframeSelect.value);
-        updateTimelineForTopic(currentTopic);
-        showNotification(`Проекция обновлена на ${days} дней`, 'info');
     }
 
     function showNotification(message, type = 'info') {
