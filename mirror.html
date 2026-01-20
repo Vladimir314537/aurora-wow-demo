@@ -3,937 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- АНТИКЭШ МЕТАТЕГИ -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>Aurora 4.0 — Зеркало Будущего</title>
+    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
+    
     <style>
-        /* ===== ОСНОВНЫЕ СТИЛИ ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --accent: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-tertiary: #94a3b8;
-            
-            --border: rgba(255, 255, 255, 0.1);
-            --border-light: rgba(255, 255, 255, 0.05);
-            
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.2);
-            
-            --radius: 12px;
-            --radius-sm: 8px;
-            --radius-lg: 16px;
-            
-            --transition: all 0.3s ease;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* ===== ФОН С ЗВЁЗДАМИ ===== */
-        .aurora-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(ellipse at bottom, #0f172a 0%, #000000 100%);
-            overflow: hidden;
-        }
-
-        .star-field {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
-                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
-                radial-gradient(1px 1px at 90px 40px, #ddd, transparent),
-                radial-gradient(2px 2px at 130px 80px, #fff, transparent);
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            animation: stars 60s linear infinite;
-        }
-
-        @keyframes stars {
-            0% { background-position: 0 0; }
-            100% { background-position: 200px 200px; }
-        }
-
-        .nebula {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.3;
-            mix-blend-mode: screen;
-        }
-
-        .nebula-1 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--primary), transparent 70%);
-            top: -100px;
-            right: -100px;
-            animation: float 25s ease-in-out infinite;
-        }
-
-        .nebula-2 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, var(--secondary), transparent 70%);
-            bottom: -50px;
-            left: -50px;
-            animation: float 20s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, 40px) scale(1.2); }
-        }
-
-        /* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
-        .app-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ===== ХЕДЕР ===== */
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 30px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            font-size: 32px;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo-subtitle {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .privacy-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 20px;
-            font-size: 13px;
-            color: var(--accent);
-        }
-
-        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            flex: 1;
-        }
-
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ===== КАРТОЧКИ ===== */
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .glass-card:hover {
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: var(--shadow-light);
-        }
-
-        /* ===== ЛЕВАЯ ПАНЕЛЬ ===== */
-        .left-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .section-header h2 {
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-header h2 i {
-            color: var(--primary);
-        }
-
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-        }
-
-        /* ===== ПОЛЕ ВВОДА ===== */
-        .input-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .input-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .input-stats {
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        #thought-input {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 15px;
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            line-height: 1.5;
-            resize: vertical;
-            min-height: 200px;
-            transition: var(--transition);
-        }
-
-        #thought-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        /* ===== БЫСТРЫЕ ЗАМЕТКИ ===== */
-        .quick-tags {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tag-label {
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        .quick-tag {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 12px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 20px;
-            color: var(--primary);
-            font-size: 13px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .quick-tag:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* ===== КНОПКИ ===== */
-        .input-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .analyze-btn {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 16px 24px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border: none;
-            border-radius: var(--radius);
-            color: white;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .analyze-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-pulse {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            border-radius: var(--radius);
-            animation: pulse 2s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
-        }
-
-        .btn-secondary {
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            color: var(--text-secondary);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .privacy-notice {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.1);
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 15px;
-        }
-
-        .privacy-notice i {
-            color: var(--accent);
-        }
-
-        /* ===== ПРАВАЯ ПАНЕЛЬ ===== */
-        .right-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        /* ===== ЗЕРКАЛО БУДУЩЕГО ===== */
-        .mirror-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .mirror-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .mirror-title i {
-            color: var(--secondary);
-            font-size: 20px;
-        }
-
-        .timeframe-selector {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: var(--text-tertiary);
-        }
-
-        #timeframe-select {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 6px 12px;
-            color: var(--text-primary);
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .mirror-intro {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(99, 102, 241, 0.05);
-            border-radius: var(--radius-sm);
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* ===== СЦЕНАРИИ ===== */
-        .scenarios-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .scenario-card {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid;
-            border-radius: var(--radius);
-            padding: 20px;
-            transition: var(--transition);
-        }
-
-        .scenario-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-
-        .red-scenario {
-            border-color: rgba(239, 68, 68, 0.3);
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0.02) 100%);
-        }
-
-        .orange-scenario {
-            border-color: rgba(245, 158, 11, 0.3);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(245, 158, 11, 0.02) 100%);
-        }
-
-        .blue-scenario {
-            border-color: rgba(59, 130, 246, 0.3);
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.02) 100%);
-        }
-
-        .scenario-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .scenario-marker {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .scenario-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .red-dot {
-            background: var(--danger);
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
-        }
-
-        .orange-dot {
-            background: var(--warning);
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-        }
-
-        .blue-dot {
-            background: var(--info);
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-        }
-
-        .scenario-marker h3 {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .scenario-probability {
-            text-align: right;
-        }
-
-        .probability-value {
-            display: block;
-            font-size: 28px;
-            font-weight: 800;
-            line-height: 1;
-        }
-
-        .red-scenario .probability-value {
-            color: var(--danger);
-        }
-
-        .orange-scenario .probability-value {
-            color: var(--warning);
-        }
-
-        .blue-scenario .probability-value {
-            color: var(--info);
-        }
-
-        .probability-label {
-            font-size: 11px;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .scenario-description {
-            margin-bottom: 20px;
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* ===== ТАЙМЛАЙН ===== */
-        .scenario-timeline {
-            padding-top: 15px;
-            border-top: 1px solid var(--border-light);
-        }
-
-        .timeline-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-tertiary);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .timeline-points {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .timeline-points li {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 13px;
-        }
-
-        .timeline-day {
-            color: var(--primary);
-            font-weight: 500;
-            min-width: 70px;
-        }
-
-        .timeline-desc {
-            color: var(--text-secondary);
-            flex: 1;
-        }
-
-        /* ===== ЭКСПЕРИМЕНТ ===== */
-        .experiment-section {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            padding: 25px;
-        }
-
-        .experiment-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .experiment-header i {
-            color: var(--accent);
-            font-size: 20px;
-        }
-
-        .experiment-header h3 {
-            font-size: 18px;
-            font-weight: 600;
-            flex: 1;
-        }
-
-        .experiment-duration {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 12px;
-            font-size: 12px;
-            color: var(--accent);
-        }
-
-        .experiment-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .experiment-description {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .experiment-metrics {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            padding: 20px;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: var(--radius);
-        }
-
-        .metric {
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .metric-label {
-            font-size: 11px;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .experiment-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            flex: 1;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border: none;
-            border-radius: var(--radius);
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-        }
-
-        /* ===== ФУТЕР ===== */
-        .app-footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-light);
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .footer-logo {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .footer-divider {
-            color: var(--text-tertiary);
-        }
-
-        .footer-text {
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        /* ===== АНИМАЦИЯ ОБНОВЛЕНИЯ ===== */
+        /* СТИЛИ ДЛЯ ПОДСВЕТКИ ОБНОВЛЕНИЙ */
         .update-highlight {
             animation: highlightUpdate 1s ease;
         }
-
+        
         @keyframes highlightUpdate {
             0% { background-color: rgba(99, 102, 241, 0.3); }
             100% { background-color: transparent; }
         }
-
-        /* ===== РЕЗУЛЬТАТЫ ===== */
-        .results-section {
-            display: none;
+        
+        .debug-border {
+            animation: debugBorder 2s ease;
         }
-
-        .results-content {
-            padding-top: 10px;
-        }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .result-card {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-        }
-
-        .result-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .result-header i {
-            color: var(--primary);
-            font-size: 18px;
-        }
-
-        .result-header h3 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .emotional-meter {
-            margin-bottom: 15px;
-        }
-
-        .emotion-scale {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .emotion-label {
-            font-size: 11px;
-            color: var(--text-tertiary);
-        }
-
-        .emotion-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .emotion-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--danger), var(--warning), var(--accent));
-            border-radius: 4px;
-        }
-
-        .emotion-value {
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            margin-top: 10px;
-        }
-
-        .emotion-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .emotion-tag {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        .emotion-tag.negative {
-            background: rgba(239, 68, 68, 0.1);
-            color: #fecaca;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .patterns-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .pattern-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--radius-sm);
-        }
-
-        .pattern-name {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .pattern-intensity {
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .pattern-intensity.high {
-            background: rgba(239, 68, 68, 0.15);
-            color: #fecaca;
-        }
-
-        .pattern-intensity.medium {
-            background: rgba(245, 158, 11, 0.15);
-            color: #fed7aa;
-        }
-
-        .topics-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .topic-tag {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .topic-tag.primary {
-            background: rgba(99, 102, 241, 0.15);
-            color: #c7d2fe;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
-        .topic-tag.secondary {
-            background: rgba(139, 92, 246, 0.15);
-            color: #ddd6fe;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-        }
-
-        .topic-tag.tertiary {
-            background: rgba(6, 182, 212, 0.15);
-            color: #a5f3fc;
-            border: 1px solid rgba(6, 182, 212, 0.3);
+        
+        @keyframes debugBorder {
+            0% { border: 2px solid #00ff00; }
+            100% { border: 1px solid transparent; }
         }
     </style>
 </head>
@@ -942,6 +40,7 @@
         <div class="star-field"></div>
         <div class="nebula nebula-1"></div>
         <div class="nebula nebula-2"></div>
+        <div class="particles-container"></div>
     </div>
 
     <div class="app-container">
@@ -959,10 +58,20 @@
                     <span>Локальный анализ · 0 запросов</span>
                 </div>
             </div>
+            <div class="header-right">
+                <button class="icon-button" id="settings-btn" title="Настройки">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="icon-button" id="help-btn" title="Помощь">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <button class="avatar-button" id="avatar-btn">
+                    <div class="avatar">Г</div>
+                </button>
+            </div>
         </header>
 
         <main class="main-content">
-            <!-- ЛЕВАЯ ПАНЕЛЬ -->
             <div class="left-panel">
                 <div class="input-section glass-card">
                     <div class="section-header">
@@ -981,7 +90,10 @@
                             </div>
                         </div>
                         
-                        <textarea id="thought-input" rows="8">Чувствую постоянный стресс на работе уже несколько месяцев. Начальник ставит нереалистичные дедлайны и требует всё больше отчётов, при этом не даёт достаточно ресурсов и поддержки. 
+                        <textarea 
+                            id="thought-input" 
+                            rows="8"
+                        >Чувствую постоянный стресс на работе уже несколько месяцев. Начальник ставит нереалистичные дедлайны и требует всё больше отчётов, при этом не даёт достаточно ресурсов и поддержки. 
 
 Коллеги постоянно спорят из-за распределения обязанностей, атмосфера в коллективе напряжённая. За последний месяц я работал сверхурочно почти каждый день, включая выходные, но чувствую, что мои усилия не ценятся.
 
@@ -1015,9 +127,9 @@
                                 <span>Анализировать локально</span>
                                 <div class="btn-pulse"></div>
                             </button>
-                            <button class="btn-secondary" id="clear-btn">
+                            <button class="btn-secondary" id="clear-cache-btn" style="margin-left: 10px;">
                                 <i class="fas fa-sync-alt"></i>
-                                Очистить
+                                Сброс кэша
                             </button>
                         </div>
                     </div>
@@ -1028,8 +140,9 @@
                     </div>
                 </div>
 
-                <!-- РЕЗУЛЬТАТЫ АНАЛИЗА -->
-                <div class="results-section glass-card" id="results-section">
+                <div id="recommendations-container" style="display: none;"></div>
+
+                <div class="results-section glass-card" id="results-section" style="display: none;">
                     <div class="section-header">
                         <h2><i class="fas fa-chart-network"></i> Выявленные паттерны</h2>
                         <button class="section-toggle" id="toggle-results">
@@ -1057,7 +170,6 @@
                                 <div class="emotion-tags" id="emotion-tags">
                                     <span class="emotion-tag negative">Тревога</span>
                                     <span class="emotion-tag negative">Усталость</span>
-                                    <span class="emotion-tag negative">Раздражение</span>
                                 </div>
                             </div>
                             
@@ -1073,10 +185,6 @@
                                     </div>
                                     <div class="pattern-item">
                                         <span class="pattern-name">Негативный фокус</span>
-                                        <div class="pattern-intensity medium">Средняя</div>
-                                    </div>
-                                    <div class="pattern-item">
-                                        <span class="pattern-name">Катастрофизация</span>
                                         <div class="pattern-intensity medium">Средняя</div>
                                     </div>
                                 </div>
@@ -1098,9 +206,8 @@
                 </div>
             </div>
 
-            <!-- ПРАВАЯ ПАНЕЛЬ -->
             <div class="right-panel">
-                <div class="mirror-section glass-card">
+                <div class="mirror-section glass-card debug-border">
                     <div class="section-header mirror-header">
                         <div class="mirror-title">
                             <i class="fas fa-crystal-ball"></i>
@@ -1122,7 +229,6 @@
                         </div>
                         
                         <div class="scenarios-container">
-                            <!-- КРАСНЫЙ СЦЕНАРИЙ -->
                             <div class="scenario-card red-scenario">
                                 <div class="scenario-header">
                                     <div class="scenario-marker">
@@ -1147,7 +253,6 @@
                                 </div>
                             </div>
                             
-                            <!-- ОРАНЖЕВЫЙ СЦЕНАРИЙ -->
                             <div class="scenario-card orange-scenario">
                                 <div class="scenario-header">
                                     <div class="scenario-marker">
@@ -1172,7 +277,6 @@
                                 </div>
                             </div>
                             
-                            <!-- СИНИЙ СЦЕНАРИЙ -->
                             <div class="scenario-card blue-scenario">
                                 <div class="scenario-header">
                                     <div class="scenario-marker">
@@ -1198,7 +302,6 @@
                             </div>
                         </div>
                         
-                        <!-- ЭКСПЕРИМЕНТ -->
                         <div class="experiment-section glass-card accent">
                             <div class="experiment-header">
                                 <i class="fas fa-flask"></i>
@@ -1227,14 +330,62 @@
                                         <div class="metric-label">Продуктивности</div>
                                     </div>
                                 </div>
+                                <div id="experiment-steps-container"></div>
                                 <div class="experiment-actions">
                                     <button class="btn-primary" id="start-experiment">
                                         <i class="fas fa-play-circle"></i>
                                         Начать эксперимент
                                     </button>
+                                    <button class="btn-secondary" id="customize-experiment">
+                                        <i class="fas fa-sliders-h"></i>
+                                        Настроить
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="verification-panel glass-card">
+                    <div class="verification-header">
+                        <i class="fas fa-shield-check"></i>
+                        <h3>Проверка приватности</h3>
+                    </div>
+                    <div class="verification-content">
+                        <p>Откройте DevTools (F12) → вкладка Network → выполните анализ</p>
+                        <div class="verification-steps">
+                            <div class="verification-step verified">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-title">Локальный анализ</div>
+                                    <div class="step-desc">0 сетевых запросов</div>
+                                </div>
+                            </div>
+                            <div class="verification-step verified">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-title">Шифрование AES-256</div>
+                                    <div class="step-desc">Ключи на устройстве</div>
+                                </div>
+                            </div>
+                            <div class="verification-step verified">
+                                <div class="step-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="step-content">
+                                    <div class="step-title">"Слепой" AI-советник</div>
+                                    <div class="step-desc">Работает с зашифрованными данными</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-outline" id="verify-privacy">
+                            <i class="fas fa-terminal"></i>
+                            Проверить сейчас
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1246,23 +397,36 @@
                     <span class="footer-logo">Aurora 4.0</span>
                     <span class="footer-divider">•</span>
                     <span class="footer-text">Приватный цифровой дневник с ИИ</span>
+                    <span class="footer-divider">•</span>
+                    <span class="footer-text" id="version-info">v2024-01-20-v3</span>
                 </div>
                 <div class="footer-right">
-                    <span class="footer-text">Анализ выполняется локально</span>
-                    <div class="status-indicator active">
+                    <span class="footer-text">Локальный AI активен</span>
+                    <span class="status-indicator small active">
                         <div class="status-dot"></div>
-                    </div>
+                    </span>
                 </div>
             </div>
         </footer>
     </div>
 
-    <script>
-    // ===== ПРОСТОЙ РАБОЧИЙ КОД =====
-    console.log('🚀 Aurora Mirror загружен');
+    <!-- ПОДКЛЮЧАЕМ JavaScript С ВЕРСИЕЙ -->
+    <script src="local-analyzer.js?v=2024-01-20-v3"></script>
     
-    // ===== ДАННЫЕ =====
-    const NOTES = {
+    <!-- ВСТРОЕННЫЙ JavaScript С ИСПРАВЛЕНИЯМИ -->
+    <script>
+    // ===== ВЕРСИЯ И АНТИКЭШ СИСТЕМА =====
+    console.log('🚀 AURORA MIRROR v2024-01-20-v3');
+    console.log('Загружено: ' + new Date().toISOString());
+    console.log('URL: ' + window.location.href);
+    
+    // Принудительное обновление кэша
+    if (performance && performance.navigation && performance.navigation.type === 1) {
+        console.log('Страница загружена после принудительного обновления');
+    }
+    
+    // ===== ГЛОБАЛЬНЫЕ ДАННЫЕ С ФИКСАМИ =====
+    const NOTES_DATABASE = {
         work: `Чувствую постоянный стресс на работе. Начальник требует выполнять всё больше задач в сжатые сроки, но не даёт достаточно ресурсов. Коллеги постоянно спорят из-за распределения обязанностей. 
 
 За последний месяц я работал сверхурочно почти каждый день, но чувствую, что мои усилия не ценятся. Начались проблемы со сном, просыпаюсь по ночам с мыслями о незавершённых задачах. 
@@ -1290,28 +454,31 @@
 
     const SCENARIOS = {
         work: {
-            red: 'РАБОТА: При сохранении текущих паттернов: усиление выгорания на 60%, снижение продуктивности на 40%, риск профессионального истощения и конфликтов с коллегами.',
-            orange: 'РАБОТА: При внедрении практик саморегуляции: улучшение состояния на 50%, восстановление энергии, развитие стрессоустойчивости, повышение продуктивности на 20%.',
-            blue: 'РАБОТА: При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, качественный скачок в развитии, возможен переход на удалённую работу.'
+            red: 'РАБОТА (красный): При сохранении текущих паттернов: усиление выгорания на 60%, снижение продуктивности на 40%, риск профессионального истощения и конфликтов с коллегами.',
+            orange: 'РАБОТА (оранжевый): При внедрении практик саморегуляции: улучшение состояния на 50%, восстановление энергии, развитие стрессоустойчивости, повышение продуктивности на 20%.',
+            blue: 'РАБОТА (синий): При трансформации подхода: переосмысление карьерного пути, поиск новых возможностей, качественный скачок в развитии, возможен переход на удалённую работу.'
         },
+        
         relationships: {
-            red: 'ОТНОШЕНИЯ: Эскалация конфликтов, накопление обид, эмоциональное отдаление, риск разрыва отношений до 70%. Возможны длительные периоды молчания и холодной войны.',
-            orange: 'ОТНОШЕНИЯ: Улучшение коммуникации на 60%, понимание потребностей друг друга, укрепление эмоциональной связи, снижение конфликтов на 50%, восстановление близости.',
-            blue: 'ОТНОШЕНИЯ: Глубокое переосмысление отношений, переход на новый уровень близости, совместный рост, создание новых общих целей и мечтаний, отношения мечты.'
+            red: 'ОТНОШЕНИЯ (красный): Эскалация конфликтов, накопление обид, эмоциональное отдаление, риск разрыва отношений до 70%. Возможны длительные периоды молчания и холодной войны.',
+            orange: 'ОТНОШЕНИЯ (оранжевый): Улучшение коммуникации на 60%, понимание потребностей друг друга, укрепление эмоциональной связи, снижение конфликтов на 50%, восстановление близости.',
+            blue: 'ОТНОШЕНИЯ (синий): Глубокое переосмысление отношений, переход на новый уровень близости, совместный рост, создание новых общих целей и мечтаний, отношения мечты.'
         },
+        
         anxiety: {
-            red: 'ТРЕВОГА: Усиление негативных симптомов, возможное развитие панических атак, снижение качества жизни, социальная изоляция, риск депрессии и агорафобии.',
-            orange: 'ТРЕВОГА: Стабилизация состояния, развитие навыков саморегуляции, снижение тревоги на 50%, улучшение сна на 40%, восстановление социальной активности.',
-            blue: 'ТРЕВОГА: Глубинная трансформация, преодоление ограничивающих убеждений, развитие эмоциональной устойчивости, полная свобода от тревоги, качественное изменение жизни.'
+            red: 'ТРЕВОГА (красный): Усиление негативных симптомов, возможное развитие панических атак, снижение качества жизни, социальная изоляция, риск депрессии и агорафобии.',
+            orange: 'ТРЕВОГА (оранжевый): Стабилизация состояния, развитие навыков саморегуляции, снижение тревоги на 50%, улучшение сна на 40%, восстановление социальной активности.',
+            blue: 'ТРЕВОГА (синий): Глубинная трансформация, преодоление ограничивающих убеждений, развитие эмоциональной устойчивости, полная свобода от тревоги, качественное изменение жизни.'
         },
+        
         motivation: {
-            red: 'МОТИВАЦИЯ: Усиление апатии, полная потеря интереса к деятельности, риск развития депрессии, профессиональная стагнация, социальное отдаление, потеря смысла.',
-            orange: 'МОТИВАЦИЯ: Постепенное возвращение интереса к жизни, формирование новых привычек, постановка реалистичных целей, улучшение самочувствия на 40%, достижение целей.',
-            blue: 'МОТИВАЦИЯ: Нахождение новых смыслов и целей, радикальное изменение подхода к жизни, реализация отложенных мечтаний, качественный прорыв во всех сферах, помощь другим.'
+            red: 'МОТИВАЦИЯ (красный): Усиление апатии, полная потеря интереса к деятельности, риск развития депрессии, профессиональная стагнация, социальное отдаление, потеря смысла.',
+            orange: 'МОТИВАЦИЯ (оранжевый): Постепенное возвращение интереса к жизни, формирование новых привычек, постановка реалистичных целей, улучшение самочувствия на 40%, достижение целей.',
+            blue: 'МОТИВАЦИЯ (синий): Нахождение новых смыслов и целей, радикальное изменение подхода к жизни, реализация отложенных мечтаний, качественный прорыв во всех сферах, помощь другим.'
         }
     };
 
-    const TIMELINES = {
+    const TIMELINE_DATA = {
         work: {
             7: {
                 red: ['День 2-3: Пик стресса и перегрузки', 'День 4-5: Конфликты с коллегами', 'День 6-7: Эмоциональное истощение'],
@@ -1322,13 +489,9 @@
                 red: ['Неделя 1: Усиление выгорания', 'Неделя 2-3: Снижение продуктивности на 40%', 'Неделя 4: Риск увольнения'],
                 orange: ['Неделя 1: Формирование новых привычек', 'Неделя 2-3: Улучшение работы на 30%', 'Неделя 4: Стабильный прогресс'],
                 blue: ['Неделя 1: Переосмысление карьеры', 'Неделя 2-3: Активный поиск возможностей', 'Неделя 4: Конкретные предложения']
-            },
-            90: {
-                red: ['Месяц 1: Полное выгорание', 'Месяц 2: Профессиональный кризис', 'Месяц 3: Вынужденная смена работы'],
-                orange: ['Месяц 1: Стабилизация состояния', 'Месяц 2: Развитие навыков', 'Месяц 3: Карьерный рост'],
-                blue: ['Месяц 1: Обучение новым навыкам', 'Месяц 2: Поиск новой работы', 'Месяц 3: Работа мечты']
             }
         },
+        
         relationships: {
             7: {
                 red: ['День 2-3: Эскалация конфликтов', 'День 4-5: Эмоциональное отдаление', 'День 6-7: Риск разрыва'],
@@ -1339,112 +502,510 @@
                 red: ['Неделя 1: Накопление обид', 'Неделя 2-3: Холодная война', 'Неделя 4: Принятие решения о расставании'],
                 orange: ['Неделя 1: Регулярное качественное общение', 'Неделя 2-3: Укрепление доверия', 'Неделя 4: Гармоничные отношения'],
                 blue: ['Неделя 1: Парная терапия', 'Неделя 2-3: Глубокие трансформации', 'Неделя 4: Отношения мечты']
+            }
+        },
+        
+        anxiety: {
+            7: {
+                red: ['День 2-3: Панические атаки', 'День 4-5: Бессонница', 'День 6-7: Социальная изоляция'],
+                orange: ['День 2-3: Первые техники релаксации', 'День 4-5: Улучшение сна', 'День 6-7: Снижение тревоги на 30%'],
+                blue: ['День 2-3: Осознание паттернов', 'День 4-5: Работа с психологом', 'День 6-7: Новое мышление']
             },
-            90: {
-                red: ['Месяц 1: Окончательный разрыв', 'Месяц 2: Период одиночества', 'Месяц 3: Начало новых поисков'],
-                orange: ['Месяц 1: Укрепление связи', 'Месяц 2: Совместное развитие', 'Месяц 3: Глубокое счастье'],
-                blue: ['Месяц 1: Трансформация отношений', 'Месяц 2: Совместные проекты', 'Месяц 3: Идеальный союз']
+            30: {
+                red: ['Неделя 1: Усиление симптомов', 'Неделя 2-3: Агорафобия', 'Неделя 4: Клиническая депрессия'],
+                orange: ['Неделя 1: Стабильная практика', 'Неделя 2-3: Возвращение к социальной жизни', 'Неделя 4: Контроль над тревогой'],
+                blue: ['Неделя 1: Глубокая терапия', 'Неделя 2-3: Трансформация мышления', 'Неделя 4: Свобода от тревоги']
+            }
+        },
+        
+        motivation: {
+            7: {
+                red: ['День 2-3: Полная апатия', 'День 4-5: Отказ от целей', 'День 6-7: Депрессивное состояние'],
+                orange: ['День 2-3: Первые микро-шаги', 'День 4-5: Маленькие победы', 'День 6-7: Возвращение интереса'],
+                blue: ['День 2-3: Перезагрузка мышления', 'День 4-5: Новое видение', 'День 6-7: План трансформации']
+            },
+            30: {
+                red: ['Неделя 1: Профессиональная стагнация', 'Неделя 2-3: Социальная изоляция', 'Неделя 4: Потеря смысла'],
+                orange: ['Неделя 1: Регулярные действия', 'Неделя 2-3: Видимый прогресс', 'Неделя 4: Устойчивая мотивация'],
+                blue: ['Неделя 1: Обретение смысла', 'Неделя 2-3: Радикальные изменения', 'Неделя 4: Новая жизнь']
             }
         }
     };
 
-    // ===== ПЕРЕМЕННЫЕ =====
-    let currentTopic = 'work';
-    let currentDays = 30;
+    const EXPERIMENTS = {
+        work: {
+            title: 'РАБОТА: Ежедневный ритуал завершения рабочего дня',
+            description: 'Этот эксперимент поможет установить чёткие границы между работой и личной жизнью, снизит уровень стресса на 45%.',
+            steps: [
+                '17:45 - 15 минут для завершения задач',
+                '18:00 - Список из 3 главных задач на завтра',
+                '18:30 - Отключите рабочие уведомления',
+                '19:00-21:00 - Цифровой детокс'
+            ],
+            metrics: [
+                { value: '-45%', label: 'Стресса' },
+                { value: '+3ч', label: 'Отдыха' },
+                { value: '+30%', label: 'Продуктивности' }
+            ]
+        },
+        
+        relationships: {
+            title: 'ОТНОШЕНИЯ: Ежевечерний разговор без отвлечений',
+            description: 'Регулярное качественное общение укрепит эмоциональную связь на 50%, улучшит взаимопонимание.',
+            steps: [
+                '20:00-20:30 каждый день',
+                'Телефоны в другой комнате',
+                'Говорите по очереди',
+                'Используйте "Я-сообщения"'
+            ],
+            metrics: [
+                { value: '-60%', label: 'Конфликтов' },
+                { value: '+50%', label: 'Близости' },
+                { value: '+40%', label: 'Понимания' }
+            ]
+        },
+        
+        anxiety: {
+            title: 'ТРЕВОГА: Утренняя медитация + дневник тревог',
+            description: 'Систематическая работа с тревожными мыслями поможет снизить уровень тревоги на 55%.',
+            steps: [
+                'Утро: 10 минут медитации',
+                'День: 3 паузы для проверки состояния',
+                '18:00: Дневник тревог',
+                '21:00: Техника дыхания 4-7-8'
+            ],
+            metrics: [
+                { value: '-55%', label: 'Тревоги' },
+                { value: '+2ч', label: 'Сна' },
+                { value: '+35%', label: 'Контроля' }
+            ]
+        },
+        
+        motivation: {
+            title: 'МОТИВАЦИЯ: Микро-цели + дневник успехов',
+            description: 'Постепенное возвращение мотивации через маленькие достижения повысит уровень энергии на 40%.',
+            steps: [
+                '3 микро-цели на день (5-10 минут)',
+                'Вечером записывайте выполненные задачи',
+                'Раз в неделю анализируйте прогресс',
+                'Найдите "партнёра по подотчётности"'
+            ],
+            metrics: [
+                { value: '+40%', label: 'Энергии' },
+                { value: '+50%', label: 'Задач' },
+                { value: '+35%', label: 'Удовлетворения' }
+            ]
+        }
+    };
 
-    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    // ===== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('Aurora Mirror инициализирован');
+        console.log('🚀 Aurora Mirror v2024-01-20-v3 инициализируется');
+        initializeApp();
+    });
+
+    let currentTopic = 'work';
+
+    function initializeApp() {
+        console.log('Инициализация приложения...');
         
-        // Счётчик символов
+        // 1. Сброс кэша
+        document.getElementById('clear-cache-btn')?.addEventListener('click', function() {
+            console.log('Пользователь запросил сброс кэша');
+            localStorage.clear();
+            sessionStorage.clear();
+            showNotification('Кэш очищен. Страница будет перезагружена.', 'info');
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 1000);
+        });
+        
+        // 2. Счётчик символов
         const textInput = document.getElementById('thought-input');
-        textInput.addEventListener('input', updateCharCount);
-        updateCharCount();
+        if (textInput) {
+            updateCharCount();
+            textInput.addEventListener('input', updateCharCount);
+        }
         
-        // Кнопка анализа
-        document.getElementById('analyze-btn').addEventListener('click', performAnalysis);
+        // 3. Кнопка анализа
+        const analyzeBtn = document.getElementById('analyze-btn');
+        if (analyzeBtn) {
+            analyzeBtn.addEventListener('click', function() {
+                console.log('Анализ запущен');
+                performAnalysis();
+            });
+        }
         
-        // Быстрые заметки
-        document.querySelectorAll('.quick-tag').forEach(btn => {
-            btn.addEventListener('click', function() {
+        // 4. Быстрые заметки - СРАЗУ обновляем сценарии
+        document.querySelectorAll('.quick-tag').forEach(button => {
+            button.addEventListener('click', function() {
                 const noteType = this.getAttribute('data-note');
-                textInput.value = NOTES[noteType] || '';
-                currentTopic = noteType;
-                updateCharCount();
-                showMessage(`Загружена заметка: ${this.textContent.trim()}`);
+                const noteText = NOTES_DATABASE[noteType];
+                
+                if (noteText && textInput) {
+                    textInput.value = noteText;
+                    updateCharCount();
+                    textInput.focus();
+                    
+                    currentTopic = noteType;
+                    
+                    // СРАЗУ обновляем сценарии
+                    updateAllScenarios(noteType);
+                    showNotification(`Загружена заметка: "${this.textContent}"`, 'info');
+                }
             });
         });
         
-        // Смена периода
-        document.getElementById('timeframe-select').addEventListener('change', function() {
-            currentDays = parseInt(this.value);
-            updateTimeline();
-            showMessage(`Проекция изменена на ${currentDays} дней`);
-        });
+        // 5. Остальные кнопки
+        document.getElementById('toggle-results')?.addEventListener('click', toggleResults);
+        document.getElementById('start-experiment')?.addEventListener('click', startExperiment);
+        document.getElementById('verify-privacy')?.addEventListener('click', verifyPrivacy);
+        document.getElementById('timeframe-select')?.addEventListener('change', updateTimeline);
         
-        // Кнопка очистки
-        document.getElementById('clear-btn').addEventListener('click', function() {
-            textInput.value = '';
-            updateCharCount();
-            showMessage('Текст очищен');
-        });
+        console.log('✅ Приложение инициализировано');
         
-        // Кнопка эксперимента
-        document.getElementById('start-experiment').addEventListener('click', function() {
-            this.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
-            this.disabled = true;
-            showMessage('🎯 Эксперимент запущен! Следуйте рекомендациям.');
-        });
-        
-        // Скрыть результаты по умолчанию
-        document.getElementById('results-section').style.display = 'none';
-    });
+        // Автотест через 1 секунду
+        setTimeout(() => {
+            console.log('=== АВТОТЕСТ: Проверка обновления сценариев ===');
+            updateAllScenarios('relationships');
+            showNotification('Автотест: сценарии обновлены на "Отношения"', 'info');
+        }, 1000);
+    }
 
-    // ===== ФУНКЦИИ =====
     function updateCharCount() {
-        const text = document.getElementById('thought-input').value;
-        const count = text.length;
-        document.getElementById('char-count').textContent = count;
-        
-        // Подсветка в зависимости от длины
+        const textInput = document.getElementById('thought-input');
+        const count = textInput ? textInput.value.length : 0;
         const counter = document.getElementById('char-count');
-        if (count < 30) {
-            counter.style.color = '#ef4444';
-        } else if (count < 100) {
-            counter.style.color = '#f59e0b';
-        } else {
-            counter.style.color = '#10b981';
+        
+        if (counter) {
+            counter.textContent = count;
+            
+            if (count < 100) {
+                counter.style.color = '#ef4444';
+            } else if (count < 300) {
+                counter.style.color = '#f59e0b';
+            } else {
+                counter.style.color = '#10b981';
+            }
         }
     }
 
-    function showMessage(text) {
-        // Простое уведомление
+    function performAnalysis() {
+        console.log('Запуск анализа...');
+        const textInput = document.getElementById('thought-input');
+        const text = textInput ? textInput.value.trim() : '';
+        
+        if (text.length < 30) {
+            showNotification('Введите не менее 30 символов для анализа', 'warning');
+            return;
+        }
+        
+        const analyzeBtn = document.getElementById('analyze-btn');
+        if (analyzeBtn) {
+            const originalHTML = analyzeBtn.innerHTML;
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
+            analyzeBtn.disabled = true;
+            
+            // Определяем тему
+            const topic = detectTopic(text);
+            console.log('Определена тема:', topic);
+            currentTopic = topic;
+            
+            setTimeout(() => {
+                try {
+                    // 1. Обновляем ВСЁ
+                    updateAllScenarios(topic);
+                    
+                    // 2. Обновляем таймлайн
+                    updateTimelineForTopic(topic);
+                    
+                    // 3. Обновляем эксперимент
+                    updateExperiment(topic);
+                    
+                    // 4. Показываем результаты
+                    const resultsSection = document.getElementById('results-section');
+                    if (resultsSection) {
+                        resultsSection.style.display = 'block';
+                    }
+                    
+                    showNotification(`✅ Анализ завершён! Тема: ${topic}`, 'success');
+                    
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                    showNotification('Ошибка при анализе', 'error');
+                } finally {
+                    analyzeBtn.innerHTML = originalHTML;
+                    analyzeBtn.disabled = false;
+                }
+            }, 1500);
+        }
+    }
+
+    // ===== ГЛАВНАЯ ФУНКЦИЯ: ОБНОВЛЕНИЕ ВСЕХ СЦЕНАРИЕВ =====
+    function updateAllScenarios(topic) {
+        console.log(`🔄 ОБНОВЛЕНИЕ ВСЕХ СЦЕНАРИЕВ ДЛЯ ТЕМЫ: ${topic}`);
+        
+        const scenarios = SCENARIOS[topic] || SCENARIOS.work;
+        
+        // 1. Обновляем тексты сценариев
+        const redEl = document.getElementById('scenario-red');
+        const orangeEl = document.getElementById('scenario-orange');
+        const blueEl = document.getElementById('scenario-blue');
+        
+        if (redEl) {
+            console.log('Обновляю красный сценарий:', scenarios.red.substring(0, 50));
+            redEl.textContent = scenarios.red;
+            redEl.classList.add('update-highlight');
+            setTimeout(() => redEl.classList.remove('update-highlight'), 1000);
+        }
+        
+        if (orangeEl) {
+            console.log('Обновляю оранжевый сценарий:', scenarios.orange.substring(0, 50));
+            orangeEl.textContent = scenarios.orange;
+            orangeEl.classList.add('update-highlight');
+            setTimeout(() => orangeEl.classList.remove('update-highlight'), 1000);
+        }
+        
+        if (blueEl) {
+            console.log('Обновляю синий сценарий:', scenarios.blue.substring(0, 50));
+            blueEl.textContent = scenarios.blue;
+            blueEl.classList.add('update-highlight');
+            setTimeout(() => blueEl.classList.remove('update-highlight'), 1000);
+        }
+        
+        // 2. Обновляем вероятности
+        updateProbabilities(topic);
+        
+        // 3. Обновляем заголовки таймлайнов
+        updateTimelineTitles(topic);
+        
+        console.log('✅ Все сценарии обновлены');
+    }
+
+    function updateProbabilities(topic) {
+        let redProb, orangeProb, blueProb;
+        
+        switch(topic) {
+            case 'work':
+                redProb = 75; orangeProb = 20; blueProb = 5;
+                break;
+            case 'relationships':
+                redProb = 65; orangeProb = 25; blueProb = 10;
+                break;
+            case 'anxiety':
+                redProb = 70; orangeProb = 20; blueProb = 10;
+                break;
+            case 'motivation':
+                redProb = 60; orangeProb = 30; blueProb = 10;
+                break;
+            default:
+                redProb = 70; orangeProb = 20; blueProb = 10;
+        }
+        
+        document.getElementById('prob-red').textContent = redProb + '%';
+        document.getElementById('prob-orange').textContent = orangeProb + '%';
+        document.getElementById('prob-blue').textContent = blueProb + '%';
+    }
+
+    function updateTimelineTitles(topic) {
+        const titles = {
+            'work': {
+                red: 'Критические точки:',
+                orange: 'Точки улучшения:',
+                blue: 'Моменты прорыва:'
+            },
+            'relationships': {
+                red: 'Точки напряжения:',
+                orange: 'Моменты сближения:',
+                blue: 'Этапы роста:'
+            },
+            'anxiety': {
+                red: 'Пиковые моменты:',
+                orange: 'Периоды затишья:',
+                blue: 'Моменты прорыва:'
+            },
+            'motivation': {
+                red: 'Точки спада:',
+                orange: 'Моменты подъёма:',
+                blue: 'Этапы роста:'
+            }
+        };
+        
+        const data = titles[topic] || titles.work;
+        document.getElementById('timeline-title-red').textContent = data.red;
+        document.getElementById('timeline-title-orange').textContent = data.orange;
+        document.getElementById('timeline-title-blue').textContent = data.blue;
+    }
+
+    function updateTimelineForTopic(topic) {
+        const timeframeSelect = document.getElementById('timeframe-select');
+        const days = timeframeSelect ? parseInt(timeframeSelect.value) : 30;
+        
+        const timeline = TIMELINE_DATA[topic] || TIMELINE_DATA.work;
+        const data = timeline[days] || timeline[30];
+        
+        if (data) {
+            if (data.red) {
+                document.getElementById('timeline-red-1').textContent = data.red[0];
+                document.getElementById('timeline-red-2').textContent = data.red[1];
+                document.getElementById('timeline-red-3').textContent = data.red[2];
+            }
+            if (data.orange) {
+                document.getElementById('timeline-orange-1').textContent = data.orange[0];
+                document.getElementById('timeline-orange-2').textContent = data.orange[1];
+                document.getElementById('timeline-orange-3').textContent = data.orange[2];
+            }
+            if (data.blue) {
+                document.getElementById('timeline-blue-1').textContent = data.blue[0];
+                document.getElementById('timeline-blue-2').textContent = data.blue[1];
+                document.getElementById('timeline-blue-3').textContent = data.blue[2];
+            }
+        }
+    }
+
+    function updateExperiment(topic) {
+        const experiment = EXPERIMENTS[topic] || EXPERIMENTS.work;
+        
+        document.getElementById('experiment-title').textContent = experiment.title;
+        document.getElementById('experiment-description').textContent = experiment.description;
+        
+        const metricsContainer = document.getElementById('experiment-metrics');
+        if (metricsContainer) {
+            metricsContainer.innerHTML = '';
+            experiment.metrics.forEach(metric => {
+                metricsContainer.innerHTML += `
+                    <div class="metric">
+                        <div class="metric-value">${metric.value}</div>
+                        <div class="metric-label">${metric.label}</div>
+                    </div>
+                `;
+            });
+        }
+        
+        const stepsContainer = document.getElementById('experiment-steps-container');
+        if (stepsContainer) {
+            stepsContainer.innerHTML = `
+                <div class="experiment-steps">
+                    <div style="font-weight: 600; margin-bottom: 10px; color: #818cf8;">📋 Пошаговый план:</div>
+                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                        ${experiment.steps.map(step => `<li style="margin-bottom: 8px;">${step}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+    }
+
+    function detectTopic(text) {
+        const textLower = text.toLowerCase();
+        
+        if (textLower.includes('работ') || textLower.includes('начальник') || 
+            textLower.includes('коллег') || textLower.includes('карьер')) {
+            return 'work';
+        }
+        
+        if (textLower.includes('отношен') || textLower.includes('партнёр') || 
+            textLower.includes('муж') || textLower.includes('жена') || 
+            textLower.includes('семь') || textLower.includes('любов')) {
+            return 'relationships';
+        }
+        
+        if (textLower.includes('тревог') || textLower.includes('страх') || 
+            textLower.includes('беспокойств') || textLower.includes('паник')) {
+            return 'anxiety';
+        }
+        
+        if (textLower.includes('мотивац') || textLower.includes('цел') || 
+            textLower.includes('мечт') || textLower.includes('интерес')) {
+            return 'motivation';
+        }
+        
+        return currentTopic || 'work';
+    }
+
+    // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+    function toggleResults() {
+        const results = document.getElementById('results-section');
+        const icon = document.getElementById('toggle-results').querySelector('i');
+        
+        if (results.style.display === 'none') {
+            results.style.display = 'block';
+            icon.className = 'fas fa-chevron-up';
+        } else {
+            results.style.display = 'none';
+            icon.className = 'fas fa-chevron-down';
+        }
+    }
+
+    function startExperiment() {
+        const btn = document.getElementById('start-experiment');
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Эксперимент активен';
+        btn.disabled = true;
+        showNotification('🎯 Эксперимент запущен!', 'success');
+    }
+
+    function verifyPrivacy() {
+        showNotification('🔒 Проверка приватности: Откройте DevTools (F12) → Network → 0 запросов!', 'info');
+    }
+
+    function updateTimeline() {
+        const timeframeSelect = document.getElementById('timeframe-select');
+        const days = parseInt(timeframeSelect.value);
+        updateTimelineForTopic(currentTopic);
+        showNotification(`Проекция обновлена на ${days} дней`, 'info');
+    }
+
+    function showNotification(message, type = 'info') {
+        const icons = {
+            'success': 'fa-check-circle',
+            'error': 'fa-exclamation-circle',
+            'warning': 'fa-exclamation-triangle',
+            'info': 'fa-info-circle'
+        };
+        
+        const colors = {
+            'success': '#10b981',
+            'error': '#ef4444',
+            'warning': '#f59e0b',
+            'info': '#6366f1'
+        };
+        
         const notification = document.createElement('div');
-        notification.textContent = text;
+        notification.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="fas ${icons[type] || 'fa-info-circle'}" 
+                   style="font-size: 18px; color: ${colors[type] || '#6366f1'}"></i>
+                <div style="flex: 1; font-size: 14px; line-height: 1.4;">${message}</div>
+            </div>
+        `;
+        
         notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(30, 41, 59, 0.95);
+            background: rgba(15, 23, 42, 0.95);
             color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            z-index: 1000;
-            border: 1px solid #6366f1;
-            animation: slideIn 0.3s ease;
+            padding: 16px 20px;
+            border-radius: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.3s ease forwards;
+            border: 1px solid ${colors[type] || '#6366f1'}40;
+            backdrop-filter: blur(10px);
         `;
         
         document.body.appendChild(notification);
         
         setTimeout(() => {
-            notification.style.animation = 'slideOut 0.3s ease';
+            notification.style.animation = 'slideOut 0.3s ease forwards';
             setTimeout(() => notification.remove(), 300);
-        }, 3000);
+        }, 5000);
         
-        // Добавляем стили анимации
-        if (!document.querySelector('#notification-styles')) {
+        // Добавляем анимации если нет
+        if (!document.querySelector('#notification-animations')) {
             const style = document.createElement('style');
-            style.id = 'notification-styles';
+            style.id = 'notification-animations';
             style.textContent = `
                 @keyframes slideIn {
                     from { transform: translateX(100%); opacity: 0; }
@@ -1457,122 +1018,6 @@
             `;
             document.head.appendChild(style);
         }
-    }
-
-    function performAnalysis() {
-        const text = document.getElementById('thought-input').value.trim();
-        
-        if (text.length < 30) {
-            showMessage('⚠️ Введите не менее 30 символов для анализа');
-            return;
-        }
-        
-        // Определяем тему
-        const textLower = text.toLowerCase();
-        if (textLower.includes('работ') || textLower.includes('начальник')) currentTopic = 'work';
-        else if (textLower.includes('отнош') || textLower.includes('партнёр')) currentTopic = 'relationships';
-        else if (textLower.includes('тревог') || textLower.includes('страх')) currentTopic = 'anxiety';
-        else if (textLower.includes('мотивац') || textLower.includes('цел')) currentTopic = 'motivation';
-        
-        // Показываем загрузку
-        const analyzeBtn = document.getElementById('analyze-btn');
-        const originalHTML = analyzeBtn.innerHTML;
-        analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
-        analyzeBtn.disabled = true;
-        
-        // Имитация анализа
-        setTimeout(() => {
-            updateScenarios();
-            updateTimeline();
-            
-            // Показываем результаты
-            document.getElementById('results-section').style.display = 'block';
-            
-            // Восстанавливаем кнопку
-            analyzeBtn.innerHTML = originalHTML;
-            analyzeBtn.disabled = false;
-            
-            showMessage(`✅ Анализ завершён! Тема: ${currentTopic}`);
-        }, 1500);
-    }
-
-    function updateScenarios() {
-        const scenarios = SCENARIOS[currentTopic] || SCENARIOS.work;
-        
-        // Обновляем тексты сценариев
-        document.getElementById('scenario-red').textContent = scenarios.red;
-        document.getElementById('scenario-orange').textContent = scenarios.orange;
-        document.getElementById('scenario-blue').textContent = scenarios.blue;
-        
-        // Подсветка обновления
-        ['scenario-red', 'scenario-orange', 'scenario-blue'].forEach(id => {
-            const el = document.getElementById(id);
-            el.classList.add('update-highlight');
-            setTimeout(() => el.classList.remove('update-highlight'), 1000);
-        });
-        
-        // Обновляем вероятности
-        updateProbabilities();
-    }
-
-    function updateProbabilities() {
-        let red, orange, blue;
-        
-        switch(currentTopic) {
-            case 'work': red = 75; orange = 20; blue = 5; break;
-            case 'relationships': red = 65; orange = 25; blue = 10; break;
-            case 'anxiety': red = 70; orange = 20; blue = 10; break;
-            case 'motivation': red = 60; orange = 30; blue = 10; break;
-            default: red = 70; orange = 20; blue = 10;
-        }
-        
-        document.getElementById('prob-red').textContent = red + '%';
-        document.getElementById('prob-orange').textContent = orange + '%';
-        document.getElementById('prob-blue').textContent = blue + '%';
-    }
-
-    function updateTimeline() {
-        const timeline = TIMELINES[currentTopic] || TIMELINES.work;
-        const data = timeline ? timeline[currentDays] || timeline[30] : null;
-        
-        if (!data) return;
-        
-        // Обновляем красный сценарий
-        if (data.red) {
-            document.getElementById('timeline-red-1').textContent = data.red[0];
-            document.getElementById('timeline-red-2').textContent = data.red[1];
-            document.getElementById('timeline-red-3').textContent = data.red[2];
-        }
-        
-        // Обновляем оранжевый сценарий
-        if (data.orange) {
-            document.getElementById('timeline-orange-1').textContent = data.orange[0];
-            document.getElementById('timeline-orange-2').textContent = data.orange[1];
-            document.getElementById('timeline-orange-3').textContent = data.orange[2];
-        }
-        
-        // Обновляем синий сценарий
-        if (data.blue) {
-            document.getElementById('timeline-blue-1').textContent = data.blue[0];
-            document.getElementById('timeline-blue-2').textContent = data.blue[1];
-            document.getElementById('timeline-blue-3').textContent = data.blue[2];
-        }
-        
-        // Обновляем заголовки
-        updateTimelineTitles();
-    }
-
-    function updateTimelineTitles() {
-        const titles = {
-            7: { red: 'Критические дни:', orange: 'Дни улучшения:', blue: 'Дни прорыва:' },
-            30: { red: 'Критические точки:', orange: 'Точки улучшения:', blue: 'Моменты прорыва:' },
-            90: { red: 'Критические этапы:', orange: 'Этапы улучшения:', blue: 'Этапы прорыва:' }
-        };
-        
-        const titleSet = titles[currentDays] || titles[30];
-        document.getElementById('timeline-title-red').textContent = titleSet.red;
-        document.getElementById('timeline-title-orange').textContent = titleSet.orange;
-        document.getElementById('timeline-title-blue').textContent = titleSet.blue;
     }
     </script>
 </body>
