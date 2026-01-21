@@ -626,6 +626,161 @@
             font-size: 12px;
         }
 
+        /* ===== СРАВНЕНИЕ СОВЕТОВ ===== */
+        .advice-section {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+        }
+
+        .advice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .advice-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .advice-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .advice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .advice-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .advice-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .advice-icon.local {
+            background: linear-gradient(135deg, var(--accent), var(--neon-green));
+        }
+
+        .advice-icon.cloud {
+            background: linear-gradient(135deg, var(--ai-color), var(--neon-purple));
+        }
+
+        .advice-title {
+            flex: 1;
+        }
+
+        .advice-title h3 {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .advice-title p {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        .advice-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .local-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+        }
+
+        .cloud-badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--ai-color);
+        }
+
+        .advice-list {
+            list-style: none;
+        }
+
+        .advice-list li {
+            padding: 15px 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .advice-list li:last-child {
+            border-bottom: none;
+        }
+
+        .advice-list li i {
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .advice-list.local li i {
+            color: var(--accent);
+        }
+
+        .advice-list.cloud li i {
+            color: var(--ai-color);
+        }
+
+        .advice-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+
+        .local .stat-value {
+            color: var(--accent);
+        }
+
+        .cloud .stat-value {
+            color: var(--ai-color);
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+        }
+
         /* ===== СРАВНЕНИЕ ===== */
         .comparison-section {
             max-width: 1200px;
@@ -806,6 +961,10 @@
             .control-btn {
                 padding: 14px 20px;
                 font-size: 0.9em;
+            }
+
+            .advice-grid {
+                grid-template-columns: 1fr;
             }
 
             .comparison-grid {
@@ -1114,6 +1273,172 @@
         </div>
     </section>
 
+    <!-- СЕКЦИЯ СОВЕТОВ -->
+    <section class="advice-section">
+        <h2 class="section-title">Сравнение советов: Локальный vs Облачный ИИ</h2>
+        
+        <div class="advice-grid">
+            <!-- Локальные советы -->
+            <div class="advice-card local">
+                <div class="advice-header">
+                    <div class="advice-icon local">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="advice-title">
+                        <h3>Локальный ИИ-аналитик</h3>
+                        <p>Работает на вашем устройстве • 0 запросов в сеть</p>
+                    </div>
+                    <span class="advice-badge local-badge">Приватный</span>
+                </div>
+                
+                <ul class="advice-list local">
+                    <li>
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <strong>Безопасность данных:</strong> Все данные остаются на вашем устройстве. Никто не имеет доступа к вашим мыслям и переживаниям.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-bolt"></i>
+                        <div>
+                            <strong>Мгновенный анализ:</strong> Работает оффлайн, без задержек на передачу данных. Результаты доступны сразу.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-user-secret"></i>
+                        <div>
+                            <strong>Анонимность:</strong> Полная анонимность — система не знает, кто вы, где находитесь, и не отслеживает вашу активность.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-brain"></i>
+                        <div>
+                            <strong>Базовые рекомендации:</strong> Выделяет ключевые паттерны, эмоции и темы. Даёт общие советы на основе локальных алгоритмов.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-code"></i>
+                        <div>
+                            <strong>Прозрачность:</strong> Все алгоритмы работают локально. Вы можете проверить код и убедиться в его безопасности.
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="advice-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Сетевых запросов</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Приватность</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">∞</div>
+                        <div class="stat-label">Работа оффлайн</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Облачные советы -->
+            <div class="advice-card cloud">
+                <div class="advice-header">
+                    <div class="advice-icon cloud">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="advice-title">
+                        <h3>«Слепой» Облачный ИИ</h3>
+                        <p>Работает с зашифрованными данными • Улучшенный анализ</p>
+                    </div>
+                    <span class="advice-badge cloud-badge">Расширенный</span>
+                </div>
+                
+                <ul class="advice-list cloud">
+                    <li>
+                        <i class="fas fa-eye-slash"></i>
+                        <div>
+                            <strong>Работа "вслепую":</strong> ИИ видит только зашифрованные паттерны. Не знает, кто вы и о чём конкретно ваш текст.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <strong>Глубокий анализ:</strong> Использует продвинутые модели машинного обучения для более точных рекомендаций.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-network-wired"></i>
+                        <div>
+                            <strong>Коллективная мудрость:</strong> Обучен на анонимных данных миллионов пользователей, что позволяет давать более точные советы.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <strong>Инновационные идеи:</strong> Может предложить неочевидные решения и стратегии, основанные на передовых исследованиях.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-sync-alt"></i>
+                        <div>
+                            <strong>Постоянное улучшение:</strong> Модели постоянно обновляются и улучшаются без компромисса приватности.
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="advice-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">1 запрос</div>
+                        <div class="stat-label">Только шифрованные данные</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">99.9%</div>
+                        <div class="stat-label">Точность анализа</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">10x</div>
+                        <div class="stat-label">Более умные советы</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Пример сравнения советов -->
+        <div class="privacy-check" style="margin-top: 40px;">
+            <h4>
+                <i class="fas fa-balance-scale"></i>
+                Пример сравнения советов для "Рабочего стресса"
+            </h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                <div>
+                    <h5 style="color: var(--accent); margin-bottom: 10px;">
+                        <i class="fas fa-microchip"></i> Локальный ИИ:
+                    </h5>
+                    <ul style="color: var(--text-secondary); font-size: 14px; margin-left: 20px;">
+                        <li>Делайте перерывы каждый час</li>
+                        <li>Планируйте задачи по приоритету</li>
+                        <li>Делитесь нагрузкой с коллегами</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="color: var(--ai-color); margin-bottom: 10px;">
+                        <i class="fas fa-robot"></i> Облачный ИИ:
+                    </h5>
+                    <ul style="color: var(--text-secondary); font-size: 14px; margin-left: 20px;">
+                        <li>Техника "Помодоро" с учётом вашего циркадного ритма</li>
+                        <li>Стратегия делегирования на основе анализа ваших паттернов</li>
+                        <li>Персонализированные техники mindfulness для вашего типа личности</li>
+                        <li>Рекомендации по балансу работы и жизни на основе миллионов анонимных случаев</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 14px;">
+                <i class="fas fa-info-circle"></i> Облачный ИИ работает только с зашифрованными паттернами и не имеет доступа к исходному тексту.
+                Все рекомендации даются "вслепую" на основе математических моделей.
+            </p>
+        </div>
+    </section>
+
     <!-- СРАВНЕНИЕ -->
     <section class="comparison-section">
         <h2 class="section-title">Сравнение с облачными аналогами</h2>
@@ -1182,12 +1507,21 @@
                     "emotion_negative: 85%",
                     "intensity_high: 82%"
                 ],
-                aiAdvice: [
-                    "💡 Рекомендация: Практикуйте технику Pomodoro (25 мин работа, 5 мин отдых)",
-                    "💡 Совет: Обсудите workload с руководителем, используя факты, а не эмоции",
-                    "💡 Стратегия: Запланируйте короткие перерывы каждый час",
-                    "✅ Подтверждение: Анализ выполнен без доступа к исходному тексту",
-                    "🔒 Конфиденциальность: ИИ не знает, кто вы и о чём конкретно писали"
+                // Локальные советы (работают на устройстве)
+                localAdvice: [
+                    "🧠 Локальный анализ: Выявлен высокий уровень стресса",
+                    "⚡ Рекомендация: Делайте 5-минутные перерывы каждый час",
+                    "📋 Совет: Составьте список задач по приоритетам",
+                    "💡 Идея: Обсудите workload с руководителем",
+                    "✅ Статус: Все данные обработаны на устройстве"
+                ],
+                // Облачные советы (работают с зашифрованными данными)
+                cloudAdvice: [
+                    "🤖 Расширенный анализ: Выявлены паттерны профессионального выгорания",
+                    "🎯 Персонализированная стратегия: Техника Pomodoro 52/17 для максимальной продуктивности",
+                    "🧘 Комплексный подход: Mindfulness-практики для снижения кортизола",
+                    "📊 На основе данных: 89% пользователей с аналогичными паттернами улучшили баланс работы и жизни",
+                    "🔒 Примечание: ИИ не видел исходный текст, только зашифрованные паттерны"
                 ]
             },
             health: {
@@ -1200,12 +1534,19 @@
                     "emotion_positive: 75%",
                     "progress_trend: 82%"
                 ],
-                aiAdvice: [
-                    "💡 Рекомендация: Добавьте силовые упражнения для укрепления коленей",
-                    "💡 Совет: Консультация ортопеда может предотвратить травмы",
-                    "💡 Стратегия: Чередуйте бег с плаванием или велосипедом",
-                    "✅ Подтверждение: Медицинские данные остались приватными",
-                    "🔒 Конфиденциальность: Никто не знает о ваших конкретных симптомах"
+                localAdvice: [
+                    "🧠 Локальный анализ: Положительные изменения в образе жизни",
+                    "⚡ Рекомендация: Чередуйте бег с другими видами активности",
+                    "📋 Совет: Обратите внимание на технику бега",
+                    "💡 Идея: Добавьте силовые упражнения для укрепления мышц",
+                    "✅ Статус: Медицинские данные защищены"
+                ],
+                cloudAdvice: [
+                    "🤖 Расширенный анализ: Паттерны здоровых привычек с риском перетренированности",
+                    "🎯 Персонализированный план: Программа кросс-тренинга для начинающих бегунов",
+                    "🏃 Техника бега: Рекомендации по постановке стопы на основе биомеханики",
+                    "🍎 Питание: Оптимальное соотношение белков/жиров/углеводов для восстановления",
+                    "🔒 Примечание: Все медицинские данные остались анонимными"
                 ]
             },
             relations: {
@@ -1218,12 +1559,19 @@
                     "emotion_mixed: 79%",
                     "urgency_medium: 72%"
                 ],
-                aiAdvice: [
-                    "💡 Рекомендация: Используйте 'Я-сообщения' ('Я чувствую...', 'Мне важно...')",
-                    "💡 Совет: Выберите нейтральное время и место для разговора",
-                    "💡 Стратегия: Сначала выслушайте, потом говорите",
-                    "✅ Подтверждение: Личные отношения остались конфиденциальными",
-                    "🔒 Конфиденциальность: ИИ не знает имён и деталей конфликта"
+                localAdvice: [
+                    "🧠 Локальный анализ: Конфликт в отношениях",
+                    "⚡ Рекомендация: Используйте 'Я-сообщения' в разговоре",
+                    "📋 Совет: Выберите спокойное время для беседы",
+                    "💡 Идея: Сначала выслушайте, потом говорите",
+                    "✅ Статус: Личные переживания защищены"
+                ],
+                cloudAdvice: [
+                    "🤖 Расширенный анализ: Паттерны коммуникационных барьеров",
+                    "🎯 Стратегия: Метод ненасильственного общения (ННО)",
+                    "💞 Эмоциональный интеллект: Техники распознавания эмоций партнёра",
+                    "🤝 Конфликт-менеджмент: Алгоритм разрешения споров на основе исследований",
+                    "🔒 Примечание: ИИ не знает деталей конфликта, только паттерны"
                 ]
             },
             finance: {
@@ -1236,12 +1584,19 @@
                     "emotion_positive: 81%",
                     "sophistication_high: 77%"
                 ],
-                aiAdvice: [
-                    "💡 Рекомендация: 70/30 - 70% в рост, 30% в защитные активы",
-                    "💡 Совет: Финансовая подушка должна быть в ликвидных активах",
-                    "💡 Стратегия: Диверсифицируйте по классам активов и валютам",
-                    "✅ Подтверждение: Финансовые данные не передавались",
-                    "🔒 Конфиденциальность: Суммы и конкретные активы неизвестны"
+                localAdvice: [
+                    "🧠 Локальный анализ: Позитивные финансовые паттерны",
+                    "⚡ Рекомендация: 70/30 - 70% рост, 30% защита",
+                    "📋 Совет: Финансовая подушка в ликвидных активах",
+                    "💡 Идея: Диверсифицируйте по классам активов",
+                    "✅ Статус: Финансовые данные в безопасности"
+                ],
+                cloudAdvice: [
+                    "🤖 Расширенный анализ: Паттерны рационального инвестора",
+                    "🎯 Стратегия: Аллокация активов на основе риск-профиля",
+                    "📈 Маркет-инсайты: Текущие тренды на основе миллиона анонимных портфелей",
+                    "🛡️ Риск-менеджмент: Хеджирование валютных рисков",
+                    "🔒 Примечание: Конкретные суммы и активы неизвестны ИИ"
                 ]
             }
         };
@@ -1629,25 +1984,31 @@
             sendBtn.disabled = true;
             
             setTimeout(() => {
-                simulateAIProcessing(note.aiAdvice || demoNotes.work.aiAdvice);
-                sendBtn.disabled = false;
-                sendBtn.innerHTML = '<i class="fas fa-robot"></i> Отправить ИИ';
+                // Сначала показываем локальные советы
+                simulateLocalAIProcessing(note.localAdvice || demoNotes.work.localAdvice);
+                
+                // Затем через 3 секунды показываем облачные советы
+                setTimeout(() => {
+                    simulateCloudAIProcessing(note.cloudAdvice || demoNotes.work.cloudAdvice);
+                    sendBtn.disabled = false;
+                    sendBtn.innerHTML = '<i class="fas fa-robot"></i> Отправить ИИ';
+                }, 3000);
             }, 1000);
         }
 
-        // ===== ИМИТАЦИЯ ОБРАБОТКИ ИИ =====
-        function simulateAIProcessing(aiAdvice) {
+        // ===== ИМИТАЦИЯ ЛОКАЛЬНОЙ ОБРАБОТКИ ИИ =====
+        function simulateLocalAIProcessing(localAdvice) {
             const serverContent = document.getElementById('serverContent');
             const serverStatus = document.getElementById('serverStatus');
             
             // Обновляем статус
-            serverStatus.textContent = 'Активен';
+            serverStatus.textContent = 'Локальный ИИ';
             serverStatus.className = 'step-status active';
             
             // Очищаем контент
             serverContent.innerHTML = '';
             
-            const steps = aiAdvice;
+            const steps = localAdvice;
             let currentStep = 0;
             
             const interval = setInterval(() => {
@@ -1655,8 +2016,62 @@
                     const dataItem = document.createElement('div');
                     dataItem.className = 'data-item';
                     
-                    const icon = steps[currentStep].includes('💡') ? 'fa-lightbulb' : 
-                                steps[currentStep].includes('✅') ? 'fa-check-circle' :
+                    const icon = steps[currentStep].includes('🧠') ? 'fa-brain' : 
+                                steps[currentStep].includes('⚡') ? 'fa-bolt' :
+                                steps[currentStep].includes('📋') ? 'fa-clipboard-list' :
+                                steps[currentStep].includes('💡') ? 'fa-lightbulb' :
+                                steps[currentStep].includes('✅') ? 'fa-check-circle' : 'fa-comment';
+                    
+                    dataItem.innerHTML = `
+                        <i class="fas ${icon}"></i>
+                        <span>${steps[currentStep]}</span>
+                    `;
+                    dataItem.style.animation = 'fadeIn 0.5s ease';
+                    serverContent.appendChild(dataItem);
+                    
+                    currentStep++;
+                    
+                    // Прокручиваем к последнему элементу
+                    serverContent.scrollTop = serverContent.scrollHeight;
+                } else {
+                    clearInterval(interval);
+                    
+                    // Добавляем разделитель между локальными и облачными советами
+                    setTimeout(() => {
+                        const divider = document.createElement('div');
+                        divider.className = 'data-item';
+                        divider.innerHTML = `
+                            <i class="fas fa-arrow-down" style="color: var(--ai-color);"></i>
+                            <span><strong>🔒 Отправка зашифрованных данных в облачный ИИ...</strong></span>
+                        `;
+                        divider.style.animation = 'fadeIn 0.5s ease';
+                        serverContent.appendChild(divider);
+                    }, 500);
+                }
+            }, 700);
+        }
+
+        // ===== ИМИТАЦИЯ ОБЛАЧНОЙ ОБРАБОТКИ ИИ =====
+        function simulateCloudAIProcessing(cloudAdvice) {
+            const serverContent = document.getElementById('serverContent');
+            const serverStatus = document.getElementById('serverStatus');
+            
+            // Обновляем статус
+            serverStatus.textContent = 'Облачный ИИ';
+            serverStatus.className = 'step-status active';
+            
+            const steps = cloudAdvice;
+            let currentStep = 0;
+            
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    const dataItem = document.createElement('div');
+                    dataItem.className = 'data-item';
+                    
+                    const icon = steps[currentStep].includes('🤖') ? 'fa-robot' : 
+                                steps[currentStep].includes('🎯') ? 'fa-bullseye' :
+                                steps[currentStep].includes('🧘') ? 'fa-spa' :
+                                steps[currentStep].includes('📊') ? 'fa-chart-line' :
                                 steps[currentStep].includes('🔒') ? 'fa-shield-alt' : 'fa-comment';
                     
                     dataItem.innerHTML = `
@@ -1682,7 +2097,7 @@
                         showFinalMessage();
                     }, 500);
                 }
-            }, 700);
+            }, 800);
         }
 
         // ===== АКТИВАЦИЯ ШАГА =====
@@ -1738,8 +2153,9 @@
                 </h4>
                 <div class="privacy-instruction">
                     <p><strong>✅ Приватность доказана!</strong></p>
-                    <p>Весь анализ выполнен в вашем браузере без отправки данных на сервер.</p>
-                    <p>Проверьте Network tab → 0 запросов к внешним ресурсам.</p>
+                    <p>1. Локальный анализ: 0 запросов в сеть</p>
+                    <p>2. Облачный ИИ: видел только зашифрованные паттерны</p>
+                    <p>3. Исходный текст: никогда не покидал ваше устройство</p>
                 </div>
             `;
             
@@ -1912,7 +2328,7 @@
             analyzeCurrentNote,
             analyzeCustomText,
             resetDemo,
-            simulateAIProcessing
+            simulateCloudAIProcessing
         };
 
         console.log('🚀 Aurora 4.0 Аналитик готов к работе!');
