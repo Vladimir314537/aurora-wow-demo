@@ -1316,7 +1316,117 @@
             console.log(`📝 Заметка обновлена: ${note.title}`);
         }
 
-        // ===== ЛОКАЛЬНЫЙ АНАЛИЗ =====
+        // ===== ИМИТАЦИЯ ЛОКАЛЬНОГО АНАЛИЗА =====
+        async function simulateLocalAnalysis(text) {
+            return new Promise((resolve, reject) => {
+                try {
+                    setTimeout(() => {
+                        // Простой анализ текста в браузере
+                        console.log('🔍 Анализирую текст локально:', text.substring(0, 50) + '...');
+                        
+                        // Выводим в консоль подтверждение локальности
+                        console.log('📍 Вся обработка происходит в браузере');
+                        console.log('🌐 Проверьте Network tab: нет запросов к серверу');
+                        
+                        // Анализ текста на основе простых паттернов
+                        const wordCount = text.split(/\s+/).length;
+                        const charCount = text.length;
+                        
+                        // Определяем эмоциональный тон
+                        const lowerText = text.toLowerCase();
+                        let emotion = 'нейтральный';
+                        if (lowerText.includes('хорош') || lowerText.includes('отлич') || lowerText.includes('рад')) {
+                            emotion = 'позитивный';
+                        } else if (lowerText.includes('плох') || lowerText.includes('ужасн') || lowerText.includes('стресс')) {
+                            emotion = 'негативный';
+                        } else if (lowerText.includes('смешан') || lowerText.includes('разные')) {
+                            emotion = 'смешанный';
+                        }
+                        
+                        const analysisResults = {
+                            emotion: emotion,
+                            wordCount: wordCount,
+                            charCount: charCount,
+                            containsQuestions: text.includes('?'),
+                            containsExclamations: text.includes('!'),
+                            processed: true,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        console.log('📊 Результаты анализа:', analysisResults);
+                        
+                        resolve(analysisResults);
+                    }, 1500);
+                } catch (error) {
+                    console.error('❌ Ошибка в simulateLocalAnalysis:', error);
+                    reject(error);
+                }
+            });
+        }
+
+        // ===== АНАЛИЗ ПОЛЬЗОВАТЕЛЬСКОГО ТЕКСТА =====
+        async function analyzeCustomText() {
+            const customNoteInput = document.getElementById('customNoteInput');
+            const analyzeCustomBtn = document.getElementById('analyzeCustomBtn');
+            
+            if (!customNoteInput || !analyzeCustomBtn) {
+                showError('Элементы интерфейса не найдены');
+                return;
+            }
+            
+            const userText = customNoteInput.value.trim();
+            
+            if (!userText || userText.length < 3) {
+                alert('Пожалуйста, введите текст для анализа (минимум 3 символа)');
+                return;
+            }
+            
+            try {
+                analyzeCustomBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
+                analyzeCustomBtn.disabled = true;
+                
+                // Выполняем анализ
+                const analysisResults = await simulateLocalAnalysis(userText);
+                
+                // Обновляем UI для пользовательского текста
+                updateLocalStep({
+                    text: userText,
+                    title: "Пользовательская заметка",
+                    analysisResults: analysisResults
+                });
+                
+                // Создаём уникальный хеш для шифрования
+                const textHash = 'U2FsdGVkX1+' + btoa(userText.substring(0, 10)).substring(0, 20) + '=';
+                
+                setTimeout(() => {
+                    updateEncryptionStep([
+                        "🔐 " + textHash,
+                        "pattern_custom: " + Math.floor(Math.random() * 30 + 70) + "%",
+                        "word_count: " + analysisResults.wordCount,
+                        "emotion: " + analysisResults.emotion,
+                        "user_defined: true",
+                        "processed_locally: 100%"
+                    ]);
+                }, 800);
+                
+                document.getElementById('sendToAiBtn').disabled = false;
+                
+                showCustomPrivacyAlert();
+                
+                console.log('✅ Пользовательский анализ завершен');
+                logNetworkStatus();
+                
+            } catch (error) {
+                console.error('❌ Ошибка анализа:', error);
+                showError('Ошибка анализа. Проверьте консоль для деталей.');
+            } finally {
+                analyzeCustomBtn.disabled = false;
+                analyzeCustomBtn.innerHTML = '<i class="fas fa-brain"></i> Проанализировать мой текст';
+                isAnalyzed = true;
+            }
+        }
+
+        // ===== АНАЛИЗ ТЕКУЩЕЙ ЗАМЕТКИ =====
         async function analyzeCurrentNote() {
             if (isAnalyzed) {
                 alert('Анализ уже выполнен. Нажмите "Сбросить" для повторного анализа.');
@@ -1331,10 +1441,15 @@
                 analyzeBtn.disabled = true;
                 
                 // Имитация локального анализа
-                await simulateLocalAnalysis(note.text);
+                const analysisResults = await simulateLocalAnalysis(note.text);
                 
                 // Обновляем UI
-                updateLocalStep(note);
+                updateLocalStep({
+                    text: note.text,
+                    title: note.title,
+                    analysisResults: analysisResults
+                });
+                
                 setTimeout(() => {
                     updateEncryptionStep(note.encryptedPatterns);
                 }, 800);
@@ -1360,82 +1475,8 @@
             }
         }
 
-        // ===== ИМИТАЦИЯ ЛОКАЛЬНОГО АНАЛИЗА =====
-        async function simulateLocalAnalysis(text) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    // Здесь мог бы быть реальный локальный анализ
-                    console.log('🔍 Анализирую текст локально:', text.substring(0, 50) + '...');
-                    
-                    // Выводим в консоль подтверждение локальности
-                    console.log('📍 Вся обработка происходит в браузере');
-                    console.log('🌐 Проверьте Network tab: нет запросов к серверу');
-                    
-                    resolve();
-                }, 1500);
-            });
-        }
-
-        // ===== АНАЛИЗ ПОЛЬЗОВАТЕЛЬСКОГО ТЕКСТА =====
-        async function analyzeCustomText() {
-            const customNoteInput = document.getElementById('customNoteInput');
-            const analyzeCustomBtn = document.getElementById('analyzeCustomBtn');
-            
-            if (!customNoteInput || !analyzeCustomBtn) return;
-            
-            const userText = customNoteInput.value.trim();
-            
-            if (!userText || userText.length < 3) {
-                alert('Пожалуйста, введите текст для анализа (минимум 3 символа)');
-                return;
-            }
-            
-            try {
-                analyzeCustomBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
-                analyzeCustomBtn.disabled = true;
-                
-                // Имитация анализа
-                await simulateLocalAnalysis(userText);
-                
-                // Обновляем UI для пользовательского текста
-                updateLocalStep({
-                    text: userText,
-                    title: "Пользовательская заметка",
-                    encryptedPatterns: [
-                        "🔐 U2FsdGVkX1+" + btoa(userText.substring(0, 10)).substring(0, 20) + "=",
-                        "pattern_custom: " + Math.floor(Math.random() * 30 + 70) + "%",
-                        "emotion_detected: mixed"
-                    ]
-                });
-                
-                setTimeout(() => {
-                    updateEncryptionStep([
-                        "🔐 U2FsdGVkX1+" + btoa(userText.substring(0, 10)).substring(0, 20) + "=",
-                        "pattern_custom: " + Math.floor(Math.random() * 30 + 70) + "%",
-                        "user_defined: true",
-                        "processed_locally: 100%"
-                    ]);
-                }, 800);
-                
-                document.getElementById('sendToAiBtn').disabled = false;
-                
-                showCustomPrivacyAlert();
-                
-                console.log('✅ Пользовательский анализ завершен');
-                logNetworkStatus();
-                
-            } catch (error) {
-                console.error('❌ Ошибка анализа:', error);
-                showError('Ошибка анализа. Проверьте консоль для деталей.');
-            } finally {
-                analyzeCustomBtn.disabled = false;
-                analyzeCustomBtn.innerHTML = '<i class="fas fa-brain"></i> Проанализировать мой текст';
-                isAnalyzed = true;
-            }
-        }
-
         // ===== ОБНОВЛЕНИЕ ЛОКАЛЬНОГО ШАГА =====
-        function updateLocalStep(note) {
+        function updateLocalStep(data) {
             const localContent = document.getElementById('localContent');
             const localStatus = document.getElementById('localStatus');
             
@@ -1460,8 +1501,8 @@
                     text: '🌐 Проверено: 0 запросов к серверу'
                 },
                 {
-                    icon: 'fa-microchip',
-                    text: '⚡ Скорость: ~' + (Math.random() * 100 + 50).toFixed(0) + 'ms'
+                    icon: 'fa-chart-bar',
+                    text: '📊 Слов: ' + (data.analysisResults?.wordCount || 'N/A') + ', Эмоция: ' + (data.analysisResults?.emotion || 'N/A')
                 },
                 {
                     icon: 'fa-shield-alt',
@@ -1481,7 +1522,9 @@
             });
             
             // Активируем следующий шаг
-            activateStep('encryptStep');
+            setTimeout(() => {
+                activateStep('encryptStep');
+            }, 300);
         }
 
         // ===== ОБНОВЛЕНИЕ ШИФРОВАНИЯ =====
