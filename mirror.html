@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0">
     
     <title>Aurora 4.0 — Зеркало Будущего</title>
-    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v5">
+    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v6">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
@@ -398,7 +398,7 @@
                     <span class="footer-divider">•</span>
                     <span class="footer-text">Приватный цифровой дневник с ИИ</span>
                     <span class="footer-divider">•</span>
-                    <span class="footer-text" id="version-info">v2024-01-20-v5</span>
+                    <span class="footer-text" id="version-info">v2024-01-20-v6</span>
                 </div>
                 <div class="footer-right">
                     <span class="footer-text">Локальный AI активен</span>
@@ -411,12 +411,12 @@
     </div>
 
     <!-- ПОДКЛЮЧАЕМ JavaScript С ВЕРСИЕЙ -->
-    <script src="mirror.js?v=2024-01-20-v5"></script>
+    <script src="mirror.js?v=2024-01-20-v6"></script>
     
     <!-- ВСТРОЕННЫЙ JavaScript С ИСПРАВЛЕНИЯМИ -->
     <script>
     // ===== ВЕРСИЯ И АНТИКЭШ СИСТЕМА =====
-    console.log('🚀 AURORA MIRROR v2024-01-20-v5');
+    console.log('🚀 AURORA MIRROR v2024-01-20-v6');
     console.log('Загружено: ' + new Date().toISOString());
     console.log('URL: ' + window.location.href);
     
@@ -620,7 +620,7 @@
 
     // ===== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Aurora Mirror v2024-01-20-v5 инициализируется');
+        console.log('🚀 Aurora Mirror v2024-01-20-v6 инициализируется');
         initializeApp();
     });
 
@@ -737,9 +737,9 @@
             analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Анализирую...';
             analyzeBtn.disabled = true;
             
-            // Определяем тему
+            // Определяем тему из текста
             const topic = detectTopic(text);
-            console.log('Определена тема:', topic);
+            console.log(`📊 Определена тема из текста: ${topic}`);
             currentTopic = topic;
             
             setTimeout(() => {
@@ -760,7 +760,7 @@
                         resultsSection.style.display = 'block';
                     }
                     
-                    showNotification(`✅ Анализ завершён! Тема: ${topic}`, 'success');
+                    showNotification(`✅ Анализ завершён! Определена тема: ${getTopicName(topic)}`, 'success');
                     
                 } catch (error) {
                     console.error('Ошибка:', error);
@@ -771,6 +771,62 @@
                 }
             }, 1500);
         }
+    }
+
+    // ===== УЛУЧШЕННАЯ ФУНКЦИЯ ОПРЕДЕЛЕНИЯ ТЕМЫ =====
+    function detectTopic(text) {
+        const textLower = text.toLowerCase();
+        
+        // Более точные паттерны для каждой темы
+        const patterns = {
+            'work': ['работа', 'начальник', 'коллега', 'карьера', 'офис', 'проект', 'дедлайн', 'зарплата', 'увольнение', 'профессия', 'должность', 'сотрудник', 'босс', 'руководитель'],
+            'relationships': ['отношен', 'партнер', 'муж', 'жена', 'любов', 'семья', 'друг', 'подруга', 'свидан', 'брак', 'развод', 'чувства', 'близость', 'расставание', 'ссора', 'конфликт семейный'],
+            'anxiety': ['тревог', 'страх', 'беспокойств', 'паник', 'нерв', 'стресс', 'волнен', 'опасен', 'боюсь', 'испуг', 'фобия', 'беспокоит', 'переживаю', 'напряжен', 'тревожно'],
+            'motivation': ['мотивац', 'цель', 'мечта', 'интерес', 'энергия', 'сила', 'желан', 'стремлен', 'планы', 'будущее', 'успех', 'достижен', 'апатия', 'лень', 'безразлич', 'устал от всего']
+        };
+        
+        let maxMatches = 0;
+        let detectedTopic = currentTopic || 'work';
+        
+        // Считаем совпадения для каждой темы
+        for (const [topic, keywords] of Object.entries(patterns)) {
+            let matches = 0;
+            for (const keyword of keywords) {
+                // Ищем точные вхождения
+                if (textLower.includes(keyword)) {
+                    matches += 2; // Больший вес для точных совпадений
+                }
+                // Ищем частичные совпадения
+                else if (keyword.length > 4 && textLower.includes(keyword.substring(0, keyword.length - 1))) {
+                    matches += 1; // Меньший вес для частичных
+                }
+            }
+            
+            if (matches > maxMatches) {
+                maxMatches = matches;
+                detectedTopic = topic;
+            }
+        }
+        
+        console.log(`🎯 Определена тема: ${detectedTopic} (${maxMatches} совпадений)`);
+        
+        // Если очень мало совпадений, возвращаем текущую тему
+        if (maxMatches < 2) {
+            console.log(`⚠️ Мало совпадений, использую текущую тему: ${currentTopic}`);
+            return currentTopic || 'work';
+        }
+        
+        return detectedTopic;
+    }
+
+    function getTopicName(topic) {
+        const names = {
+            'work': 'Работа',
+            'relationships': 'Отношения', 
+            'anxiety': 'Тревога',
+            'motivation': 'Мотивация'
+        };
+        return names[topic] || 'Общая тема';
     }
 
     // ===== ГЛАВНАЯ ФУНКЦИЯ: ОБНОВЛЕНИЕ ВСЕХ СЦЕНАРИЕВ =====
@@ -785,21 +841,21 @@
         const blueEl = document.getElementById('scenario-blue');
         
         if (redEl) {
-            console.log('Обновляю красный сценарий:', scenarios.red.substring(0, 50));
+            console.log('Обновляю красный сценарий');
             redEl.textContent = scenarios.red;
             redEl.classList.add('update-highlight');
             setTimeout(() => redEl.classList.remove('update-highlight'), 1000);
         }
         
         if (orangeEl) {
-            console.log('Обновляю оранжевый сценарий:', scenarios.orange.substring(0, 50));
+            console.log('Обновляю оранжевый сценарий');
             orangeEl.textContent = scenarios.orange;
             orangeEl.classList.add('update-highlight');
             setTimeout(() => orangeEl.classList.remove('update-highlight'), 1000);
         }
         
         if (blueEl) {
-            console.log('Обновляю синий сценарий:', scenarios.blue.substring(0, 50));
+            console.log('Обновляю синий сценарий');
             blueEl.textContent = scenarios.blue;
             blueEl.classList.add('update-highlight');
             setTimeout(() => blueEl.classList.remove('update-highlight'), 1000);
@@ -934,6 +990,22 @@
         document.getElementById('emotion-value').textContent = emotionValue + '%';
         document.getElementById('emotion-fill').style.width = emotionValue + '%';
         
+        // Обновляем эмоциональные теги
+        const emotionTags = {
+            'work': ['Тревога', 'Усталость', 'Стресс'],
+            'relationships': ['Конфликт', 'Одиночество', 'Разочарование'],
+            'anxiety': ['Паника', 'Беспокойство', 'Напряжение'],
+            'motivation': ['Апатия', 'Усталость', 'Разочарование']
+        };
+        
+        const tags = emotionTags[topic] || emotionTags.work;
+        const emotionTagsContainer = document.getElementById('emotion-tags');
+        if (emotionTagsContainer) {
+            emotionTagsContainer.innerHTML = tags.map(tag => 
+                `<span class="emotion-tag negative">${tag}</span>`
+            ).join('');
+        }
+        
         // Обновляем темы
         const topics = {
             'work': ['Работа / Карьера', 'Эмоциональное выгорание', 'Сон и энергия'],
@@ -951,33 +1023,6 @@
                 <span class="topic-tag tertiary">${topicTags[2]}</span>
             `;
         }
-    }
-
-    function detectTopic(text) {
-        const textLower = text.toLowerCase();
-        
-        if (textLower.includes('работ') || textLower.includes('начальник') || 
-            textLower.includes('коллег') || textLower.includes('карьер')) {
-            return 'work';
-        }
-        
-        if (textLower.includes('отношен') || textLower.includes('партнёр') || 
-            textLower.includes('муж') || textLower.includes('жена') || 
-            textLower.includes('семь') || textLower.includes('любов')) {
-            return 'relationships';
-        }
-        
-        if (textLower.includes('тревог') || textLower.includes('страх') || 
-            textLower.includes('беспокойств') || textLower.includes('паник')) {
-            return 'anxiety';
-        }
-        
-        if (textLower.includes('мотивац') || textLower.includes('цел') || 
-            textLower.includes('мечт') || textLower.includes('интерес')) {
-            return 'motivation';
-        }
-        
-        return currentTopic || 'work';
     }
 
     // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
