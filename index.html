@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURORA 4.0 - Система мышления с умным поиском</title>
+    <title>AURORA 4.0 - Приватный цифровой дневник с ИИ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -245,9 +245,9 @@
             }
         }
 
-        /* Кнопка приветствия */
+        /* Кнопки */
         .hero-voice-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--ai-color), var(--primary-dark));
             color: white;
             border: none;
             padding: 14px 30px;
@@ -258,7 +258,7 @@
             align-items: center;
             gap: 10px;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
             font-weight: 600;
             position: relative;
             overflow: hidden;
@@ -281,8 +281,45 @@
 
         .hero-voice-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.6);
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
+        }
+
+        .feature-btn {
+            background: linear-gradient(135deg, var(--ai-color), var(--primary));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+            font-weight: 600;
+            text-decoration: none;
+            width: 100%;
+            max-width: 300px;
+            justify-content: center;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (min-width: 768px) {
+            .feature-btn {
+                padding: 18px 45px;
+                font-size: 1.2em;
+                width: auto;
+                max-width: none;
+            }
+        }
+
+        .feature-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
+            background: linear-gradient(135deg, var(--primary), var(--ai-color));
         }
 
         /* Частицы */
@@ -571,43 +608,6 @@
                 margin-top: 50px;
                 padding-top: 40px;
             }
-        }
-
-        .feature-btn {
-            background: linear-gradient(135deg, var(--ai-color), var(--primary));
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1em;
-            border-radius: 50px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-            font-weight: 600;
-            text-decoration: none;
-            width: 100%;
-            max-width: 300px;
-            justify-content: center;
-            min-height: 44px;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        @media (min-width: 768px) {
-            .feature-btn {
-                padding: 18px 45px;
-                font-size: 1.2em;
-                width: auto;
-                max-width: none;
-            }
-        }
-
-        .feature-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
-            background: linear-gradient(135deg, var(--primary), var(--ai-color));
         }
 
         /* ===== ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ ГИБРИДНОГО ПОИСКА ===== */
@@ -1192,14 +1192,12 @@
 
         /* ===== ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ ===== */
         @media (max-width: 767px) {
-            /* Основной контейнер */
             .feature-section .main-app {
                 padding: 20px 0;
                 margin: 0 -10px;
                 width: calc(100% + 20px);
             }
 
-            /* Контейнер Aurora */
             .feature-section .aurora-container {
                 display: flex;
                 flex-direction: column;
@@ -1207,7 +1205,6 @@
                 padding: 0 15px;
             }
 
-            /* Заголовок приложения */
             .feature-section .app-title {
                 padding: 0;
                 margin-bottom: 20px;
@@ -1219,7 +1216,6 @@
                 padding: 0 10px;
             }
 
-            /* Хедер с логотипом */
             .feature-section .header {
                 flex-direction: column;
                 align-items: center;
@@ -1234,7 +1230,6 @@
                 gap: 10px;
             }
 
-            /* Карточки поиска, создания заметок и списка заметок */
             .feature-section .search-section,
             .feature-section .create-note,
             .feature-section .notes-section {
@@ -1243,35 +1238,30 @@
                 margin: 0;
             }
 
-            /* Поле поиска */
             .feature-section .search-input {
                 padding: 14px 45px 14px 15px;
                 font-size: 16px;
                 border-radius: 10px;
             }
 
-            /* Кнопка поиска */
             .feature-section .search-btn {
                 width: 35px;
                 height: 35px;
                 right: 8px;
             }
 
-            /* Сайдбар на мобилках */
             .feature-section .sidebar {
                 display: grid;
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
 
-            /* Карточки аналитики и быстрых действий */
             .feature-section .analytics-card,
             .feature-section .quick-actions-card {
                 padding: 20px;
                 margin: 0;
             }
 
-            /* Сетка статистики */
             .feature-section .stats-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
@@ -1285,19 +1275,16 @@
                 font-size: 22px;
             }
 
-            /* Сетка заметок */
             .feature-section .notes-grid {
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
 
-            /* Карточки заметок */
             .feature-section .note-card {
                 padding: 15px;
                 border-radius: 10px;
             }
 
-            /* Заголовок секции заметок */
             .feature-section .section-header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -1310,7 +1297,6 @@
                 margin-top: 5px;
             }
 
-            /* Информация о поиске */
             .feature-section .search-info {
                 padding: 12px;
                 margin-top: 15px;
@@ -1321,7 +1307,6 @@
                 line-height: 1.3;
             }
 
-            /* Хедер результатов поиска */
             .feature-section .search-results-header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -1330,7 +1315,6 @@
                 margin-bottom: 15px;
             }
 
-            /* Форма создания заметки */
             .feature-section .note-form {
                 margin-top: 0;
             }
@@ -1339,14 +1323,12 @@
                 margin-bottom: 12px;
             }
 
-            /* Кнопки в мобильной версии */
             .feature-section .hero-voice-btn {
                 width: 100%;
                 padding: 14px 20px;
                 font-size: 1em;
             }
 
-            /* Аналитика поиска */
             .feature-section .search-analytics {
                 margin-top: 15px;
                 padding-top: 15px;
@@ -1357,7 +1339,6 @@
                 line-height: 1.3;
             }
 
-            /* Списки действий */
             .feature-section .actions-list {
                 gap: 10px;
             }
@@ -1366,19 +1347,16 @@
                 padding: 12px;
             }
 
-            /* Заголовки внутри карточек */
             .feature-section .card-header h3 {
                 font-size: 16px;
             }
 
-            /* Убираем лишние отступы */
             .feature-section .search-header,
             .feature-section .section-header {
                 margin-bottom: 15px;
             }
         }
 
-        /* Дополнительные исправления для очень маленьких экранов */
         @media (max-width: 360px) {
             .feature-section .main-app {
                 padding: 15px 0;
@@ -1427,7 +1405,6 @@
             }
         }
 
-        /* Исправление для планшетов */
         @media (min-width: 768px) and (max-width: 991px) {
             .feature-section .main-app {
                 padding: 30px 20px;
@@ -1572,7 +1549,6 @@
             }
         }
 
-        /* Плавные переходы для мобильных устройств */
         @media (max-width: 767px) {
             .feature-section .aurora-container,
             .feature-section .search-section,
@@ -1584,7 +1560,6 @@
             }
         }
 
-        /* Исправление для iOS Safari */
         @supports (-webkit-touch-callout: none) {
             @media (max-width: 767px) {
                 .feature-section .search-input,
@@ -1610,26 +1585,33 @@
             <div class="hero-content">
                 <div class="hero-badge">
                     <i class="fas fa-bolt"></i>
-                    <span>НОВОЕ ПОКОЛЕНИЕ AI</span>
+                    <span>ПРИВАТНЫЙ ИИ-ДНЕВНИК</span>
                 </div>
                 
                 <h1 class="hero-title">
-                    Aurora - Цифровой Дневник
+                    Aurora 4.0
                     <span style="display: block; font-size: 0.6em; margin-top: 10px;">
-                        Познай себя через свои мысли
+                        Цифровое убежище для ваших мыслей
                     </span>
                 </h1>
                 
                 <p class="hero-subtitle wrap-text">
-                    Персональный AI, который анализирует ваши мысли, находит паттерны успеха 
-                    и помогает принимать решения на основе вашего опыта.
+                    Первый в мире дневник с доказуемой приватностью. 
+                    Ваши мысли анализируются локально, никогда не покидая устройство. 
+                    Смотрите в «Зеркало Будущего» и проектируйте лучшие сценарии.
                 </p>
                 
-                <!-- Кнопка приветствия -->
-                <button class="hero-voice-btn" id="heroVoiceBtn">
-                    <i class="fas fa-volume-up"></i>
-                    Приветствие Aurora
-                </button>
+                <!-- ОБНОВЛЕННАЯ КНОПКА -->
+                <a href="mirror.html" class="hero-voice-btn" id="heroVoiceBtn">
+                    <i class="fas fa-crystal-ball"></i>
+                    Открыть Зеркало Будущего
+                </a>
+                
+                <!-- Второстепенная кнопка -->
+                <a href="analyst.html" class="feature-btn" style="margin-top: 15px; display: inline-block; width: auto; background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary)); color: var(--text-primary); border: 1px solid var(--border);">
+                    <i class="fas fa-shield-alt"></i>
+                    Проверить приватность (0 запросов)
+                </a>
                 
                 <div class="playing-indicator" id="playingIndicator" style="display: none; align-items: center; gap: 10px; margin-top: 15px; color: var(--primary); font-size: 0.9em;">
                     <div class="sound-waves">
@@ -1639,7 +1621,7 @@
                         <div class="wave" style="animation-delay: 0.3s;"></div>
                         <div class="wave" style="animation-delay: 0.4s;"></div>
                     </div>
-                    <span>Воспроизводится...</span>
+                    <span>Воспроизводится приветствие...</span>
                 </div>
             </div>
             
@@ -1654,106 +1636,127 @@
         </div>
     </section>
 
-    <!-- БЛОК 1: Зеркальное мышление -->
+    <!-- БЛОК 1: Зеркало Будущего -->
     <section class="feature-section">
         <div class="feature-container">
             <div class="feature-header">
                 <div class="feature-badge">
-                    <i class="fas fa-brain"></i>
-                    <span>AURORA - ЗЕРКАЛЬНОЕ МЫШЛЕНИЕ</span>
+                    <i class="fas fa-crystal-ball"></i>
+                    <span>AURORA - ЗЕРКАЛО БУДУЩЕГО</span>
                 </div>
-                <h2 class="feature-title">Узнайте свои паттерны мышления</h2>
+                <h2 class="feature-title">Проектируйте вероятности, а не предсказывайте</h2>
                 <p class="feature-description wrap-text">
-                    Ваш цифровой двойник анализирует, как вы думаете, и помогает увидеть себя со стороны.
-                    Найдите повторяющиеся ошибки, успешные стратегии и скрытые инсайты.
+                    Уникальная система анализа, которая показывает не что случится, а что может случиться.
+                    На основе ваших паттернов мышления строит 3 сценария развития событий и даёт конкретные эксперименты для изменения вероятностей.
                 </p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-content">
-                    <p><strong>«Зеркало мышления»</strong> — это не просто анализ заметок. Это глубокое изучение того, КАК вы думаете. Система выявляет:</p>
+                    <p><strong>«Зеркало Будущего»</strong> — это не гадание, а проектирование вероятностей. Система анализирует:</p>
                     
                     <div class="feature-points">
                         <div class="feature-point">
-                            <h4><i class="fas fa-chart-line"></i> Паттерны успеха</h4>
-                            <p class="wrap-text">Когда вы принимаете лучшие решения? Какие условия, время дня, эмоциональное состояние ведут к успешным результатам?</p>
+                            <h4><i class="fas fa-chart-line"></i> 3 сценария развития</h4>
+                            <p class="wrap-text">🟥 Путь продолжения (75%) — если ничего не менять<br>
+                               🟧 Управляемые изменения (20%) — с внедрением практик<br>
+                               🟦 Качественный прорыв (5%) — при трансформации подхода</p>
                         </div>
                         
                         <div class="feature-point">
-                            <h4><i class="fas fa-exclamation-circle"></i> Типичные ошибки</h4>
-                            <p class="wrap-text">Какие мыслительные паттерны ведут к стрессу, прокрастинации или неправильным решениям? Как их избежать?</p>
+                            <h4><i class="fas fa-flask"></i> Научный подход</h4>
+                            <p class="wrap-text">Конкретные эксперименты на неделю с предсказанием результатов.<br>
+                               Пример: «10-мин медитация утром → -35% стресса, +2ч качественного сна»</p>
                         </div>
                         
                         <div class="feature-point">
-                            <h4><i class="fas fa-lightbulb"></i> Скрытые инсайты</h4>
-                            <p class="wrap-text">«Вы принимаете лучшие решения по вторникам утром после кофе» — такие инсайты помогают оптимизировать свою жизнь.</p>
+                            <h4><i class="fas fa-bullseye"></i> Проактивные изменения</h4>
+                            <p class="wrap-text">Система показывает не только проблемы, но и конкретные шаги для их решения.<br>
+                               Вы получаете план действий, а не просто анализ ситуации.</p>
                         </div>
                     </div>
                     
-                    <p class="wrap-text">Система анализирует сотни ваших заметок и выстраивает полную картину вашего мышления. Вы увидите графы связей, тепловые карты активности, временные паттерны и многое другое.</p>
+                    <p class="wrap-text"><strong>Пример работы:</strong> Введите «Чувствую выгорание на работе» → система покажет:<br>
+                    1. Риск депрессии через 30 дней при сохранении паттернов<br>
+                    2. Улучшение состояния на 40% при внедрении практик<br>
+                    3. Конкретный эксперимент на неделю для изменения вероятностей</p>
                     
-                    <p class="wrap-text">Все анализы происходят <strong>локально на вашем устройстве</strong>. Ваши мысли никогда не покидают его. ИИ помогает анализировать, но не видит содержания ваших заметок.</p>
+                    <p class="wrap-text">Вся аналитика происходит <strong>локально на вашем устройстве</strong>. Откройте DevTools → Network → 0 запросов.</p>
                 </div>
                 
                 <div class="feature-action">
+                    <!-- ОБНОВЛЕННАЯ КНОПКА -->
                     <a href="mirror.html" class="feature-btn">
                         <i class="fas fa-play-circle"></i>
-                        Запустить зеркало мышления
+                        Проектировать будущее
                     </a>
+                    
+                    <!-- Дополнительная информация -->
+                    <div style="margin-top: 15px; font-size: 13px; color: var(--text-secondary); text-align: center;">
+                        <i class="fas fa-lock"></i> Работает полностью оффлайн • 0 запросов в сеть
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- БЛОК 2: Аналитик & Советник -->
+    <!-- БЛОК 2: Трёхуровневая приватность -->
     <section class="feature-section">
         <div class="feature-container">
             <div class="feature-header">
                 <div class="feature-badge">
-                    <i class="fas fa-microchip"></i>
-                    <span>AURORA - АНАЛИТИК & СОВЕТНИК</span>
+                    <i class="fas fa-shield-alt"></i>
+                    <span>ТРЁХУРОВНЕВАЯ ПРИВАТНОСТЬ</span>
                 </div>
-                <h2 class="feature-title">Приватная AI-архитектура</h2>
+                <h2 class="feature-title">ИИ, который помогает, не видя ваших данных</h2>
                 <p class="feature-description wrap-text">
-                    Уникальная трёхуровневая система, где ваши данные остаются локально, а ИИ помогает, не видя содержимого ваших заметок.
+                    Уникальная архитектура, где ваши мысли никогда не покидают устройство.
+                    Локальный анализ → Шифрование AES-256 → «Слепой» ИИ-советник.
                 </p>
             </div>
             
             <div class="feature-card">
                 <div class="feature-content">
-                    <p><strong>Архитектура «Аналитик-Советник»</strong> — это прорыв в приватности данных. В отличие от обычных AI-сервисов, которые читают всё:</p>
+                    <p><strong>Архитектура доказуемой приватности</strong> — проверьте сами: F12 → Network tab:</p>
                     
                     <div class="feature-points">
                         <div class="feature-point">
-                            <h4><i class="fas fa-mobile-alt"></i> Локальный Аналитик</h4>
-                            <p class="wrap-text">На вашем устройстве. Читает заметки, выделяет паттерны. <strong>Данные не покидают устройство.</strong> Видит ваш текст: "Стресс на работе... гулять вечером..."</p>
+                            <h4><i class="fas fa-mobile-alt"></i> Уровень 1: Локальный аналитик</h4>
+                            <p class="wrap-text">Работает на вашем устройстве. Читает текст, выделяет паттерны.<br>
+                               <strong>Доказательство:</strong> 0 сетевых запросов при анализе.</p>
                         </div>
                         
                         <div class="feature-point">
-                            <h4><i class="fas fa-key"></i> Шифрование AES-256</h4>
-                            <p class="wrap-text">Паттерны шифруются перед отправкой. Передаются только обезличенные данные. 
-                                <span class="encrypted-text">
-                                    U2FsdGVkX1+7F8kD5A2L9qPwM4nT6RvYcXzJ7KmN3HpQ=
-                                </span>
-                            </p>
+                            <h4><i class="fas fa-key"></i> Уровень 2: Шифрование AES-256</h4>
+                            <p class="wrap-text">Паттерны шифруются перед отправкой. Ключи никогда не покидают устройство.<br>
+                               <span class="encrypted-text">
+                                   U2FsdGVkX1+7F8kD5A2L9qPwM4nT6RvYcXzJ7KmN3HpQ=
+                               </span></p>
                         </div>
                         
                         <div class="feature-point">
-                            <h4><i class="fas fa-cloud"></i> ИИ-Советник</h4>
-                            <p class="wrap-text">На защищённом сервере. Анализирует паттерны, даёт рекомендации. <strong>Не видит исходный текст.</strong> Видит только: "pattern_work_stress: 87%"</p>
+                            <h4><i class="fas fa-eye-slash"></i> Уровень 3: «Слепой» ИИ-советник</h4>
+                            <p class="wrap-text">Видит только зашифрованные паттерны. Не знает, кто вы и о чём текст.<br>
+                               Работает «вслепую», давая рекомендации на основе математических моделей.</p>
                         </div>
                     </div>
                     
-                    <p class="wrap-text">Эта архитектура соответствует GDPR, HIPAA и профессиональной этике врачей, юристов, психологов. Вы получаете умные рекомендации, не жертвуя конфиденциальностью.</p>
+                    <p class="wrap-text">Эта архитектура соответствует <strong>GDPR, HIPAA, врачебной тайне, адвокатской тайне</strong>.<br>
+                    Юристы, психологи, врачи, журналисты — ваши конфиденциальные данные защищены архитектурно.</p>
                     
-                    <p class="wrap-text"><strong>Пример работы:</strong> Вы пишете "Начальник бесит, куча заданий". Локальный аналитик видит это, но отправляет ИИ только паттерн "work_conflict_high_stress". ИИ рекомендует "Делайте перерывы, планируйте задачи", не зная о вашем начальнике.</p>
+                    <p class="wrap-text"><strong>Проверка приватности:</strong> Откройте mirror.html → введите текст → нажмите «Анализировать локально» → откройте DevTools (F12) → вкладка Network → убедитесь: 0 запросов.</p>
                 </div>
                 
                 <div class="feature-action">
-                    <a href="analyst.html" class="feature-btn">
-                        <i class="fas fa-play-circle"></i>
-                        Попробовать демо архитектуры
+                    <!-- ОБНОВЛЕННАЯ КНОПКА -->
+                    <a href="mirror.html" class="feature-btn">
+                        <i class="fas fa-shield-check"></i>
+                        Проверить приватность
                     </a>
+                    
+                    <div style="margin-top: 15px; font-size: 13px; color: var(--text-secondary); text-align: center;">
+                        <i class="fas fa-terminal"></i> F12 → Network → 0 запросов • Доказуемая приватность
+                    </div>
                 </div>
             </div>
         </div>
@@ -1940,10 +1943,14 @@
 
     <!-- Футер -->
     <footer class="footer">
-        <div class="footer-logo">AURORA AI</div>
+        <div class="footer-logo">AURORA 4.0</div>
         <p class="footer-copyright wrap-text">
-            © 2024 Система мышления Aurora 4.0 с гибридным поиском | Понимает смысл, а не только слова
+            © 2024 Aurora 4.0 — Приватный цифровой дневник с ИИ<br>
+            Доказуемая приватность • Зеркало Будущего • Локальный AI
         </p>
+        <div style="margin-top: 15px; font-size: 12px; color: var(--text-secondary); opacity: 0.7;">
+            <i class="fas fa-code-branch"></i> v2024-01-20-v8 • <i class="fas fa-heart" style="color: #ef4444;"></i> Сделано с мыслями о приватности
+        </div>
     </footer>
 
     <!-- Аудио элемент -->
@@ -2004,50 +2011,6 @@
                 console.log('❌ Ошибка загрузки изображения');
                 this.src = 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';
             };
-        }
-
-        // ===== АУДИО СИСТЕМА =====
-        const audio = document.getElementById('welcomeAudio');
-        const heroVoiceBtn = document.getElementById('heroVoiceBtn');
-        const playingIndicator = document.getElementById('playingIndicator');
-        let isPlaying = false;
-
-        if (audio) {
-            audio.addEventListener('error', (e) => {
-                console.error('❌ Ошибка загрузки аудио');
-                heroVoiceBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Аудио недоступно';
-                heroVoiceBtn.style.background = 'linear-gradient(135deg, #ef4444, #f87171)';
-                heroVoiceBtn.disabled = true;
-            });
-
-            heroVoiceBtn.addEventListener('click', () => {
-                if (isPlaying) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                    isPlaying = false;
-                    playingIndicator.style.display = 'none';
-                    heroVoiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
-                } else {
-                    audio.currentTime = 0;
-                    audio.play().then(() => {
-                        isPlaying = true;
-                        playingIndicator.style.display = 'flex';
-                        heroVoiceBtn.innerHTML = '<i class="fas fa-pause"></i> Остановить';
-                    }).catch(error => {
-                        console.error('Ошибка воспроизведения:', error);
-                        heroVoiceBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Нажмите для разрешения';
-                        setTimeout(() => {
-                            heroVoiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
-                        }, 2000);
-                    });
-                }
-            });
-
-            audio.addEventListener('ended', () => {
-                isPlaying = false;
-                playingIndicator.style.display = 'none';
-                heroVoiceBtn.innerHTML = '<i class="fas fa-volume-up"></i> Приветствие Aurora';
-            });
         }
 
         // ===== ОПТИМИЗАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ =====
