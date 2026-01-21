@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0">
     
     <title>Aurora 4.0 — Зеркало Будущего</title>
-    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v4">
+    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v5">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
@@ -398,7 +398,7 @@
                     <span class="footer-divider">•</span>
                     <span class="footer-text">Приватный цифровой дневник с ИИ</span>
                     <span class="footer-divider">•</span>
-                    <span class="footer-text" id="version-info">v2024-01-20-v4</span>
+                    <span class="footer-text" id="version-info">v2024-01-20-v5</span>
                 </div>
                 <div class="footer-right">
                     <span class="footer-text">Локальный AI активен</span>
@@ -411,12 +411,12 @@
     </div>
 
     <!-- ПОДКЛЮЧАЕМ JavaScript С ВЕРСИЕЙ -->
-    <script src="mirror.js?v=2024-01-20-v4"></script>
+    <script src="mirror.js?v=2024-01-20-v5"></script>
     
     <!-- ВСТРОЕННЫЙ JavaScript С ИСПРАВЛЕНИЯМИ -->
     <script>
     // ===== ВЕРСИЯ И АНТИКЭШ СИСТЕМА =====
-    console.log('🚀 AURORA MIRROR v2024-01-20-v4');
+    console.log('🚀 AURORA MIRROR v2024-01-20-v5');
     console.log('Загружено: ' + new Date().toISOString());
     console.log('URL: ' + window.location.href);
     
@@ -620,7 +620,7 @@
 
     // ===== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Aurora Mirror v2024-01-20-v4 инициализируется');
+        console.log('🚀 Aurora Mirror v2024-01-20-v5 инициализируется');
         initializeApp();
     });
 
@@ -652,11 +652,11 @@
         if (analyzeBtn) {
             analyzeBtn.addEventListener('click', function() {
                 console.log('Анализ запущен');
-                performAnalysis();
+                performFullAnalysis();
             });
         }
         
-        // 4. Быстрые заметки - ТОЛЬКО загружаем текст, БЕЗ анализа
+        // 4. Быстрые заметки - загружаем текст и обновляем ВСЕ данные правой панели
         document.querySelectorAll('.quick-tag').forEach(button => {
             button.addEventListener('click', function() {
                 const noteType = this.getAttribute('data-note');
@@ -667,13 +667,29 @@
                     updateCharCount();
                     textInput.focus();
                     
-                    // ТОЛЬКО устанавливаем тему, БЕЗ анализа
+                    // Устанавливаем тему
                     currentTopic = noteType;
                     
-                    // ТОЛЬКО обновляем заголовки таймлайна (без сценариев)
+                    // ОБНОВЛЯЕМ ВСЕ ДАННЫЕ в правой панели:
+                    console.log(`🔄 Загружена тема: ${noteType}`);
+                    
+                    // 1. Обновляем сценарии
+                    updateAllScenarios(noteType);
+                    
+                    // 2. Обновляем вероятности
+                    updateProbabilities(noteType);
+                    
+                    // 3. Обновляем заголовки таймлайнов
                     updateTimelineTitles(noteType);
                     
-                    showNotification(`Загружена заметка: "${this.textContent}"`, 'info');
+                    // 4. Обновляем сам таймлайн
+                    updateTimelineForTopic(noteType);
+                    
+                    // 5. Обновляем эксперимент
+                    updateExperiment(noteType);
+                    
+                    // 6. Показываем уведомление
+                    showNotification(`✅ Загружена заметка: "${this.textContent}"`, 'info');
                 }
             });
         });
@@ -705,8 +721,8 @@
         }
     }
 
-    function performAnalysis() {
-        console.log('Запуск анализа...');
+    function performFullAnalysis() {
+        console.log('Запуск ПОЛНОГО анализа...');
         const textInput = document.getElementById('thought-input');
         const text = textInput ? textInput.value.trim() : '';
         
@@ -728,16 +744,17 @@
             
             setTimeout(() => {
                 try {
-                    // 1. Обновляем ВСЁ
+                    // 1. Обновляем ВСЁ в правой панели
                     updateAllScenarios(topic);
-                    
-                    // 2. Обновляем таймлайн
+                    updateProbabilities(topic);
+                    updateTimelineTitles(topic);
                     updateTimelineForTopic(topic);
-                    
-                    // 3. Обновляем эксперимент
                     updateExperiment(topic);
                     
-                    // 4. Показываем результаты
+                    // 2. Обновляем левую панель (результаты)
+                    updateLeftPanelResults(topic);
+                    
+                    // 3. Показываем результаты
                     const resultsSection = document.getElementById('results-section');
                     if (resultsSection) {
                         resultsSection.style.display = 'block';
@@ -787,12 +804,6 @@
             blueEl.classList.add('update-highlight');
             setTimeout(() => blueEl.classList.remove('update-highlight'), 1000);
         }
-        
-        // 2. Обновляем вероятности
-        updateProbabilities(topic);
-        
-        // 3. Обновляем заголовки таймлайнов
-        updateTimelineTitles(topic);
         
         console.log('✅ Все сценарии обновлены');
     }
@@ -906,6 +917,38 @@
                         ${experiment.steps.map(step => `<li style="margin-bottom: 8px;">${step}</li>`).join('')}
                     </ul>
                 </div>
+            `;
+        }
+    }
+
+    function updateLeftPanelResults(topic) {
+        // Обновляем эмоциональный спектр
+        const emotionValues = {
+            'work': 85,
+            'relationships': 70,
+            'anxiety': 90,
+            'motivation': 75
+        };
+        
+        const emotionValue = emotionValues[topic] || 85;
+        document.getElementById('emotion-value').textContent = emotionValue + '%';
+        document.getElementById('emotion-fill').style.width = emotionValue + '%';
+        
+        // Обновляем темы
+        const topics = {
+            'work': ['Работа / Карьера', 'Эмоциональное выгорание', 'Сон и энергия'],
+            'relationships': ['Отношения', 'Коммуникация', 'Эмоциональная близость'],
+            'anxiety': ['Тревога', 'Страхи', 'Эмоциональное напряжение'],
+            'motivation': ['Мотивация', 'Цели', 'Личностный рост']
+        };
+        
+        const topicTags = topics[topic] || topics.work;
+        const topicsContainer = document.getElementById('topics-container');
+        if (topicsContainer) {
+            topicsContainer.innerHTML = `
+                <span class="topic-tag primary">${topicTags[0]}</span>
+                <span class="topic-tag secondary">${topicTags[1]}</span>
+                <span class="topic-tag tertiary">${topicTags[2]}</span>
             `;
         }
     }
