@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0">
     
     <title>Aurora 4.0 — Зеркало Будущего</title>
-    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v7">
+    <link rel="stylesheet" href="mirror.css?v=2024-01-20-v8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
@@ -140,7 +140,72 @@
                     </div>
                 </div>
 
-                <div id="recommendations-container" style="display: none;"></div>
+                <!-- НОВЫЙ БЛОК: РЕКОМЕНДАЦИИ ДЛЯ УЛУЧШЕНИЯ -->
+                <div class="recommendations-section glass-card" id="recommendations-section" style="display: none;">
+                    <div class="section-header">
+                        <h2><i class="fas fa-lightbulb"></i> Рекомендации для улучшения</h2>
+                        <button class="section-toggle" id="toggle-recommendations">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="recommendations-content">
+                        <div class="recommendations-grid">
+                            <div class="recommendation-card">
+                                <div class="recommendation-header">
+                                    <i class="fas fa-rocket"></i>
+                                    <h3>Немедленные действия</h3>
+                                </div>
+                                <ul class="recommendation-list" id="immediate-actions">
+                                    <li>Установите границы рабочего времени</li>
+                                    <li>Практикуйте дыхательные упражнения</li>
+                                    <li>Делайте короткие перерывы каждые 90 минут</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="recommendation-card">
+                                <div class="recommendation-header">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <h3>Еженедельные практики</h3>
+                                </div>
+                                <ul class="recommendation-list" id="weekly-practices">
+                                    <li>Регулярная физическая активность</li>
+                                    <li>Ведение дневника эмоций</li>
+                                    <li>Цифровой детокс на 24 часа</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="recommendation-card full-width">
+                                <div class="recommendation-header">
+                                    <i class="fas fa-chart-line"></i>
+                                    <h3>Долгосрочные изменения</h3>
+                                </div>
+                                <div class="long-term-recommendations" id="long-term-changes">
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon"><i class="fas fa-user-check"></i></div>
+                                        <div class="rec-content">
+                                            <div class="rec-title">Работа с психологом</div>
+                                            <div class="rec-desc">Профессиональная помощь для глубинных изменений</div>
+                                        </div>
+                                    </div>
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon"><i class="fas fa-balance-scale"></i></div>
+                                        <div class="rec-content">
+                                            <div class="rec-title">Баланс работы и жизни</div>
+                                            <div class="rec-desc">Пересмотр приоритетов и распределения времени</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="motivation-quote" id="motivation-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>Небольшие ежедневные улучшения приводят к большим результатам. Начните с одного маленького шага сегодня.</p>
+                            <i class="fas fa-quote-right"></i>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="results-section glass-card" id="results-section" style="display: none;">
                     <div class="section-header">
@@ -398,7 +463,7 @@
                     <span class="footer-divider">•</span>
                     <span class="footer-text">Приватный цифровой дневник с ИИ</span>
                     <span class="footer-divider">•</span>
-                    <span class="footer-text" id="version-info">v2024-01-20-v7</span>
+                    <span class="footer-text" id="version-info">v2024-01-20-v8</span>
                 </div>
                 <div class="footer-right">
                     <span class="footer-text">Локальный AI активен</span>
@@ -411,12 +476,12 @@
     </div>
 
     <!-- ПОДКЛЮЧАЕМ JavaScript С ВЕРСИЕЙ -->
-    <script src="mirror.js?v=2024-01-20-v7"></script>
+    <script src="mirror.js?v=2024-01-20-v8"></script>
     
     <!-- ВСТРОЕННЫЙ JavaScript С ИСПРАВЛЕНИЯМИ -->
     <script>
     // ===== ВЕРСИЯ И АНТИКЭШ СИСТЕМА =====
-    console.log('🚀 AURORA MIRROR v2024-01-20-v7');
+    console.log('🚀 AURORA MIRROR v2024-01-20-v8');
     console.log('Загружено: ' + new Date().toISOString());
     console.log('URL: ' + window.location.href);
     
@@ -618,9 +683,132 @@
         }
     };
 
+    // ===== ДАННЫЕ ДЛЯ РЕКОМЕНДАЦИЙ =====
+    const RECOMMENDATIONS = {
+        work: {
+            immediate: [
+                'Установите четкие границы рабочего времени (например, с 9:00 до 18:00)',
+                'Создайте список из 3 главных задач на день и фокусируйтесь только на них',
+                'Делайте 5-минутные перерывы каждый час для растяжки и дыхания',
+                'Начните вести "журнал достижений" - записывайте выполненные задачи'
+            ],
+            weekly: [
+                'Выделите 1 день в неделю полностью без работы (цифровой детокс)',
+                'Регулярная физическая активность: минимум 3 раза в неделю по 30 минут',
+                'Планируйте рабочие задачи на неделю вперед в воскресенье вечером',
+                'Практикуйте техники тайм-менеджмента (Помодоро, матрица Эйзенхауэра)'
+            ],
+            longTerm: [
+                {
+                    title: 'Профессиональное развитие',
+                    desc: 'Пройдите курсы по стресс-менеджменту и эмоциональному интеллекту'
+                },
+                {
+                    title: 'Пересмотр карьерных целей',
+                    desc: 'Определите, что действительно важно для вас в карьере на ближайшие 5 лет'
+                },
+                {
+                    title: 'Работа с психологом',
+                    desc: 'Профессиональная помощь для работы с выгоранием и профессиональным стрессом'
+                }
+            ],
+            quote: 'Работа - это часть жизни, а не вся жизнь. Найдите баланс, и продуктивность придет сама.'
+        },
+        
+        relationships: {
+            immediate: [
+                'Ежедневно выделяйте 30 минут на качественное общение без телефонов',
+                'Используйте "Я-сообщения" вместо обвинений ("Я чувствую..." вместо "Ты всегда...")',
+                'Практикуйте активное слушание - повторяйте сказанное партнером своими словами',
+                'Начните день с объятий и закончите благодарностью'
+            ],
+            weekly: [
+                'Запланируйте "свидание" раз в неделю - даже если это просто прогулка в парке',
+                'Совместное хобби: готовьте вместе, занимайтесь спортом, смотрите фильмы',
+                'Регулярно обсуждайте планы и мечты на будущее',
+                'Практикуйте "день благодарности" - говорите друг другу спасибо за мелочи'
+            ],
+            longTerm: [
+                {
+                    title: 'Парная терапия',
+                    desc: 'Профессиональная помощь для улучшения коммуникации и решения глубинных проблем'
+                },
+                {
+                    title: 'Совместное развитие',
+                    desc: 'Посещайте тренинги и курсы по отношениям вместе'
+                },
+                {
+                    title: 'Создание общих целей',
+                    desc: 'Определите совместные мечты и планы на 1, 3, 5 лет'
+                }
+            ],
+            quote: 'Лучшие отношения строятся не на идеальности, а на умении вместе преодолевать несовершенства.'
+        },
+        
+        anxiety: {
+            immediate: [
+                'Практикуйте технику дыхания 4-7-8 (вдох 4 сек, задержка 7 сек, выдох 8 сек)',
+                'Ведите "дневник тревог" - записывайте все тревожные мысли вечером',
+                'Создайте "якорь спокойствия" - предмет или действие, которое успокаивает',
+                'Используйте технику "заземления" - назовите 5 вещей, которые видите, 4 - слышите, 3 - чувствуете'
+            ],
+            weekly: [
+                'Регулярная медитация: 10 минут утром и вечером',
+                'Физическая активность: йога, плавание, прогулки на природе',
+                'Ограничьте потребление новостей до 30 минут в день',
+                'Практикуйте "день без тревоги" - сознательно откладывайте переживания на завтра'
+            ],
+            longTerm: [
+                {
+                    title: 'Когнитивно-поведенческая терапия',
+                    desc: 'Профессиональная помощь для изменения паттернов мышления'
+                },
+                {
+                    title: 'Развитие эмоционального интеллекта',
+                    desc: 'Учитесь распознавать и управлять своими эмоциями'
+                },
+                {
+                    title: 'Построение поддерживающего окружения',
+                    desc: 'Окружите себя людьми, которые понимают и поддерживают вас'
+                }
+            ],
+            quote: 'Тревога - это лишь мысль, а не реальность. Вы сильнее, чем кажется.'
+        },
+        
+        motivation: {
+            immediate: [
+                'Ставьте микро-цели на день (задачи на 5-15 минут)',
+                'Создайте "доску визуализации" с целями и мечтами',
+                'Начните вести "дневник успехов" - записывайте даже маленькие победы',
+                'Используйте технику "5 минут" - начните делать что-то всего на 5 минут'
+            ],
+            weekly: [
+                'Планируйте неделю в воскресенье, выделяя время на хобби и отдых',
+                'Найдите "партнера по подотчетности" - делитесь целями и прогрессом',
+                'Экспериментируйте с новыми активностями: спорт, творчество, обучение',
+                'Практикуйте "цифровой детокс" - день без соцсетей и новостей'
+            ],
+            longTerm: [
+                {
+                    title: 'Профессиональный коучинг',
+                    desc: 'Помощь в определении истинных целей и ценностей'
+                },
+                {
+                    title: 'Развитие навыков',
+                    desc: 'Инвестируйте в обучение и развитие новых компетенций'
+                },
+                {
+                    title: 'Построение поддерживающей системы',
+                    desc: 'Создайте окружение, которое вдохновляет и мотивирует'
+                }
+            ],
+            quote: 'Мотивация приходит не в ожидании, а в действии. Начните делать, и энергия появится.'
+        }
+    };
+
     // ===== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Aurora Mirror v2024-01-20-v7 инициализируется');
+        console.log('🚀 Aurora Mirror v2024-01-20-v8 инициализируется');
         initializeApp();
     });
 
@@ -673,17 +861,15 @@
                     // ТОЛЬКО загружаем текст, НЕ обновляем правую панель
                     console.log(`📝 Загружена тема: ${noteType}`);
                     
-                    // НЕ обновляем сценарии
-                    // НЕ обновляем вероятности  
-                    // НЕ обновляем таймлайн
-                    // НЕ обновляем эксперимент
-                    
                     showNotification(`📝 Загружена заметка: "${this.textContent}"`, 'info');
                 }
             });
         });
         
-        // 5. Остальные кнопки
+        // 5. Кнопка сворачивания рекомендаций
+        document.getElementById('toggle-recommendations')?.addEventListener('click', toggleRecommendations);
+        
+        // 6. Остальные кнопки
         document.getElementById('toggle-results')?.addEventListener('click', toggleResults);
         document.getElementById('start-experiment')?.addEventListener('click', startExperiment);
         document.getElementById('verify-privacy')?.addEventListener('click', verifyPrivacy);
@@ -743,10 +929,18 @@
                     // 2. Обновляем левую панель (результаты)
                     updateLeftPanelResults(topic);
                     
-                    // 3. Показываем результаты
+                    // 3. Обновляем блок рекомендаций
+                    updateRecommendations(topic);
+                    
+                    // 4. Показываем результаты и рекомендации
                     const resultsSection = document.getElementById('results-section');
+                    const recSection = document.getElementById('recommendations-section');
+                    
                     if (resultsSection) {
                         resultsSection.style.display = 'block';
+                    }
+                    if (recSection) {
+                        recSection.style.display = 'block';
                     }
                     
                     showNotification(`✅ Анализ завершён! Определена тема: ${getTopicName(topic)}`, 'success');
@@ -759,6 +953,52 @@
                     analyzeBtn.disabled = false;
                 }
             }, 1500);
+        }
+    }
+
+    // ===== ФУНКЦИЯ ОБНОВЛЕНИЯ РЕКОМЕНДАЦИЙ =====
+    function updateRecommendations(topic) {
+        console.log(`💡 Обновляю рекомендации для темы: ${topic}`);
+        
+        const recs = RECOMMENDATIONS[topic] || RECOMMENDATIONS.work;
+        
+        // Обновляем немедленные действия
+        const immediateList = document.getElementById('immediate-actions');
+        if (immediateList && recs.immediate) {
+            immediateList.innerHTML = recs.immediate.map(item => 
+                `<li>${item}</li>`
+            ).join('');
+        }
+        
+        // Обновляем еженедельные практики
+        const weeklyList = document.getElementById('weekly-practices');
+        if (weeklyList && recs.weekly) {
+            weeklyList.innerHTML = recs.weekly.map(item => 
+                `<li>${item}</li>`
+            ).join('');
+        }
+        
+        // Обновляем долгосрочные изменения
+        const longTermContainer = document.getElementById('long-term-changes');
+        if (longTermContainer && recs.longTerm) {
+            longTermContainer.innerHTML = recs.longTerm.map(item => `
+                <div class="recommendation-item">
+                    <div class="rec-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="rec-content">
+                        <div class="rec-title">${item.title}</div>
+                        <div class="rec-desc">${item.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Обновляем мотивационную цитату
+        const quoteElement = document.getElementById('motivation-quote');
+        if (quoteElement && recs.quote) {
+            const quoteText = quoteElement.querySelector('p');
+            if (quoteText) {
+                quoteText.textContent = recs.quote;
+            }
         }
     }
 
@@ -1015,6 +1255,19 @@
     }
 
     // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+    function toggleRecommendations() {
+        const recSection = document.getElementById('recommendations-section');
+        const icon = document.getElementById('toggle-recommendations').querySelector('i');
+        
+        if (recSection.style.display === 'none') {
+            recSection.style.display = 'block';
+            icon.className = 'fas fa-chevron-up';
+        } else {
+            recSection.style.display = 'none';
+            icon.className = 'fas fa-chevron-down';
+        }
+    }
+
     function toggleResults() {
         const results = document.getElementById('results-section');
         const icon = document.getElementById('toggle-results').querySelector('i');
@@ -1115,5 +1368,157 @@
         }
     }
     </script>
+
+    <!-- ДОБАВЛЯЕМ СТИЛИ ДЛЯ РЕКОМЕНДАЦИЙ В КОНЕЦ -->
+    <style>
+        /* СТИЛИ ДЛЯ БЛОКА РЕКОМЕНДАЦИЙ */
+        .recommendations-section {
+            margin-top: 20px;
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .recommendation-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .recommendation-card.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .recommendation-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .recommendation-header i {
+            color: #10b981;
+            font-size: 18px;
+        }
+        
+        .recommendation-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+        
+        .recommendation-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .recommendation-list li {
+            padding: 8px 0;
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.4;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .recommendation-list li:before {
+            content: "•";
+            color: #10b981;
+            position: absolute;
+            left: 0;
+            font-size: 18px;
+        }
+        
+        .recommendation-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .long-term-recommendations {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid #10b981;
+        }
+        
+        .rec-icon {
+            color: #10b981;
+            font-size: 16px;
+            margin-top: 2px;
+        }
+        
+        .rec-content {
+            flex: 1;
+        }
+        
+        .rec-title {
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .rec-desc {
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .motivation-quote {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            text-align: center;
+            position: relative;
+        }
+        
+        .motivation-quote i.fa-quote-left {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: rgba(99, 102, 241, 0.5);
+            font-size: 20px;
+        }
+        
+        .motivation-quote i.fa-quote-right {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            color: rgba(99, 102, 241, 0.5);
+            font-size: 20px;
+        }
+        
+        .motivation-quote p {
+            color: #e2e8f0;
+            font-style: italic;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0 20px;
+        }
+    </style>
 </body>
 </html>
